@@ -15,6 +15,8 @@
 
 <style lang="stylus">
   #app
+    background-color: #000
+    color: #fff
     .application--wrap
       height 100vh
 </style>

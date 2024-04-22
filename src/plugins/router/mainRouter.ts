@@ -4,17 +4,17 @@ export default [
     component: (): Promise<typeof import("*.vue")> => import(
       /* webpackChunkName: "main-route" */
       /* webpackPrefetch: 0 */
-      "@/routes/routeMain.vue"
+      "@/routes/routeHomeView.vue"
     ),
     children: [
       {
         path: ":uri?",
         name: "home",
         components: {
-          viewMain: (): Promise<typeof import("*.vue")> => import(
-            /* webpackChunkName: "main-route-view" */
+          viewHero: (): Promise<typeof import("*.vue")> => import(
+            /* webpackChunkName: "hero-route-view" */
             /* webpackPrefetch: 1 */
-            "@/views/viewMain.vue"
+            "@/views/viewHero.vue"
           ),
         },
       },
