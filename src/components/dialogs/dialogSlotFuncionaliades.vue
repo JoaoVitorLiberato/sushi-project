@@ -58,21 +58,8 @@
             <v-col
               cols="12"
             >
-              <span
-                class="font-weight-medium"
-              >
-                Por favor, Selecione a mesa:
-              </span>
-            </v-col>
-
-            <v-col
-              cols="12"
-            >
-              <v-autocomplete
-                :items="allTables"
-                v-model="tableSelected"
-                label="Mesa"
-                color="#fff"
+              <input-table-selected 
+                @TableSelectedModelEmit="v=>tableSelected=v"
               />
             </v-col>
 
@@ -111,22 +98,20 @@
 
   const dialogStore = namespace("dialogStoreModule")
 
-  @Component({})
+  @Component({
+    components: {
+      InputTableSelected: () => import(
+        /* webpackChunkName: "input-table-selected-component" */
+        /* webpackMode: "eager" */
+        "@/components/content/input/InputTableSelected.vue"
+      )
+    }
+  })
   export default class DialogSlotFuncionalidades extends Vue {
     @dialogStore.Getter("DialogTableSelected") getDialogTableSelected
     @dialogStore.Action("ActionTableSelected") setDialogTableSelected
 
     tableSelected = ""
-
-    get allTables (): Array<string> {
-      return [
-        "01",
-        "02",
-        "03",
-        "04",
-        "05"
-      ]
-    }
 
     get DialogTableSelectedModel (): boolean {
       return this.getDialogTableSelected()
@@ -137,7 +122,7 @@
     }
 
     handleRedirectShop (): void {
-      this.$router.replace(`/mesa${String(this.tableSelected).replace(/\D/g, "")}/pedido`)
+      location.replace(`/pedido/mesa${String(this.tableSelected).replace(/\D/g, "")}/vamoscomecar`)
     }
   }
 </script>

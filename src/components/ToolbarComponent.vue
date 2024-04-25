@@ -1,6 +1,5 @@
 <template>
   <div
-    style="border-bottom: 1px solid white;"
     class="fix-toolbar-component"
   >
     <v-row
@@ -11,6 +10,7 @@
       <v-col
         cols="10"
         md="1"
+        class="white--text"
       >
         imagem_logo
       </v-col>
@@ -19,7 +19,7 @@
         class="hidden-sm-and-down"
       >
         <span
-          class="font-weight-regular text-uppercase"
+          class="font-weight-regular text-uppercase white--text"
         >
           O melhor sushi de Santa Luzia de Paruá
         </span>

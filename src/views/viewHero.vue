@@ -97,6 +97,7 @@
                       depressed
                       x-large
                       width="300"
+                      @click="handleRedirectShop"
                     >
                       <span
                         v-font-size="15"
@@ -136,6 +137,10 @@ style
 
     set DialogTableSelected (value: boolean) {
       this.setDialogTableSelected(value)
+    }
+
+    handleRedirectShop (): void {
+      location.replace(`/pedido/delivery/vamoscomecar`)
     }
   }
 </script>
