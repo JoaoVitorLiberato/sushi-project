@@ -14,6 +14,19 @@
 
     <v-col
       cols="12"
+      style="line-height:12px"
+      class="py-1"
+    >
+      <span
+        v-font-size="12"
+        class="font-weight-light warning--text"
+      >
+        Essa opção é valida apenas para clientes que estão no estabelecimento.
+      </span>
+    </v-col>
+
+    <v-col
+      cols="12"
     >
       <v-autocomplete
         :items="allTables"

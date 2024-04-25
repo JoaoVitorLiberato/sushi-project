@@ -2,8 +2,8 @@ import Vue from "vue"
 import Vuex, { StoreOptions } from "vuex"
 
 import { rootStateInterface } from "@/plugins/store/interfaces/rootStateInterface"
-import { cacheStoreModule } from "@/plugins/store/cacheStore/cacheStoreModule"
-import { dialogStoreModule } from "@/plugins/store/cacheStore/dialogStoreModule"
+import { cacheStoreModule } from "@/plugins/store/modules/cacheStoreModule"
+import { dialogStoreModule } from "@/plugins/store/modules/dialogStoreModule"
 
 Vue.use(Vuex)
 

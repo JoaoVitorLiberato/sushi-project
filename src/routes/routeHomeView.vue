@@ -9,11 +9,17 @@
       <router-view
         name="viewHero"
       />
+      <router-view
+        name="viewDishes"
+      />
     </v-container>
 
     <dialogSlotFuncionalidadesComponent>
-      <template 
+      <template
         #tableSelected
+      />
+      <template
+        #serviceClient
       />
     </dialogSlotFuncionalidadesComponent>
   </v-main>
@@ -22,7 +28,7 @@
 <script lang="ts">
   import { Component } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
-  
+
 
   @Component({
     components: {

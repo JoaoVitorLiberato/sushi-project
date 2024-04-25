@@ -1,6 +1,8 @@
 <template>
-  <div
-    class="fix-toolbar-component"
+  <v-app-bar
+    color="primary"
+    elevate-on-scroll
+    fixed
   >
     <v-row
       no-gutters
@@ -43,35 +45,35 @@
       </v-col>
     </v-row>
 
-    <dialog-overdrawer-menu />
-  </div>
+    <overdrawer-menu />
+  </v-app-bar>
 </template>
 
 <script lang="ts">
   import { Component, Vue } from "vue-property-decorator"
   import { namespace } from "vuex-class"
 
-  const dialogStore = namespace("dialogStoreModule")
+  const cacheStore = namespace("cacheStoreModule")
 
   @Component({
     components: {
-      DialogOverdrawerMenu: () => import(
+      OverdrawerMenu: () => import(
         /* webpackChunkName: "overdrawer-menu-dialog-component" */
         /* webpackMode: "eager" */
-        "@/components/dialogs/dialogOverdrawerMenu.vue"
+        "@/components/drawer/DrawerComponent.vue"
       )
     }
   })
   export default class ToolbarComponent extends Vue {
-    @dialogStore.Getter("DialogOverdrawerMenu") getDialogOverdrawerMenu
-    @dialogStore.Action("ActionOverdrawerMenu") setDialogOverdrawerMenu
+    @cacheStore.Getter("getCacheOverdrawerMenu") getOverdrawerMenu
+    @cacheStore.Action("ActionCacheOverdrawerMenu") setOverdrawerMenu
 
     get overdrawerMenu (): boolean {
-      return this.getDialogOverdrawerMenu()
+      return this.getOverdrawerMenu()
     }
 
     set overdrawerMenu (value: boolean) {
-      this.setDialogOverdrawerMenu(value)
+      this.setOverdrawerMenu(value)
     }
   }
 </script>

@@ -4,38 +4,38 @@ import { dialogStoreInterface } from "@/plugins/store/interfaces/dialogStoreInte
 
 const moduleCache = (): dialogStoreInterface => {
   return {
-    dialogOverdrawerMenu: false,
-    DialogTableSelected: false
+    DialogTableSelected: false,
+    dialogServiceClient: false,
   }
 }
 
 const state: dialogStoreInterface = moduleCache()
 
 const getters: GetterTree<dialogStoreInterface, rootStateInterface> = {
-  DialogOverdrawerMenu: ({ dialogOverdrawerMenu }) => () => {
-    return dialogOverdrawerMenu
-  },
   DialogTableSelected: ({ DialogTableSelected }) => () => {
     return DialogTableSelected
-  }
+  },
+  DialogServiceClient: ({ dialogServiceClient }) => () => {
+    return dialogServiceClient
+  },
 }
 
 const actions: ActionTree<dialogStoreInterface, rootStateInterface> = {
-  ActionOverdrawerMenu: ({ commit }, data) => {
-    commit("MutationOverdrawerMenu", data)
-  },
-  ActionTableSelected: ({ commit }, data) => {
+  ActionTableSelected ({ commit }, data) {
     commit("MutationTableSelected", data)
+  },
+  ActionServiceClient ({ commit }, data) {
+    commit("MutationServiceClient", data)
   }
 }
 
 const mutations: MutationTree<dialogStoreInterface> = {
-  MutationOverdrawerMenu: (state, data) => {
-    state.dialogOverdrawerMenu = data
-  },
-  MutationTableSelected: (state, data) => {
+  MutationTableSelected (state, data) {
     state.DialogTableSelected = data
   },
+  MutationServiceClient (state, data) {
+    state.dialogServiceClient = data
+  }
 }
 
 const dialogStoreModule: Module<dialogStoreInterface, rootStateInterface> = {

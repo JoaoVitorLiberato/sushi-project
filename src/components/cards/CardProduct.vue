@@ -13,10 +13,14 @@
 
     <v-img
       height="200"
-      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+      :src="image"
     ></v-img>
 
-    <v-card-title>Cafe Badilico</v-card-title>
+    <v-card-title
+      class="font-weight-medium"
+    >
+      {{ title }}
+    </v-card-title>
 
     <v-card-text>
       <v-row
@@ -38,19 +42,31 @@
       </v-row>
 
       <div
-        class="my-4"
+        class="my-4 px-1"
+        style="height:140px;overflow-y: scroll;"
       >
-        Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.
+        <span
+          v-font-size="14"
+          style="line-height: 16px;"
+          class="font-weight-regular"
+          v-html="description"
+        />
       </div>
     </v-card-text>
 
-    <v-divider class="mx-1"></v-divider>
-    <v-card-actions>
+    <v-divider
+      v-if="verifyRoutePedido"
+      class="mx-1"
+    />
+
+    <v-card-actions
+      v-if="verifyRoutePedido"
+    >
       <v-btn
         block
         color="secondary"
       >
-        <span 
+        <span
           v-text="'Comprar'"
         />
       </v-btn>
@@ -59,8 +75,16 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from "vue-property-decorator"
+  import { Component, Vue, Prop } from "vue-property-decorator"
 
   @Component({})
-  export default class CardProductComponent extends Vue {}
+  export default class CardProductComponent extends Vue {
+    @Prop({ default: "" }) readonly image?:string
+    @Prop({ default: "" }) readonly title?:string
+    @Prop({ default: "" }) readonly description?:string
+
+    get verifyRoutePedido (): boolean {
+      return /pedido/i.test(String(this.$route.name ||""))
+    }
+  }
 </script>

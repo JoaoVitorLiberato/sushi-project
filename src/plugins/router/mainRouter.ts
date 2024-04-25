@@ -16,6 +16,11 @@ export default [
             /* webpackPrefetch: 1 */
             "@/views/viewHero.vue"
           ),
+          viewDishes: (): Promise<typeof import("*.vue")> => import(
+            /* webpackChunkName: "dishes-route-view" */
+            /* webpackPrefetch: 1 */
+            "@/views/viewDishes.vue"
+          ),
         },
       },
     ],

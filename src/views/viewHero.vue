@@ -7,11 +7,11 @@
     >
       <v-img
         src="/img/project/sushi-bank.jpg"
-        height="400"
+        :height="$vuetify.breakpoint.smAndDown ? 320 : 400"
       >
         <v-row
           no-gutters
-          class="fill-height"
+          class="fill-height mt-4"
         >
           <v-col
             cols="12"
@@ -25,10 +25,15 @@
             >
               <v-col
                 cols="12"
+                class="py-md-6 py-4"
+              />
+              <v-col
+                cols="12"
               >
                 <h4
                   v-font-size="$vuetify.breakpoint.smAndDown ? 12 : 16"
-                  class="white--text text-uppercase font-weigt-medium"
+                  class="text-uppercase font-weigt-medium"
+                  style="color:var(--v-primary-text)"
                 >
                   Qualidade, Sabor e Tradição
                 </h4>
@@ -36,16 +41,18 @@
 
               <v-col
                 cols="12"
+                style="line-height:1"
               >
                 <h1
-                  class="white--text font-weigt-bold mb-1"
-                  :style="$vuetify.breakpoint.smAndDown ? 'font-size: 23px;line-height: 29px;' : 'font-size:37px;line-height: 40px;'"
+                  class="font-weigt-bold mb-1"
+                  :style="$vuetify.breakpoint.smAndDown ? 'font-size: 25px;line-height: 25px;color:var(--v-primary-text)' : 'font-size:37px;line-height: 40px;color:var(--v-primary-text)'"
                 >
                   Seu Cantinho do Japão Mais<br> Próximo de Você
                 </h1>
 
                 <span
                   v-font-size="$vuetify.breakpoint.smAndDown ? 12 : 14"
+                  style="line-height:10px"
                   class="white--text font-weight-regular"
                 >
                   Experimente a Autêntica Culinária Japonesa no Yume Sushi
@@ -54,54 +61,25 @@
 
               <v-col
                 cols="12"
-                class="py-2"
-              />
-
-              <v-col
-                cols="12"
               >
                 <v-row
                   no-gutters
                 >
                   <v-col
-                    cols="12"
+                    cols="12 mt-md-3"
                   >
                     <v-btn
                       class="text-none"
                       color="secondary"
                       depressed
-                      x-large
+                      large
                       width="300"
-                      @click="DialogTableSelected = !DialogTableSelected"
+                      @click="redirectToRouteDelevery"
                     >
                       <span
-                        v-font-size="15"
+                        v-font-size="14"
                         class="font-weight-bold text-uppercase"
-                      >
-                        Fazer meu pedido (Food Park)
-                      </span>
-                    </v-btn>
-                  </v-col>
-
-                  <v-col
-                    cols="12"
-                    class="py-2"
-                  />
-
-                  <v-col
-                    cols="12"
-                  >
-                    <v-btn
-                      class="text-none"
-                      color="secondary"
-                      depressed
-                      x-large
-                      width="300"
-                      @click="handleRedirectShop"
-                    >
-                      <span
-                        v-font-size="15"
-                        class="font-weight-bold text-uppercase"
+                        style="color:var(--v-primary-text)"
                       >
                         Fazer meu pedido (Delivery)
                       </span>
@@ -120,14 +98,18 @@
 style
 
 <script lang="ts">
-  import { Component, Vue } from "vue-property-decorator"
+  import { Component } from "vue-property-decorator"
+  import { mixins } from "vue-class-component"
   import { namespace } from "vuex-class"
+  import MixinRedirectLinks from "@/mixins/redirectLinks/MxiinRedirectLinks"
 
   const dialogStore = namespace("dialogStoreModule")
 
   @Component({})
 
-  export default class viewHero extends Vue {
+  export default class viewHero extends mixins(
+    MixinRedirectLinks,
+  ) {
     @dialogStore.Getter("DialogTableSelected") getDialogTableSelected
     @dialogStore.Action("ActionTableSelected") setDialogTableSelected
 
@@ -137,10 +119,6 @@ style
 
     set DialogTableSelected (value: boolean) {
       this.setDialogTableSelected(value)
-    }
-
-    handleRedirectShop (): void {
-      location.replace(`/pedido/delivery/vamoscomecar`)
     }
   }
 </script>

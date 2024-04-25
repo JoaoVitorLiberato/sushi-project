@@ -1,6 +1,6 @@
 interface dialogStoreInterface {
-  dialogOverdrawerMenu: boolean,
   DialogTableSelected: boolean,
+  dialogServiceClient: boolean,
 }
 
 export {

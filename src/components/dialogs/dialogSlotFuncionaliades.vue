@@ -5,13 +5,13 @@
     >
       <v-dialog
         ref="componentDialogSlotTableSelected"
-        v-model="DialogTableSelectedModel"
+        v-model="dialogTableSelectedModel"
         hide-overlay
-        :max-width="$vuetify.breakpoint.smAndDown ? 800 : 560"
+        :max-width="400"
       >
         <v-card
           color="primary"
-          class="mx-auto px-3 py-2"
+          class="mx-auto px-3 py-4"
           dark
         >
           <v-row
@@ -40,7 +40,7 @@
                     depressed
                     width="30"
                     height="30"
-                    @click="DialogTableSelectedModel = !DialogTableSelectedModel"
+                    @click="dialogTableSelectedModel = !dialogTableSelectedModel"
                   >
                     <v-icon>
                       close
@@ -58,7 +58,7 @@
             <v-col
               cols="12"
             >
-              <input-table-selected 
+              <input-table-selected
                 @TableSelectedModelEmit="v=>tableSelected=v"
               />
             </v-col>
@@ -81,11 +81,43 @@
                 <span
                   class="font-weight-bold"
                 >
-                  Fazer pedido para mesa {{ tableSelected }}
+                  Fazer pedido para mesa
                 </span>
               </v-btn>
             </v-col>
           </v-row>
+        </v-card>
+      </v-dialog>
+    </slot>
+    <slot
+      name="serviceClient"
+    >
+      <v-dialog
+        ref="componentDialogSlotTableSelected"
+        v-model="dialogServiceClientModel"
+        hide-overlay
+        :max-width="400"
+      >
+        <v-card
+          color="primary"
+          class="mx-auto"
+          dark
+        >
+          <div
+            style="border:1px solid var(--v-secondary-base)"
+            class=" px-3 py-4"
+          >
+            <v-radio-group
+              v-model="radioGroup"
+            >
+              <v-radio
+                v-for="n in 3"
+                :key="n"
+                :label="`Radio ${n}`"
+                :value="n"
+              ></v-radio>
+            </v-radio-group>
+          </div>
         </v-card>
       </v-dialog>
     </slot>
@@ -110,15 +142,26 @@
   export default class DialogSlotFuncionalidades extends Vue {
     @dialogStore.Getter("DialogTableSelected") getDialogTableSelected
     @dialogStore.Action("ActionTableSelected") setDialogTableSelected
+    @dialogStore.Getter("DialogServiceClient") getDialogServiceClient
+    @dialogStore.Action("ActionServiceClient") setDialogSeviceClient
 
     tableSelected = ""
+    radioGroup = 1
 
-    get DialogTableSelectedModel (): boolean {
+    get dialogTableSelectedModel (): boolean {
       return this.getDialogTableSelected()
     }
 
-    set DialogTableSelectedModel (value: boolean) {
+    set dialogTableSelectedModel (value: boolean) {
       this.setDialogTableSelected(value)
+    }
+
+    get dialogServiceClientModel (): boolean {
+      return this.getDialogServiceClient()
+    }
+
+    set dialogServiceClientModel (value: boolean) {
+      this.setDialogSeviceClient(value)
     }
 
     handleRedirectShop (): void {
