@@ -26,6 +26,11 @@ export default [
             /* webpackPrefetch: 1 */
             "@/views/viewDescriptionCook.vue"
           ),
+          viewEstabelishLocation: (): Promise<typeof import("*.vue")> => import(
+            /* webpackChunkName: "estabelish-location-route-view" */
+            /* webpackPrefetch: 1 */
+            "@/views/viewEstabelishLocation.vue"
+          ),
         },
       },
     ],

@@ -38,7 +38,9 @@
         </v-list-item-icon>
 
       <v-list-item-content>
-        <v-list-item-title>
+        <v-list-item-title
+          style="color:var(--v-primary-text)"
+        >
           Delivery
         </v-list-item-title>
       </v-list-item-content>
@@ -57,7 +59,9 @@
         </v-list-item-icon>
 
       <v-list-item-content>
-        <v-list-item-title>
+        <v-list-item-title
+          style="color:var(--v-primary-text)"
+        >
           Estabelecimento
         </v-list-item-title>
       </v-list-item-content>
@@ -75,7 +79,9 @@
         </v-list-item-icon>
 
       <v-list-item-content>
-        <v-list-item-title>
+        <v-list-item-title
+          style="color:var(--v-primary-text)"
+        >
           Administrador
         </v-list-item-title>
       </v-list-item-content>
