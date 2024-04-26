@@ -116,7 +116,6 @@
               >
                 <span
                   v-font-size="18"
-                  style="color:var(--v-primary-text)"
                   v-text="'Escolha o serviço:'"
                 />
               </v-col>
@@ -158,7 +157,7 @@
                             </template>
                           </v-radio>
                         </v-col>
-    
+
                         <v-col
                           v-if="String(serviceSelelected) === String(servico)"
                           cols="12"

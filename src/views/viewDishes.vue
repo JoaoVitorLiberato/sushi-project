@@ -76,12 +76,12 @@
 
     <v-col
       cols="12"
-      class="py-8"
+      class="py-8 py-md-4"
     />
 
     <v-col
       cols="12"
-      class="d-flex justify-center"
+      class="d-flex justify-center py-md-4"
     >
       <v-btn
         color="secondary"

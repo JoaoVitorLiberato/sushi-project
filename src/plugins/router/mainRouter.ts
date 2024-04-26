@@ -21,6 +21,11 @@ export default [
             /* webpackPrefetch: 1 */
             "@/views/viewDishes.vue"
           ),
+          viewDescriptionCook: (): Promise<typeof import("*.vue")> => import(
+            /* webpackChunkName: "description-cook-route-view" */
+            /* webpackPrefetch: 1 */
+            "@/views/viewDescriptionCook.vue"
+          ),
         },
       },
     ],

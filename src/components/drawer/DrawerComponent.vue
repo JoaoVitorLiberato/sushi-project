@@ -11,7 +11,6 @@
         class="d-flex justify-space-between align-center"
       >
         <span
-          style="color:var(--v-primary-text)"
           class="text-uppercase"
         >
           Yumi Sushi
@@ -39,9 +38,7 @@
         </v-list-item-icon>
 
       <v-list-item-content>
-        <v-list-item-title
-          style="color:var(--v-primary-text)"
-        >
+        <v-list-item-title>
           Delivery
         </v-list-item-title>
       </v-list-item-content>
@@ -60,9 +57,7 @@
         </v-list-item-icon>
 
       <v-list-item-content>
-        <v-list-item-title
-          style="color:var(--v-primary-text)"
-        >
+        <v-list-item-title>
           Estabelecimento
         </v-list-item-title>
       </v-list-item-content>
@@ -80,9 +75,7 @@
         </v-list-item-icon>
 
       <v-list-item-content>
-        <v-list-item-title
-          style="color:var(--v-primary-text)"
-        >
+        <v-list-item-title>
           Administrador
         </v-list-item-title>
       </v-list-item-content>

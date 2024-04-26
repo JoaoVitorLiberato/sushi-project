@@ -11,7 +11,7 @@
       >
         <v-row
           no-gutters
-          class="fill-height mt-4"
+          class="fill-height"
         >
           <v-col
             cols="12"

@@ -16,6 +16,7 @@
 <style lang="stylus">
   #app
     background-color: var(--v-primary-base)
+    color:var(--v-primary-text)
     .application--wrap
       height 100vh
 </style>

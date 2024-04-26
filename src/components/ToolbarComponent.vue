@@ -1,52 +1,53 @@
 <template>
-  <v-app-bar
-    color="primary"
-    elevate-on-scroll
-    fixed
-  >
-    <v-row
-      no-gutters
-      align="center"
-      class="pa-3"
+  <div>
+    <v-app-bar
+      color="primary"
+      elevate-on-scroll
+      app
     >
-      <v-col
-        cols="10"
-        md="1"
-        class="white--text"
+      <v-row
+        no-gutters
+        align="center"
+        class="pa-3"
       >
-        imagem_logo
-      </v-col>
-      <v-col
-        cols="9"
-        class="hidden-sm-and-down"
-      >
-        <span
-          class="font-weight-regular text-uppercase white--text"
+        <v-col
+          cols="10"
+          md="1"
+          class="white--text"
         >
-          O melhor sushi de Santa Luzia de Paruá
-        </span>
-      </v-col>
-      <v-col
-        cols="2"
-        class="text-end"
-      >
-        <v-btn
-          text
-          dark
-          depressed
-          dense
-          style="min-width: 60px;"
-          @click="overdrawerMenu = !overdrawerMenu"
+          imagem_logo
+        </v-col>
+        <v-col
+          cols="9"
+          class="hidden-sm-and-down"
         >
-          <v-icon>
-            menu
-          </v-icon>
-        </v-btn>
-      </v-col>
-    </v-row>
-
+          <span
+            class="font-weight-regular text-uppercase white--text"
+          >
+            O melhor sushi de Santa Luzia de Paruá
+          </span>
+        </v-col>
+        <v-col
+          cols="2"
+          class="text-end"
+        >
+          <v-btn
+            text
+            dark
+            depressed
+            dense
+            style="min-width: 60px;"
+            @click="overdrawerMenu = !overdrawerMenu"
+          >
+            <v-icon>
+              menu
+            </v-icon>
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-app-bar>
     <overdrawer-menu />
-  </v-app-bar>
+  </div>
 </template>
 
 <script lang="ts">

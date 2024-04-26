@@ -12,6 +12,9 @@
       <router-view
         name="viewDishes"
       />
+      <router-view
+        name="viewDescriptionCook"
+      />
     </v-container>
 
     <dialogSlotFuncionalidadesComponent>
