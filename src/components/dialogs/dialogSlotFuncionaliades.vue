@@ -59,6 +59,7 @@
               cols="12"
             >
               <input-table-selected
+                title="Por favor, Selecione a mesa:"
                 @TableSelectedModelEmit="v=>tableSelected=v"
               />
             </v-col>
@@ -76,7 +77,7 @@
                 large
                 color="secondary"
                 :disabled="tableSelected === ''"
-                @click="handleRedirectShop"
+                @click="redirectOrderView"
               >
                 <span
                   class="font-weight-bold"
@@ -107,16 +108,104 @@
             style="border:1px solid var(--v-secondary-base)"
             class=" px-3 py-4"
           >
-            <v-radio-group
-              v-model="radioGroup"
+            <v-row
+              no-gutters
             >
-              <v-radio
-                v-for="n in 3"
-                :key="n"
-                :label="`Radio ${n}`"
-                :value="n"
-              ></v-radio>
-            </v-radio-group>
+              <v-col
+                cols="12"
+              >
+                <span
+                  v-font-size="18"
+                  style="color:var(--v-primary-text)"
+                  v-text="'Escolha o serviço:'"
+                />
+              </v-col>
+
+              <v-col
+                cols="12"
+              >
+                <v-radio-group
+                  v-model="serviceSelelected"
+                >
+                  <v-row
+                    no-gutters
+                    justify="center"
+                  >
+                    <v-col
+                      v-for="servico in ['foodpark', 'delivery']"
+                      :key="`input-radio-${servico}`"
+                      cols="12"
+                      class="py-2"
+                    >
+                      <v-row
+                        no-gutters
+                        justify="start"
+                        justify-md="start"
+                      >
+                        <v-col
+                          cols="12"
+                        >
+                          <v-radio
+                            :value="servico"
+                          >
+                            <template
+                              #label
+                            >
+                              <span
+                                style="color: var(--v-primary-text);"
+                                v-text="/delivery/i.test(String(servico)) ? 'Delivery (Entrega)' : 'Food Park (Estabelecimento)'"
+                              />
+                            </template>
+                          </v-radio>
+                        </v-col>
+    
+                        <v-col
+                          v-if="String(serviceSelelected) === String(servico)"
+                          cols="12"
+                        >
+                          <v-row
+                            no-gutters
+                          >
+                            <v-col
+                              v-if="String(serviceSelelected).includes('foodpark')"
+                              cols="12"
+                              class="pt-1"
+                            >
+                              <input-table-selected
+                                @TableSelectedModelEmit="v=>tableSelected=v"
+                              />
+                            </v-col>
+                          </v-row>
+                        </v-col>
+                      </v-row>
+                    </v-col>
+                  </v-row>
+                </v-radio-group>
+              </v-col>
+
+              <v-col
+                cols="12"
+                class="py-2"
+              />
+
+              <v-col
+                cols="12"
+              >
+                <v-btn
+                  block
+                  large
+                  color="secondary"
+                  :disabled="tableSelected === '' && !/delivery/i.test(String(serviceSelelected))"
+                  @click="redirectOrderView"
+                >
+                  <span
+                    class="font-weight-bold"
+                  >
+                    Fazer meu pedido
+                  </span>
+                </v-btn>
+              </v-col>
+            </v-row>
           </div>
         </v-card>
       </v-dialog>
@@ -125,8 +214,10 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from "vue-property-decorator"
+  import { Component } from "vue-property-decorator"
+  import { mixins } from "vue-class-component"
   import { namespace } from "vuex-class"
+  import MixinRedirectLinks from "@/mixins/redirectLinks/MxiinRedirectLinks"
 
   const dialogStore = namespace("dialogStoreModule")
 
@@ -139,14 +230,16 @@
       )
     }
   })
-  export default class DialogSlotFuncionalidades extends Vue {
+  export default class DialogSlotFuncionalidades extends mixins(
+    MixinRedirectLinks
+  ) {
     @dialogStore.Getter("DialogTableSelected") getDialogTableSelected
     @dialogStore.Action("ActionTableSelected") setDialogTableSelected
     @dialogStore.Getter("DialogServiceClient") getDialogServiceClient
     @dialogStore.Action("ActionServiceClient") setDialogSeviceClient
 
     tableSelected = ""
-    radioGroup = 1
+    serviceSelelected = ""
 
     get dialogTableSelectedModel (): boolean {
       return this.getDialogTableSelected()
@@ -161,11 +254,16 @@
     }
 
     set dialogServiceClientModel (value: boolean) {
+      this.serviceSelelected = ""
       this.setDialogSeviceClient(value)
     }
 
-    handleRedirectShop (): void {
-      location.replace(`/pedido/mesa${String(this.tableSelected).replace(/\D/g, "")}/vamoscomecar`)
+    redirectOrderView (servico?:string): void {
+      if (/delivery/i.test(String(servico))) {
+        this.redirectToRouteDelevery()
+      } else {
+        location.replace(`/pedido/mesa${String(this.tableSelected).replace(/\D/g, "")}/vamoscomecar`)
+      }
     }
   }
 </script>

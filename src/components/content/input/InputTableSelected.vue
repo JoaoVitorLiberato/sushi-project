@@ -8,7 +8,7 @@
       <span
         class="font-weight-medium"
       >
-        Por favor, Selecione a mesa:
+        {{ title }}
       </span>
     </v-col>
 
@@ -39,10 +39,11 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue, Watch, ModelSync } from "vue-property-decorator"
+  import { Component, Vue, Watch, ModelSync, Prop } from "vue-property-decorator"
 
   @Component({})
   export default class InputTableSelected extends Vue {
+    @Prop({ default: "" }) title?: string
     @ModelSync("tableSelecetModel", "TableSelectedModelEmit", { type: String })
       valueTableSelected?: string
 
