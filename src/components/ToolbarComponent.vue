@@ -15,7 +15,12 @@
           md="1"
           class="white--text"
         >
-          imagem_logo
+          <v-img 
+            src="/img/project/logo.png"
+            alt="Logo do Yumi Sushi"
+            width="40"
+            height="40"
+          />
         </v-col>
         <v-col
           cols="9"

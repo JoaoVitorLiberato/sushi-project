@@ -28,7 +28,7 @@
         class="mx-0"
       >
         <v-rating
-          :value="4.5"
+          :value="4.0"
           color="amber"
           dense
           half-increments
@@ -37,7 +37,7 @@
         ></v-rating>
 
         <div class="grey--text ms-2">
-          4.5 (413)
+          4.0 (413)
         </div>
       </v-row>
 

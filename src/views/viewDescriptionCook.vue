@@ -1,7 +1,7 @@
 <template>
   <v-row
     no-gutters
-    class="pa-4"
+    class="primary lighten-1 pa-4"
   >
     <v-col
       v-width.max="'1400px'"
@@ -58,7 +58,7 @@
 
             <v-col
               cols="12"
-              md="5"
+              :md="$vuetify.breakpoint.width >= 965 && $vuetify.breakpoint.width < 1200 ? 6 : 5"
             >
               <v-row
                 no-gutters

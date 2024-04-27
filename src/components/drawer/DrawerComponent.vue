@@ -8,8 +8,15 @@
   >
     <v-list-item>
       <v-list-item-content
-        class="d-flex justify-space-between align-center"
+        class="d-flex align-center"
       >
+        <v-img 
+          src="/img/project/logo.png"
+          alt="Logo do Yumi Sushi"
+          width="20"
+          height="20"
+          contain
+        />
         <span
           class="text-uppercase"
           style="color: var(--v-primary-text);"

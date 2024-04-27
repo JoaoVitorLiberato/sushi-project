@@ -49,7 +49,14 @@
             name="viewEstabelishLocation"
           />
         </v-col>
+
+        <v-col
+          cols="12"
+          :style="`margin-bottom:${$vuetify.breakpoint.mdAndUp ? '250px' : ''}`"
+          class="py-5 py-md-14"
+        />
       </v-row>
+      <footer-component />
     </v-container>
 
     <dialogSlotFuncionalidadesComponent>
@@ -79,7 +86,12 @@
         /* webpackChunkName: "dialog-slot-funcionalidades-component" */
         /* webpackMode: "eager" */
         "@/components/dialogs/dialogSlotFuncionaliades.vue"
-      )
+      ),
+      FooterComponent: () => import(
+        /* webpackChunkName: "footer-component" */
+        /* webpackMode: "eager" */
+        "@/components/FooterComponent.vue"
+      ),
     }
   })
 
