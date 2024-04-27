@@ -12,6 +12,7 @@
       >
         <span
           class="text-uppercase"
+          style="color: var(--v-primary-text);"
         >
           Yumi Sushi
         </span>

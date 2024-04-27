@@ -19,7 +19,7 @@
           <h2
             class="font-weight-bold text-uppercase"
           >
-            Curiosidades sobre o CEO da Yume sushi
+            Curiosidades sobre o CEO da Yumi sushi
           </h2>
         </v-col>
 
@@ -38,7 +38,7 @@
             <v-col
               v-width.max="$vuetify.breakpoint.smAndDown ? '400px': ''"
               cols="12"
-              md="4"
+              :md="$vuetify.breakpoint.width >= 965 && $vuetify.breakpoint.width < 1200 ? 5 : 4"
               class="mx-auto mx-md-2"
             >
               <v-img

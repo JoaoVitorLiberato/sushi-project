@@ -39,7 +39,7 @@
 
         <v-col
           cols="12"
-          class="py-3 py-md-4"
+          class="py-5 py-md-4"
         />
 
         <v-col

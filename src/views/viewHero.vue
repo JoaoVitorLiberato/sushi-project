@@ -55,7 +55,7 @@
                   style="line-height:10px"
                   class="white--text font-weight-regular"
                 >
-                  Experimente a Autêntica Culinária Japonesa no Yume Sushi
+                  Experimente a Autêntica Culinária Japonesa no Yumi Sushi
                 </span>
               </v-col>
 
