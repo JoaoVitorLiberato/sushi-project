@@ -59,14 +59,14 @@
       <footer-component />
     </v-container>
 
-    <dialogSlotFuncionalidadesComponent>
+    <dialog-slot-funcionalidades-component>
       <template
         #tableSelected
       />
       <template
         #serviceClient
       />
-    </dialogSlotFuncionalidadesComponent>
+    </dialog-slot-funcionalidades-component>
   </v-main>
 </template>
 

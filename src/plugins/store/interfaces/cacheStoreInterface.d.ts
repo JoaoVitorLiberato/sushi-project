@@ -3,6 +3,7 @@ interface cacheStoreInterface {
     [key:string]:unknown;
   };
   overdrawerMenu: boolean;
+  cepValidation: string,
 }
 
 export {

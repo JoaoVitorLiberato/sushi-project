@@ -90,6 +90,7 @@
         </v-card>
       </v-dialog>
     </slot>
+
     <slot
       name="serviceClient"
     >
@@ -209,16 +210,129 @@
         </v-card>
       </v-dialog>
     </slot>
+
+    <slot
+      name="cepDelivery"
+    >
+    <v-overlay 
+      :value="dialogCepDeliveryModel"
+      opacity="1"
+    >
+      <v-dialog
+        ref="componentDialogSlotTableSelected"
+        v-model="dialogCepDeliveryModel"
+        hide-overlay
+        persistent
+        :max-width="400"
+      >
+        <v-card
+          color="primary"
+          class="mx-auto"
+          dark
+        >
+          <div
+            style="border:1px solid var(--v-secondary-base)"
+            class=" px-3 py-4"
+          >
+            <v-row
+              no-gutters
+            >
+              <v-col
+                cols="12"
+              >
+                <span
+                  class="font-weight-medium"
+                >
+                  Por favor, Informe seu CEP
+                </span>
+              </v-col>
+
+              <v-col
+                cols="12"
+              />
+
+              <v-col
+                cols="12"
+              >
+                <v-form
+                  ref="forminputValidateCEP"
+                >
+                  <v-row
+                    no-gutters
+                  >
+                    <v-col
+                      cols="12"
+                    >
+                      <v-text-field
+                        v-mask="inputCep.mask"
+                        v-model="inputCep.value"
+                        label="CEP"
+                        autocomplete="off"
+                        :rules="[required, cep(String(inputCep.value).replace(/\D/g, ''))]"
+                      />
+
+                      <div
+                        style="line-height: 1;"
+                      >
+                        <span
+                          v-font-size="12"
+                          class="font-weight-regular error--text"
+                          v-text="statusAPICEP.msg"
+                        />
+                      </div>
+                    </v-col>
+
+                    <v-col
+                      cols="12"
+                      class="py-3"
+                    />
+
+                    <v-col
+                      cols="12"
+                    >
+                      
+                      <v-progress-linear
+                        v-if="statusAPICEP.status"
+                        indeterminate
+                        color="yellow darken-2"
+                      />
+                      <v-btn
+                        v-else
+                        color="secondary"
+                        depressed
+                        block
+                        @click="validateDataInput ? validateInput() : itemsInputChangeValidate({ value: inputCep.value })"
+                      >
+                        <span
+                          style="color:var(--v-primary-text)"
+                          class="font-weight-bold"
+                          v-text="'Ver Produtos'"
+                        />
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-form>
+              </v-col>
+            </v-row>
+          </div>
+        </v-card>
+      </v-dialog>
+    </v-overlay>
+    </slot>
   </div>
 </template>
 
 <script lang="ts">
-  import { Component } from "vue-property-decorator"
+  import { Component, Watch } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
   import { namespace } from "vuex-class"
   import MixinRedirectLinks from "@/mixins/redirectLinks/MxiinRedirectLinks"
+  import { required, cep } from "@/helpers/rules"
+  import { $refs } from "@/implements/types"
+  import MixinFormConfig from "@/mixins/form/MixinFormConfig"
 
   const dialogStore = namespace("dialogStoreModule")
+  const cacheStore = namespace("cacheStoreModule")
 
   @Component({
     components: {
@@ -230,15 +344,30 @@
     }
   })
   export default class DialogSlotFuncionalidades extends mixins(
-    MixinRedirectLinks
-  ) {
+    MixinRedirectLinks,
+    MixinFormConfig,
+  ) implements $refs {
     @dialogStore.Getter("DialogTableSelected") getDialogTableSelected
     @dialogStore.Action("ActionTableSelected") setDialogTableSelected
     @dialogStore.Getter("DialogServiceClient") getDialogServiceClient
     @dialogStore.Action("ActionServiceClient") setDialogSeviceClient
+    @dialogStore.Getter("DialogCepDelivery") getDialogCepDelivery
+    @dialogStore.Action("ActionCepDelivery") declare setDialogCepDelivery
+    @cacheStore.Action("ActionCacheCepValidation") setCacheCepValidation
+
+    $refs
+    required = required
+    cep = cep
 
     tableSelected = ""
     serviceSelelected = ""
+
+    inputCep = {
+      optional: false,
+      mask: "#####-###",
+      valid: "",
+      value: ""
+    }
 
     get dialogTableSelectedModel (): boolean {
       return this.getDialogTableSelected()
@@ -255,6 +384,47 @@
     set dialogServiceClientModel (value: boolean) {
       this.serviceSelelected = ""
       this.setDialogSeviceClient(value)
+    }
+
+    get dialogCepDeliveryModel (): boolean {
+      return this.getDialogCepDelivery()
+    }
+
+    set dialogCepDeliveryModel (value: boolean) {
+      this.setDialogCepDelivery(value)
+    }
+
+    get validateDataInput (): boolean {
+      if (String(this.inputCep.value) === "" || (String(this.inputCep.value).replace(/\D/g, "")).length < 8 ) return true
+      if (cep(String(this.inputCep.value).replace(/\D/g, ""))) return false
+      return true
+    }
+
+    @Watch("inputCep.value")
+      clearMsgApi ():void {
+        this.statusAPICEP.msg = ""
+      }
+
+    itemsInputChangeValidate ({
+      value,
+    }: {
+      readonly value?:string;
+    }):void|boolean|string {
+      const CEP_VALID = String(value).replace(/\D/g, "")
+      
+      if (cep(CEP_VALID)) {
+        this.setCacheCepValidation(CEP_VALID)
+        this.statusAPICEP.status = true
+        this.APIValidadorCEPMixin()
+      } else {
+        this.inputCep.valid = "CEP inválido"
+      }
+    }
+
+    validateInput ():void {
+      if (this.$refs.forminputValidateCEP.validate) {
+        this.$refs.forminputValidateCEP.validate()
+      }
     }
 
     redirectOrderView (servico?:string): void {

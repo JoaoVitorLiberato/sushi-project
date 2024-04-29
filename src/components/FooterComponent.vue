@@ -10,19 +10,28 @@
     >
       <v-row
         no-gutters
-        class="pa-4"
+        style="max-width: 1100px;"
+        class="pa-4 mx-auto"
       >
         <v-col
           cols="12"
           md="3"
         >
           <h3
-            v-font-size="18"
-            class="font-weight-medium"
+            v-font-size="16"
+            class="font-weight-medium text-uppercase"
             style="color: var(--v-primary-text);"
           >
-            horario de funcionamento:
+            horario de atendimento:
           </h3>
+          <p
+            v-font-size="14"
+            style="color: var(--v-primary-text);"
+            class="font-weight-thin font-italic pl-1"
+          >
+            <strong>terça-feira</strong> a <strong>domingo</strong><br>
+            dás <strong>17:00</strong> às <strong>00:00</strong>
+          </p>
         </v-col>
 
         <v-col
@@ -30,8 +39,8 @@
           md="4"
         >
           <h3
-            v-font-size="18"
-            class="font-weight-medium"
+            v-font-size="16"
+            class="font-weight-medium text-uppercase"
             style="color: var(--v-primary-text);"
           >
             Nos sigam nas redes sociais:
@@ -39,22 +48,33 @@
 
           <v-row
             no-gutters
+            class="pl-1"
           >
             <v-col
               v-for="item in icons"
-              :key="`link-rede-social-${item.name}`"
-              class="shrink mr-2 py-2"
-              :title="`Nos sigam no ${item.name}`"
+              :key="`link-rede-social-${item.rede}`"
+              cols="12"
+              class="shrink py-1"
+              :title="`Nos sigam no ${item.rede}`"
             >
               <a
                 :href="item.link"
                 target="_blank"
+                class="d-flex align-center"
               >
                 <img 
                   :src="item.img"
-                  :alt="`Nos sigam em nossas redes socias - ${item.name}`"
-                  width="40"
-                  height="40"
+                  :alt="`Nos sigam em nossas redes socias - ${item.rede}`"
+                  width="20"
+                  height="20"
+                  class="mr-2"
+                />
+
+                <span
+                  v-font-size="14"
+                  class="font-weight-regular"
+                  style="color:var(--v-primary-text)"
+                  v-text="`${item.name}`"
                 />
               </a>
             </v-col>
@@ -62,20 +82,12 @@
         </v-col>
       </v-row>
 
-      <v-card-text 
-        class="white--text"
-      >
-        Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet. Mauris cursus commodo
-        interdum. Praesent ut risus eget metus luctus accumsan id ultrices nunc. Sed at orci sed 
-        massa consectetur dignissim a sit amet dui. Duis commodo vitae velit et faucibus. Morbi
-        vehicula lacinia malesuada. Nulla placerat augue vel ipsum ultrices, cursus iaculis dui
-        sollicitudin. Vestibulum eu ipsum vel diam elementum tempor vel ut orci. Orci varius natoque
-        penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-      </v-card-text>
-
       <v-divider></v-divider>
 
-      <v-card-text class="white--text">
+      <v-card-text 
+        class="text-center"
+        style="color:var(--v-primary-text)"
+      >
         {{ new Date().getFullYear() }} — <strong>Yumi Sushi</strong>
       </v-card-text>
     </v-card>
@@ -89,14 +101,16 @@
   export default class Footercomponent extends Vue {
     icons = [
       {
-        name: "instagram",
+        name: "@yumisushi",
         img: "/img/project/rede-sociais/instagram.png",
-        link: ""
+        link: "",
+        rede: "Instagram"
       },
       {
-        name: "facebook",
+        name: "Yumi Sushi",
         img: "/img/project/rede-sociais/facebook.png",
-        link: ""
+        link: "",
+        rede: "Facebook"
       },
     ]
   }

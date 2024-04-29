@@ -15,11 +15,12 @@
           md="1"
           class="white--text"
         >
-          <v-img 
+          <v-img
             src="/img/project/logo.png"
             alt="Logo do Yumi Sushi"
             width="40"
             height="40"
+            @click="redirectHome"
           />
         </v-col>
         <v-col
@@ -33,6 +34,7 @@
           </span>
         </v-col>
         <v-col
+          v-if="!routeOrderClient"
           cols="2"
           class="text-end"
         >
@@ -80,6 +82,14 @@
 
     set overdrawerMenu (value: boolean) {
       this.setOverdrawerMenu(value)
+    }
+
+    get routeOrderClient (): boolean {
+      return /pedido/i.test(String(this.$route.name || ""))
+    }
+
+    redirectHome (): void {
+      location.replace("/")
     }
   }
 </script>

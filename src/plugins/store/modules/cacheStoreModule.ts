@@ -6,6 +6,7 @@ const moduleCache = (): cacheStoreInterface => {
   return {
     cache: {},
     overdrawerMenu: false,
+    cepValidation: "",
   }
 }
 
@@ -18,6 +19,9 @@ const getters: GetterTree<cacheStoreInterface, rootStateInterface> = {
   getCacheOverdrawerMenu: ({ overdrawerMenu }) => () => {
     return overdrawerMenu
   },
+  CacheCepValidation: ({ cepValidation }) => () => {
+    return cepValidation
+  },
 }
 
 const actions: ActionTree<cacheStoreInterface, rootStateInterface> = {
@@ -26,6 +30,9 @@ const actions: ActionTree<cacheStoreInterface, rootStateInterface> = {
   },
   ActionCacheOverdrawerMenu ({ commit }, data) {
     commit("mutationCacheOverdrawerMenu", data)
+  },
+  ActionCacheCepValidation ({ commit }, data) {
+    commit("mutationCacheCepValidation", data)
   }
 }
 
@@ -35,6 +42,9 @@ const mutations: MutationTree<cacheStoreInterface> = {
   },
   mutationCacheOverdrawerMenu (state, data) {
     state.overdrawerMenu = data
+  },
+  mutationCacheCepValidation (state, data) {
+    state.cepValidation = data
   }
 }
 

@@ -6,6 +6,7 @@ const moduleCache = (): dialogStoreInterface => {
   return {
     DialogTableSelected: false,
     dialogServiceClient: false,
+    dialogCepDelivery: false,
   }
 }
 
@@ -18,6 +19,9 @@ const getters: GetterTree<dialogStoreInterface, rootStateInterface> = {
   DialogServiceClient: ({ dialogServiceClient }) => () => {
     return dialogServiceClient
   },
+  DialogCepDelivery: ({ dialogCepDelivery }) => () => {
+    return dialogCepDelivery
+  }
 }
 
 const actions: ActionTree<dialogStoreInterface, rootStateInterface> = {
@@ -26,6 +30,9 @@ const actions: ActionTree<dialogStoreInterface, rootStateInterface> = {
   },
   ActionServiceClient ({ commit }, data) {
     commit("MutationServiceClient", data)
+  },
+  ActionCepDelivery ({ commit }, data) {
+    commit("MutationCepDelivery", data)
   }
 }
 
@@ -35,6 +42,9 @@ const mutations: MutationTree<dialogStoreInterface> = {
   },
   MutationServiceClient (state, data) {
     state.dialogServiceClient = data
+  },
+  MutationCepDelivery (state, data) {
+    state.dialogCepDelivery = data
   }
 }
 
