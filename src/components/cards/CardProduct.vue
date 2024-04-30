@@ -1,7 +1,7 @@
 <template>
   <v-card
     class="mx-auto my-12"
-    max-width="300"
+    width="280"
   >
     <template v-slot:progress>
       <v-progress-linear
@@ -17,6 +17,7 @@
     ></v-img>
 
     <v-card-title
+      v-font-size="15"
       class="font-weight-medium"
     >
       {{ title }}
@@ -28,7 +29,7 @@
         class="mx-0"
       >
         <v-rating
-          :value="4.0"
+          :value="note_client"
           color="amber"
           dense
           half-increments
@@ -36,17 +37,29 @@
           size="14"
         ></v-rating>
 
-        <div class="grey--text ms-2">
-          4.0 (413)
+        <div 
+          class="grey--text ms-2 d-flex align-center"
+        >
+          {{ note_client }}
+          
+          <div
+            class="ml-5"
+          >
+            <v-icon
+              size="16"
+            >
+              forum
+            </v-icon> (0)
+          </div>
         </div>
       </v-row>
 
       <div
-        class="my-4 px-1"
-        style="height:140px;overflow-y: scroll;"
+        class="mt-6"
+        style="height:60px;overflow-y: scroll;line-height: 1;"
       >
         <span
-          v-font-size="14"
+          v-font-size="13"
           style="line-height: 16px;"
           class="font-weight-regular"
           v-html="description"
@@ -82,6 +95,7 @@
     @Prop({ default: "" }) readonly image?:string
     @Prop({ default: "" }) readonly title?:string
     @Prop({ default: "" }) readonly description?:string
+    @Prop({ default: 0 }) readonly note_client?:string
 
     get verifyRoutePedido (): boolean {
       return /pedido/i.test(String(this.$route.name ||""))

@@ -99,9 +99,8 @@
 </template>
 
 <script lang="ts">
-  import { Component } from "vue-property-decorator"
-  import { mixins } from "vue-class-component"
-  import MixinGetProduct from "@/mixins/product/MixinGetProducts"
+  import { Component, Vue } from "vue-property-decorator"
+  import { filterDataProduct } from "@/helpers/filterProducts"
   import { namespace } from "vuex-class"
   import "@/styles/view/viewDishes.styl"
 
@@ -117,9 +116,7 @@
     }
   })
 
-  export default class viewDishes extends mixins(
-    MixinGetProduct,
-  ) {
+  export default class viewDishes extends Vue {
     @dialogStore.Getter("DialogServiceClient") getDialogServiceClient
     @dialogStore.Action("ActionServiceClient") setDialogSeviceClient
 
@@ -130,5 +127,11 @@
     set dialogServiceClient (value: boolean) {
       this.setDialogSeviceClient(value)
     }
+
+    get productDataApperStart () {
+    return filterDataProduct().filter(productIndividual => {
+      return productIndividual.apper_start === true
+    })
+  }
   }
 </script>

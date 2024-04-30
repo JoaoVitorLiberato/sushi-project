@@ -1,9 +1,9 @@
 <template>
   <v-container
     fluid
-    class="pa-0"
+    class="pa-4"
   >
-    <card-product-component />
+    <content-section-order-component />
   </v-container>
 </template>
 
@@ -12,10 +12,10 @@
 
   @Component({
     components: {
-      CardProductComponent: () => import(
-        /* webpackChunkName: "card-product-component" */
+      ContentSectionOrderComponent: () => import(
+        /* webpackChunkName: "content-section-order-component" */
         /* webpackMode: "eager" */
-        "@/components/cards/CardProduct.vue"
+        "@/components/content/section-order/SectionOrder.vue"
       )
     }
   })

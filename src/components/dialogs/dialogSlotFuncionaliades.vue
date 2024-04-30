@@ -415,6 +415,7 @@
       if (cep(CEP_VALID)) {
         this.setCacheCepValidation(CEP_VALID)
         this.statusAPICEP.status = true
+        this.statusAPICEP.msg = ""
         this.APIValidadorCEPMixin()
       } else {
         this.inputCep.valid = "CEP inválido"

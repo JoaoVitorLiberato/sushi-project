@@ -8,12 +8,11 @@
       <v-row
         no-gutters
         align="center"
-        class="pa-3"
+        :class="routeOrderClient ? '' : 'pa-3'"
       >
         <v-col
           cols="10"
           md="1"
-          class="white--text"
         >
           <v-img
             src="/img/project/logo.png"

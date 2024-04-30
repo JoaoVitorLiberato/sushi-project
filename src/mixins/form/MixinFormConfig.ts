@@ -27,15 +27,12 @@ export default class MixinFormConfig extends Vue {
       return new Promise((resolve) => {
         middlewareSearchCEP(this.getCacheCepValidation())
           .then(responseMiddleware => {
-            this.statusAPICEP.msg = ""
-
             if (/error_api/i.test(String(responseMiddleware.erro || ""))) {
               sessionStorage.setItem("viacep", JSON.stringify(responseMiddleware))
+              this.statusAPICEP.status = false
               if (String(responseMiddleware.cep || "") === String("65272000")) {
-                this.statusAPICEP.status = false
                 this.setDialogCepDelivery(false)
               } else {
-                this.statusAPICEP.status = false
                 this.statusAPICEP.msg = `
                   Infelizmente não entregamos para fora de Santa Luzia de Paruá,
                   Caso queira experimentar nossos produtos estaremos ansiosos por sua
@@ -61,6 +58,9 @@ export default class MixinFormConfig extends Vue {
 
           }).catch(err => {
             window.log(`error mixin api-debounce`, err)
+            this.statusAPICEP.msg = `
+              Está hanvendo alguma instabilidade no servidor, Por favor, Tente mais tarde!
+            `
           })
       })
     },
