@@ -3,13 +3,13 @@ import VueRouter, { RouteConfig } from "vue-router"
 
 import "@/plugins/router/routerRegisterHooks"
 import mainRouter from "@/plugins/router/mainRouter"
-import pedidoRouter from "@/plugins/router/pedidoRouter"
+import productRouter from "@/plugins/router/productRouter"
 
 Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [].concat(
   mainRouter as never[],
-  pedidoRouter as never[],
+  productRouter as never[],
 )
 
 const router = new VueRouter({

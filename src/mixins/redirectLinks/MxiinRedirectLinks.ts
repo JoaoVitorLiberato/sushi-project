@@ -4,6 +4,6 @@ import { Component, Vue } from "vue-property-decorator"
 
 export default class MixinRedirectLinks extends Vue {
   redirectToRouteDelevery (): void {
-    location.replace(`/pedido/delivery/vamoscomecar`)
+    location.replace(`/product/delivery/vamoscomecar`)
   }
 }

@@ -432,7 +432,7 @@
       if (/delivery/i.test(String(servico))) {
         this.redirectToRouteDelevery()
       } else {
-        location.replace(`/pedido/mesa${String(this.tableSelected).replace(/\D/g, "")}/vamoscomecar`)
+        location.replace(`/product/mesa${String(this.tableSelected).replace(/\D/g, "")}/vamoscomecar`)
       }
     }
   }

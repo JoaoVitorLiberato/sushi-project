@@ -1,7 +1,7 @@
-import ALL_PRODUCT_DATA from "@/data/products/productDataBackend.json"
+import PRODUCT_DATA_DEFAULT from "@/data/products/productDataDefault.json"
 
-export function filterDataProduct (category?: string): typeof ALL_PRODUCT_DATA {
-  const PRODUCT_DATA = ALL_PRODUCT_DATA
+export function filterDataProduct (category?: string): typeof PRODUCT_DATA_DEFAULT {
+  const PRODUCT_DATA = PRODUCT_DATA_DEFAULT.map(induvidualProduct => induvidualProduct)
 
   if (!category) return PRODUCT_DATA
 

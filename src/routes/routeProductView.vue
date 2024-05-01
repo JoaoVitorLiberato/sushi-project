@@ -6,11 +6,62 @@
     >
       <toolbar-component />
 
-      <router-view 
-        name="viewPedido"
-      />
+      <v-row
+        v-width.max="'1100px'"
+        no-gutters        
+        class="mx-auto"
+      >
+        <v-col
+          cols="12"
+        >
+          <router-view 
+            name="viewProductEntrada"
+          />
+        </v-col>
 
-      <footer-component />
+
+        <v-col 
+          cols="12"
+          class="py-8"
+        />
+
+        <v-col
+          cols="12"
+        >
+          <router-view 
+            name="viewProductPecas"
+          />
+        </v-col>
+
+        <v-col 
+          cols="12"
+          class="py-8"
+        />
+
+        <v-col
+          cols="12"
+        >
+          <router-view 
+            name="viewProductTemaki"
+          />
+        </v-col>
+
+        <v-col 
+          cols="12"
+          class="py-8"
+        />
+
+        <v-col
+          cols="12"
+        >
+          <router-view 
+            name="viewProductHot"
+          />
+        </v-col>
+      </v-row>
+
+
+      <!-- <footer-component /> -->
     </v-container>
 
     <dialog-slot-funcionalidades-component>
@@ -46,7 +97,7 @@
       ),
     }
   })
-  export default class RoutePedidoView extends Vue {
+  export default class RouteProductView extends Vue {
     beforeRouteEnter (
       to: {
         name: string;
