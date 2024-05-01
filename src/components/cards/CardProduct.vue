@@ -162,7 +162,7 @@
 
               <v-col
                 cols="4"
-                class="d-flex align-center"
+                class="d-flex align-center mr-2"
               >
                 <v-btn
                   color="secondary"
@@ -179,7 +179,7 @@
                 </v-btn>
                 <span
                   v-font-size="20"
-                  class="font-weight-bold mx-2"
+                  class="font-weight-bold mx-1"
                 >
                   {{ count }}
                 </span>
