@@ -196,7 +196,7 @@
                   large
                   color="secondary"
                   :disabled="tableSelected === '' && !/delivery/i.test(String(serviceSelelected))"
-                  @click="redirectOrderView('delivery')"
+                  @click="redirectOrderView"
                 >
                   <span
                     class="font-weight-bold"
@@ -514,8 +514,8 @@
       }
     }
 
-    redirectOrderView (servico?:string): void {
-      if (/delivery/i.test(String(servico))) {
+    redirectOrderView (): void {
+      if (/delivery/i.test(String(this.serviceSelelected))) {
         this.redirectToRouteDelevery()
       } else {
         location.replace(`/product/mesa${String(this.tableSelected).replace(/\D/g, "")}/vamoscomecar`)
