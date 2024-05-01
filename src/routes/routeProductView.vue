@@ -111,8 +111,7 @@
       next((vm) => {
         if (to.params.type) {
           if (/delivery/i.test(String(to.params.type))) {
-            // vm.setDialogCepDelivery(!vm.getDialogCepDelivery())
-            console.log("Entrou em delivery", vm)
+            vm.setDialogCepDelivery(!vm.getDialogCepDelivery())
           }
         }
       })

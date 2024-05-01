@@ -88,7 +88,7 @@
       </v-col>
 
       <v-col
-        v-if="verifyRouteProduct"
+        v-if="/product/i.test(String($route.name ||''))"
         cols="12"
       >
         <v-row
@@ -113,9 +113,11 @@
             class="px-0"
           >
             <v-checkbox
+              v-if="/actived/i.test(String(breaded.input || ''))"
+              v-model="breaded.active"
               color="success"
               dense
-              class="mx-0"
+              @change="formatedPriceWithBreadedAndQuantity(product)"
             >
               <template v-slot:label>
                 <span
@@ -126,7 +128,28 @@
                 </span>
               </template>
             </v-checkbox>
+            <div
+              v-else
+            >
+              <v-icon
+                color="error"
+              >
+                remove
+              </v-icon>
+              <span
+                v-font-size="14"
+                class="font-weight-regular gray--text"
+              >
+                Produto não empanado
+              </span>
+            </div>
           </v-col>
+
+          <v-col
+            v-if="!/actived/i.test(String(breaded.input || ''))"
+            cols="12"
+            class="py-1"
+          />
 
           <v-col
             cols="12"
@@ -151,12 +174,12 @@
               justify="space-between"
             >
               <v-col
-                cols="4"
+                cols="6"
               >
                 <span
                   v-font-size="19"
                   class="font-weight-medium"
-                  v-text="`${formatedPrice(Number(price))}`"
+                  v-text="priceFormated ? priceFormated : formatedPriceWithBreadedAndQuantity(product)"
                 />
               </v-col>
 
@@ -171,7 +194,7 @@
                   depressed
                   dark
                   style="width: 30px;height:30px"
-                  @click="countQTDProduct('subtrair')"
+                  @click="countSubtrationQuantityProduct(), formatedPriceWithBreadedAndQuantity(product)"
                 >
                   <v-icon>
                     remove
@@ -190,7 +213,7 @@
                   depressed
                   dark
                   style="width: 30px;height:30px"
-                  @click="count = count + 1 "
+                  @click="countSumQuantityProduct(), formatedPriceWithBreadedAndQuantity(product)"
                 >
                   <v-icon>
                     add
@@ -231,33 +254,21 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue, Prop } from "vue-property-decorator"
-  import { formatedPrice, additionalPriceBreaded } from "@/helpers/formatedPrice"
+  import { Component, Prop } from "vue-property-decorator"
+  import { mixins } from "vue-class-component"
+  import { IproductData } from "@/types/types-product"
+
+  import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
 
   @Component({})
-  export default class CardProductComponent extends Vue {
+  export default class CardProductComponent extends mixins(
+    MixinHelperServiceProduct,
+  ) {
     @Prop({ default: "" }) readonly image?:string
     @Prop({ default: "" }) readonly title?:string
     @Prop({ default: "" }) readonly description?:string
     @Prop({ default: 0 }) readonly note_client?:string
-    @Prop({ default: 0 }) readonly price?: number|string|string[]
-
-    formatedPrice = formatedPrice
-    additionalPriceBreaded = additionalPriceBreaded
-
-    count = 0
-
-    get verifyRouteProduct (): boolean {
-      return /product/i.test(String(this.$route.name ||""))
-    }
-
-    countQTDProduct (operation:string): void {
-      if (/subtrair/i.test(String(operation || "")) && this.count === 0) return
-      if (/subtrair/i.test(String(operation || ""))) this.count = this.count - 1 
-    }
-
-    // priceBreadedActive (activedBreaded: boolean, additional:string|number): string|number|string[]|void {
-    //   if (activedBreaded === false) return
-    // }
+    @Prop({ default: false }) readonly breaded?:boolean
+    @Prop({ default: 0 }) readonly product?: IproductData
   }
 </script>

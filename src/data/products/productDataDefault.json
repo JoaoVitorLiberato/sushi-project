@@ -10,6 +10,11 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
       }
     },
     "complements": {
@@ -31,6 +36,11 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
       }
     },
     "complements": {
@@ -52,6 +62,11 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
       }
     },
     "complements": {
@@ -73,6 +88,11 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
       }
     },
     "complements": {
@@ -94,6 +114,11 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
       }
     },
     "complements": {
@@ -115,6 +140,11 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
       }
     },
     "complements": {
@@ -136,6 +166,11 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
       }
     },
     "complements": {
@@ -157,6 +192,11 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
       }
     },
     "complements": {
@@ -178,6 +218,11 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
       }
     },
     "complements": {
@@ -199,6 +244,11 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
       }
     },
     "complements": {
@@ -220,6 +270,11 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
       }
     },
     "complements": {
@@ -241,6 +296,11 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
       }
     },
     "complements": {
@@ -262,11 +322,12 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 400
       }
-    },
-    "breaded": {
-      "active": false,
-      "additional": 400
     },
     "complements": {
       "default": true,
@@ -287,11 +348,12 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 500
       }
-    },
-    "breaded": {
-      "active": false,
-      "additional": 500
     },
     "complements": {
       "default": true,
@@ -312,11 +374,12 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 400
       }
-    },
-    "breaded": {
-      "active": false,
-      "additional": 400
     },
     "complements": {
       "default": true,
@@ -337,11 +400,12 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 400
       }
-    },
-    "breaded": {
-      "active": false,
-      "additional": 400
     },
     "complements": {
       "default": true,
@@ -362,11 +426,12 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 500
       }
-    },
-    "breaded": {
-      "active": false,
-      "additional": 500
     },
     "complements": {
       "default": true,
@@ -387,11 +452,12 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 500
       }
-    },
-    "breaded": {
-      "active": false,
-      "additional": 500
     },
     "complements": {
       "default": true,
@@ -412,11 +478,12 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 400
       }
-    },
-    "breaded": {
-      "active": false,
-      "additional": 400
     },
     "complements": {
       "default": true,
@@ -437,11 +504,12 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 400
       }
-    },
-    "breaded": {
-      "active": false,
-      "additional": 400
     },
     "complements": {
       "default": true,
@@ -462,11 +530,12 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 400
       }
-    },
-    "breaded": {
-      "active": false,
-      "additional": 400
     },
     "complements": {
       "default": true,
@@ -487,11 +556,12 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 400
       }
-    },
-    "breaded": {
-      "active": false,
-      "additional": 400
     },
     "complements": {
       "default": true,
@@ -512,11 +582,12 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 0
       }
-    },
-    "breaded": {
-      "active": false,
-      "additional": 0
     },
     "complements": {
       "default": true,
@@ -537,6 +608,11 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 0
       }
     },
     "breaded": {
@@ -562,11 +638,12 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 0
       }
-    },
-    "breaded": {
-      "active": false,
-      "additional": 0
     },
     "complements": {
       "default": true,
@@ -587,11 +664,12 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 0
       }
-    },
-    "breaded": {
-      "active": false,
-      "additional": 0
     },
     "complements": {
       "default": true,
@@ -612,6 +690,11 @@
       "discount": {
         "active": false,
         "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
       }
     },
     "complements": {
@@ -633,6 +716,11 @@
       "discount": {
         "active": false,
         "value": 0
+      },      
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
       }
     },
     "complements": {
@@ -654,6 +742,11 @@
       "discount": {
         "active": false,
         "value": 0
+      },      
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
       }
     },
     "complements": {
@@ -675,6 +768,11 @@
       "discount": {
         "active": false,
         "value": 0
+      },      
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
       }
     },
     "complements": {
@@ -696,6 +794,11 @@
       "discount": {
         "active": false,
         "value": 0
+      },      
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
       }
     },
     "complements": {
@@ -717,6 +820,11 @@
       "discount": {
         "active": false,
         "value": 0
+      },      
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
       }
     },
     "complements": {

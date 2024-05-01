@@ -17,12 +17,6 @@
           height="20"
           contain
         />
-        <span
-          class="text-uppercase"
-          style="color: var(--v-primary-text);"
-        >
-          Yumi Sushi
-        </span>
       </v-list-item-content>
     </v-list-item>
 

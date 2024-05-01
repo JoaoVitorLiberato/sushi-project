@@ -24,7 +24,8 @@
               :image="item.url_image"
               :title="item.name"
               :description="item.description"
-              :price="item.price.default"
+              :breaded="item.price.breaded"
+              :product="item"
             />
           </div>
         </v-slide-item>
@@ -52,6 +53,10 @@
     @Prop({ default: "" }) category?: string
 
     filterDataProduct = filterDataProduct
+
+    get productData () {
+      return filterDataProduct(this.category)
+    }
     
   }
 </script>
