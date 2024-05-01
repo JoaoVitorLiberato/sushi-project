@@ -278,11 +278,6 @@
 
     @cacheStore.Action("ActionCacheOrdersCart") setCacheOrdersCart
 
-    
-    // mounted (): void {
-      
-    // }
-
     prepareAddToCart (product: IproductData, id?: number|string): void {
       const CACHE_CART_PRODUCT = sessionStorage.getItem("order")
       const PRODUCT_FILTER = new Set()
