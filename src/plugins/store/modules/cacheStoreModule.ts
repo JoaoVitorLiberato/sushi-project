@@ -7,6 +7,8 @@ const moduleCache = (): cacheStoreInterface => {
     cache: {},
     overdrawerMenu: false,
     cepValidation: "",
+    drawerCartProduct: false,
+    ordersCart: []
   }
 }
 
@@ -22,6 +24,12 @@ const getters: GetterTree<cacheStoreInterface, rootStateInterface> = {
   CacheCepValidation: ({ cepValidation }) => () => {
     return cepValidation
   },
+  CacheDrawerCartProduct: ({ drawerCartProduct }) => () => {
+    return drawerCartProduct
+  },
+  CacheOrderCart: ({ ordersCart }) => () => {
+    return ordersCart
+  },
 }
 
 const actions: ActionTree<cacheStoreInterface, rootStateInterface> = {
@@ -33,7 +41,13 @@ const actions: ActionTree<cacheStoreInterface, rootStateInterface> = {
   },
   ActionCacheCepValidation ({ commit }, data) {
     commit("mutationCacheCepValidation", data)
-  }
+  },
+  ActionCacheDrawerCartProduct ({ commit }, data) {
+    commit("mutationCacheDrawerCartProduct", data)
+  },
+  ActionCacheOrdersCart ({ commit }, data) {
+    commit("mutationCacheOrdersCart", data)
+  },
 }
 
 const mutations: MutationTree<cacheStoreInterface> = {
@@ -45,7 +59,13 @@ const mutations: MutationTree<cacheStoreInterface> = {
   },
   mutationCacheCepValidation (state, data) {
     state.cepValidation = data
-  }
+  },
+  mutationCacheDrawerCartProduct (state, data) {
+    state.drawerCartProduct = data
+  },
+  mutationCacheOrdersCart (state, data) {
+    state.ordersCart = data
+  },
 }
 
 const cacheStoreModule: Module<cacheStoreInterface, rootStateInterface> = {

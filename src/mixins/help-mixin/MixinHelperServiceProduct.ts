@@ -17,7 +17,6 @@ export default class MixinHelperServiceProduct extends Vue {
     this.price = String(value || "")
   }
 
-
   countSubtrationQuantityProduct (): void {
     if (this.count === 1) return
     this.count = this.count - 1 
@@ -36,10 +35,11 @@ export default class MixinHelperServiceProduct extends Vue {
 
     if (this.count > 1) {
       value = value * this.count
-      return this.priceFormated = formatedPrice(value)
+      return this.priceFormated = value
     }
     
-    return this.priceFormated = formatedPrice(value)
+    return this.priceFormated = value
   }
+
 
 }

@@ -438,7 +438,7 @@
       "especial": false
     },
     "note_client": 0,
-    "apper_start": false,
+    "apper_start": true,
     "hero_product": false
   },
   {
@@ -516,7 +516,7 @@
       "especial": false
     },
     "note_client": 0,
-    "apper_start": false,
+    "apper_start": true,
     "hero_product": false
   },
   {

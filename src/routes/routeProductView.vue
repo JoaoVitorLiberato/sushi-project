@@ -64,9 +64,14 @@
       <!-- <footer-component /> -->
     </v-container>
 
+    <button-cart-product />
+
     <dialog-slot-funcionalidades-component>
       <template
         #cepDelivery
+      />
+      <template
+        #ordersClient
       />
     </dialog-slot-funcionalidades-component>
   </v-main>
@@ -95,6 +100,11 @@
         /* webpackMode: "eager" */
         "@/components/dialogs/dialogSlotFuncionaliades.vue"
       ),
+      ButtonCartProduct: () => import(
+        /* webpackChunkName: "button-cart-porduct-component" */
+        /* webpackMode: "eager" */
+        "@/components/buttons/ButtonCartProduct.vue"
+      ),
     }
   })
   export default class RouteProductView extends Vue {
@@ -111,7 +121,13 @@
       next((vm) => {
         if (to.params.type) {
           if (/delivery/i.test(String(to.params.type))) {
+            sessionStorage.removeItem("order")
             vm.setDialogCepDelivery(!vm.getDialogCepDelivery())
+          }
+          if (!/delivery/i.test(String(to.params.type))) {
+            if (vm.ordersCostumer && JSON.parse(vm.ordersCostumer).length > 0) {
+              vm.setDialogOrdersClient(!vm.getDialogOrdersClient())
+            }
           }
         }
       })
@@ -119,5 +135,9 @@
 
     @dialogStore.Getter("DialogCepDelivery") getDialogCepDelivery
     @dialogStore.Action("ActionCepDelivery") setDialogCepDelivery
+    @dialogStore.Getter("DialogOrdersClient") getDialogOrdersClient
+    @dialogStore.Action("ActionOrdersClient") setDialogOrdersClient
+
+    ordersCostumer = sessionStorage.getItem("order")
   }
 </script>

@@ -196,7 +196,7 @@
                   large
                   color="secondary"
                   :disabled="tableSelected === '' && !/delivery/i.test(String(serviceSelelected))"
-                  @click="redirectOrderView"
+                  @click="redirectOrderView('delivery')"
                 >
                   <span
                     class="font-weight-bold"
@@ -319,6 +319,77 @@
       </v-dialog>
     </v-overlay>
     </slot>
+
+    <slot
+      name="ordersClient"
+    >
+      <v-dialog
+        ref="componentDialogOrdersClient"
+        v-model="dialogOrdersClientModel"
+        hide-overlay
+        persistent
+        :max-width="400"
+      >
+        <v-card
+          color="primary"
+          class="mx-auto"
+          dark
+        >
+          <v-row
+            v-border="'1px solid var(--v-secondary-base)'"
+            no-gutters
+            class="pa-4"
+          >
+            <v-col
+              cols="12"
+            >
+              <span
+                sty
+                class="font-weight-medium"
+              >
+                Você possui produtos em seu carrinho de compras, Você deseja manter?
+              </span>
+            </v-col>
+
+            <v-col
+              cols="12"
+              class="py-2"
+            />
+
+            <v-col
+              cols="12"
+            >
+              <v-btn
+                color="secondary"
+                block
+                class="my-3"
+                @click="addStoreCacheOrderCart"
+              >
+                <span>
+                  Manter
+                </span>
+              </v-btn>
+              <v-btn
+                block
+                color="grey lighthen-1"
+                @click="clearCacheOrderCacheCart"
+              >
+                <v-icon
+                  color="error"
+                >
+                  delete
+                </v-icon>
+                <span
+                  class="error--text"
+                >
+                  Descartar
+                </span>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-dialog>
+    </slot>
   </div>
 </template>
 
@@ -353,7 +424,10 @@
     @dialogStore.Action("ActionServiceClient") setDialogSeviceClient
     @dialogStore.Getter("DialogCepDelivery") getDialogCepDelivery
     @dialogStore.Action("ActionCepDelivery") declare setDialogCepDelivery
+    @dialogStore.Getter("DialogOrdersClient") getDialogOrdersClient
+    @dialogStore.Action("ActionOrdersClient") setDialogOrdersClient
     @cacheStore.Action("ActionCacheCepValidation") setCacheCepValidation
+    @cacheStore.Action("ActionCacheOrdersCart") setCacheOrdersCart
 
     $refs
     required = required
@@ -361,6 +435,10 @@
 
     tableSelected = ""
     serviceSelelected = ""
+
+    mounted (): void {
+      this.setCacheOrdersCart([])
+    }
 
     inputCep = {
       optional: false,
@@ -392,6 +470,14 @@
 
     set dialogCepDeliveryModel (value: boolean) {
       this.setDialogCepDelivery(value)
+    }
+
+    get dialogOrdersClientModel (): boolean {
+      return this.getDialogOrdersClient()
+    }
+
+    set dialogOrdersClientModel (value: boolean) {
+      this.setDialogOrdersClient(value)
     }
 
     get validateDataInput (): boolean {
@@ -435,5 +521,21 @@
         location.replace(`/product/mesa${String(this.tableSelected).replace(/\D/g, "")}/vamoscomecar`)
       }
     }
+
+    addStoreCacheOrderCart (): void {
+      const CACHE_CART_PRODUCT = sessionStorage.getItem("order")
+      if (CACHE_CART_PRODUCT && JSON.parse(CACHE_CART_PRODUCT).length > 0) {
+        this.setCacheOrdersCart(JSON.parse(CACHE_CART_PRODUCT))
+      }
+
+      this.dialogOrdersClientModel = !this.dialogOrdersClientModel
+    }
+
+    clearCacheOrderCacheCart (): void {
+      sessionStorage.removeItem("order")
+      this.setCacheOrdersCart([])
+      this.dialogOrdersClientModel = !this.dialogOrdersClientModel
+    }
+
   }
 </script>
