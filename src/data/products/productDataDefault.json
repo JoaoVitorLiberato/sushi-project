@@ -1,0 +1,838 @@
+[
+  {
+    "id": 1,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "entrada",
+    "name": "Sunomono de salmão",
+    "description": "1 Porção - Salada de pepino com cubos de salmão com gergelim torrado.",
+    "price": {
+      "default": 3000,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": false
+    },
+    "note_client": 3,
+    "apper_start": true,
+    "hero_product": false
+  },
+  {
+    "id": 2,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "entrada",
+    "name": "Sunomono de camarão",
+    "description": "1 Porção - Salada de pepino com cubos de camarão com gergelim torrado.",
+    "price": {
+      "default": 2500,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": false
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 3,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "entrada",
+    "name": "Sunomono misto",
+    "description": "1 Porção - Salada de pepino com cubos de salmão e camarão com gergelim torrado.",
+    "price": {
+      "default": 2000,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": false
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 4,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "entrada",
+    "name": "Ceviche",
+    "description": "Salada cítrica de peixe",
+    "price": {
+      "default": 5000,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": false
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 5,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "entrada",
+    "name": "Carpaccio",
+    "description": "10 Lâminas de Salmão ao molho ponzo.",
+    "price": {
+      "default": 4000,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": false
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 6,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "pecas",
+    "name": "Hot Carioca salmão - (5 peças)",
+    "description": "5 peças com arroz espalhado com salmão por dentro.",
+    "price": {
+      "default": 1600,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": true
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 7,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "pecas",
+    "name": "Hot Carioca camarão - (5 peças)",
+    "description": "5 peças com arroz espalhado com camarão por dentro.",
+    "price": {
+      "default": 1600,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": true
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 8,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "pecas",
+    "name": "Hot Carioca skin - (5 peças)",
+    "description": "",
+    "price": {
+      "default": 1500,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": true
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 9,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "pecas",
+    "name": "Hot Carioca kani - (5 peças)",
+    "description": "",
+    "price": {
+      "default": 1500,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": true
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 10,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "pecas",
+    "name": "Hossomaki - (5 peças)",
+    "description": "5 peças com arroz espalhado na nori por dentro.",
+    "price": {
+      "default": 1500,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": true
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 11,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "pecas",
+    "name": "Uramaki - (4 peças)",
+    "description": "4 peças com arroz espalhado na nori por fora com gergelim.",
+    "price": {
+      "default": 1500,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": true
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 12,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "pecas",
+    "name": "Uramaki - (4 peças)",
+    "description": "4 peças com arroz espalhado na nori por fora com gergelim.",
+    "price": {
+      "default": 1500,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": true
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 13,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "temaki",
+    "name": "Temaki com arroz - (1 unid)",
+    "description": "1 unidade com arroz enrolado no nori em formato de cone com cream cheese e cebolinha.",
+    "price": {
+      "default": 1500,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 400
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": false
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 14,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "temaki",
+    "name": "Temaki salmão",
+    "description": "1 unidade com arroz enrolado no nori em formato de cone com cream cheese, salmão e cebolinha.",
+    "price": {
+      "default": 3500,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 500
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": false
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 15,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "temaki",
+    "name": "Temaki kani",
+    "description": "1 unidade com arroz enrolado no nori em formato de cone com cream cheese, kani e cebolinha.",
+    "price": {
+      "default": 3200,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 400
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": false
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 16,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "temaki",
+    "name": "Temaki skin",
+    "description": "1 unidade com arroz enrolado no nori em formato de cone com cream cheese, pele de peixe frita e cebolinha.",
+    "price": {
+      "default": 3000,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 400
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": false
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 17,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "temaki",
+    "name": "Temaki Camarão",
+    "description": "1 unidade com arroz enrolado no nori em formato de cone com cream cheese, camarão e cebolinha.",
+    "price": {
+      "default": 3500,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 500
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": false
+    },
+    "note_client": 0,
+    "apper_start": true,
+    "hero_product": false
+  },
+  {
+    "id": 18,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "temaki",
+    "name": "Temaki misto",
+    "description": "1 unidade com arroz enrolado no nori em formato de cone com cream cheese, camarão, salmão, kani e cebolinha.",
+    "price": {
+      "default": 3200,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 500
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": false
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 19,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "temaki",
+    "name": "Temaki s/arroz Salmão",
+    "description": "1 unidade sem arroz enrolado no nori em formato de cone com cream cheese e cebolinha.",
+    "price": {
+      "default": 3800,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 400
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": false
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 20,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "temaki",
+    "name": "Temaki s/arroz Camarão",
+    "description": "1 unidade sem arroz enrolado no nori em formato de cone com cream cheese, camarão e cebolinha.",
+    "price": {
+      "default": 3800,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 400
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": false
+    },
+    "note_client": 0,
+    "apper_start": true,
+    "hero_product": false
+  },
+  {
+    "id": 21,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "temaki",
+    "name": "Temaki s/arroz Skin",
+    "description": "1 unidade sem arroz enrolado no nori em formato de cone com cream cheese, pele de peixe e cebolinha.",
+    "price": {
+      "default": 3300,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 400
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": false
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 22,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "temaki",
+    "name": "Temaki s/arroz Misto",
+    "description": "1 unidade sem arroz enrolado no nori em formato de cone com cream cheese, camarão, salmão, kani e cebolinha.",
+    "price": {
+      "default": 3500,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 400
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": false
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 23,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "hot",
+    "name": "Big Hot Salmão - (1 unid)",
+    "description": "Hot partido no meio recheado com cubos de salmão, cream cheese e cebolinha",
+    "price": {
+      "default": 5000,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 0
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": false
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 24,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "hot",
+    "name": "Big Hot Salmão - (1 unid)",
+    "description": "Hot partido no meio recheado com cubos de salmão, cream cheese e cebolinha",
+    "price": {
+      "default": 5000,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 0
+      }
+    },
+    "breaded": {
+      "active": false,
+      "additional": 0
+    },
+    "complements": {
+      "default": true,
+      "especial": false
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 25,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "hot",
+    "name": "Big Hot Camarão - (1 unid)",
+    "description": "Hot partido no meio recheado com cubos de camarão, cream cheese e cebolinha",
+    "price": {
+      "default": 5000,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 0
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": false
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 26,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "hot",
+    "name": "Big Hot Misto - (1 unid)",
+    "description": "Hot partido no meio recheado com cubos de salmão e camarão, cream cheese e cebolinha",
+    "price": {
+      "default": 4500,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "actived",
+        "active": false,
+        "additional": 0
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": false
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 27,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "hot",
+    "name": "Sushi Burger Salmão - (1 unid)",
+    "description": "",
+    "price": {
+      "default": 5500,
+      "discount": {
+        "active": false,
+        "value": 0
+      },
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": false
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 28,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "hot",
+    "name": "Sushi Burger Camarão - (1 unid)",
+    "description": "",
+    "price": {
+      "default": 5500,
+      "discount": {
+        "active": false,
+        "value": 0
+      },      
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": false
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 29,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "hot",
+    "name": "Sushi Burger Misto- (1 unid)",
+    "description": "",
+    "price": {
+      "default": 4500,
+      "discount": {
+        "active": false,
+        "value": 0
+      },      
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": false
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 30,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "hot",
+    "name": "Mallet Salmão - (10 unid)",
+    "description": "",
+    "price": {
+      "default": 4000,
+      "discount": {
+        "active": false,
+        "value": 0
+      },      
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": false
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 31,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "hot",
+    "name": "Mallet Camarão - (10 unid)",
+    "description": "",
+    "price": {
+      "default": 4000,
+      "discount": {
+        "active": false,
+        "value": 0
+      },      
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": false
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  },
+  {
+    "id": 32,
+    "url_image": "/img/project/sushi-bark2.jpg",
+    "category": "hot",
+    "name": "Mallet Misto - (10 unid)",
+    "description": "",
+    "price": {
+      "default": 3800,
+      "discount": {
+        "active": false,
+        "value": 0
+      },      
+      "breaded": {
+        "input": "desatived",
+        "active": false,
+        "additional": 0
+      }
+    },
+    "complements": {
+      "default": true,
+      "especial": false
+    },
+    "note_client": 0,
+    "apper_start": false,
+    "hero_product": false
+  }
+]
