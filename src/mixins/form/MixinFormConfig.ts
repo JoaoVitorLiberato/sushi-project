@@ -19,6 +19,13 @@ export default class MixinFormConfig extends Vue {
     msg: "",
   }
 
+  get CEP_VALID_CITY (): string[] {
+    return [
+      "65272000",
+      "65272-000"
+    ]
+  }
+
   APIValidadorCEPMixin = Debounce(
     async function (this): Promise<ValuesViaCepAPI|void> {
       if (String(this.getCacheCepValidation()).length < 8) return
@@ -27,10 +34,11 @@ export default class MixinFormConfig extends Vue {
       return new Promise((resolve) => {
         middlewareSearchCEP(this.getCacheCepValidation())
           .then(responseMiddleware => {
+            console.log(responseMiddleware)
             if (/error_api/i.test(String(responseMiddleware.erro || ""))) {
               sessionStorage.setItem("viacep", JSON.stringify(responseMiddleware))
               this.statusAPICEP.status = false
-              if (String(responseMiddleware.cep || "") === String("65272000")) {
+              if (this.CEP_VALID_CITY.includes(String(responseMiddleware.cep || ""))) {
                 this.setDialogCepDelivery(false)
               } else {
                 this.statusAPICEP.msg = `
@@ -42,7 +50,7 @@ export default class MixinFormConfig extends Vue {
             }
 
             this.statusAPICEP.status = false
-            if ((String(responseMiddleware.cep || "").replace(/\D/g, "")) === String("65272000")) {
+            if (this.CEP_VALID_CITY.includes(String(responseMiddleware.cep || ""))) {
               sessionStorage.setItem("viacep", JSON.stringify(responseMiddleware))
               this.setDialogCepDelivery(false)
               resolve(responseMiddleware)
