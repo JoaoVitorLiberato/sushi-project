@@ -113,7 +113,7 @@
             class="px-0"
           >
             <v-checkbox
-              v-if="/actived/i.test(String(breaded.input || ''))"
+              v-if="/actived/i.test(String(breaded?.input || ''))"
               v-model="breaded.active"
               color="success"
               dense
@@ -146,7 +146,7 @@
           </v-col>
 
           <v-col
-            v-if="!/actived/i.test(String(breaded.input || ''))"
+            v-if="!/actived/i.test(String(breaded?.input || ''))"
             cols="12"
             class="py-1"
           />
@@ -234,7 +234,7 @@
           <v-btn
             block
             color="secondary"
-            :title="`Botão para Adicionar ${String(product.name)} ao carrinho`"
+            :title="`Botão para Adicionar ${String(product?.name)} ao carrinho`"
             @click="prepareAddToCart(product, product?.id)"
           >
             <span
