@@ -13,7 +13,8 @@ module.exports = {
       },
       plugins: [
         new ForkTsCheckerWebpackPlugin({
-          memoryLimit: Math.floor(((os.totalmem() / 1024) / 1024) / 2)
+          // memoryLimit: Math.floor(((os.totalmem() / 1024) / 1024) / 2)
+          memoryLimit: 512
         })
       ]
     }

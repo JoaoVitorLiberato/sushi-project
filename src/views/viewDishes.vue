@@ -91,7 +91,7 @@
         @click="dialogServiceClient = !dialogServiceClient"
       >
         <span
-          v-text="'Eu quero essas gostosuras'"
+          v-text="'Conhecer nossos produtos'"
         />
       </v-btn>
     </v-col>
