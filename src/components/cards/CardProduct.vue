@@ -55,7 +55,7 @@
             size="14"
           ></v-rating>
 
-          <div 
+          <div
             class="grey--text ms-2 d-flex align-center"
           >
             <div
@@ -235,7 +235,7 @@
             block
             color="secondary"
             :title="`Botão para Adicionar ${String(product?.name)} ao carrinho`"
-            @click="prepareAddToCart(product, product?.id)"
+            @click=" openDialogComplement(product, product?.id)"
           >
             <span
               class="font-weight-bold mr-1 primary--text"
@@ -253,6 +253,8 @@
         </v-card-actions>
       </v-col>
     </v-row>
+
+    <dialog-complements-product />
   </v-card>
 </template>
 
@@ -260,12 +262,17 @@
   import { Component, Prop } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
   import { IproductData } from "@/types/types-product"
-  import { namespace } from "vuex-class"
   import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
 
-  const cacheStore = namespace("cacheStoreModule")
+  @Component({
+    components: {
+      DialogComplementsProduct: () => import(
+        /* webpackMode: "dialog-complements-product-component" */
+        "@/components/dialogs/DialogComplementsProduct.vue"
+      )
+    }
+  })
 
-  @Component({})
   export default class CardProductComponent extends mixins(
     MixinHelperServiceProduct,
   ) {
@@ -276,48 +283,20 @@
     @Prop({ default: false }) readonly breaded?:boolean
     @Prop({ default: 0 }) readonly product?: IproductData
 
-    @cacheStore.Action("ActionCacheOrdersCart") setCacheOrdersCart
-
-    prepareAddToCart (product: IproductData, id?: number|string): void {
-      const CACHE_CART_PRODUCT = sessionStorage.getItem("order")
-      const PRODUCT_FILTER = new Set()
-      const PRODUCT_CART: IproductData[] = []
-      
-
-      PRODUCT_FILTER.add({
-        ...PRODUCT_FILTER,
+    openDialogComplement (product: IproductData, id:number|string): void {
+      const CACHE_PRODUCT_CART = new Set()
+      CACHE_PRODUCT_CART.add({
         ...product,
         price: {
           ...product.price,
           qtd_product: this.count,
-          total: Number(this.priceFormated)
         }
       })
 
-      if (CACHE_CART_PRODUCT) {
-        const REMOVE_REDUDANCE = JSON.parse(CACHE_CART_PRODUCT).filter(item => {
-          return String(item.id) !== String(id)
-        })
+      sessionStorage.setItem("productId", JSON.stringify(id))
+      sessionStorage.setItem("cacheProductTemp", JSON.stringify(Object.assign({}, ...CACHE_PRODUCT_CART)))
 
-        if (REMOVE_REDUDANCE) {
-            PRODUCT_CART.push(
-            ...REMOVE_REDUDANCE,
-            Object.assign({}, ...PRODUCT_FILTER),
-          )
-        } else {
-          PRODUCT_CART.push(
-            ...JSON.parse(CACHE_CART_PRODUCT),
-            Object.assign({}, ...PRODUCT_FILTER),
-          )
-        }
-      } else {
-        PRODUCT_CART.push(
-          Object.assign({}, ...PRODUCT_FILTER),
-        )
-      }
-
-      sessionStorage.setItem("order", JSON.stringify(PRODUCT_CART))
-      this.setCacheOrdersCart(PRODUCT_CART)
+      this.setDialogComplements(!this.getDialogComplements())
     }
   }
 </script>

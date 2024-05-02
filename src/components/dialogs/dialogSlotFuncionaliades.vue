@@ -214,7 +214,7 @@
     <slot
       name="cepDelivery"
     >
-    <v-overlay 
+    <v-overlay
       :value="dialogCepDeliveryModel"
       opacity="1"
     >
@@ -290,7 +290,7 @@
                     <v-col
                       cols="12"
                     >
-                      
+
                       <v-progress-linear
                         v-if="statusAPICEP.status"
                         indeterminate
@@ -419,13 +419,13 @@
     MixinFormConfig,
   ) implements $refs {
     @dialogStore.Getter("DialogTableSelected") getDialogTableSelected
-    @dialogStore.Action("ActionTableSelected") setDialogTableSelected
+    @dialogStore.Action("ActionDialogTableSelected") setDialogTableSelected
     @dialogStore.Getter("DialogServiceClient") getDialogServiceClient
-    @dialogStore.Action("ActionServiceClient") setDialogSeviceClient
+    @dialogStore.Action("ActionDialogServiceClient") setDialogSeviceClient
     @dialogStore.Getter("DialogCepDelivery") getDialogCepDelivery
-    @dialogStore.Action("ActionCepDelivery") declare setDialogCepDelivery
+    @dialogStore.Action("ActionDialogCepDelivery") declare setDialogCepDelivery
     @dialogStore.Getter("DialogOrdersClient") getDialogOrdersClient
-    @dialogStore.Action("ActionOrdersClient") setDialogOrdersClient
+    @dialogStore.Action("ActionDialogOrdersClient") setDialogOrdersClient
     @cacheStore.Action("ActionCacheCepValidation") setCacheCepValidation
     @cacheStore.Action("ActionCacheOrdersCart") setCacheOrdersCart
 
@@ -497,7 +497,7 @@
       readonly value?:string;
     }):void|boolean|string {
       const CEP_VALID = String(value).replace(/\D/g, "")
-      
+
       if (cep(CEP_VALID)) {
         this.setCacheCepValidation(CEP_VALID)
         this.statusAPICEP.status = true

@@ -8,19 +8,19 @@
 
       <v-row
         v-width.max="'1100px'"
-        no-gutters        
+        no-gutters
         class="mx-auto"
       >
         <v-col
           cols="12"
         >
-          <router-view 
+          <router-view
             name="viewProductEntrada"
           />
         </v-col>
 
 
-        <v-col 
+        <v-col
           cols="12"
           class="py-8"
         />
@@ -28,12 +28,12 @@
         <v-col
           cols="12"
         >
-          <router-view 
+          <router-view
             name="viewProductPecas"
           />
         </v-col>
 
-        <v-col 
+        <v-col
           cols="12"
           class="py-8"
         />
@@ -41,12 +41,12 @@
         <v-col
           cols="12"
         >
-          <router-view 
+          <router-view
             name="viewProductTemaki"
           />
         </v-col>
 
-        <v-col 
+        <v-col
           cols="12"
           class="py-8"
         />
@@ -54,7 +54,7 @@
         <v-col
           cols="12"
         >
-          <router-view 
+          <router-view
             name="viewProductHot"
           />
         </v-col>
@@ -134,9 +134,9 @@
     }
 
     @dialogStore.Getter("DialogCepDelivery") getDialogCepDelivery
-    @dialogStore.Action("ActionCepDelivery") setDialogCepDelivery
+    @dialogStore.Action("ActionDialogCepDelivery") setDialogCepDelivery
     @dialogStore.Getter("DialogOrdersClient") getDialogOrdersClient
-    @dialogStore.Action("ActionOrdersClient") setDialogOrdersClient
+    @dialogStore.Action("ActionDialogOrdersClient") setDialogOrdersClient
 
     ordersCostumer = sessionStorage.getItem("order")
   }

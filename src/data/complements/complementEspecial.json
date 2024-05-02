@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Salmão",
+    "description": "Add descrição",
+    "price": 500
+  },
+  {
+    "id": 2,
+    "name": "Kani",
+    "description": "Add descrição",
+    "price": 500
+  },
+  {
+    "id": 3,
+    "name": "Camarão",
+    "description": "Add descrição",
+    "price": 500
+  },
+  {
+    "id": 4,
+    "name": "Skin",
+    "description": "Add descrição",
+    "price": 500
+  }
+]

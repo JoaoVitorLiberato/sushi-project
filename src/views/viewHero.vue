@@ -109,7 +109,7 @@
     MixinRedirectLinks,
   ) {
     @dialogStore.Getter("DialogTableSelected") getDialogTableSelected
-    @dialogStore.Action("ActionTableSelected") setDialogTableSelected
+    @dialogStore.Action("ActionDialogTableSelected") setDialogTableSelected
 
     get DialogTableSelected (): boolean {
       return this.getDialogTableSelected()

@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Agridoce",
+    "description": "Sachê 15 ml",
+    "price": 190
+  },
+  {
+    "id": 2,
+    "name": "Shoyo",
+    "description": "Sachê 15 ml",
+    "price": 190
+  },
+  {
+    "id": 3,
+    "name": "Pepino",
+    "description": "200 Gramas",
+    "price": 200
+  },
+  {
+    "id": 4,
+    "name": "Gengibre",
+    "description": "20 Gramas",
+    "price": 100
+  },
+  {
+    "id": 5,
+    "name": "Adaptador para Hashi",
+    "description": "20 Gramas",
+    "price": 90
+  }
+]

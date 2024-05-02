@@ -3,6 +3,7 @@ interface dialogStoreInterface {
   dialogServiceClient: boolean,
   dialogCepDelivery: boolean,
   dialogOrdersClient: boolean,
+  dialogComplements: boolean,
 }
 
 export {

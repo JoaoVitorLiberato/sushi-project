@@ -11,7 +11,7 @@ const dialogStore = namespace("dialogStoreModule")
 
 export default class MixinFormConfig extends Vue {
   @cacheStore.Getter("CacheCepValidation") getCacheCepValidation
-  @dialogStore.Action("ActionCepDelivery") setDialogCepDelivery
+  @dialogStore.Action("ActionDialogCepDelivery") setDialogCepDelivery
 
   statusAPICEP = {
     status: false,
