@@ -28,6 +28,29 @@
       class="mt-8"
     >
       <v-list-item
+        v-if="routeProductClient"
+        link
+        @click="goToHome"
+      >
+        <v-list-item-icon>
+          <v-icon
+            color="white"
+          >
+            home
+          </v-icon>
+        </v-list-item-icon>
+
+      <v-list-item-content>
+        <v-list-item-title
+          style="color:var(--v-primary-text)"
+        >
+          Inicio
+        </v-list-item-title>
+      </v-list-item-content>
+      </v-list-item>
+
+      <v-list-item
+        v-if="!routeProductClient"
         link
         @click="redirectToRouteDelevery"
       >
@@ -49,6 +72,7 @@
       </v-list-item>
 
       <v-list-item
+        v-if="!routeProductClient"
         link
         @click="overdrawerMenu = false, setDialogTableSelected(true)"
       >
@@ -115,6 +139,14 @@
 
     set overdrawerMenu (value: boolean) {
       this.setOverdrawerMenu(value)
+    }
+
+    get routeProductClient (): boolean {
+      return /product/i.test(String(this.$route.name || ""))
+    }
+
+    goToHome (): void {
+      location.replace("/")
     }
   }
 </script>

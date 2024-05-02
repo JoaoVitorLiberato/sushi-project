@@ -129,9 +129,9 @@
     }
 
     get productDataApperStart () {
-    return filterDataProduct().filter(productIndividual => {
-      return productIndividual.apper_start === true
-    })
-  }
+      return filterDataProduct().filter(productIndividual => {
+        return productIndividual.apper_start === true
+      })
+    }
   }
 </script>

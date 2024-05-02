@@ -4,11 +4,11 @@
       color="primary"
       elevate-on-scroll
       app
+      class="px-0"
     >
       <v-row
         no-gutters
         align="center"
-        :class="routeProductClient ? '' : 'pa-3'"
       >
         <v-col
           cols="10"
@@ -33,7 +33,6 @@
           </span>
         </v-col>
         <v-col
-          v-if="!routeProductClient"
           cols="2"
           class="text-end"
         >
@@ -81,10 +80,6 @@
 
     set overdrawerMenu (value: boolean) {
       this.setOverdrawerMenu(value)
-    }
-
-    get routeProductClient (): boolean {
-      return /product/i.test(String(this.$route.name || ""))
     }
 
     redirectHome (): void {
