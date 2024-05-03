@@ -456,13 +456,10 @@
       if (this.complements.length > 0) {
         this.complements.forEach(item => {
           if (item.priceTotal) {
-            console.log("1")
             this.totalPriceCalculed = (Number(data.price.default) * Number(data.price.qtd_product)) + Number(item.priceTotal)
           } else if (item.price && item.qtd) {
-            console.log("2")
             this.totalPriceCalculed =  (Number(data.price.default) * Number(data.price.qtd_product)) + (Number(item.priceTotal) * Number(item.qtd))
           } else {
-            console.log("3")
             this.totalPriceCalculed = (Number(data.price.default) * Number(data.price.qtd_product))
           }
         })
