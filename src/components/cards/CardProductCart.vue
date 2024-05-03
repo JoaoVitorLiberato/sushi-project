@@ -63,6 +63,7 @@
               dense
               depressed
               dark
+              disabled
               style="width:20px;height:20px"
             >
               <v-icon>
@@ -82,6 +83,7 @@
               dense
               depressed
               dark
+              disabled
               style="width:20px;height:20px"
             >
               <v-icon>

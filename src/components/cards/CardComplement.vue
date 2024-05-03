@@ -103,6 +103,7 @@
               @click="AddToResumeComplements(objComplement)"
             >
               <span
+                v-font-size="$vuetify.breakpoint.smAndDown ? 11 : 16"
                 class="font-weight-bold"
               >
                 Adicionar

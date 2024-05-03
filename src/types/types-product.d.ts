@@ -42,6 +42,6 @@ interface dataComplement {
   id: number,
   name: string,
   price: number,
-  priceTotal?: number,
-  qtd?: number,
+  priceTotal: number,
+  qtd: number,
 }
