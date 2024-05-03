@@ -24,7 +24,7 @@
         cols="12"
       >
         <v-card-title
-          v-font-size="16"
+          v-font-size="15"
           class="pa-0"
         >
           <span
@@ -253,8 +253,6 @@
         </v-card-actions>
       </v-col>
     </v-row>
-
-    <dialog-complements-product />
   </v-card>
 </template>
 
@@ -264,14 +262,7 @@
   import { IproductData } from "@/types/types-product"
   import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
 
-  @Component({
-    components: {
-      DialogComplementsProduct: () => import(
-        /* webpackMode: "dialog-complements-product-component" */
-        "@/components/dialogs/DialogComplementsProduct.vue"
-      )
-    }
-  })
+  @Component({})
 
   export default class CardProductComponent extends mixins(
     MixinHelperServiceProduct,

@@ -156,7 +156,8 @@
   @Component({
     components: {
       CardProductCart: () => import(
-        /* webpackMode: "card-product-cart-drawer-component" */
+        /* webpackChuckName: "card-product-cart-component" */
+        /* webpackMode: "eager" */
         "@/components/cards/CardProductCart.vue"
       )
     }

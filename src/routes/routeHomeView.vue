@@ -85,7 +85,7 @@
       dialogSlotFuncionalidadesComponent: () => import(
         /* webpackChunkName: "dialog-slot-funcionalidades-component" */
         /* webpackMode: "eager" */
-        "@/components/dialogs/dialogSlotFuncionaliades.vue"
+        "@/components/dialogs/DialogSlotFuncionaliades.vue"
       ),
       FooterComponent: () => import(
         /* webpackChunkName: "footer-component" */

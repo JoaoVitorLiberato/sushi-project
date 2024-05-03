@@ -61,10 +61,11 @@
       </v-row>
 
 
-      <!-- <footer-component /> -->
+    <!-- <footer-component /> -->
     </v-container>
 
     <button-cart-product />
+    <dialog-complements-product />
 
     <dialog-slot-funcionalidades-component>
       <template
@@ -98,13 +99,18 @@
       dialogSlotFuncionalidadesComponent: () => import(
         /* webpackChunkName: "dialog-slot-funcionalidades-component" */
         /* webpackMode: "eager" */
-        "@/components/dialogs/dialogSlotFuncionaliades.vue"
+        "@/components/dialogs/DialogSlotFuncionaliades.vue"
       ),
       ButtonCartProduct: () => import(
         /* webpackChunkName: "button-cart-porduct-component" */
         /* webpackMode: "eager" */
         "@/components/buttons/ButtonCartProduct.vue"
       ),
+      DialogComplementsProduct: () => import(
+        /* webpackChuckName: "dialog-complements-product-component" */
+        /* webpackMode: "eager" */
+        "@/components/dialogs/DialogComplementsProduct.vue"
+      )
     }
   })
   export default class RouteProductView extends Vue {

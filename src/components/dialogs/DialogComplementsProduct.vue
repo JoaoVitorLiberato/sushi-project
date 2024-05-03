@@ -3,8 +3,6 @@
     v-model="dialogComplements"
     fullscreen
     hide-overlay
-    transition="dialog-bottom-transition"
-    scrollable
   >
     <v-card
       tile
@@ -18,6 +16,7 @@
           <v-toolbar
             flat
             color="secondary"
+            fixed
           >
             <v-toolbar-title
               class="font-weight-bold text-uppercase"
@@ -26,23 +25,276 @@
             </v-toolbar-title>
           </v-toolbar>
         </v-col>
+
+        <v-col
+          :cols="$vuetify.breakpoint.smAndDown ? 12 : 6"
+        >
+          <v-row
+            no-gutters
+            style="max-width: 375px"
+            class="pa-4 mx-auto"
+          >
+            <v-col
+              v-if="showSectionComplements()"
+              cols="12"
+            >
+              <v-row
+                no-gutters
+              >
+                <v-col
+                  cols="12"
+                >
+                  <h2
+                    v-font-size="20"
+                    class="font-weight-medium text-uppercase"
+                  >
+                    Especiais
+                  </h2>
+                </v-col>
+
+                <v-col
+                  v-for="item in returnComplementEspecial"
+                  :key="`card-complemento-especial-${item.id}`"
+                  cols="12"
+                  class="pa-2 my-2 grey lighten-4"
+                  style="border-radius: 15px;"
+                >
+                  <card-complement
+                    :name="item.name"
+                    :description="item.description"
+                    :price="item.price"
+                    :dataComplement="item"
+                    @dataComplementEmit="v=>objetoComplete={...v}"
+                  />
+                </v-col>
+              </v-row>
+            </v-col>
+
+            <v-col
+              cols="12"
+              class="py-6"
+            />
+
+            <v-col
+              cols="12"
+            >
+              <h2
+                v-font-size="20"
+                class="font-weight-medium text-uppercase"
+              >
+                Adicionais
+              </h2>
+            </v-col>
+
+            <!-- <v-col
+              cols="12"
+              style="line-height: 1"
+            >
+              <span
+                v-font-size="14"
+                class="font-weight-regular warning--text"
+              >
+                <strong>Atenção:</strong> Você pode adicionar Dois complemento totalmente
+                gratuitos.
+              </span>
+            </v-col> -->
+
+            <v-col
+              cols="12"
+              class="py-2"
+            />
+
+            <v-col
+              v-for="item in returnComplementAdditional"
+              :key="`card-complemento-adicional-${item.id}`"
+              cols="12"
+              class="pa-2 my-2 grey lighten-4"
+              style="border-radius: 15px;"
+            >
+              <card-complement
+                :name="item.name"
+                :description="item.description"
+                :price="item.price"
+                :dataComplement="item"
+                @dataComplementEmit="v=>objetoComplete={...v}"
+              />
+            </v-col>
+          </v-row>
+        </v-col>
+
+        <v-col
+          :cols="$vuetify.breakpoint.smAndDown ? 12 : 6"
+          class="pa-4 grey lighten-5"
+        >
+          <v-row
+            no-gutters
+          >
+            <v-col
+              cols="12"
+            >
+              <v-row
+                no-gutters
+              >
+                <v-row
+                  no-gutters
+                >
+                  <v-col
+                    v-if="cacheTemporario()"
+                    cols="12"
+                  >
+                    <v-row
+                      no-gutters
+                    >
+                      <v-col
+                        cols="12"
+                      >
+                        <span
+                          v-font-size="$vuetify.breakpoint.smAndDown ? 14 : 18"
+                          class="text-uppercase font-weight-bold mr-1"
+                        >
+                          {{ cacheTemporario().name }}
+                        </span>
+                        <span
+                          v-if="'qtd_product' in cacheTemporario().price"
+                          v-font-size="$vuetify.breakpoint.smAndDown ? 13 : 16"
+                          class="text-uppercase font-weight-medium"
+                          v-text="`(x${ cacheTemporario().price.qtd_product})`"
+                        />
+                      </v-col>
+                      <v-col
+                        cols="12"
+                        v-if="'qtd_product' in cacheTemporario().price"
+                      >
+                        <span
+                          v-font-size="$vuetify.breakpoint.smAndDown ? 13 : 16"
+                          class="font-weight-bold mr-2 text-uppercase"
+                        >
+                          Total:
+                        </span>
+                        <span
+                          class="font-weight-medium"
+                          v-text="formatedPrice(cacheTemporario().price.default * cacheTemporario().price.qtd_product)"
+                        />
+                      </v-col>
+                    </v-row>
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                  >
+                    <v-row
+                      no-gutters
+                    >
+                      <v-col
+                        v-for="item in complements"
+                        :key="`item-resumo-${item.name}`"
+                        cols="12"
+                      >
+                        <v-row
+                          no-gutters
+                        >
+                          <v-col
+                            cols="12"
+                          >
+                            <span
+                              class=""
+                            >
+                              {{ item.name }}
+                            </span>
+
+                          </v-col>
+                        </v-row>
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                </v-row>
+              </v-row>
+            </v-col>
+
+            <v-col
+              cols="12"
+              class="hidden-sm-and-down"
+            >
+              <v-btn
+                block
+                depressed
+                color="secondary"
+                @click="closeCostumerOrder"
+              >
+                <span
+                  class="primary--text font-weight-bold"
+                  style="letter-spacing: 0.20px;"
+                >
+                  Adicionar ao carrinho
+                </span>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-col>
+
+        <v-col
+          cols="12"
+          class="hidden-md-and-up mt-2 pa-1"
+        >
+          <v-btn
+            block
+            depressed
+            color="secondary"
+            @click="closeCostumerOrder"
+          >
+            <span
+              class="primary--text font-weight-bold"
+              style="letter-spacing: 0.20px;"
+            >
+              Adicionar ao carrinho
+            </span>
+          </v-btn>
+        </v-col>
       </v-row>
     </v-card>
   </v-dialog>
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from "vue-property-decorator"
+  import { Component, Watch } from "vue-property-decorator"
+  import { mixins } from "vue-class-component"
   import { namespace } from "vuex-class"
+  import { formatedPrice } from "@/helpers/formatedPrice"
   import DATA_COMPLEMENTS_ADDITIONAL from "@/data/complements/complementAdditional.json"
   import DATA_COMPLEMENTS_ESPECIAL from "@/data/complements/complementEspecial.json"
+  import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
+  import { dataComplement, IproductData } from "@/types/types-product"
 
   const dialogStore = namespace("dialogStoreModule")
 
-  @Component({})
-  export default class DialogComplementsProduct extends Vue {
-    @dialogStore.Action("ActionDialogComplements") setDialogComplements
-    @dialogStore.Getter("DialogComplements") getDialogComplements
+  @Component({
+    components: {
+      CardComplement: () => import(
+        /* webpackChuckName: "card-complement-component" */
+        /* webpackMode: "eager" */
+        "@/components/cards/CardComplement.vue"
+      )
+    }
+  })
+
+  export default class DialogComplementsProduct extends mixins(
+    MixinHelperServiceProduct,
+  ) {
+    @dialogStore.Action("ActionDialogComplements") declare setDialogComplements
+    @dialogStore.Getter("DialogComplements") declare getDialogComplements
+
+    formatedPrice = formatedPrice
+
+    count = 0
+    objetoComplete = {} as dataComplement
+
+    get dialogComplements (): boolean {
+      return this.getDialogComplements()
+    }
+
+    set dialogComplements (value:boolean) {
+      this.setDialogComplements(value)
+    }
 
     get returnComplementEspecial (): typeof DATA_COMPLEMENTS_ESPECIAL {
       return DATA_COMPLEMENTS_ESPECIAL
@@ -52,12 +304,124 @@
       return DATA_COMPLEMENTS_ADDITIONAL
     }
 
-    get dialogComplements (): boolean {
-      return this.getDialogComplements()
+    @Watch("dialogComplements")
+      clearComplements (): void {
+        this.complements = []
+      }
+
+    complements = [] as dataComplement[]
+    @Watch("objetoComplete", { deep: true })
+      saveDataComplement (): void {
+        const REMOVE_REDUNDANCE = this.complements.filter(item => {
+          return item.id !== this.objetoComplete.id
+        }) 
+
+        if (REMOVE_REDUNDANCE) {
+          this.complements = [
+            ...REMOVE_REDUNDANCE,
+            this.objetoComplete
+          ]
+        } else {
+          this.complements = [
+            ...this.complements,
+            this.objetoComplete
+          ]
+        }
+      }
+
+    cacheTemporario (): IproductData {
+      const CACHE_TEMPORARY = sessionStorage.getItem("cacheProductTemp")
+      if (CACHE_TEMPORARY) return JSON.parse(CACHE_TEMPORARY)
+      else return {
+        id: 0,
+        url_image: "",
+        category: "",
+        name: "",
+        description: "",
+        price: {
+            default: 0,
+            discount: {
+                active: false,
+                value: 0
+            },
+            breaded: {
+                input: "",
+                active: false,
+                additional: 0
+            },
+            qtd_product: 0
+        },
+        complements: {
+            default: true,
+            especial: false
+        },
+        note_client: 0,
+        apper_start: false,
+        hero_product: false
+      } as IproductData
     }
 
-    set dialogComplements (value:boolean) {
-      this.setDialogComplements(value)
+
+
+    showSectionComplements (): boolean|void {
+      const CACHE_TEMPORARY = sessionStorage.getItem("cacheProductTemp")
+
+      if (CACHE_TEMPORARY) {
+        if (JSON.parse(CACHE_TEMPORARY).complements.especial) return true
+        return false
+      }
+
+      return false
+    }
+
+    closeCostumerOrder (): void {
+      const CACHE_PRODUCT = sessionStorage.getItem("order")
+      const CACHE_PRODUCT_TEMP = sessionStorage.getItem("cacheProductTemp")
+      const CACHE_PRODUCT_ID = sessionStorage.getItem("productId")
+      const PRODUCT_FILTER = new Set()
+      const PRODUCT_CART: IproductData[] = []
+
+      if (CACHE_PRODUCT_TEMP && CACHE_PRODUCT_ID) {
+        PRODUCT_FILTER.add({
+          ...PRODUCT_FILTER,
+          ...JSON.parse(CACHE_PRODUCT_TEMP),
+          price: {
+            ...JSON.parse(CACHE_PRODUCT_TEMP).price,
+            total: Number(this.priceFormated),
+            complements: [
+              ...this.complements
+            ]
+          }
+        })
+  
+        if (CACHE_PRODUCT) {
+          const REMOVE_REDUDANCE = JSON.parse(CACHE_PRODUCT).filter(item => {
+            return String(item.id) !== String(CACHE_PRODUCT_ID)
+          })
+  
+          if (REMOVE_REDUDANCE) {
+            PRODUCT_CART.push(
+              ...REMOVE_REDUDANCE,
+              Object.assign({}, ...PRODUCT_FILTER),
+            )
+          } else {
+            PRODUCT_CART.push(
+              ...JSON.parse(CACHE_PRODUCT_TEMP),
+              Object.assign({}, ...PRODUCT_FILTER),
+            )
+          }
+        } else {
+          PRODUCT_CART.push(
+            Object.assign({}, ...PRODUCT_FILTER),
+          )
+        }
+
+        sessionStorage.removeItem("cacheProductTemp")
+        sessionStorage.removeItem("productId")
+        sessionStorage.setItem("order", JSON.stringify(PRODUCT_CART))
+        this.setCacheOrdersCart(PRODUCT_CART)
+        this.dialogComplements = !this.dialogComplements
+      }
     }
 
   }
