@@ -19,10 +19,9 @@
           />
         </v-col>
 
-
         <v-col
           cols="12"
-          class="py-8"
+          class="py-1"
         />
 
         <v-col
@@ -35,7 +34,7 @@
 
         <v-col
           cols="12"
-          class="py-8"
+          class="py-1"
         />
 
         <v-col
@@ -48,7 +47,7 @@
 
         <v-col
           cols="12"
-          class="py-8"
+          class="py-1"
         />
 
         <v-col
