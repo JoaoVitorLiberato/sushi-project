@@ -356,7 +356,7 @@
     formatedPrice = formatedPrice
 
     objetoComplete = {} as dataComplement
-    totalPriceCalculed = 0
+    totalComplementsCalculed = 0
 
     get dialogComplements (): boolean {
       return this.getDialogComplements()
@@ -452,18 +452,14 @@
       return false
     }
 
-    handleValuesPrices (data): void {
-      if (this.complements.length > 0) {
-        this.complements.forEach(item => {
-          if (item.priceTotal) {
-            this.totalPriceCalculed = (Number(data.price.default) * Number(data.price.qtd_product)) + Number(item.priceTotal)
-          } else if (item.price && item.qtd) {
-            this.totalPriceCalculed =  (Number(data.price.default) * Number(data.price.qtd_product)) + (Number(item.priceTotal) * Number(item.qtd))
-          } else {
-            this.totalPriceCalculed = (Number(data.price.default) * Number(data.price.qtd_product))
-          }
-        })
-      }
+    handleValuesPrices (): void {
+      this.complements.forEach(item => {
+        if (item.priceTotal) {
+          this.totalComplementsCalculed = this.totalComplementsCalculed + Number(item.priceTotal)
+        } else if (item.price && item.qtd) {
+          this.totalComplementsCalculed = this.totalComplementsCalculed + (Number(item.priceTotal) * Number(item.qtd))
+        }
+      })
     }
 
     closeCostumerOrder (): void {
@@ -474,13 +470,13 @@
       const PRODUCT_CART: IproductData[] = []
       
       if (CACHE_PRODUCT_TEMP && CACHE_PRODUCT_ID) {
-        this.handleValuesPrices(JSON.parse(CACHE_PRODUCT_TEMP))
+        this.handleValuesPrices()
         PRODUCT_FILTER.add({
           ...PRODUCT_FILTER,
           ...JSON.parse(CACHE_PRODUCT_TEMP),
           price: {
             ...JSON.parse(CACHE_PRODUCT_TEMP).price,
-            total: Number(this.totalPriceCalculed),
+            total: (JSON.parse(CACHE_PRODUCT_TEMP).price.default * JSON.parse(CACHE_PRODUCT_TEMP).price.qtd_product) + Number(this.totalComplementsCalculed),
             complements: [
               ...this.complements
             ]
