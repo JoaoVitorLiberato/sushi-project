@@ -34,7 +34,6 @@ export default class MixinFormConfig extends Vue {
       return new Promise((resolve) => {
         middlewareSearchCEP(this.getCacheCepValidation())
           .then(responseMiddleware => {
-            console.log(responseMiddleware)
             if (/error_api/i.test(String(responseMiddleware.erro || ""))) {
               sessionStorage.setItem("viacep", JSON.stringify(responseMiddleware))
               this.statusAPICEP.status = false

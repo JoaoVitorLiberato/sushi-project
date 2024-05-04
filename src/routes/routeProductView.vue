@@ -21,7 +21,7 @@
 
         <v-col
           cols="12"
-          class="py-1"
+          class="py-1 py-sm-6"
         />
 
         <v-col
@@ -34,7 +34,7 @@
 
         <v-col
           cols="12"
-          class="py-1"
+          class="py-1 py-sm-6"
         />
 
         <v-col
@@ -47,7 +47,7 @@
 
         <v-col
           cols="12"
-          class="py-1"
+          class="py-1 py-sm-6"
         />
 
         <v-col

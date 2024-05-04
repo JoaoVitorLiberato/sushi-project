@@ -3,8 +3,8 @@
     no-gutters
   >
     <v-col
-      v-if="$vuetify.breakpoint.mdAndUp"
       cols="12"
+      class="hidden-xs-only"
     >
       <v-slide-group
         show-arrows
@@ -32,8 +32,9 @@
       </v-slide-group>
     </v-col>
     <v-col
-      v-else
       cols="12"
+      class="hidden-sm-and-up"
+      style="width: 100%;max-width: 375px;margin:0 auto"
     >
       <v-carousel
         hide-delimiters

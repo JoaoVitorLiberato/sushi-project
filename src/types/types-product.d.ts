@@ -7,7 +7,8 @@ export interface IproductData {
   price: {
     default: number,
     qtd_product?: number,
-    total?: number, 
+    total?: number,
+    total_price_complements?: number
     discount: {
       active: boolean,
       value: number

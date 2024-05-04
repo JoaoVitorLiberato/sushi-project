@@ -9,7 +9,7 @@
       bottom
       class="v-btn--example"
       title="Botão abrir carrinho"
-      @click="drawerCartProduct = !drawerCartProduct"
+      @click="totalPriceOrderClient(), drawerCartProduct = !drawerCartProduct"
     >
       <v-badge
         color="error"
@@ -28,8 +28,10 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from "vue-property-decorator"
+  import { Component } from "vue-property-decorator"
+  import { mixins } from "vue-class-component"
   import { namespace } from "vuex-class"
+  import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
 
   const cacheStore = namespace("cacheStoreModule")
 
@@ -42,7 +44,9 @@
       )
     }
   })
-  export default class ButtonCartProduct extends Vue {
+  export default class ButtonCartProduct extends mixins(
+    MixinHelperServiceProduct,
+  ) {
     @cacheStore.Getter("CacheOrderCart") getCacheOrderCart
     @cacheStore.Getter("CacheDrawerCartProduct") getDrawerCartProduct
     @cacheStore.Action("ActionCacheDrawerCartProduct") setDrawerCartProduct

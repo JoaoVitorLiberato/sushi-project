@@ -3,14 +3,6 @@
     class="mx-auto my-12"
     width="280"
   >
-    <template v-slot:progress>
-      <v-progress-linear
-        color="deep-purple"
-        height="5"
-        indeterminate
-      />
-    </template>
-
     <v-img
       height="200"
       :src="image"

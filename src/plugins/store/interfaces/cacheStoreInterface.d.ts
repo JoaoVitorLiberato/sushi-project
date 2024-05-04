@@ -7,7 +7,8 @@ interface cacheStoreInterface {
   overdrawerMenu: boolean;
   drawerCartProduct: boolean;
   cepValidation: string,
-  ordersCart: IproductData[]
+  ordersCart: IproductData[],
+  priceTotal: number,
 }
 
 export {

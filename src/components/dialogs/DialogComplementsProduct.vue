@@ -309,6 +309,7 @@
           <v-btn
             block
             depressed
+            large
             color="secondary"
             @click="closeCostumerOrder"
           >
@@ -476,7 +477,8 @@
           ...JSON.parse(CACHE_PRODUCT_TEMP),
           price: {
             ...JSON.parse(CACHE_PRODUCT_TEMP).price,
-            total: (JSON.parse(CACHE_PRODUCT_TEMP).price.default * JSON.parse(CACHE_PRODUCT_TEMP).price.qtd_product) + Number(this.totalComplementsCalculed),
+            total: (Number(JSON.parse(CACHE_PRODUCT_TEMP).price.default) * Number(JSON.parse(CACHE_PRODUCT_TEMP).price.qtd_product)) + Number(this.totalComplementsCalculed),
+            total_price_complements: Number(this.totalComplementsCalculed),
             complements: [
               ...this.complements
             ]

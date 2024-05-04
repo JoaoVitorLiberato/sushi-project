@@ -75,6 +75,8 @@
                 :name="item.name"
                 :qtd_product="item.price.qtd_product"
                 :price_total="item.price.total"
+                :complements="item.price.complements"
+                @deleteProduct="removeProductCart(item.id)"
               />
             </v-col>
           </v-row>
@@ -119,7 +121,7 @@
           <span
             v-font-size="26"
             class="font-weight-medium"
-            v-text="formatedPrice(1000)"
+            v-text="formatedPrice(priceTotalOrder)"
           />
         </v-col>
 
@@ -130,6 +132,7 @@
             <v-btn
               block
               color="secondary"
+              @click="prepareAddToCart"
             >
               <span
                 v-font-size="14"
@@ -176,6 +179,11 @@
 
     set drawerCartProduct (value: boolean) {
       this.setDrawerCartProduct(value)
+    }
+
+    prepareAddToCart (): void {
+      if (!this.getCacheOrderCart() || this.getCacheOrderCart().length <= 0) return
+      this.$router.replace({ name: "pedido", query: { location: /delivery/i.test(String(this.$route.params.type || "")) ? "delivery" : "parkfood" } })
     }
   }
 </script>
