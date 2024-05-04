@@ -4,10 +4,10 @@
   >
     <v-col
       cols="12"
+      class="hidden-xs-only"
     >
       <v-slide-group
         show-arrows
-        mobile
         prev-icon="arrow_back"
         next-icon="arrow_forward"
         :class="`d-flex fix--v-slide-group flex-wrap`"
@@ -16,7 +16,7 @@
       >
         <v-slide-item
           v-for="(item, index) in filterDataProduct(category)"
-          :key="`card-dishes-selected-${index}`"
+          :key="`slide-card-dishes-selected-${index}`"
           class="mr-5"
         >
           <div>
@@ -30,6 +30,30 @@
           </div>
         </v-slide-item>
       </v-slide-group>
+    </v-col>
+    <v-col
+      cols="12"
+      class="hidden-sm-and-up"
+      style="width: 100%;max-width: 375px;margin:0 auto"
+    >
+      <v-carousel
+        hide-delimiters
+        class="fix-caroucel-cards"
+        bottom
+      >
+        <v-carousel-item
+          v-for="(item, index) in filterDataProduct(category)"
+          :key="`caroucel-card-dishes-selected-${index}`"
+        >
+          <card-product-component
+            :image="item.url_image"
+            :title="item.name"
+            :description="item.description"
+            :breaded="item.price.breaded"
+            :product="item"
+          />
+        </v-carousel-item>
+    </v-carousel>
     </v-col>
   </v-row>
 </template>

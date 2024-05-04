@@ -8,63 +8,63 @@
 
       <v-row
         v-width.max="'1100px'"
-        no-gutters        
+        no-gutters
         class="mx-auto"
       >
         <v-col
           cols="12"
         >
-          <router-view 
+          <router-view
             name="viewProductEntrada"
           />
         </v-col>
 
-
-        <v-col 
+        <v-col
           cols="12"
-          class="py-8"
+          class="py-1 py-sm-6"
         />
 
         <v-col
           cols="12"
         >
-          <router-view 
+          <router-view
             name="viewProductPecas"
           />
         </v-col>
 
-        <v-col 
+        <v-col
           cols="12"
-          class="py-8"
+          class="py-1 py-sm-6"
         />
 
         <v-col
           cols="12"
         >
-          <router-view 
+          <router-view
             name="viewProductTemaki"
           />
         </v-col>
 
-        <v-col 
+        <v-col
           cols="12"
-          class="py-8"
+          class="py-1 py-sm-6"
         />
 
         <v-col
           cols="12"
         >
-          <router-view 
+          <router-view
             name="viewProductHot"
           />
         </v-col>
       </v-row>
 
 
-      <!-- <footer-component /> -->
+    <!-- <footer-component /> -->
     </v-container>
 
     <button-cart-product />
+    <dialog-complements-product />
 
     <dialog-slot-funcionalidades-component>
       <template
@@ -98,13 +98,18 @@
       dialogSlotFuncionalidadesComponent: () => import(
         /* webpackChunkName: "dialog-slot-funcionalidades-component" */
         /* webpackMode: "eager" */
-        "@/components/dialogs/dialogSlotFuncionaliades.vue"
+        "@/components/dialogs/DialogSlotFuncionaliades.vue"
       ),
       ButtonCartProduct: () => import(
         /* webpackChunkName: "button-cart-porduct-component" */
         /* webpackMode: "eager" */
         "@/components/buttons/ButtonCartProduct.vue"
       ),
+      DialogComplementsProduct: () => import(
+        /* webpackChuckName: "dialog-complements-product-component" */
+        /* webpackMode: "eager" */
+        "@/components/dialogs/DialogComplementsProduct.vue"
+      )
     }
   })
   export default class RouteProductView extends Vue {
@@ -134,9 +139,9 @@
     }
 
     @dialogStore.Getter("DialogCepDelivery") getDialogCepDelivery
-    @dialogStore.Action("ActionCepDelivery") setDialogCepDelivery
+    @dialogStore.Action("ActionDialogCepDelivery") setDialogCepDelivery
     @dialogStore.Getter("DialogOrdersClient") getDialogOrdersClient
-    @dialogStore.Action("ActionOrdersClient") setDialogOrdersClient
+    @dialogStore.Action("ActionDialogOrdersClient") setDialogOrdersClient
 
     ordersCostumer = sessionStorage.getItem("order")
   }

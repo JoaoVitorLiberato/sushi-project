@@ -7,7 +7,8 @@ export interface IproductData {
   price: {
     default: number,
     qtd_product?: number,
-    total?: number, 
+    total?: number,
+    total_price_complements?: number
     discount: {
       active: boolean,
       value: number
@@ -16,7 +17,8 @@ export interface IproductData {
       input: string,
       active: boolean,
       additional: number
-    }
+    },
+    complements?: IComplements[]
   },
   complements: {
     default: boolean,
@@ -25,4 +27,22 @@ export interface IproductData {
   note_client: number,
   apper_start: boolean,
   hero_product: boolean
+}
+
+interface IComplements {
+  description: string,
+  id: string
+  name: string,
+  price: number
+  priceTotal: number,
+  qtd:number
+}
+
+interface dataComplement {
+  description: string,
+  id: number,
+  name: string,
+  price: number,
+  priceTotal: number,
+  qtd: number,
 }

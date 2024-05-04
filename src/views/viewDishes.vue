@@ -91,7 +91,7 @@
         @click="dialogServiceClient = !dialogServiceClient"
       >
         <span
-          v-text="'Eu quero essas gostosuras'"
+          v-text="'Conhecer nossos produtos'"
         />
       </v-btn>
     </v-col>
@@ -118,7 +118,7 @@
 
   export default class viewDishes extends Vue {
     @dialogStore.Getter("DialogServiceClient") getDialogServiceClient
-    @dialogStore.Action("ActionServiceClient") setDialogSeviceClient
+    @dialogStore.Action("ActionDialogServiceClient") setDialogSeviceClient
 
     get dialogServiceClient (): boolean {
       return this.getDialogServiceClient()

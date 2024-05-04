@@ -11,7 +11,7 @@ const dialogStore = namespace("dialogStoreModule")
 
 export default class MixinFormConfig extends Vue {
   @cacheStore.Getter("CacheCepValidation") getCacheCepValidation
-  @dialogStore.Action("ActionCepDelivery") setDialogCepDelivery
+  @dialogStore.Action("ActionDialogCepDelivery") setDialogCepDelivery
 
   statusAPICEP = {
     status: false,
@@ -34,7 +34,6 @@ export default class MixinFormConfig extends Vue {
       return new Promise((resolve) => {
         middlewareSearchCEP(this.getCacheCepValidation())
           .then(responseMiddleware => {
-            console.log(responseMiddleware)
             if (/error_api/i.test(String(responseMiddleware.erro || ""))) {
               sessionStorage.setItem("viacep", JSON.stringify(responseMiddleware))
               this.statusAPICEP.status = false

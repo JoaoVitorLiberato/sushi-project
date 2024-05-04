@@ -31,8 +31,8 @@
       <v-autocomplete
         :items="allTables"
         v-model="tableSelected"
-        label="Mesa"
         color="#fff"
+        class="text-uppercase"
       />
     </v-col>
   </v-row>
@@ -40,6 +40,7 @@
 
 <script lang="ts">
   import { Component, Vue, Watch, ModelSync, Prop } from "vue-property-decorator"
+  import FOOD_PARK_TABLES from "@/data/foodParkTables/foodParkTable.json"
 
   @Component({})
   export default class InputTableSelected extends Vue {
@@ -47,14 +48,8 @@
     @ModelSync("tableSelecetModel", "TableSelectedModelEmit", { type: String })
       valueTableSelected?: string
 
-    get allTables (): Array<string> {
-      return [
-        "01",
-        "02",
-        "03",
-        "04",
-        "05"
-      ]
+    get allTables (): typeof FOOD_PARK_TABLES {
+      return FOOD_PARK_TABLES
     }
 
     tableSelected = ""

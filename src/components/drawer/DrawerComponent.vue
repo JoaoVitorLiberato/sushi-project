@@ -10,7 +10,7 @@
       <v-list-item-content
         class="d-flex align-center"
       >
-        <v-img 
+        <v-img
           src="/img/project/logo.png"
           alt="Logo do Yumi Sushi"
           width="20"
@@ -131,7 +131,7 @@
   ) {
     @cacheStore.Getter("getCacheOverdrawerMenu") getOverdrawerMenu
     @cacheStore.Action("ActionCacheOverdrawerMenu") setOverdrawerMenu
-    @dialogStore.Action("ActionTableSelected") setDialogTableSelected
+    @dialogStore.Action("ActionDialogTableSelected") setDialogTableSelected
 
     get overdrawerMenu (): boolean {
       return this.getOverdrawerMenu()
