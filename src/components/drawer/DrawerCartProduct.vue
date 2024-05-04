@@ -183,7 +183,7 @@
 
     prepareAddToCart (): void {
       if (!this.getCacheOrderCart() || this.getCacheOrderCart().length <= 0) return
-      this.$router.replace({ name: "pedido", query: { location: /delivery/i.test(String(this.$route.params.type || "")) ? "delivery" : "parkfood" } })
+      this.$router.replace({ name: "form-view", query: { location: /delivery/i.test(String(this.$route.params.type || "")) ? "delivery" : "parkfood" } })
     }
   }
 </script>
