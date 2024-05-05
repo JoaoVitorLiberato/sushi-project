@@ -21,27 +21,27 @@ module.exports = {
 
   pages: {
     index: {
-      title: "app",
-      description: "default app",
+      title: "Bangalô Sushi Lounge",
+      description: "O melhor sushi de Santa Luzia de Paruá.",
       subject: "typescript, vue.js, vuex, vuetify, vue-router",
-      color: "#6600cc",
-      entry: "./src/main"
+      color: "#000",
+      entry: "./src/main",
     }
   },
 
   pwa: {
-    name: "app",
-    themeColor: "#6600cc",
-    msTileColor: "#6600cc",
+    name: "Bangalô Sushi Lounge",
+    themeColor: "#000",
+    msTileColor: "#000",
     appleMobileWebAppCapable: "yes",
     appleMobileWebAppTitle: "app",
     appleMobileWebAppStatusBarStyle: "black",
     assetsVersion: process.env.npm_package_version,
     manifestOptions: {
       id: process.env.npm_package_version,
-      short_name: "app",
-      description: "default app",
-      background_color: "#f5f5f5",
+      short_name: "Bangalô Sushi Lounge",
+      description: "O melhor sushi de Santa Luzia de Paruá.p",
+      background_color: "#000",
       orientation: "portrait",
       start_url: "/",
       protocol_handlers: [

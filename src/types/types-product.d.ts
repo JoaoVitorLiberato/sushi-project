@@ -15,30 +15,14 @@ export interface IproductData {
     },
   },
   complements?: IComplements[],
-  differences: {
-    especial: {
-      input: string,
-      active: boolean,
-      additional: number
-    },
-    breaded: {
-      input: string,
-      active: boolean,
-      additional: number
-    },
-    flambed: {
-      input: string,
-      active: boolean,
-      additional: number
-    }
-  },
+  differences: IDifferences,
   note_client: number,
   apper_start: boolean,
   hero_product: boolean
 }
 
 
-interface IComplements {
+export interface IComplements {
   description: string,
   id: string
   name: string,
@@ -47,11 +31,20 @@ interface IComplements {
   qtd:number
 }
 
-interface dataComplement {
-  description: string,
-  id: number,
-  name: string,
-  price: number,
-  priceTotal: number,
-  qtd: number,
+export interface IDifferences {
+  especial: {
+    input: string,
+    active: boolean,
+    additional: number
+  },
+  breaded: {
+    input: string,
+    active: boolean,
+    additional: number
+  },
+  flambed: {
+    input: string,
+    active: boolean,
+    additional: number
+  }
 }

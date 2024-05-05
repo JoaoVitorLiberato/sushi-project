@@ -142,7 +142,7 @@
                       <span
                         v-font-size="$vuetify.breakpoint.smAndDown ? 14 : 16"
                         class="font-weight-medium"
-                        v-text="formatedPrice((Number(cacheTemporario().price.default) * Number(cacheTemporario().price.qtd_product)) + Number(totalComplementsCalculed))"
+                        v-text="formatedPrice((Number(cacheTemporario().price.total) * Number(cacheTemporario().price.qtd_product)) + Number(totalComplementsCalculed))"
                       />
                     </v-col>
 
@@ -284,7 +284,7 @@
   import { formatedPrice } from "@/helpers/formatedPrice"
   import DATA_COMPLEMENTS_ADDITIONAL from "@/data/complements/complementAdditional.json"
   import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
-  import { dataComplement, IproductData } from "@/types/types-product"
+  import { IComplements, IproductData } from "@/types/types-product"
 
   const dialogStore = namespace("dialogStoreModule")
 
@@ -306,7 +306,7 @@
 
     formatedPrice = formatedPrice
 
-    objetoComplete = {} as dataComplement
+    objetoComplete = {} as IComplements
     totalComplementsCalculed = 0
 
     get dialogComplements (): boolean {
@@ -323,12 +323,12 @@
 
     @Watch("dialogComplements")
       clearComplements (): void {
-        this.objetoComplete = {} as dataComplement
+        this.objetoComplete = {} as IComplements
         this.complements = []
         this.complements.shift()
       }
 
-    complements = [] as dataComplement[]
+    complements = [] as IComplements[]
     @Watch("objetoComplete")
       saveDataComplement (): void {
         const REMOVE_REDUNDANCE = this.complements.filter(item => {
@@ -418,7 +418,7 @@
           ...JSON.parse(CACHE_PRODUCT_TEMP),
           price: {
             ...JSON.parse(CACHE_PRODUCT_TEMP).price,
-            total: (Number(JSON.parse(CACHE_PRODUCT_TEMP).price.default) * Number(JSON.parse(CACHE_PRODUCT_TEMP).price.qtd_product)) + Number(this.totalComplementsCalculed),
+            total: (Number(JSON.parse(CACHE_PRODUCT_TEMP).price.total) * Number(JSON.parse(CACHE_PRODUCT_TEMP).price.qtd_product)) + Number(this.totalComplementsCalculed),
             total_price_complements: Number(this.totalComplementsCalculed),
           },
           complements: [

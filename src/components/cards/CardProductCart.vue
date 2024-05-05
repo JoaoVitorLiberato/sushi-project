@@ -11,6 +11,7 @@
     >
       <v-col
         cols="12"
+        class="d-flex align-center justify-space-between"
       >
         <span
           v-font-size="$vuetify.breakpoint.smAndDown ? 13 : 16"
@@ -18,28 +19,17 @@
           style="color:var(--v-primary-text)"
           v-text="name"
         />
-        <span
-          v-font-size="12"
-          class="font-weight-thin"
-          style="color:var(--v-primary-text)"
-          v-text="`(${qtd_product}x)`"
-        />
-      </v-col>
-
-      <v-col
-        cols="12"
-        class="py-1"
-      />
-
-      <v-col
-        cols="12"
-      >
-        <span
-          v-font-size="$vuetify.breakpoint.smAndDown ? 12 : 14"
-          class="font-weight-medium pr-2 text-uppercase"
-          style="color:var(--v-primary-text)"
-          v-text="'difrenceiasi'"
-        />
+        <div
+          class="secondary px-2"
+          style="border-radius: 10px;"
+        >
+          <span
+            v-font-size="12"
+            class="font-weight-bold text-uppercase"
+            style="color:var(--v-primary-base)"
+            v-text="typeDifferenceProduct()"
+          />
+        </div>
       </v-col>
 
       <v-col
@@ -213,7 +203,7 @@
   import { Component, Prop, Emit } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
   import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
-  import { IComplements } from "@/types/types-product"
+  import { IComplements, IDifferences } from "@/types/types-product"
 
   @Component({})
   export default class CardProductCart extends mixins(
@@ -225,7 +215,42 @@
     @Prop({ default: "" }) qtd_product?:number|string
     @Prop({ default: "" }) price_total?:number|string
     @Prop({ default: [] }) complements?: IComplements[]
+    @Prop({ default: {} }) differences?: IDifferences
 
     open = false
+
+    typeDifferenceProduct (): string {
+      let typeText = [] as string[]
+      let returnText = ""
+
+      if (this.differences) {
+        Object.keys(this.differences).forEach(type => {
+          if (!this.differences) return typeText.push("Natural")
+
+          switch (true) {
+            case /especial/i.test(type as string) && this.differences[type].active:
+              return typeText.push("Especial")
+            case /breaded/i.test(type as string) && this.differences[type].active:
+              return typeText.push("Empanado")
+            case /flambed/i.test(type as string) && this.differences[type].active:
+              return typeText.push("Flambado")
+            default:
+              return typeText.push("Natural")
+          }
+        })
+      }
+
+      if ((String(typeText[0]).toLowerCase().includes(("Especial").toLowerCase()))) {
+        returnText = "Especial"
+      } else if ((String(typeText[1]).toLowerCase().includes(("Empanado").toLowerCase())))  {
+        returnText = "Empanado"
+      } else if ((String(typeText[2]).toLowerCase().includes(("Flambado").toLowerCase()))) {
+        returnText = "Flambado"
+      } else {
+        returnText = "Natural"
+      }
+
+      return returnText
+    }
   }
 </script>

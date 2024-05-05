@@ -76,6 +76,7 @@
                 :qtd_product="item.price.qtd_product"
                 :price_total="item.price.total"
                 :complements="item.complements"
+                :differences="item.differences"
                 @deleteProduct="removeProductCart(item.id)"
               />
             </v-col>
