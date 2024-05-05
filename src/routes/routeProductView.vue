@@ -137,15 +137,13 @@
       next: (arg0: (vm) => void) => void,
     ) {
       next((vm) => {
-        if (to.params.type) {
-          if (/delivery/i.test(String(to.params.type))) {
-            sessionStorage.removeItem("order")
-            vm.setDialogCepDelivery(!vm.getDialogCepDelivery())
-          }
-          if (!/delivery/i.test(String(to.params.type))) {
-            if (vm.ordersCostumer && JSON.parse(vm.ordersCostumer).length > 0) {
-              vm.setDialogOrdersClient(!vm.getDialogOrdersClient())
-            }
+        if (/delivery/i.test(String(to.params.type))) {
+          sessionStorage.removeItem("order")
+          vm.setDialogCepDelivery(!vm.getDialogCepDelivery())
+        }
+        if (/foodpark/i.test(String(to.params.type))) {
+          if (vm.ordersCostumer && JSON.parse(vm.ordersCostumer).length > 0) {
+            vm.setDialogOrdersClient(!vm.getDialogOrdersClient())
           }
         }
       })

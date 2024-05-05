@@ -25,7 +25,7 @@ module.exports = {
       description: "O melhor sushi de Santa Luzia de Paruá.",
       subject: "typescript, vue.js, vuex, vuetify, vue-router",
       color: "#000",
-      entry: "./src/main"
+      entry: "./src/main",
     }
   },
 
@@ -39,9 +39,9 @@ module.exports = {
     assetsVersion: process.env.npm_package_version,
     manifestOptions: {
       id: process.env.npm_package_version,
-      short_name: "app",
-      description: "default app",
-      background_color: "#f5f5f5",
+      short_name: "Bangalô Sushi Lounge",
+      description: "O melhor sushi de Santa Luzia de Paruá.p",
+      background_color: "#000",
       orientation: "portrait",
       start_url: "/",
       protocol_handlers: [

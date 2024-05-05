@@ -296,11 +296,22 @@
 
     openDialogComplement (product: IproductData, id:number|string): void {
       const CACHE_PRODUCT_CART = new Set()
+      let sumInnitial = 0
+
+      Object.keys(product.differences).forEach(item => {
+        if (/actived/i.test(String(product.differences[item].input || "")) && product.differences[item].active) {
+          return sumInnitial = Number(sumInnitial) + (Number(product.price.default) + Number(product.differences[item].additional))
+        } else {
+          return sumInnitial = Number(product.price.default)
+        }
+      })
+
       CACHE_PRODUCT_CART.add({
         ...product,
         price: {
           ...product.price,
           qtd_product: this.count,
+          total: sumInnitial
         }
       })
 

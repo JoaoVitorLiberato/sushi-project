@@ -119,7 +119,7 @@
 <script lang="ts">
   import { Component, Vue, Prop, ModelSync, Watch } from "vue-property-decorator"
   import { formatedPrice } from "@/helpers/formatedPrice"
-  import { dataComplement } from "@/types/types-product"
+  import { IComplements } from "@/types/types-product"
   import { namespace } from "vuex-class"
 
   const dialogStore = namespace("dialogStoreModule")
@@ -131,7 +131,7 @@
     @Prop({ default: "" }) description?: string
     @Prop({ default: 0 }) price?: number
     @ModelSync("dataComplement", "dataComplementEmit")
-      objComplement?: dataComplement
+      objComplement?: IComplements
 
     @dialogStore.Action("ActionDialogComplements") setDialogComplements
     @dialogStore.Getter("DialogComplements") getDialogComplements
@@ -152,7 +152,7 @@
     @Watch("dialogComplements")
       clearCacheData (): void {
         this.count = 0
-        this.objComplement = {} as dataComplement
+        this.objComplement = {} as IComplements
       }
 
     calculingPriceWithComplements (price?:number): void {
@@ -160,7 +160,7 @@
       else this.priceCalculed = Number(price) * Number(this.count)
     }
 
-    AddToResumeComplements (data: dataComplement): void {
+    AddToResumeComplements (data: IComplements): void {
       const DATA_COMPLEMENT = new Set()
 
       DATA_COMPLEMENT.add({
