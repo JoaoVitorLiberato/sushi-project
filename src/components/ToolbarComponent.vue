@@ -16,7 +16,7 @@
         >
           <v-img
             src="/img/project/logo.png"
-            alt="Logo do Yumi Sushi"
+            alt="Logo do Bangalô Sushi Lounge"
             width="40"
             height="40"
             @click="redirectHome"

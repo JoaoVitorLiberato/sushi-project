@@ -1,97 +1,6 @@
 <template>
   <div>
     <slot
-      name="tableSelected"
-    >
-      <v-dialog
-        ref="componentDialogSlotTableSelected"
-        v-model="dialogTableSelectedModel"
-        hide-overlay
-        :max-width="400"
-      >
-        <v-card
-          color="primary"
-          class="mx-auto px-3 py-4"
-          dark
-        >
-          <v-row
-            no-gutters
-          >
-            <v-col
-              cols="12"
-            >
-              <v-row
-                no-gutters
-                align="center"
-              >
-                <v-col
-                  cols="8"
-                  md="11"
-                />
-
-                <v-col
-                  cols="4"
-                  md="1"
-                  class="text-end"
-                >
-                  <v-btn
-                    fab
-                    dark
-                    depressed
-                    width="30"
-                    height="30"
-                    @click="dialogTableSelectedModel = !dialogTableSelectedModel"
-                  >
-                    <v-icon>
-                      close
-                    </v-icon>
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </v-col>
-
-            <v-col
-              cols="12"
-              class="py-2"
-            />
-
-            <v-col
-              cols="12"
-            >
-              <input-table-selected
-                title="Por favor, Selecione a mesa:"
-                @TableSelectedModelEmit="v=>tableSelected=v"
-              />
-            </v-col>
-
-            <v-col
-              cols="12"
-              class="py-2"
-            />
-
-            <v-col
-              cols="12"
-            >
-              <v-btn
-                block
-                large
-                color="secondary"
-                :disabled="tableSelected === ''"
-                @click="redirectOrderView"
-              >
-                <span
-                  class="font-weight-bold"
-                >
-                  Fazer pedido para mesa
-                </span>
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-card>
-      </v-dialog>
-    </slot>
-
-    <slot
       name="serviceClient"
     >
       <v-dialog
@@ -158,25 +67,6 @@
                             </template>
                           </v-radio>
                         </v-col>
-
-                        <v-col
-                          v-if="String(serviceSelelected) === String(servico)"
-                          cols="12"
-                        >
-                          <v-row
-                            no-gutters
-                          >
-                            <v-col
-                              v-if="String(serviceSelelected).includes('foodpark')"
-                              cols="12"
-                              class="pt-1"
-                            >
-                              <input-table-selected
-                                @TableSelectedModelEmit="v=>tableSelected=v"
-                              />
-                            </v-col>
-                          </v-row>
-                        </v-col>
                       </v-row>
                     </v-col>
                   </v-row>
@@ -195,7 +85,7 @@
                   block
                   large
                   color="secondary"
-                  :disabled="tableSelected === '' && !/delivery/i.test(String(serviceSelelected))"
+                  :disabled="serviceSelelected === ''"
                   @click="redirectOrderView"
                 >
                   <span
@@ -405,21 +295,13 @@
   const dialogStore = namespace("dialogStoreModule")
   const cacheStore = namespace("cacheStoreModule")
 
-  @Component({
-    components: {
-      InputTableSelected: () => import(
-        /* webpackChunkName: "input-table-selected-component" */
-        /* webpackMode: "eager" */
-        "@/components/content/input/InputTableSelected.vue"
-      )
-    }
-  })
+  @Component({})
   export default class DialogSlotFuncionalidades extends mixins(
     MixinRedirectLinks,
     MixinFormConfig,
   ) implements $refs {
-    @dialogStore.Getter("DialogTableSelected") getDialogTableSelected
-    @dialogStore.Action("ActionDialogTableSelected") setDialogTableSelected
+    @dialogStore.Getter("DialogCommentsCostumers") getDialogCommentsCostumers
+    @dialogStore.Action("ActionDialogCommentsCostumers") setDialogCommentsCostumers
     @dialogStore.Getter("DialogServiceClient") getDialogServiceClient
     @dialogStore.Action("ActionDialogServiceClient") setDialogSeviceClient
     @dialogStore.Getter("DialogCepDelivery") getDialogCepDelivery
@@ -445,14 +327,6 @@
       mask: "#####-###",
       valid: "",
       value: ""
-    }
-
-    get dialogTableSelectedModel (): boolean {
-      return this.getDialogTableSelected()
-    }
-
-    set dialogTableSelectedModel (value: boolean) {
-      this.setDialogTableSelected(value)
     }
 
     get dialogServiceClientModel (): boolean {
@@ -518,7 +392,7 @@
       if (/delivery/i.test(String(this.serviceSelelected))) {
         this.redirectToRouteDelevery()
       } else {
-        location.replace(`/product/mesa${String(this.tableSelected).replace(/\D/g, "")}/vamoscomecar`)
+        this.toGoRouteFoodPark()
       }
     }
 

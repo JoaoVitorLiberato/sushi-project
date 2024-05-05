@@ -4,20 +4,17 @@ import { dialogStoreInterface } from "@/plugins/store/interfaces/dialogStoreInte
 
 const moduleCache = (): dialogStoreInterface => {
   return {
-    DialogTableSelected: false,
     dialogServiceClient: false,
     dialogCepDelivery: false,
     dialogOrdersClient: false,
     dialogComplements: false,
+    dialogCommentsCostumers: false,
   }
 }
 
 const state: dialogStoreInterface = moduleCache()
 
 const getters: GetterTree<dialogStoreInterface, rootStateInterface> = {
-  DialogTableSelected: ({ DialogTableSelected }) => () => {
-    return DialogTableSelected
-  },
   DialogServiceClient: ({ dialogServiceClient }) => () => {
     return dialogServiceClient
   },
@@ -30,12 +27,12 @@ const getters: GetterTree<dialogStoreInterface, rootStateInterface> = {
   DialogComplements: ({ dialogComplements }) => () => {
     return dialogComplements
   },
+  DialogCommentsCostumers: ({ dialogCommentsCostumers }) => () => {
+    return dialogCommentsCostumers
+  },
 }
 
 const actions: ActionTree<dialogStoreInterface, rootStateInterface> = {
-  ActionDialogTableSelected ({ commit }, data) {
-    commit("MutationTableSelected", data)
-  },
   ActionDialogServiceClient ({ commit }, data) {
     commit("MutationServiceClient", data)
   },
@@ -47,13 +44,13 @@ const actions: ActionTree<dialogStoreInterface, rootStateInterface> = {
   },
   ActionDialogComplements ({ commit }, data) {
     commit("MutationComplements", data)
+  },
+  ActionDialogCommentsCostumers ({ commit }, data) {
+    commit("MutationCommentsCostumers", data)
   }
 }
 
 const mutations: MutationTree<dialogStoreInterface> = {
-  MutationTableSelected (state, data) {
-    state.DialogTableSelected = data
-  },
   MutationServiceClient (state, data) {
     state.dialogServiceClient = data
   },
@@ -65,6 +62,9 @@ const mutations: MutationTree<dialogStoreInterface> = {
   },
   MutationComplements (state, data) {
     state.dialogComplements = data
+  },
+  MutationCommentsCostumers (state, data) {
+    state.dialogCommentsCostumers = data
   }
 }
 

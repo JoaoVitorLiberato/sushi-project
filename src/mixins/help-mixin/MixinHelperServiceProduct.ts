@@ -17,15 +17,7 @@ export default class MixinHelperServiceProduct extends Vue {
 
   count = 1
   COUNT_PRICE = 0
-  price = ""
-
-  get priceFormated (): string|number|string[] {
-    return this.price
-  }
-
-  set priceFormated (value: string|number|string[]) {
-    this.price = String(value || "")
-  }
+  priceFormated = 0
 
   get priceTotalOrder (): number {
     return this.getCachePriceTotal()
@@ -44,19 +36,23 @@ export default class MixinHelperServiceProduct extends Vue {
     this.count = this.count + 1
   }
 
-  formatedPriceWithBreadedAndQuantity (productData: IproductData): string|number|string[] {
-    let value =  productData.price.default
+  formatedPriceWithBreadedAndQuantity (productData?: IproductData): string|number|string[] {
+    if (productData) {
+      let value = productData.price.default
+      Object.keys(productData.differences).forEach(item => {
+        if (/actived/i.test(String(productData.differences[item].input || "")) && productData.differences[item].active) {
+          value = value + productData.differences[item].additional
+        }
+      })
 
-    if (/actived/i.test(String(productData.price.breaded.input || "")) && productData.price.breaded.active) {
-      value = value + productData.price.breaded.additional
+      if (this.count > 1) {
+        value = value * this.count
+        return this.priceFormated = value
+      }
+      this.priceFormated = value
     }
 
-    if (this.count > 1) {
-      value = value * this.count
-      return this.priceFormated = value
-    }
-
-    return this.priceFormated = value
+    return this.priceFormated
   }
 
   removeProductCart (id?: number|string): void {

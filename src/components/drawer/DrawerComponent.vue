@@ -12,7 +12,7 @@
       >
         <v-img
           src="/img/project/logo.png"
-          alt="Logo do Yumi Sushi"
+          alt="Logo do Bangalô Sushi Lounge"
           width="20"
           height="20"
           contain
@@ -74,7 +74,7 @@
       <v-list-item
         v-if="!routeProductClient"
         link
-        @click="overdrawerMenu = false, setDialogTableSelected(true)"
+        @click="toGoRouteFoodPark"
       >
         <v-list-item-icon>
           <v-icon
@@ -123,7 +123,6 @@
   import { namespace } from "vuex-class"
 
   const cacheStore = namespace("cacheStoreModule")
-  const dialogStore = namespace("dialogStoreModule")
 
   @Component({})
   export default class DrawerComponent extends mixins(
@@ -131,7 +130,6 @@
   ) {
     @cacheStore.Getter("getCacheOverdrawerMenu") getOverdrawerMenu
     @cacheStore.Action("ActionCacheOverdrawerMenu") setOverdrawerMenu
-    @dialogStore.Action("ActionDialogTableSelected") setDialogTableSelected
 
     get overdrawerMenu (): boolean {
       return this.getOverdrawerMenu()

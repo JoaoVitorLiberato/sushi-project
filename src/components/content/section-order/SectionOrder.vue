@@ -23,8 +23,9 @@
             <card-product-component
               :image="item.url_image"
               :title="item.name"
+              :differences="item.differences"
+              :note_client="item.note_client"
               :description="item.description"
-              :breaded="item.price.breaded"
               :product="item"
             />
           </div>
@@ -48,8 +49,9 @@
           <card-product-component
             :image="item.url_image"
             :title="item.name"
+            :differences="item.differences"
+            :note_client="item.note_client"
             :description="item.description"
-            :breaded="item.price.breaded"
             :product="item"
           />
         </v-carousel-item>

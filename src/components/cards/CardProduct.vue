@@ -1,7 +1,7 @@
 <template>
   <v-card
     class="mx-auto my-12"
-    width="280"
+    width="300"
   >
     <v-img
       height="200"
@@ -16,11 +16,11 @@
         cols="12"
       >
         <v-card-title
-          v-font-size="15"
+          v-font-size="14"
           class="pa-0"
         >
           <span
-            class="font-weight-medium"
+            class="font-weight-medium text-uppercase"
             v-text="title"
           />
         </v-card-title>
@@ -101,12 +101,13 @@
           />
 
           <v-col
+            v-if="differences"
             cols="12"
             class="px-0"
           >
             <v-checkbox
-              v-if="/actived/i.test(String(breaded?.input || ''))"
-              v-model="breaded.active"
+              v-if="/actived/i.test(String(differences?.breaded?.input || ''))"
+              v-model="differences.breaded.active"
               color="success"
               dense
               @change="formatedPriceWithBreadedAndQuantity(product)"
@@ -114,34 +115,61 @@
               <template v-slot:label>
                 <span
                   v-font-size="14"
-                  class="font-weight-regular gray--text"
+                  class="font-weight-regular gray--text text-uppercase"
                 >
                   Desejo empanar o produto
                 </span>
               </template>
             </v-checkbox>
+            <v-checkbox
+              v-else-if="/actived/i.test(String(differences?.especial.input || ''))"
+              v-model="differences.especial.active"
+              color="success"
+              dense
+              @change="formatedPriceWithBreadedAndQuantity(product)"
+            >
+              <template v-slot:label>
+                <span
+                  v-font-size="14"
+                  class="font-weight-regular gray--text text-uppercase"
+                >
+                  Desejo o produto especial
+                </span>
+              </template>
+            </v-checkbox>
+            <v-checkbox
+              v-else-if="/actived/i.test(String(differences?.flambed.input || ''))"
+              v-model="differences.flambed.active"
+              color="success"
+              dense
+              @change="formatedPriceWithBreadedAndQuantity(product)"
+            >
+              <template v-slot:label>
+                <span
+                  v-font-size="14"
+                  class="font-weight-regular gray--text text-uppercase"
+                >
+                  Desejo flambar o produto
+                </span>
+              </template>
+            </v-checkbox>
             <div
               v-else
+              class="pb-4 pt-2"
             >
               <v-icon
-                color="error"
+                color="success"
               >
-                remove
+                check
               </v-icon>
               <span
                 v-font-size="14"
-                class="font-weight-regular gray--text"
+                class="font-weight-regular gray--tex text-uppercase"
               >
-                Produto não empanado
+                Produto natural
               </span>
             </div>
           </v-col>
-
-          <v-col
-            v-if="!/actived/i.test(String(breaded?.input || ''))"
-            cols="12"
-            class="py-1"
-          />
 
           <v-col
             cols="12"
@@ -263,7 +291,7 @@
     @Prop({ default: "" }) readonly title?:string
     @Prop({ default: "" }) readonly description?:string
     @Prop({ default: 0 }) readonly note_client?:string
-    @Prop({ default: false }) readonly breaded?:boolean
+    @Prop({ default: false }) readonly  differences?:boolean
     @Prop({ default: 0 }) readonly product?: IproductData
 
     openDialogComplement (product: IproductData, id:number|string): void {
@@ -278,7 +306,6 @@
 
       sessionStorage.setItem("productId", JSON.stringify(id))
       sessionStorage.setItem("cacheProductTemp", JSON.stringify(Object.assign({}, ...CACHE_PRODUCT_CART)))
-
       this.setDialogComplements(!this.getDialogComplements())
     }
   }

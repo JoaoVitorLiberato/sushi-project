@@ -1,6 +1,6 @@
 export default [
   {
-    path: "/product",
+    path: "/produto",
     component: (): Promise<typeof import("*.vue")> => import(
       /* webpackChunkName: "product-route" */
       /* webpackPrefetch: 0 */
@@ -30,6 +30,11 @@ export default [
             /* webpackChunkName: "hot-product-view" */
             /* webpackPrefetch: 1 */
             "@/views/product/viewProductHot.vue"
+          ),
+          viewProductEspecial: (): Promise<typeof import("*.vue")> => import(
+            /* webpackChunkName: "especial-product-view" */
+            /* webpackPrefetch: 1 */
+            "@/views/product/viewProductEspecial.vue"
           ),
         },
       },
