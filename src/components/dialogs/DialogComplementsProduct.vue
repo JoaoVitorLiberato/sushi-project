@@ -28,111 +28,56 @@
 
         <v-col
           :cols="$vuetify.breakpoint.smAndDown ? 12 : 8"
+          style="width:100%;max-width:980px"
+          class="mx-auto"
         >
           <v-row
             no-gutters
-            style="width:100%;max-width:980px"
-            class="pa-4 mx-auto"
+            class="ma-2"
           >
             <v-col
-              v-if="showSectionComplements()"
-              :cols="$vuetify.breakpoint.smAndDown ? 12 : 6"
+              cols="12"
             >
-              <v-row
-                no-gutters
-                class="ma-2"
+              <h2
+                v-font-size="20"
+                class="font-weight-medium text-uppercase"
               >
-                <v-col
-                  cols="12"
-                >
-                  <h2
-                    v-font-size="20"
-                    class="font-weight-medium text-uppercase"
-                  >
-                    Especiais
-                  </h2>
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  class="py-2"
-                />
-
-                <v-col
-                  v-for="item in returnComplementEspecial"
-                  :key="`card-complemento-especial-${item.id}`"
-                  cols="12"
-                  class="pa-2 my-2 grey lighten-4"
-                  style="max-width: 375px;border-radius: 15px;"
-                >
-                  <card-complement
-                    :name="item.name"
-                    :description="item.description"
-                    :price="item.price"
-                    :dataComplement="item"
-                    @dataComplementEmit="v=>objetoComplete={...v}"
-                  />
-                </v-col>
-              </v-row>
+                Adicionais
+              </h2>
             </v-col>
+
+            <!-- <v-col
+              cols="12"
+              style="line-height: 1"
+            >
+              <span
+                v-font-size="14"
+                class="font-weight-regular warning--text"
+              >
+                <strong>Atenção:</strong> Você pode adicionar Dois complemento totalmente
+                gratuitos.
+              </span>
+            </v-col> -->
 
             <v-col
               cols="12"
-              class="py-6 hidden-md-and-up"
+              class="py-2"
             />
 
             <v-col
+              v-for="item in returnComplementAdditional"
+              :key="`card-complemento-adicional-${item.id}`"
               :cols="$vuetify.breakpoint.smAndDown ? 12 : 6"
+              class="pa-2 mx-sm-2 my-2 grey lighten-4"
+              :style="`max-width:${$vuetify.breakpoint.xsOnly ? '100%' : 350}px;border-radius: 15px;`"
             >
-              <v-row
-                no-gutters
-                class="ma-2"
-              >
-                <v-col
-                  cols="12"
-                >
-                  <h2
-                    v-font-size="20"
-                    class="font-weight-medium text-uppercase"
-                  >
-                    Adicionais
-                  </h2>
-                </v-col>
-    
-                <!-- <v-col
-                  cols="12"
-                  style="line-height: 1"
-                >
-                  <span
-                    v-font-size="14"
-                    class="font-weight-regular warning--text"
-                  >
-                    <strong>Atenção:</strong> Você pode adicionar Dois complemento totalmente
-                    gratuitos.
-                  </span>
-                </v-col> -->
-    
-                <v-col
-                  cols="12"
-                  class="py-2"
-                />
-    
-                <v-col
-                  v-for="item in returnComplementAdditional"
-                  :key="`card-complemento-adicional-${item.id}`"
-                  cols="12"
-                  class="pa-2 my-2 grey lighten-4"
-                  style="max-width: 375px;border-radius: 15px;"
-                >
-                  <card-complement
-                    :name="item.name"
-                    :description="item.description"
-                    :price="item.price"
-                    :dataComplement="item"
-                    @dataComplementEmit="v=>objetoComplete={...v}"
-                  />
-                </v-col>
-              </v-row>
+              <card-complement
+                :name="item.name"
+                :description="item.description"
+                :price="item.price"
+                :dataComplement="item"
+                @dataComplementEmit="v=>objetoComplete={...v}"
+              />
             </v-col>
           </v-row>
         </v-col>
@@ -189,28 +134,34 @@
                       cols="12"
                     >
                       <span
-                        v-font-size="$vuetify.breakpoint.smAndDown ? 13 : 16"
+                        v-font-size="$vuetify.breakpoint.smAndDown ? 14 : 16"
                         class="font-weight-bold mr-2 text-uppercase"
                       >
                         Total:
                       </span>
                       <span
+                        v-font-size="$vuetify.breakpoint.smAndDown ? 14 : 16"
                         class="font-weight-medium"
-                        v-text="formatedPrice(Number(cacheTemporario().price.default) * Number(cacheTemporario().price.qtd_product))"
+                        v-text="formatedPrice((Number(cacheTemporario().price.default) * Number(cacheTemporario().price.qtd_product)) + Number(totalComplementsCalculed))"
                       />
                     </v-col>
 
                     <v-col
                       cols="12"
+                      class="py-2"
+                    />
+
+                    <v-col
+                      v-if="complements.length > 0"
+                      cols="12"
                     >
                       <span
+                        v-font-size="13"
                         class="text-uppercase font-weight-bold"
                       >
                         Complementos:
                       </span>
-                      <div
-                        v-if="complements.length > 0"
-                      >
+                      <div>
                         <v-row
                           no-gutters
                           class="pa-2"
@@ -332,7 +283,6 @@
   import { namespace } from "vuex-class"
   import { formatedPrice } from "@/helpers/formatedPrice"
   import DATA_COMPLEMENTS_ADDITIONAL from "@/data/complements/complementAdditional.json"
-  import DATA_COMPLEMENTS_ESPECIAL from "@/data/complements/complementEspecial.json"
   import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
   import { dataComplement, IproductData } from "@/types/types-product"
 
@@ -367,10 +317,6 @@
       this.setDialogComplements(value)
     }
 
-    get returnComplementEspecial (): typeof DATA_COMPLEMENTS_ESPECIAL {
-      return DATA_COMPLEMENTS_ESPECIAL
-    }
-
     get returnComplementAdditional (): typeof DATA_COMPLEMENTS_ADDITIONAL {
       return DATA_COMPLEMENTS_ADDITIONAL
     }
@@ -403,6 +349,8 @@
           }
           
         }
+
+        this.handleValuesPrices()
       }
 
     cacheTemporario (): IproductData {
@@ -420,16 +368,7 @@
                 active: false,
                 value: 0
             },
-            breaded: {
-                input: "",
-                active: false,
-                additional: 0
-            },
             qtd_product: 0
-        },
-        complements: {
-            default: true,
-            especial: false
         },
         note_client: 0,
         apper_start: false,
@@ -440,6 +379,7 @@
     removeComplement (id: string): void {
       const COMPLEMENT_DELETED = this.complements.filter(item => String(item.id) !== String(id))
       this.complements = COMPLEMENT_DELETED
+      this.handleValuesPrices()
     }
 
     showSectionComplements (): boolean|void {
@@ -454,6 +394,7 @@
     }
 
     handleValuesPrices (): void {
+      this.totalComplementsCalculed = 0
       this.complements.forEach(item => {
         if (item.priceTotal) {
           this.totalComplementsCalculed = this.totalComplementsCalculed + Number(item.priceTotal)
@@ -479,10 +420,10 @@
             ...JSON.parse(CACHE_PRODUCT_TEMP).price,
             total: (Number(JSON.parse(CACHE_PRODUCT_TEMP).price.default) * Number(JSON.parse(CACHE_PRODUCT_TEMP).price.qtd_product)) + Number(this.totalComplementsCalculed),
             total_price_complements: Number(this.totalComplementsCalculed),
-            complements: [
-              ...this.complements
-            ]
-          }
+          },
+          complements: [
+            ...this.complements
+          ]
         })
   
         if (CACHE_PRODUCT) {

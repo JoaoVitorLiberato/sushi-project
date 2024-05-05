@@ -1,4 +1,4 @@
-import PRODUCT_DATA_DEFAULT from "@/data/products/productDataDefault.json"
+import PRODUCT_DATA_DEFAULT from "@/data/products/productDefinitive.json"
 
 export function filterDataProduct (category?: string): typeof PRODUCT_DATA_DEFAULT {
   const PRODUCT_DATA = PRODUCT_DATA_DEFAULT

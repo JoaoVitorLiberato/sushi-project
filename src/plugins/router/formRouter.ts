@@ -1,6 +1,6 @@
 export default [
   {
-    path: "finalizar",
+    path: "/pedido",
     component: (): Promise<typeof import("*.vue")> => import(
       /* webpackChunkName: "form-route" */
       /* webpackPrefetch: 0 */
@@ -8,7 +8,7 @@ export default [
     ),
     children: [
       {
-        path: "pedido",
+        path: "finalizar",
         name: "form-view",
         components: {
           viewForm: (): Promise<typeof import("*.vue")> => import(

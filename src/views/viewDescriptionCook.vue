@@ -19,7 +19,7 @@
           <h2
             class="font-weight-bold text-uppercase"
           >
-            Curiosidades sobre o CEO da Yumi sushi
+            Curiosidades sobre o CEO da Bangalô Sushi Lounge
           </h2>
         </v-col>
 

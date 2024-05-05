@@ -44,7 +44,7 @@
                 v-font-size="17"
                 class="font-weight-thin font-italic"
               >
-                R. Nome_da_rua, N° 999, Próx. a tal lugar<br> Santa Luzia de Paruá - MA
+                Av. Prof. João Morais de Sousa, Localizado na praça de<br> alimentação do Águia, Santa Luzia de Paruá - MA
               </span>
             </v-col>
 
@@ -68,7 +68,7 @@
                 href="https://wa.me/21967559557?text=Oi, Tudo bem?!"
                 style="color:var(--v-primary-text)"
                 class="d-flex align-center justify-center justify-md-start"
-                title="Clique aqui para entrar em contato com Yumi Sushi via WhatsApp"
+                title="Clique aqui para entrar em contato com Bangalô Sushi Lounge via WhatsApp"
                 target="_blank"
               >
                 <span
@@ -96,7 +96,7 @@
           :md="$vuetify.breakpoint.width >= 965 && $vuetify.breakpoint.width < 1200 ? 6 : 4"
         >
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7971.7579995287015!2d-45.77757465!3d-2.5462876999999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x92b3907a2690c73d%3A0x2b53d0b87609ad91!2sSanta%20Luzia%20do%20Paru%C3%A1%2C%20MA%2C%2065272-000!5e0!3m2!1spt-BR!2sbr!4v1714162795861!5m2!1spt-BR!2sbr"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d996.4751330118537!2d-45.77555705037617!3d-2.5393180317341195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x92b39143caf0e4d9%3A0xd8b49800859c1382!2zQ09OVkVOScOKTkNJQSDDgUdVSUE!5e0!3m2!1spt-BR!2sbr!4v1714877796021!5m2!1spt-BR!2sbr"
             :width="$vuetify.breakpoint.smAndDown ? '100%' : 500"
             :height="$vuetify.breakpoint.smAndDown ? 300 : 350"
             style="border:0;border-radius:15px"

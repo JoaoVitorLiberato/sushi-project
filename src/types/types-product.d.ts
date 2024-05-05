@@ -13,21 +13,30 @@ export interface IproductData {
       active: boolean,
       value: number
     },
+  },
+  complements?: IComplements[],
+  differences: {
+    especial: {
+      input: string,
+      active: boolean,
+      additional: number
+    },
     breaded: {
       input: string,
       active: boolean,
       additional: number
     },
-    complements?: IComplements[]
-  },
-  complements: {
-    default: boolean,
-    especial: boolean
+    flambed: {
+      input: string,
+      active: boolean,
+      additional: number
+    }
   },
   note_client: number,
   apper_start: boolean,
   hero_product: boolean
 }
+
 
 interface IComplements {
   description: string,

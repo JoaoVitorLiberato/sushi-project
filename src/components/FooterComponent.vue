@@ -88,7 +88,7 @@
         class="text-center"
         style="color:var(--v-primary-text)"
       >
-        {{ new Date().getFullYear() }} — <strong>Yumi Sushi</strong>
+        {{ new Date().getFullYear() }} — <strong>Bangalô Sushi Lounge</strong>
       </v-card-text>
     </v-card>
   </v-footer>
@@ -101,17 +101,17 @@
   export default class Footercomponent extends Vue {
     icons = [
       {
-        name: "@yumisushi",
+        name: "@bangalosushislp",
         img: "/img/project/rede-sociais/instagram.png",
-        link: "",
+        link: "https://www.instagram.com/bangalo_sushi_lounge?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
         rede: "Instagram"
       },
-      {
-        name: "Yumi Sushi",
-        img: "/img/project/rede-sociais/facebook.png",
-        link: "",
-        rede: "Facebook"
-      },
+      // {
+      //   name: "Bangalô Sushi Lounge",
+      //   img: "/img/project/rede-sociais/facebook.png",
+      //   link: "",
+      //   rede: "Facebook"
+      // },
     ]
   }
 </script>

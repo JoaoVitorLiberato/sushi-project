@@ -24,8 +24,3 @@ export function   formatedPrice (price: number|string|string[], type?: string): 
     return `R$ ${valorFinal}`
   }
 }
-
-export function additionalPriceBreaded (price:number, breaded:number):number {
-  if (!price) return 0
-  return price + breaded
-}

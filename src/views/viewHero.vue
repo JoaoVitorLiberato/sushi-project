@@ -47,7 +47,7 @@
                   class="font-weigt-bold mb-1"
                   :style="$vuetify.breakpoint.smAndDown ? 'font-size: 25px;line-height: 25px;color:var(--v-primary-text)' : 'font-size:37px;line-height: 40px;color:var(--v-primary-text)'"
                 >
-                  Seu Cantinho do Japão Mais<br> Próximo de Você
+                  Seu Cantinho do Japão<br> Mais Próximo de Você
                 </h1>
 
                 <span
@@ -55,7 +55,7 @@
                   style="line-height:10px"
                   class="white--text font-weight-regular"
                 >
-                  Experimente a Autêntica Culinária Japonesa no Yumi Sushi
+                  Experimente a Autêntica Culinária Japonesa<br> no Bangalô Sushi Lounge
                 </span>
               </v-col>
 
@@ -98,25 +98,11 @@
 <script lang="ts">
   import { Component } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
-  import { namespace } from "vuex-class"
   import MixinRedirectLinks from "@/mixins/redirectLinks/MxiinRedirectLinks"
-
-  const dialogStore = namespace("dialogStoreModule")
 
   @Component({})
 
   export default class viewHero extends mixins(
     MixinRedirectLinks,
-  ) {
-    @dialogStore.Getter("DialogTableSelected") getDialogTableSelected
-    @dialogStore.Action("ActionDialogTableSelected") setDialogTableSelected
-
-    get DialogTableSelected (): boolean {
-      return this.getDialogTableSelected()
-    }
-
-    set DialogTableSelected (value: boolean) {
-      this.setDialogTableSelected(value)
-    }
-  }
+  ) {}
 </script>

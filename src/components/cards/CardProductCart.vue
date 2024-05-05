@@ -35,6 +35,22 @@
         cols="12"
       >
         <span
+          v-font-size="$vuetify.breakpoint.smAndDown ? 12 : 14"
+          class="font-weight-medium pr-2 text-uppercase"
+          style="color:var(--v-primary-text)"
+          v-text="'difrenceiasi'"
+        />
+      </v-col>
+
+      <v-col
+        cols="12"
+        class="py-1"
+      />
+
+      <v-col
+        cols="12"
+      >
+        <span
           v-font-size="$vuetify.breakpoint.smAndDown ? 16 : 18"
           class="font-weight-medium pr-2 text-uppercase"
           style="color:var(--v-primary-text)"
