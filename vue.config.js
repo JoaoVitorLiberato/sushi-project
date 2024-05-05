@@ -21,18 +21,18 @@ module.exports = {
 
   pages: {
     index: {
-      title: "app",
-      description: "default app",
+      title: "Bangalô Sushi Lounge",
+      description: "O melhor sushi de Santa Luzia de Paruá.",
       subject: "typescript, vue.js, vuex, vuetify, vue-router",
-      color: "#6600cc",
+      color: "#000",
       entry: "./src/main"
     }
   },
 
   pwa: {
-    name: "app",
-    themeColor: "#6600cc",
-    msTileColor: "#6600cc",
+    name: "Bangalô Sushi Lounge",
+    themeColor: "#000",
+    msTileColor: "#000",
     appleMobileWebAppCapable: "yes",
     appleMobileWebAppTitle: "app",
     appleMobileWebAppStatusBarStyle: "black",
