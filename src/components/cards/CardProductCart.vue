@@ -180,7 +180,7 @@
                   />
               </v-col>
               <v-col
-                v-if="complements.length <= 0 || !complements"
+                v-if="complements && complements.length <= 0 || !complements"
                 cols="12"
                 class="px-4"
               >
