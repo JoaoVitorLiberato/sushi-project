@@ -318,10 +318,6 @@
     tableSelected = ""
     serviceSelelected = ""
 
-    mounted (): void {
-      this.setCacheOrdersCart([])
-    }
-
     inputCep = {
       optional: false,
       mask: "#####-###",
@@ -409,6 +405,8 @@
       sessionStorage.removeItem("order")
       this.setCacheOrdersCart([])
       this.dialogOrdersClientModel = !this.dialogOrdersClientModel
+  
+      if (/form-view/i.test(String(this.$route.name || ""))) location.replace(`/produto/${this.$route.query.location}/vamoscomecar`)
     }
 
   }
