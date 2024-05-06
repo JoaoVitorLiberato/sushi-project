@@ -33,6 +33,7 @@
           </span>
         </v-col>
         <v-col
+          v-if="!/form-view/i.test(String($route.name))"
           cols="2"
           class="text-end"
         >
@@ -83,6 +84,7 @@
     }
 
     redirectHome (): void {
+      if (/form-view/i.test(String(this.$route.name || ""))) return
       location.replace("/")
     }
   }
