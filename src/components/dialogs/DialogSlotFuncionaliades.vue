@@ -86,7 +86,7 @@
                   large
                   color="secondary"
                   :disabled="serviceSelelected === ''"
-                  @click="redirectOrderView"
+                  @click.stop="returnProductRoute()"
                 >
                   <span
                     class="font-weight-bold"
@@ -162,6 +162,7 @@
                       />
 
                       <div
+                        v-if="statusAPICEP.error"
                         style="line-height: 1;"
                       >
                         <span
@@ -186,19 +187,38 @@
                         indeterminate
                         color="yellow darken-2"
                       />
-                      <v-btn
+
+                      <div
                         v-else
-                        color="secondary"
-                        depressed
-                        block
-                        @click="validateDataInput ? validateInput() : itemsInputChangeValidate({ value: inputCep.value })"
                       >
-                        <span
-                          style="color:var(--v-primary-text)"
-                          class="font-weight-bold"
-                          v-text="'Ver Produtos'"
-                        />
-                      </v-btn>
+                        <v-btn
+                          v-if="statusAPICEP.error"
+                          color="secondary"
+                          depressed
+                          block
+                          @click.stop="returnProductRoute()"
+                        >
+                          <span
+                            style="color:var(--v-primary-text)"
+                            class="font-weight-bold"
+                            v-text="'Voltar'"
+                          />
+                        </v-btn>
+
+                        <v-btn
+                          v-else
+                          color="secondary"
+                          depressed
+                          block
+                          @click="validateDataInput ? validateInput() : itemsInputChangeValidate({ value: inputCep.value })"
+                        >
+                          <span
+                            style="color:var(--v-primary-text)"
+                            class="font-weight-bold"
+                            v-text="'Verificar CEP'"
+                          />
+                        </v-btn>
+                      </div>
                     </v-col>
                   </v-row>
                 </v-form>
@@ -359,6 +379,7 @@
     @Watch("inputCep.value")
       clearMsgApi ():void {
         this.statusAPICEP.msg = ""
+        this.statusAPICEP.error = false
       }
 
     itemsInputChangeValidate ({
@@ -384,14 +405,6 @@
       }
     }
 
-    redirectOrderView (): void {
-      if (/delivery/i.test(String(this.serviceSelelected))) {
-        this.redirectToRouteDelevery()
-      } else {
-        this.toGoRouteFoodPark()
-      }
-    }
-
     addStoreCacheOrderCart (): void {
       const CACHE_CART_PRODUCT = sessionStorage.getItem("order")
       if (CACHE_CART_PRODUCT && JSON.parse(CACHE_CART_PRODUCT).length > 0) {
@@ -405,7 +418,7 @@
       sessionStorage.removeItem("order")
       this.setCacheOrdersCart([])
       this.dialogOrdersClientModel = !this.dialogOrdersClientModel
-  
+
       if (/form-view/i.test(String(this.$route.name || ""))) location.replace(`/produto/${this.$route.query.location}/vamoscomecar`)
     }
 

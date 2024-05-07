@@ -15,7 +15,7 @@ export default class MixinFormConfig extends Vue {
 
   statusAPICEP = {
     status: false,
-    color: "",
+    error: false,
     msg: "",
   }
 
@@ -40,6 +40,7 @@ export default class MixinFormConfig extends Vue {
               if (this.CEP_VALID_CITY.includes(String(responseMiddleware.cep || ""))) {
                 this.setDialogCepDelivery(false)
               } else {
+                this.statusAPICEP.error = true
                 this.statusAPICEP.msg = `
                   Infelizmente não entregamos para fora de Santa Luzia de Paruá,
                   Caso queira experimentar nossos produtos estaremos ansiosos por sua
@@ -54,6 +55,7 @@ export default class MixinFormConfig extends Vue {
               this.setDialogCepDelivery(false)
               resolve(responseMiddleware)
             } else {
+              this.statusAPICEP.error = true
               this.statusAPICEP.msg = `
                 Infelizmente não entregamos para fora de Santa Luzia de Paruá,
                 Caso queira experimentar nossos produtos estaremos ansiosos por sua

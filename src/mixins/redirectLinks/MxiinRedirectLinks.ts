@@ -10,4 +10,8 @@ export default class MixinRedirectLinks extends Vue {
   toGoRouteFoodPark (): void {
     location.replace("/produto/foodpark/vamoscomecar")
   }
+
+  returnProductRoute (): void {
+    location.replace(`/produto/${this.$route.query.location ? this.$route.query.location : this.$route.params.type}/vamoscomecar${location.search}`)
+  }
 }

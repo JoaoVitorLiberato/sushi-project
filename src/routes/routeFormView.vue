@@ -4,7 +4,7 @@
       fluid
       class="pa-0"
     >
-      <router-view 
+      <router-view
         name="viewForm"
       />
     </v-container>
@@ -12,6 +12,9 @@
     <dialog-slot-funcionalidades-component>
       <template
         #ordersClient
+      />
+      <template
+        #cepDelivery
       />
     </dialog-slot-funcionalidades-component>
   </v-main>
@@ -53,7 +56,10 @@
       next: (arg0: (vm) => void) => void,
     ) {
       next((vm) => {
-        if (/foodpark|delivery/i.test(String(to.query.location))) {
+        if (/delivery/i.test(String(to.query.location || ""))) {
+          vm.setDialogCepDelivery(!vm.getDialogCepDelivery())
+        }
+        if (/^(foodpark|delivery)$/i.test(String(to.query.location || ""))) {
           if (vm.getCacheOrderCart().length <= 0 && vm.ordersCostumer && JSON.parse(vm.ordersCostumer).length > 0) {
             vm.setDialogOrdersClient(!vm.getDialogOrdersClient())
           } else if (!vm.ordersCostumer) {
@@ -68,6 +74,8 @@
     @cacheStore.Getter("CacheOrderCart") getCacheOrderCart
     @dialogStore.Getter("DialogOrdersClient") getDialogOrdersClient
     @dialogStore.Action("ActionDialogOrdersClient") setDialogOrdersClient
+    @dialogStore.Getter("DialogCepDelivery") getDialogCepDelivery
+    @dialogStore.Action("ActionDialogCepDelivery") setDialogCepDelivery
 
     ordersCostumer = sessionStorage.getItem("order")
   }

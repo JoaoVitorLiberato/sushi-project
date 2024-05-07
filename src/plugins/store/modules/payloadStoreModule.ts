@@ -21,6 +21,12 @@ const mutations: MutationTree<typeof PAYLOAD_DEFAULT> = {
   },
   mutationPayloadCostumerPhone (state, data) {
     state.consumidor.telefone.contato = data
+  },
+  mutationPayloadCostumerAddressCEP (state, data) {
+    state.consumidor.endereco.cep = data
+  },
+  mutationPayloadCostumerStreetAddress (state, data) {
+    state.consumidor.endereco.logradouro = data
   }
 }
 
@@ -30,6 +36,12 @@ const actions: ActionTree<typeof PAYLOAD_DEFAULT, rootStateInterface> = {
   },
   actionPayloadCostumerPhone ({ commit }, data) {
     commit("mutationPayloadCostumerPhone", data)
+  },
+  actionPayloadCostumerAddressCEP ({ commit }, data) {
+    commit("mutationPayloadCostumerAddressCEP", data)
+  },
+  actionPayloadCostumerStreetAddress ({ commit }, data) {
+    commit("mutationPayloadCostumerStreetAddress", data)
   }
 }
 

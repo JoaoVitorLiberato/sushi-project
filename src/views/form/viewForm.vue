@@ -31,7 +31,7 @@
                 :cols="$vuetify.breakpoint.smAndDown ? 10 : 12"
               >
                 <span
-                  v-font-size="$vuetify.breakpoint.smAndDown ? 16 : 18"
+                  v-font-size="$vuetify.breakpoint.smAndDown ? 18 : 22"
                   class="font-weight-bold text-uppercase"
                 >
                   Resumo do pedido:
@@ -84,7 +84,7 @@
           cols="12"
           class="py-3"
         />
-      
+
         <v-col
           cols="12"
         >
@@ -305,8 +305,7 @@
   import { Component, Watch } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
   import { $refs } from "@/implements/types"
-  import { required, nome, telefone } from "@/helpers/rules"
-  // import { required, nome, email, telefone, cpf, cep } from "@/helpers/rules"
+  import { required, nome, telefone, cep, rua } from "@/helpers/rules"
   import { formatedPrice } from "@/helpers/formatedPrice"
   import { namespace } from "vuex-class"
   import APIValidadorCEPMixin from "@/mixins/form/MixinFormConfig"
@@ -334,7 +333,7 @@
       next: (arg0: (vm) => void) => void,
     ) {
       next((vm) => {
-        if (/foodpark/i.test(String(to.query.location))) {
+        if (/foodpark/i.test(String(to.query.location || ""))) {
           vm.setCacheCepValidation("65272000")
           vm.APIValidadorCEPMixin()
           Object.keys(vm.itemsFirstFields).forEach((input) => {
@@ -368,7 +367,25 @@
               vm.itemsFirstFields[input].readonly = true
             }
           })
-          console.log("Já entrou!!!", vm.itemsFirstFields)
+        } else if (/delivery/i.test(String(to.query.location || ""))) {
+          if (viaCepFields()) {
+            Object.keys(vm.itemsFirstFields).forEach((input) => {
+              if (/^(cep|enderecoUf|enderecoCidade)$/i.test(String(input))) {
+                if (/^(cep)$/.test(String(input))) {
+                  vm.itemsFirstFields[input].value = viaCepFields("cep")
+                }
+                if (/^(enderecoCidade)$/.test(String(input))) {
+                  vm.itemsFirstFields[input].value = viaCepFields("localidade")
+                }
+                if (/^(enderecoUf)$/.test(String(input))) {
+                  vm.itemsFirstFields[input].value = viaCepFields("uf")
+                }
+
+                vm.itemsFirstFields[input].valid = true
+                vm.itemsFirstFields[input].readonly = true
+              }
+            })
+          }
         }
       })
     }
@@ -376,13 +393,15 @@
     @cacheStore.Action("ActionCacheCepValidation") setCacheCepValidation
     @payloadStore.Action("actionPayloadCostumerName") setPayloadCostumerName
     @payloadStore.Action("actionPayloadCostumerPhone") setPayloadCostumerPhone
+    @payloadStore.Action("actionPayloadCostumerAddressCEP") setPayloadCostumerAddressCEP
+    @payloadStore.Action("actionPayloadCostumerStreetAddress") setPayloadCostumerStreetAddress
 
     $refs
     required = required
 
     expand = true
     loading = false
-    
+
     itemsFirstFields: {
       [key:string]:{
         [key:string]:string|boolean|number
@@ -424,7 +443,7 @@
       },
       enderecoComplemento: {
         optional: true,
-        label: "Complemento",
+        label: "Complemento (opcional)",
         value: "",
         valid: "",
       },
@@ -482,11 +501,26 @@
         }
       }
 
+    @Watch("itemsFirstFields.cep.value")
+      payloadSetCep (value: string): void {
+        this.itemsFirstFields.cep.valid = cep(String(value).replace(/\D/g, ""))
+        if (cep(String(value).replace(/\D/g, ""))) {
+          this.setPayloadCostumerAddressCEP(String(value).replace(/\D/g, ""))
+        }
+      }
+    @Watch("itemsFirstFields.enderecoLogradouro.value")
+      payloadSetStreet (value: string): void {
+        this.itemsFirstFields.enderecoLogradouro.valid = rua(String(value))
+        if (rua(String(value))) {
+          this.setPayloadCostumerStreetAddress(String(value))
+        }
+      }
+
     @Watch("itemsFirstFields", { deep: true })
       itemsFormWatch (value:string): void {
         Object.keys(value).forEach((input) => {
           if (this.itemsFirstFields[input] && !("optional" in this.itemsFirstFields[input])) {
-            if (/^(enderecoLogradouro|enderecoCidade|enderecoUf|enderecoBairro|enderecoNumero|enderecoReferencia)$/i.test(input)) {
+            if (/^(enderecoLogradouro|enderecoBairro|enderecoNumero|enderecoReferencia)$/i.test(input)) {
               this.itemsFirstFields[input].valid = !!value
             }
           }

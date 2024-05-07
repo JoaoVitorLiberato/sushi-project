@@ -81,9 +81,6 @@
 
     <dialog-slot-funcionalidades-component>
       <template
-        #cepDelivery
-      />
-      <template
         #ordersClient
       />
     </dialog-slot-funcionalidades-component>
@@ -137,10 +134,6 @@
       next: (arg0: (vm) => void) => void,
     ) {
       next((vm) => {
-        if (/delivery/i.test(String(to.params.type))) {
-          sessionStorage.removeItem("order")
-          vm.setDialogCepDelivery(!vm.getDialogCepDelivery())
-        }
         if (/foodpark/i.test(String(to.params.type))) {
           if (vm.ordersCostumer && JSON.parse(vm.ordersCostumer).length > 0) {
             vm.setDialogOrdersClient(!vm.getDialogOrdersClient())
@@ -149,8 +142,6 @@
       })
     }
 
-    @dialogStore.Getter("DialogCepDelivery") getDialogCepDelivery
-    @dialogStore.Action("ActionDialogCepDelivery") setDialogCepDelivery
     @dialogStore.Getter("DialogOrdersClient") getDialogOrdersClient
     @dialogStore.Action("ActionDialogOrdersClient") setDialogOrdersClient
 
