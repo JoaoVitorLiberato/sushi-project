@@ -37,16 +37,10 @@
           >
             <v-col
               cols="12"
-            >
-              <h2
-                v-font-size="20"
-                class="font-weight-medium text-uppercase"
-              >
-                Adicionais
-              </h2>
-            </v-col>
+              class="py-4"
+            />
 
-            <!-- <v-col
+            <v-col
               cols="12"
               style="line-height: 1"
             >
@@ -55,9 +49,9 @@
                 class="font-weight-regular warning--text"
               >
                 <strong>Atenção:</strong> Você pode adicionar Dois complemento totalmente
-                gratuitos.
+                gratuitos e apartir do terceiro (3º) será adicionado mais R$ 4,00 reais.
               </span>
-            </v-col> -->
+            </v-col>
 
             <v-col
               cols="12"
@@ -68,7 +62,7 @@
               v-for="item in returnComplementAdditional"
               :key="`card-complemento-adicional-${item.id}`"
               :cols="$vuetify.breakpoint.smAndDown ? 12 : 6"
-              class="pa-2 mx-sm-2 my-2 grey lighten-4"
+              class="pa-2 mx-md-2 my-2 grey lighten-4"
               :style="`max-width:${$vuetify.breakpoint.xsOnly ? '100%' : 350}px;border-radius: 15px;`"
             >
               <card-complement

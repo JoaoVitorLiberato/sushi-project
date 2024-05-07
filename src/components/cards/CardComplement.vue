@@ -8,7 +8,7 @@
       no-gutters
     >
       <v-col
-        cols="4"
+        cols="8"
       >
         <h3
           v-font-size="18"
@@ -19,7 +19,7 @@
       </v-col>
 
       <v-col
-        cols="8"
+        cols="4"
         class="text-end"
       >
         <span

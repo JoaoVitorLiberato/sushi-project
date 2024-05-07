@@ -176,7 +176,7 @@
                 </div>
                   <span
                     v-font-size="12"
-                    v-text="item.price ? `R$ ${Number(item.price) < 100 ? '0' : '' }${formatedPrice(Number(item.price), '.')}` : `R$ ${Number(item.price) > 0 && Number(item.price) < 100 ? '0' : '' }${formatedPrice(Number(item.price), '.')}`"
+                    v-text="item.priceTotal ? `R$ ${Number(item.priceTotal) < 100 ? '0' : '' }${formatedPrice(Number(item.priceTotal), '.')}` : `R$ ${Number(item.priceTotal) > 0 && Number(item.price) < 100 ? '0' : '' }${formatedPrice(Number(item.priceTotal), '.')}`"
                   />
               </v-col>
               <v-col

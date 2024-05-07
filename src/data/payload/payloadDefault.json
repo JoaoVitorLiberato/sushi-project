@@ -1,0 +1,33 @@
+{
+  "canal": "web",
+  "segmento": "",
+  "consumidor": {
+    "nome": "",
+    "telefone": {
+      "contato": ""
+    },
+    "endereco": {
+      "cep": "",
+      "logradouro": "",
+      "bairro": "",
+      "cidade": "",
+      "uf": "",
+      "numero": "",
+      "complemento": "",
+      "referencia": ""
+    },
+    "mensagem": ""
+  },
+  "produtos": [],
+  "pagamento": {
+    "valorFrete": 0,
+    "valorTotal": 0,
+		"formaPagamento": ""
+  },
+  "analytics": {
+		"source": "",
+		"medium": "",
+		"campaign": "",
+		"params": {}
+  }
+}

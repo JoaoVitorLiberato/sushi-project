@@ -1,12 +1,12 @@
 <template>
   <v-row
     no-gutters
-    style="background-color: white;"
   >
     <v-col
       :cols="$vuetify.breakpoint.smAndDown ? 12 : 4"
       order="1"
       order-md="2"
+      class="secondary"
       @click="openPainel"
     >
       <v-card
@@ -90,7 +90,8 @@
         >
           <h2
             v-font-size="$vuetify.breakpoint.smAndDown ? 18 : 22"
-            class="font-weight-bold text-uppercase primary--text"
+            class="font-weight-bold text-uppercase"
+            style="color:var(--v-primary-text);"
           >
             Finalizar compra
           </h2>
@@ -145,9 +146,10 @@
                   :rules="optional?[itemsFirstFields[input].valid||true]:[required,itemsFirstFields[input].valid]"
                   tabindex="0"
                   flat
-                  color="secondary"
-                  class="mx-1"
+                  color="white"
+                  dark
                   outlined
+                  class="mx-1"
                   hide-details="auto"
                   :title="label"
                   :readonly="readonly"
@@ -173,9 +175,11 @@
                   tabindex="0"
                   label="Forma de pagamento"
                   flat
-                  color="secondary"
+                  color="white"
                   class="mx-1"
                   outlined
+                  autocomplete="no"
+                  dark
                   hide-details="auto"
                 >
                   <template
@@ -197,8 +201,9 @@
                   tabindex="0"
                   flat
                   label="Frete"
-                  color="secondary"
+                  color="white"
                   class="mx-1"
+                  dark
                   outlined
                   readonly
                   hide-details="auto"
@@ -218,8 +223,11 @@
                 class="px-1"
               >
                 <v-textarea
+                  v-font-size="$vuetify.breakpoint.smAndDown ? 14 : 16"
                   label="Messagem"
                   auto-grow
+                  color="white"
+                  dark
                   outlined
                   placeholder="Caso você tenha alguma observação, por favor, escreva nesse campo. Ex. Retire as cebolas."
                   rows="4"
@@ -258,7 +266,7 @@
               :class="$vuetify.breakpoint.smAndDown ? 'd-flex flex-column-reverse' : ''"
             >
               <v-btn
-                color="grey lighten-3"
+                color="grey lighten-1"
                 large
                 depressed
                 :width="$vuetify.breakpoint.smAndDown ? '100%' : 250"
@@ -275,7 +283,7 @@
                 color="secondary"
                 large
                 depressed
-                :class="$vuetify.breakpoint.smAndDown && 'mb-3'"
+                :class="$vuetify.breakpoint.smAndDown && 'mb-5'"
                 :width="$vuetify.breakpoint.smAndDown ? '100%' : 250"
               >
                 <span
@@ -294,21 +302,87 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from "vue-property-decorator"
+  import { Component, Watch } from "vue-property-decorator"
+  import { mixins } from "vue-class-component"
   import { $refs } from "@/implements/types"
-  import { required } from "@/helpers/rules"
+  import { required, nome, telefone } from "@/helpers/rules"
+  // import { required, nome, email, telefone, cpf, cep } from "@/helpers/rules"
   import { formatedPrice } from "@/helpers/formatedPrice"
+  import { namespace } from "vuex-class"
+  import APIValidadorCEPMixin from "@/mixins/form/MixinFormConfig"
+  import { viaCepFields } from "@/helpers/getViaCepValues"
+
+  const payloadStore = namespace("payloadStoreModule")
+  const cacheStore = namespace("cacheStoreModule")
 
   @Component({})
 
-  export default class viewForm extends Vue 
-    implements $refs {
+  export default class viewForm extends mixins(
+    APIValidadorCEPMixin,
+  ) implements $refs {
+    beforeRouteEnter (
+      to: {
+        name: string;
+        params: {
+          type: string|RegExp
+        },
+        query: {
+          location: string
+        }
+      },
+      _from: never,
+      next: (arg0: (vm) => void) => void,
+    ) {
+      next((vm) => {
+        if (/foodpark/i.test(String(to.query.location))) {
+          vm.setCacheCepValidation("65272000")
+          vm.APIValidadorCEPMixin()
+          Object.keys(vm.itemsFirstFields).forEach((input) => {
+            if (/^(cep|enderecoUf|enderecoLogradouro|enderecoComplemento|enderecoCidade|enderecoReferencia|enderecoBairro|enderecoNumero|frete)$/i.test(String(input))) {
+              if (/^(cep)$/.test(String(input))) {
+                vm.itemsFirstFields[input].value = viaCepFields("cep")
+              }
+              if (/^(enderecoReferencia)$/.test(String(input))) {
+                vm.itemsFirstFields[input].value = "Ao lado do posto Águia"
+              }
+              if (/^(enderecoBairro)$/.test(String(input))) {
+                vm.itemsFirstFields[input].value = "Centro"
+              }
+              if (/^(enderecoNumero|enderecoComplemento)$/.test(String(input))) {
+                vm.itemsFirstFields[input].value = "S/N"
+              }
+              if (/^(enderecoCidade)$/.test(String(input))) {
+                vm.itemsFirstFields[input].value = viaCepFields("localidade")
+              }
+              if (/^(enderecoUf)$/.test(String(input))) {
+                vm.itemsFirstFields[input].value = viaCepFields("uf")
+              }
+              if (/^(enderecoLogradouro)$/.test(String(input))) {
+                vm.itemsFirstFields[input].value = "Av. Prof. João Morais de Sousa"
+              }
+              if (/^(frete)$/.test(String(input))) {
+                vm.itemsFirstFields[input].value = String(formatedPrice(Number(0)))
+              }
+
+              vm.itemsFirstFields[input].valid = true
+              vm.itemsFirstFields[input].readonly = true
+            }
+          })
+          console.log("Já entrou!!!", vm.itemsFirstFields)
+        }
+      })
+    }
+
+    @cacheStore.Action("ActionCacheCepValidation") setCacheCepValidation
+    @payloadStore.Action("actionPayloadCostumerName") setPayloadCostumerName
+    @payloadStore.Action("actionPayloadCostumerPhone") setPayloadCostumerPhone
+
     $refs
     required = required
 
     expand = true
     loading = false
-
+    
     itemsFirstFields: {
       [key:string]:{
         [key:string]:string|boolean|number
@@ -333,17 +407,20 @@
         type: "tel",
         value: "",
         valid: "",
+        readonly: false,
       },
       enderecoLogradouro: {
         label: "Endereço",
         value: "",
         valid: "",
+        readonly: false,
       },
       enderecoNumero: {
         label: "Número",
         type: "text",
         value: "",
         valid: "",
+        readonly: false,
       },
       enderecoComplemento: {
         optional: true,
@@ -355,11 +432,13 @@
         label: "Ponto de referência",
         value: "",
         valid: "",
+        readonly: false,
       },
       enderecoBairro: {
         label: "Bairro",
         value: "",
         valid: "",
+        readonly: false,
       },
       enderecoCidade: {
         label: "Cidade",
@@ -387,6 +466,32 @@
       },
     }
 
+    @Watch("itemsFirstFields.nomeCompleto.value")
+      payloadSetName (value: string):void {
+        this.itemsFirstFields.nomeCompleto.valid = nome(value)
+        if (nome(value)) {
+          this.setPayloadCostumerName(value)
+        }
+      }
+
+    @Watch("itemsFirstFields.numeroDeContato.value")
+      payloadSetPhone (value: string): void {
+        this.itemsFirstFields.numeroDeContato.valid = telefone(String(value).replace(/\D/g, ""))
+        if ( telefone(String(value).replace(/\D/g, ""))) {
+          this.setPayloadCostumerPhone(String(value).replace(/\D/g, ""))
+        }
+      }
+
+    @Watch("itemsFirstFields", { deep: true })
+      itemsFormWatch (value:string): void {
+        Object.keys(value).forEach((input) => {
+          if (this.itemsFirstFields[input] && !("optional" in this.itemsFirstFields[input])) {
+            if (/^(enderecoLogradouro|enderecoCidade|enderecoUf|enderecoBairro|enderecoNumero|enderecoReferencia)$/i.test(input)) {
+              this.itemsFirstFields[input].valid = !!value
+            }
+          }
+        })
+      }
 
     openPainel (): void {
       if (this.$vuetify.breakpoint.mdAndUp) return

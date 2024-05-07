@@ -1,32 +1,32 @@
-[
-  {
+{
+  "tare": {
     "id": 1,
-    "name": "Agridoce",
-    "description": "Sachê 15 ml",
-    "price": 190
+    "name": "Molho Tarê",
+    "description": "100 ml",
+    "price": 400
   },
-  {
+  "shoyu" : {
     "id": 2,
-    "name": "Shoyo",
-    "description": "Sachê 15 ml",
-    "price": 190
+    "name": "Molho Shoyu",
+    "description": "100 ml",
+    "price": 400
   },
-  {
+  "geleiapimenta" : {
     "id": 3,
-    "name": "Pepino",
-    "description": "200 Gramas",
-    "price": 200
+    "name": "Geleia de pimenta",
+    "description": "100 ml",
+    "price": 400
   },
-  {
+  "pepino": {
     "id": 4,
-    "name": "Gengibre",
-    "description": "20 Gramas",
-    "price": 100
+    "name": "Molho de Pepino",
+    "description": "100 ml",
+    "price": 400
   },
-  {
+  "gengibre": {
     "id": 5,
-    "name": "Adp para Hashi",
-    "description": "Adaptador de hashi",
-    "price": 90
+    "name": "Molho de Gengibre",
+    "description": "100 ml",
+    "price": 400
   }
-]
+}
