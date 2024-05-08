@@ -9,8 +9,8 @@ const moduleCache = (): typeof PAYLOAD_DEFAULT => {
 const state: typeof PAYLOAD_DEFAULT = moduleCache()
 
 const getters: GetterTree<typeof PAYLOAD_DEFAULT, rootStateInterface> = {
-  getPayloadOrder: (state) => (key:string) => {
-    if (state && state[key]) state[key]
+  PayloadOrder: (state) => (key:string) => {
+    if (key && state[key]) return state[key]
     return state
   },
 }
@@ -27,7 +27,49 @@ const mutations: MutationTree<typeof PAYLOAD_DEFAULT> = {
   },
   mutationPayloadCostumerStreetAddress (state, data) {
     state.consumidor.endereco.logradouro = data
-  }
+  },
+  mutationPayloadCostumerNumberAddress (state, data) {
+    state.consumidor.endereco.numero = data
+  },
+  mutationPayloadCostumerComplementyAddress (state, data) {
+    state.consumidor.endereco.complemento = data
+  },
+  mutationPayloadCostumerReferenceAddress (state, data) {
+    state.consumidor.endereco.referencia = data
+  },
+  mutationPayloadCostumerDistrictAddress (state, data) {
+    state.consumidor.endereco.bairro = data
+  },
+  mutationPayloadCostumerCityAddress (state, data) {
+    state.consumidor.endereco.cidade = data
+  },
+  mutationPayloadCostumerStateAddress (state, data) {
+    state.consumidor.endereco.uf = data
+  },
+  mutationPayloadPaymentFrete (state, data) {
+    state.pagamento.valorFrete = data
+  },
+  mutationPayloadPaymentPriceTotal (state, data) {
+    state.pagamento.valorTotal = data
+  },
+  mutationPayloadFormPayment (state, data) {
+    state.pagamento.formaPagamento = data
+  },
+  mutationPayloadCostumerMessage (state, data) {
+    state.consumidor.mensagem = data
+  },
+  mutationPayloadSegment (state, data) {
+    state.segmento = data
+  },
+  mutationPayloadProducts (state, data) {
+    state.produtos = data
+  },
+  mutationPaymentDiscount (state, data) {
+    state.pagamento.desconto = {
+      porcentagem: data.porcentagem,
+      PrecoTotalComDesconto: data.PrecoTotalComDesconto
+    }
+  },
 }
 
 const actions: ActionTree<typeof PAYLOAD_DEFAULT, rootStateInterface> = {
@@ -42,6 +84,45 @@ const actions: ActionTree<typeof PAYLOAD_DEFAULT, rootStateInterface> = {
   },
   actionPayloadCostumerStreetAddress ({ commit }, data) {
     commit("mutationPayloadCostumerStreetAddress", data)
+  },
+  actionPayloadCostumerNumberAddress ({ commit }, data) {
+    commit("mutationPayloadCostumerNumberAddress", data)
+  },
+  actionPayloadCostumerComplementyAddress ({ commit }, data) {
+    commit("mutationPayloadCostumerComplementyAddress", data)
+  },
+  actionPayloadCostumerReferenceAddress ({ commit }, data) {
+    commit("mutationPayloadCostumerReferenceAddress", data)
+  },
+  actionPayloadCostumerDistrictAddress ({ commit }, data) {
+    commit("mutationPayloadCostumerDistrictAddress", data)
+  },
+  actionPayloadCostumerCityAddress ({ commit }, data) {
+    commit("mutationPayloadCostumerCityAddress", data)
+  },
+  actionPayloadCostumerStateAddress ({ commit }, data) {
+    commit("mutationPayloadCostumerStateAddress", data)
+  },
+  actionPayloadPaymentFrete ({ commit }, data) {
+    commit("mutationPayloadPaymentFrete", data)
+  },
+  actionPayloadFormPayment ({ commit }, data) {
+    commit("mutationPayloadFormPayment", data)
+  },
+  actionPayloadPriceTotal ({ commit }, data) {
+    commit("mutationPayloadPaymentPriceTotal", data)
+  },
+  actionPayloadCostumerMessage ({ commit }, data) {
+    commit("mutationPayloadCostumerMessage", data)
+  },
+  actionPayloadSegment ({ commit }, data) {
+    commit("mutationPayloadSegment", data)
+  },
+  actionPayloadProducts ({ commit }, data) {
+    commit("mutationPayloadProducts", [...data])
+  },
+  actionPayloadPaymentDiscount ({ commit }, data) {
+    commit("mutationPaymentDiscount", data)
   }
 }
 

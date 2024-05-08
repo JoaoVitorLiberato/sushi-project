@@ -22,7 +22,11 @@
   "pagamento": {
     "valorFrete": 0,
     "valorTotal": 0,
-		"formaPagamento": ""
+		"formaPagamento": "",
+    "desconto": {
+      "porcentagem": 0,
+      "PrecoTotalComDesconto": 0
+    }
   },
   "analytics": {
 		"source": "",

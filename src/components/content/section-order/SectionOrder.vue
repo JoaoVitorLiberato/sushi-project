@@ -35,7 +35,7 @@
     <v-col
       cols="12"
       class="hidden-sm-and-up"
-      style="width: 100%;max-width: 375px;margin:0 auto"
+      style="width: 100%;max-width: 440px;margin:0 auto"
     >
       <v-carousel
         hide-delimiters

@@ -5,9 +5,12 @@ import { namespace } from "vuex-class"
 
 const cacheStore = namespace("cacheStoreModule")
 const dialogStore = namespace("dialogStoreModule")
+const payloadStore = namespace("payloadStoreModule")
 
 @Component({})
 export default class MixinHelperServiceProduct extends Vue {
+  @payloadStore.Getter("PayloadOrder") getPayloadOrder
+  @payloadStore.Action("actionPayloadPaymentDiscount") getPayloadPaymentDiscount
   @cacheStore.Action("ActionCacheOrdersCart") setCacheOrdersCart
   @cacheStore.Getter("CachePriceTotal") getCachePriceTotal
   @cacheStore.Action("ActionCachePriceTotal") setCachePriceTotal
@@ -78,14 +81,24 @@ export default class MixinHelperServiceProduct extends Vue {
 
   totalPriceOrderClient (): void {
     const CACHE_PRODUCT_CART = sessionStorage.getItem("order")
+    let discount = 0
     this.priceTotalOrder = 0
+
     if (!CACHE_PRODUCT_CART) this.priceTotalOrder = 0
     if (CACHE_PRODUCT_CART) {
       JSON.parse(CACHE_PRODUCT_CART).forEach(item => {
         if (item.price && item.price.total) {
-          this.priceTotalOrder += Number(item.price.total)
+          this.priceTotalOrder = this.priceTotalOrder + Number(item.price.total) + Number(this.getPayloadOrder("pagamento").valorFrete)
         }
       })
+    }
+
+    discount = Number((5 / 100) * this.priceTotalOrder)
+    if (Number(this.priceTotalOrder) >= 25000) {
+      this.getPayloadPaymentDiscount({
+        porcentagem: 5,
+        PrecoTotalComDesconto: this.priceTotalOrder - discount
+      }) 
     }
   }
 }

@@ -86,7 +86,7 @@
                   large
                   color="secondary"
                   :disabled="serviceSelelected === ''"
-                  @click.stop="returnProductRoute()"
+                  @click.stop="returnProductRoute(serviceSelelected)"
                 >
                   <span
                     class="font-weight-bold"
@@ -311,6 +311,7 @@
   import { required, cep } from "@/helpers/rules"
   import { $refs } from "@/implements/types"
   import MixinFormConfig from "@/mixins/form/MixinFormConfig"
+  import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
 
   const dialogStore = namespace("dialogStoreModule")
   const cacheStore = namespace("cacheStoreModule")
@@ -319,6 +320,7 @@
   export default class DialogSlotFuncionalidades extends mixins(
     MixinRedirectLinks,
     MixinFormConfig,
+    MixinHelperServiceProduct,
   ) implements $refs {
     @dialogStore.Getter("DialogCommentsCostumers") getDialogCommentsCostumers
     @dialogStore.Action("ActionDialogCommentsCostumers") setDialogCommentsCostumers
@@ -329,7 +331,7 @@
     @dialogStore.Getter("DialogOrdersClient") getDialogOrdersClient
     @dialogStore.Action("ActionDialogOrdersClient") setDialogOrdersClient
     @cacheStore.Action("ActionCacheCepValidation") setCacheCepValidation
-    @cacheStore.Action("ActionCacheOrdersCart") setCacheOrdersCart
+    @cacheStore.Action("ActionCacheOrdersCart") declare setCacheOrdersCart
 
     $refs
     required = required
@@ -411,6 +413,7 @@
         this.setCacheOrdersCart(JSON.parse(CACHE_CART_PRODUCT))
       }
 
+      this.totalPriceOrderClient()
       this.dialogOrdersClientModel = !this.dialogOrdersClientModel
     }
 

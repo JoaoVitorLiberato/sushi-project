@@ -98,6 +98,7 @@
             </v-btn>
           </v-col>
           <v-col
+            v-if="!routeForm"
             cols="4"
             class="text-end"
             @click="$emit('deleteProduct')"
@@ -218,6 +219,10 @@
     @Prop({ default: {} }) differences?: IDifferences
 
     open = false
+
+    get routeForm (): boolean {
+      return /^(form-view)$/i.test(String(this.$route.name || ""))
+    }
 
     typeDifferenceProduct (): string {
       let typeText = [] as string[]

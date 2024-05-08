@@ -157,7 +157,8 @@
 
     calculingPriceWithComplements (price?:number): void {
       if (Number(price) <= 1) this.priceCalculed = 0
-      else this.priceCalculed = Number(price) * Number(this.count)
+      if (Number(this.count) <= 2) this.priceCalculed = 0
+      else this.priceCalculed += Number(price)
     }
 
     AddToResumeComplements (data: IComplements): void {

@@ -52,7 +52,7 @@
       <v-list-item
         v-if="!routeProductClient"
         link
-        @click="redirectToRouteDelevery"
+        @click.stop="returnProductRoute('delivery')"
       >
         <v-list-item-icon>
           <v-icon
@@ -74,7 +74,7 @@
       <v-list-item
         v-if="!routeProductClient"
         link
-        @click="toGoRouteFoodPark"
+        @click.stop="returnProductRoute('foodpark')"
       >
         <v-list-item-icon>
           <v-icon
@@ -141,10 +141,6 @@
 
     get routeProductClient (): boolean {
       return /product/i.test(String(this.$route.name || ""))
-    }
-
-    goToHome (): void {
-      location.replace("/")
     }
   }
 </script>

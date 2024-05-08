@@ -3,16 +3,16 @@
     no-gutters
   >
     <v-col
-      :cols="$vuetify.breakpoint.smAndDown ? 12 : 4"
+      cols="12"
+      md="4"
       order="1"
       order-md="2"
       class="secondary"
-      @click="openPainel"
     >
       <v-card
         style="border-radius: 0;"
         color="secondary"
-        :height="$vuetify.breakpoint.smAndDown ? expand ? '100vh' : '65px' :'100vh'"
+        :min-height="$vuetify.breakpoint.smAndDown ? expand ? '100vh' : '65px' :'100vh'"
         elevation="0"
         class="pa-4"
       >
@@ -21,6 +21,7 @@
         >
           <v-col
             cols="12"
+            @click="openPainel"
           >
             <v-row
               no-gutters
@@ -28,7 +29,8 @@
               align="center"
             >
               <v-col
-                :cols="$vuetify.breakpoint.smAndDown ? 10 : 12"
+                cols="10"
+                md="12"
               >
                 <span
                   v-font-size="$vuetify.breakpoint.smAndDown ? 18 : 22"
@@ -64,15 +66,129 @@
                 v-show="expand"
                 :style="expand ? '100vh' : '65px'"
               >
-                COMIDA
+                <v-row
+                  v-if="getCacheOrderCart().length > 0"
+                  no-gutters
+                >
+                  <v-col
+                    cols="12"
+                    class="py-2"
+                  />
+
+                  <v-col
+                    cols="12"
+                  >
+                    <v-row
+                      no-gutters
+                      style="height: 600px;overflow-y: scroll;"
+                    >
+                      <v-col
+                        v-for="item in getCacheOrderCart()"
+                        :key="`cart-product-${item.name}`"
+                        cols="12"
+                      >
+                        <card-product-cart
+                          :name="item.name"
+                          :qtd_product="item.price.qtd_product"
+                          :price_total="item.price.total"
+                          :complements="item.complements"
+                          :differences="item.differences"
+                        />
+                      </v-col>
+                    </v-row>
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    class="py-2"
+                  />
+
+                  <v-col
+                    cols="12"
+                  >
+                    <v-divider 
+                      color="#000"
+                    />
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    class="py-2"
+                  />
+
+                  <v-col
+                    cols="12"
+                  >
+                    <span
+                      class="font-weight-bold text-uppercase"
+                      style="font-size: 19px;"
+                    >
+                      Valor do frete:
+                    </span>
+                    <br>
+                    <span
+                      class="font-weight-medium text-uppercase"
+                      style="font-size: 19px;"
+                    >
+                      {{ formatedPrice(Number(getPayloadOrder('pagamento').valorFrete)) }}
+                    </span>
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    class="py-2"
+                  />
+
+                  <v-col
+                    cols="12"
+                  >
+                    <span
+                      class="font-weight-bold text-uppercase"
+                      style="font-size: 19px;"
+                    >
+                      Total:
+                    </span>
+                    <br>
+                    <span
+                      v-font-size="$vuetify.breakpoint.width < 350 ? 25 : 30"
+                      class="font-weight-bold text-uppercase"
+                      :style="`text-decoration:${getPayloadOrder('pagamento').desconto.PrecoTotalComDesconto > 0 ?'line-through' : 'none'}`"
+                    >
+                      {{ formatedPrice(Number(getCachePriceTotal())) }}
+                    </span>
+
+                    <span
+                      v-if="getPayloadOrder('pagamento').desconto.PrecoTotalComDesconto > 0"
+                      v-font-size="$vuetify.breakpoint.width < 350 ? 25 : 30"
+                      class="font-weight-bold text-uppercase ml-3"
+                    >
+                      {{ formatedPrice(Number(getPayloadOrder("pagamento").desconto.PrecoTotalComDesconto)) }}
+                    </span>
+                  </v-col>
+
+                  <v-col
+                    v-if="getPayloadOrder('pagamento').desconto.PrecoTotalComDesconto > 0"
+                    cols="12"
+                    class="mt-2"
+                    style="line-height:1"
+                  >
+                    <span
+                      class="font-weight-medium error--text"
+                    >
+                      Desconto de {{ getPayloadOrder('pagamento').desconto.porcentagem }}% aplicado com sucesso!
+                    </span>
+                  </v-col>
+                </v-row>
               </div>
             </v-expand-transition>
           </v-col>
         </v-row>
       </v-card>
     </v-col>
+
     <v-col
-      :cols="$vuetify.breakpoint.smAndDown ? 12 : 8"
+      cols="12"
+      md="8"
       order="2"
       order-md="1"
       class="pa-4"
@@ -122,7 +238,10 @@
         <v-col
           cols="12"
         >
-          <v-form>
+          <v-form
+            ref="formDadosCadastrais"
+            v-model="formDadosCadastrais"
+          >
             <v-row
               no-gutters
               :justify="$vuetify.breakpoint.smAndDown ? 'center' : 'space-between'"
@@ -131,8 +250,9 @@
               <v-col
                 v-for="({label,ref,type, optional,mask,readonly}, input) in itemsFirstFields"
                 :key="`peencha-seus-dados-cadastrais-${label}`"
-                v-show="!/formaPagamento|frete/i.test(String(input))"
-                :cols="$vuetify.breakpoint.smAndDown ? 12 : 6"
+                v-show="!/formaPagamento|frete|messagem/i.test(String(input))"
+                cols="12"
+                md="6"
                 class="mb-3"
               >
                 <v-text-field
@@ -165,7 +285,8 @@
               </v-col>
 
               <v-col
-                :cols="$vuetify.breakpoint.smAndDown ? 12 : 6"
+                cols="12"
+                md="6"
                 class="mb-3"
               >
                 <v-autocomplete
@@ -192,7 +313,8 @@
                 </v-autocomplete>
               </v-col>
               <v-col
-                :cols="$vuetify.breakpoint.smAndDown ? 12 : 6"
+                cols="12"
+                md="6"
                 class="mb-3"
               >
                 <v-text-field
@@ -224,7 +346,8 @@
               >
                 <v-textarea
                   v-font-size="$vuetify.breakpoint.smAndDown ? 14 : 16"
-                  label="Messagem"
+                  v-model="itemsFirstFields.messagem.value"
+                  label="Messagem (opcional)"
                   auto-grow
                   color="white"
                   dark
@@ -271,6 +394,7 @@
                 depressed
                 :width="$vuetify.breakpoint.smAndDown ? '100%' : 250"
                 class="mr-md-4"
+                @click.stop="returnProductRoute()"
               >
                 <span
                   class="font-weight-bold"
@@ -283,8 +407,9 @@
                 color="secondary"
                 large
                 depressed
-                :class="$vuetify.breakpoint.smAndDown && 'mb-5'"
+                class="mb-5 mb-md-0"
                 :width="$vuetify.breakpoint.smAndDown ? '100%' : 250"
+                @click.stop="validateFieldsInput ? finishCostumerCart() : validateCart()"
               >
                 <span
                   class="font-weight-bold primary--text"
@@ -294,7 +419,6 @@
               </v-btn>
             </v-col>
           </v-row>
-          <v-col></v-col>
         </v-col>
       </v-row>
     </v-col>
@@ -305,19 +429,31 @@
   import { Component, Watch } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
   import { $refs } from "@/implements/types"
-  import { required, nome, telefone, cep, rua } from "@/helpers/rules"
+  import { required, nome, telefone, cep, rua, numero, cidade, estado } from "@/helpers/rules"
   import { formatedPrice } from "@/helpers/formatedPrice"
   import { namespace } from "vuex-class"
-  import APIValidadorCEPMixin from "@/mixins/form/MixinFormConfig"
   import { viaCepFields } from "@/helpers/getViaCepValues"
+  import APIValidadorCEPMixin from "@/mixins/form/MixinFormConfig"
+  import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
+  import MixinRedirectLinks from "@/mixins/redirectLinks/MxiinRedirectLinks"
 
   const payloadStore = namespace("payloadStoreModule")
   const cacheStore = namespace("cacheStoreModule")
 
-  @Component({})
+  @Component({
+    components: {
+      CardProductCart: () => import(
+        /* webpackChuckName: "card-product-cart-component" */
+        /* webpackMode: "eager" */
+        "@/components/cards/CardProductCart.vue"
+      ),
+    }
+  })
 
   export default class viewForm extends mixins(
     APIValidadorCEPMixin,
+    MixinHelperServiceProduct,
+    MixinRedirectLinks,
   ) implements $refs {
     beforeRouteEnter (
       to: {
@@ -333,6 +469,9 @@
       next: (arg0: (vm) => void) => void,
     ) {
       next((vm) => {
+        vm.setPayloadSegment(String(to.query.location || ""))
+        vm.setPayloadPriceTotal(Number(vm.getCachePriceTotal()))
+        vm.setPayloadProducts(vm.getCacheOrderCart())
         if (/foodpark/i.test(String(to.query.location || ""))) {
           vm.setCacheCepValidation("65272000")
           vm.APIValidadorCEPMixin()
@@ -361,6 +500,7 @@
               }
               if (/^(frete)$/.test(String(input))) {
                 vm.itemsFirstFields[input].value = String(formatedPrice(Number(0)))
+                vm.setPayloadPaymentFrete(0)
               }
 
               vm.itemsFirstFields[input].valid = true
@@ -370,7 +510,7 @@
         } else if (/delivery/i.test(String(to.query.location || ""))) {
           if (viaCepFields()) {
             Object.keys(vm.itemsFirstFields).forEach((input) => {
-              if (/^(cep|enderecoUf|enderecoCidade)$/i.test(String(input))) {
+              if (/^(cep|enderecoUf|enderecoCidade|frete)$/i.test(String(input))) {
                 if (/^(cep)$/.test(String(input))) {
                   vm.itemsFirstFields[input].value = viaCepFields("cep")
                 }
@@ -379,6 +519,10 @@
                 }
                 if (/^(enderecoUf)$/.test(String(input))) {
                   vm.itemsFirstFields[input].value = viaCepFields("uf")
+                }
+                if (/^(frete)$/.test(String(input))) {
+                  vm.itemsFirstFields[input].value = String(formatedPrice(Number(500)))
+                  vm.setPayloadPaymentFrete(500)
                 }
 
                 vm.itemsFirstFields[input].valid = true
@@ -390,17 +534,52 @@
       })
     }
 
+    @cacheStore.Getter("CachePriceTotal") declare getCachePriceTotal
+    @cacheStore.Getter("CacheOrderCart") getCacheOrderCart
     @cacheStore.Action("ActionCacheCepValidation") setCacheCepValidation
+    @payloadStore.Getter("PayloadOrder") declare getPayloadOrder
     @payloadStore.Action("actionPayloadCostumerName") setPayloadCostumerName
     @payloadStore.Action("actionPayloadCostumerPhone") setPayloadCostumerPhone
     @payloadStore.Action("actionPayloadCostumerAddressCEP") setPayloadCostumerAddressCEP
     @payloadStore.Action("actionPayloadCostumerStreetAddress") setPayloadCostumerStreetAddress
+    @payloadStore.Action("actionPayloadCostumerNumberAddress") setPayloadCostumerNumberAddress
+    @payloadStore.Action("actionPayloadCostumerComplementyAddress") setPayloadCostumerComplementyAddress
+    @payloadStore.Action("actionPayloadCostumerReferenceAddress") setPayloadCostumerReferenceAddress
+    @payloadStore.Action("actionPayloadCostumerDistrictAddress") setPayloadCostumerDistrictAddress
+    @payloadStore.Action("actionPayloadCostumerCityAddress") setPayloadCostumerCityAddress
+    @payloadStore.Action("actionPayloadCostumerStateAddress") setPayloadCostumerStateAddress
+    @payloadStore.Action("actionPayloadPaymentFrete") setPayloadPaymentFrete
+    @payloadStore.Action("actionPayloadFormPayment") setPayloadFormPayment
+    @payloadStore.Action("actionPayloadPriceTotal") setPayloadPriceTotal
+    @payloadStore.Action("actionPayloadCostumerMessage") setPayloadCostumerMessage
+    @payloadStore.Action("actionPayloadSegment") setPayloadSegment
+    @payloadStore.Action("actionPayloadProducts") setPayloadProducts
 
     $refs
     required = required
+    formatedPrice = formatedPrice
 
     expand = true
     loading = false
+
+    formDadosCadastrais = false
+
+    get validateFieldsInput (): boolean {
+      return [
+        this.formDadosCadastrais
+      ].every(o => !!o)
+    }
+
+    created () {
+      this.totalPriceOrderClient()
+    }
+
+    validateCart (): void {
+      if (this.$refs.formDadosCadastrais.validate) {
+        this.$refs.formDadosCadastrais.validate()
+      }
+    }
+
 
     itemsFirstFields: {
       [key:string]:{
@@ -479,9 +658,15 @@
       },
       frete: {
         label: "Frete",
-        value: String(formatedPrice(Number(500))),
+        value: "",
         valid: true,
         readonly: true
+      },
+      messagem: {
+        optional: true,
+        label: "Mensagem (opcional)",
+        value: "",
+        valid: "",
       },
     }
 
@@ -508,6 +693,7 @@
           this.setPayloadCostumerAddressCEP(String(value).replace(/\D/g, ""))
         }
       }
+
     @Watch("itemsFirstFields.enderecoLogradouro.value")
       payloadSetStreet (value: string): void {
         this.itemsFirstFields.enderecoLogradouro.valid = rua(String(value))
@@ -516,11 +702,71 @@
         }
       }
 
+    @Watch("itemsFirstFields.enderecoNumero.value")
+      payloadSetNumber (value: string): void {
+        this.itemsFirstFields.enderecoNumero.valid = numero(String(value))
+        if (numero(String())) {
+          this.setPayloadCostumerNumberAddress(String(value))
+        }
+      }
+
+    @Watch("itemsFirstFields.enderecoComplemento.value")
+      payloadSetComplementy (value: string): void {
+        this.itemsFirstFields.enderecoComplemento.valid = rua(String(value))
+        this.setPayloadCostumerComplementyAddress(String(value))
+      }
+
+    @Watch("itemsFirstFields.enderecoReferencia.value")
+      payloadSetReffence (value: string): void {
+        this.itemsFirstFields.enderecoReferencia.valid = rua(String(value))
+        if (rua(String(value))) {
+          this.setPayloadCostumerReferenceAddress(String(value))
+        }
+      }
+
+    @Watch("itemsFirstFields.enderecoBairro.value")
+      payloadSetDistrict (value: string): void {
+        this.itemsFirstFields.enderecoBairro.valid = numero(String(value))
+        if (numero(String(value))) {
+          this.setPayloadCostumerDistrictAddress(String(value))
+        }
+      }
+
+    @Watch("itemsFirstFields.enderecoCidade.value")
+      payloadSetCity(value: string): void {
+        this.itemsFirstFields.enderecoCidade.valid = cidade(String(value))
+        if (cidade(String(value))) {
+          this.setPayloadCostumerCityAddress(String(value))
+        }
+      }
+
+    @Watch("itemsFirstFields.enderecoUf.value")
+      payloadSetState(value: string): void {
+        this.itemsFirstFields.enderecoUf.valid = estado(String(value))
+        if (estado(String(value))) {
+          this.setPayloadCostumerStateAddress(String(value))
+        }
+      }
+
+    @Watch("itemsFirstFields.formaPagamento.value")
+      payloadSetFormPayment(value: string): void {
+        this.itemsFirstFields.formaPagamento.valid = true
+        if (String(value)) {
+          this.setPayloadFormPayment(String(value))
+        }
+      }
+
+    @Watch("itemsFirstFields.messagem.value")
+      payloadSetMessage(value: string): void {
+        this.itemsFirstFields.formaPagamento.valid = true
+        this.setPayloadCostumerMessage(String(value))
+      }
+
     @Watch("itemsFirstFields", { deep: true })
       itemsFormWatch (value:string): void {
         Object.keys(value).forEach((input) => {
           if (this.itemsFirstFields[input] && !("optional" in this.itemsFirstFields[input])) {
-            if (/^(enderecoLogradouro|enderecoBairro|enderecoNumero|enderecoReferencia)$/i.test(input)) {
+            if (/^(nomeCompleto|numeroDeContato|cep|enderecoLogradouro|enderecoBairro|enderecoNumero|enderecoReferencia|frete|formaPagamento|messagem)$/i.test(input)) {
               this.itemsFirstFields[input].valid = !!value
             }
           }
@@ -530,6 +776,10 @@
     openPainel (): void {
       if (this.$vuetify.breakpoint.mdAndUp) return
       this.expand = !this.expand
+    }
+
+    finishCostumerCart (): void {
+      console.log("Finalizando")
     }
   }
 </script>

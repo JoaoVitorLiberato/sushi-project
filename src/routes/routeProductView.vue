@@ -134,10 +134,12 @@
       next: (arg0: (vm) => void) => void,
     ) {
       next((vm) => {
-        if (/foodpark/i.test(String(to.params.type))) {
-          if (vm.ordersCostumer && JSON.parse(vm.ordersCostumer).length > 0) {
-            vm.setDialogOrdersClient(!vm.getDialogOrdersClient())
-          }
+        
+        if (vm.ordersCostumer && JSON.parse(vm.ordersCostumer).length > 0) {
+          vm.setDialogOrdersClient(!vm.getDialogOrdersClient())
+        }
+        if (!/^(foodpark|delivery)$/i.test(String(to.params.type || ""))) {
+          location.replace(`/${location.search}`)
         }
       })
     }

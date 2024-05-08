@@ -25,7 +25,6 @@
   import { namespace } from "vuex-class"
 
   const dialogStore = namespace("dialogStoreModule")
-  const cacheStore = namespace("cacheStoreModule")
 
   @Component({
     components: {
@@ -59,25 +58,11 @@
         if (/delivery/i.test(String(to.query.location || ""))) {
           vm.setDialogCepDelivery(!vm.getDialogCepDelivery())
         }
-        if (/^(foodpark|delivery)$/i.test(String(to.query.location || ""))) {
-          if (vm.getCacheOrderCart().length <= 0 && vm.ordersCostumer && JSON.parse(vm.ordersCostumer).length > 0) {
-            vm.setDialogOrdersClient(!vm.getDialogOrdersClient())
-          } else if (!vm.ordersCostumer) {
-            location.replace(`/produto/${to.query.location}/vamoscomecar`)
-          }
-        } else {
-          location.replace("/")
-        }
       })
     }
 
-    @cacheStore.Getter("CacheOrderCart") getCacheOrderCart
-    @dialogStore.Getter("DialogOrdersClient") getDialogOrdersClient
-    @dialogStore.Action("ActionDialogOrdersClient") setDialogOrdersClient
     @dialogStore.Getter("DialogCepDelivery") getDialogCepDelivery
     @dialogStore.Action("ActionDialogCepDelivery") setDialogCepDelivery
-
-    ordersCostumer = sessionStorage.getItem("order")
   }
 
 </script>
