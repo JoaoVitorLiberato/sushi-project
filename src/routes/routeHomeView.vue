@@ -83,6 +83,10 @@
 <script lang="ts">
   import { Component } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
+  import { namespace } from "vuex-class"
+  import APIValidadorCEPMixin from "@/mixins/form/MixinFormConfig"
+
+  const cacheStore = namespace("cacheStoreModule")
 
 
   @Component({
@@ -105,5 +109,14 @@
     }
   })
 
-  export default class routeMain extends mixins() {}
+  export default class routeMain extends mixins(
+    APIValidadorCEPMixin,
+  ) {
+    @cacheStore.Action("ActionCacheCepValidation") setCacheCepValidation
+
+    created (): void {
+      this.setCacheCepValidation("65272000")
+      this.APIValidadorCEPMixin()
+    }
+  }
 </script>

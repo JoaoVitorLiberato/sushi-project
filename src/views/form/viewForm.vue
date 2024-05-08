@@ -12,7 +12,7 @@
       <v-card
         style="border-radius: 0;"
         color="secondary"
-        :min-height="$vuetify.breakpoint.smAndDown ? expand ? '100vh' : '65px' :'100vh'"
+        :min-height="$vuetify.breakpoint.smAndDown ? expand ? '40vh' : '65px' :'100vh'"
         elevation="0"
         class="pa-4"
       >
@@ -64,7 +64,7 @@
             <v-expand-transition>
               <div
                 v-show="expand"
-                :style="expand ? '100vh' : '65px'"
+                :style="`expand ? 'min-height:40vh' : 'height:65px'`"
               >
                 <v-row
                   v-if="getCacheOrderCart().length > 0"
@@ -80,6 +80,7 @@
                   >
                     <v-row
                       no-gutters
+                      class="pa-md-2"
                       :style="`max-height: ${$vuetify.breakpoint.smAndDown ? 450 : 580}px;overflow-y: scroll;`"
                     >
                       <v-col
@@ -172,6 +173,25 @@
                       class="font-weight-medium error--text"
                     >
                       Desconto de {{ getPayloadOrder('pagamento').desconto.porcentagem }}% aplicado com sucesso!
+                    </span>
+                  </v-col>
+
+                  <v-col
+                    v-if="/(delivery)/i.test(getPayloadOrder('segmento'))"
+                    cols="12"
+                    style="line-height: 1;"
+                    class="mt-3"
+                  >
+                    <strong
+                      class="font-weight-bold"
+                    >
+                      Atenção:
+                    </strong>
+                    <br>
+                    <span
+                      class="font-weight-regular pt-1"
+                    >
+                      O valor do frete não está incluso na soma total dos produtos.
                     </span>
                   </v-col>
                 </v-row>
@@ -476,50 +496,53 @@
               vm.itemsFirstFields[input].value = ""
               vm.itemsFirstFields[input].readonly = false
             })
+          } else {
+            Object.keys(vm.itemsFirstFields).forEach((input) => {
+              if (/^(cep|enderecoUf|enderecoLogradouro|enderecoComplemento|enderecoCidade|enderecoReferencia|enderecoBairro|enderecoNumero|frete)$/i.test(String(input))) {
+                if (/^(cep)$/.test(String(input))) {
+                  vm.itemsFirstFields[input].value = viaCepFields("cep")
+                }
+                if (/^(enderecoReferencia)$/.test(String(input))) {
+                  vm.itemsFirstFields[input].value = "Ao lado do posto Águia"
+                }
+                if (/^(enderecoBairro)$/.test(String(input))) {
+                  vm.itemsFirstFields[input].value = "Centro"
+                }
+                if (/^(enderecoNumero|enderecoComplemento)$/.test(String(input))) {
+                  vm.itemsFirstFields[input].value = "S/N"
+                }
+                if (/^(enderecoCidade)$/.test(String(input))) {
+                  vm.itemsFirstFields[input].value = viaCepFields("localidade")
+                }
+                if (/^(enderecoUf)$/.test(String(input))) {
+                  vm.itemsFirstFields[input].value = viaCepFields("uf")
+                }
+                if (/^(enderecoLogradouro)$/.test(String(input))) {
+                  vm.itemsFirstFields[input].value = "Av. Prof. João Morais de Sousa"
+                }
+                if (/^(frete)$/.test(String(input))) {
+                  vm.itemsFirstFields[input].value = String(formatedPrice(Number(0)))
+                  vm.setPayloadPaymentFrete(0)
+                }
+  
+                vm.itemsFirstFields[input].valid = true
+                vm.itemsFirstFields[input].readonly = true
+              }
+            })
           }
-          Object.keys(vm.itemsFirstFields).forEach((input) => {
-            if (/^(cep|enderecoUf|enderecoLogradouro|enderecoComplemento|enderecoCidade|enderecoReferencia|enderecoBairro|enderecoNumero|frete)$/i.test(String(input))) {
-              if (/^(cep)$/.test(String(input))) {
-                vm.itemsFirstFields[input].value = viaCepFields("cep")
-              }
-              if (/^(enderecoReferencia)$/.test(String(input))) {
-                vm.itemsFirstFields[input].value = "Ao lado do posto Águia"
-              }
-              if (/^(enderecoBairro)$/.test(String(input))) {
-                vm.itemsFirstFields[input].value = "Centro"
-              }
-              if (/^(enderecoNumero|enderecoComplemento)$/.test(String(input))) {
-                vm.itemsFirstFields[input].value = "S/N"
-              }
-              if (/^(enderecoCidade)$/.test(String(input))) {
-                vm.itemsFirstFields[input].value = viaCepFields("localidade")
-              }
-              if (/^(enderecoUf)$/.test(String(input))) {
-                vm.itemsFirstFields[input].value = viaCepFields("uf")
-              }
-              if (/^(enderecoLogradouro)$/.test(String(input))) {
-                vm.itemsFirstFields[input].value = "Av. Prof. João Morais de Sousa"
-              }
-              if (/^(frete)$/.test(String(input))) {
-                vm.itemsFirstFields[input].value = String(formatedPrice(Number(0)))
-                vm.setPayloadPaymentFrete(0)
-              }
-
-              vm.itemsFirstFields[input].valid = true
-              vm.itemsFirstFields[input].readonly = true
-            }
-          })
         } else if (/delivery/i.test(String(to.query.location || ""))) {
           if (viaCepFields("erro") && /error_api/i.test(String(viaCepFields("erro") || ""))) {
             Object.keys(vm.itemsFirstFields).forEach((input) => {
-              if (/^(frete)$/.test(String(input))) {
-                vm.itemsFirstFields[input].value = String(formatedPrice(Number(500)))
-                vm.setPayloadPaymentFrete(500)
-              }
-              if (!/^(frete)$/.test(String(input))) {
-                vm.itemsFirstFields[input].value = ""
-                vm.itemsFirstFields[input].readonly = false
-              }
+              setTimeout(() => {
+                if (/^(frete)$/.test(String(input))) {
+                  vm.itemsFirstFields[input].value = String(formatedPrice(Number(500)))
+                  vm.setPayloadPaymentFrete(500)
+                }
+                if (!/^(frete)$/.test(String(input))) {
+                  vm.itemsFirstFields[input].value = ""
+                  vm.itemsFirstFields[input].readonly = false
+                }
+              }, 1500)
             })
           } else {
             Object.keys(vm.itemsFirstFields).forEach((input) => {
@@ -546,6 +569,7 @@
         } else {
           vm.goToHome()
         }
+        vm.totalPriceOrderClient()
       })
     }
 
