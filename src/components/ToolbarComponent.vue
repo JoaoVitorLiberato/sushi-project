@@ -9,6 +9,7 @@
       <v-row
         no-gutters
         align="center"
+        class="py-2"
       >
         <v-col
           cols="10"
@@ -45,7 +46,9 @@
             style="min-width: 60px;"
             @click="overdrawerMenu = !overdrawerMenu"
           >
-            <v-icon>
+            <v-icon
+              size="30"
+            >
               menu
             </v-icon>
           </v-btn>

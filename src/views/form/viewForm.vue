@@ -80,7 +80,7 @@
                   >
                     <v-row
                       no-gutters
-                      style="height: 600px;overflow-y: scroll;"
+                      :style="`max-height: ${$vuetify.breakpoint.smAndDown ? 450 : 580}px;overflow-y: scroll;`"
                     >
                       <v-col
                         v-for="item in getCacheOrderCart()"
@@ -100,11 +100,7 @@
 
                   <v-col
                     cols="12"
-                    class="py-2"
-                  />
-
-                  <v-col
-                    cols="12"
+                    class="mt-5"
                   >
                     <v-divider 
                       color="#000"
@@ -475,6 +471,12 @@
         if (/foodpark/i.test(String(to.query.location || ""))) {
           vm.setCacheCepValidation("65272000")
           vm.APIValidadorCEPMixin()
+          if (/error_api/i.test(String(viaCepFields("erro") || ""))) {
+            Object.keys(vm.itemsFirstFields).forEach((input) => {
+              vm.itemsFirstFields[input].value = ""
+              vm.itemsFirstFields[input].readonly = false
+            })
+          }
           Object.keys(vm.itemsFirstFields).forEach((input) => {
             if (/^(cep|enderecoUf|enderecoLogradouro|enderecoComplemento|enderecoCidade|enderecoReferencia|enderecoBairro|enderecoNumero|frete)$/i.test(String(input))) {
               if (/^(cep)$/.test(String(input))) {
@@ -508,7 +510,18 @@
             }
           })
         } else if (/delivery/i.test(String(to.query.location || ""))) {
-          if (viaCepFields()) {
+          if (viaCepFields("erro") && /error_api/i.test(String(viaCepFields("erro") || ""))) {
+            Object.keys(vm.itemsFirstFields).forEach((input) => {
+              if (/^(frete)$/.test(String(input))) {
+                vm.itemsFirstFields[input].value = String(formatedPrice(Number(500)))
+                vm.setPayloadPaymentFrete(500)
+              }
+              if (!/^(frete)$/.test(String(input))) {
+                vm.itemsFirstFields[input].value = ""
+                vm.itemsFirstFields[input].readonly = false
+              }
+            })
+          } else {
             Object.keys(vm.itemsFirstFields).forEach((input) => {
               if (/^(cep|enderecoUf|enderecoCidade|frete)$/i.test(String(input))) {
                 if (/^(cep)$/.test(String(input))) {
@@ -530,12 +543,14 @@
               }
             })
           }
+        } else {
+          vm.goToHome()
         }
       })
     }
 
     @cacheStore.Getter("CachePriceTotal") declare getCachePriceTotal
-    @cacheStore.Getter("CacheOrderCart") getCacheOrderCart
+    @cacheStore.Getter("CacheOrderCart") declare getCacheOrderCart
     @cacheStore.Action("ActionCacheCepValidation") setCacheCepValidation
     @payloadStore.Getter("PayloadOrder") declare getPayloadOrder
     @payloadStore.Action("actionPayloadCostumerName") setPayloadCostumerName
