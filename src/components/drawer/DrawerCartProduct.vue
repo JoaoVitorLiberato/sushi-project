@@ -75,6 +75,7 @@
                 :name="item.name"
                 :qtd_product="item.price.qtd_product"
                 :price_total="item.price.total"
+                :price_default="sumPriceDefaultWhiteDiffences(item)"
                 :complements="item.complements"
                 :differences="item.differences"
                 @deleteProduct="removeProductCart(item.id)"

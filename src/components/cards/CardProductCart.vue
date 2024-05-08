@@ -135,7 +135,7 @@
             v-font-size="12"
             class="font-weight-medium"
           >
-            Ver complementos
+            Ver detalhes
           </span>
           <v-icon
             :style="open ? 'transform: rotate(180deg)' : 'transform: rotate(0deg)'"
@@ -157,6 +157,28 @@
               style="color: var(--v-primary-text)"
             >
               <v-col
+                cols="12"
+                class="px-4 py-1 d-flex align-center justify-space-between"
+              >
+                <div>
+                  <span
+                    v-font-size="12"
+                    class="font-weight-medium mr-1 text-uppercase"
+                  >
+                    {{ name }}
+                  </span>
+                  <span
+                    v-font-size="12"
+                    class="font-weight-regular"
+                    v-text="`( x${qtd_product} )`"
+                  />
+                </div>
+                  <span
+                    v-font-size="12"
+                    v-text="formatedPrice(Number(price_default))"
+                  />
+              </v-col>
+              <v-col
                 v-for="(item, i) in complements"
                 :key="`complement-card-${i}`"
                 cols="12"
@@ -177,20 +199,8 @@
                 </div>
                   <span
                     v-font-size="12"
-                    v-text="item.priceTotal ? `R$ ${Number(item.priceTotal) < 100 ? '0' : '' }${formatedPrice(Number(item.priceTotal), '.')}` : `R$ ${Number(item.priceTotal) > 0 && Number(item.price) < 100 ? '0' : '' }${formatedPrice(Number(item.priceTotal), '.')}`"
+                    v-text="formatedPrice(item.price)"
                   />
-              </v-col>
-              <v-col
-                v-if="complements && complements.length <= 0 || !complements"
-                cols="12"
-                class="px-4"
-              >
-                <span
-                  v-font-size="13"
-                  class="font-weight-regular"
-                >
-                  Sem complementos Adicionados.
-                </span>
               </v-col>
             </v-row>
           </div>
@@ -215,6 +225,7 @@
     @Prop({ default: "" }) name?:string
     @Prop({ default: "" }) qtd_product?:number|string
     @Prop({ default: "" }) price_total?:number|string
+    @Prop({ default: "" }) price_default?:number|string
     @Prop({ default: [] }) complements?: IComplements[]
     @Prop({ default: {} }) differences?: IDifferences
 

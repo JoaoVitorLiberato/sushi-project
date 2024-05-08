@@ -91,6 +91,7 @@
                         <card-product-cart
                           :name="item.name"
                           :qtd_product="item.price.qtd_product"
+                          :price_default="sumPriceDefaultWhiteDiffences(item)"
                           :price_total="item.price.total"
                           :complements="item.complements"
                           :differences="item.differences"
@@ -187,11 +188,11 @@
                     >
                       Atenção:
                     </strong>
-                    <br>
                     <span
+                      v-font-size="13"
                       class="font-weight-regular pt-1"
                     >
-                      O valor do frete não está incluso na soma total dos produtos.
+                      O valor do frete já está incluso na soma total dos produtos.
                     </span>
                   </v-col>
                 </v-row>

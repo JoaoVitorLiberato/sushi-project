@@ -58,6 +58,17 @@ export default class MixinHelperServiceProduct extends Vue {
     return this.priceFormated
   }
 
+  sumPriceDefaultWhiteDiffences (item: IproductData): number {
+    let value = 0
+    Object.keys(item.differences).forEach(obj => {
+      if (item.differences[obj].active) {
+        return value = value + Number(item.differences[obj].additional)
+      }
+    })
+
+    return value = value + Number(item.price.default)
+  }
+
   removeProductCart (id?: number|string): void {
     const CACHE_PRODUCT_CART = sessionStorage.getItem("order")
     const PRODUCT_CART: IproductData[] = []
@@ -83,6 +94,10 @@ export default class MixinHelperServiceProduct extends Vue {
     const CACHE_PRODUCT_CART = sessionStorage.getItem("order")
     let discount = 0
     this.priceTotalOrder = 0
+    this.getPayloadPaymentDiscount({
+      porcentagem: 0,
+      PrecoTotalComDesconto: 0
+    })
 
     if (!CACHE_PRODUCT_CART) this.priceTotalOrder = 0
     if (CACHE_PRODUCT_CART) {
@@ -91,14 +106,16 @@ export default class MixinHelperServiceProduct extends Vue {
           this.priceTotalOrder = this.priceTotalOrder + Number(item.price.total)
         }
       })
-    }
 
-    if (Number(this.priceTotalOrder) >= 25000) {
       discount = Number((5 / 100) * this.priceTotalOrder)
-      this.getPayloadPaymentDiscount({
-        porcentagem: 5,
-        PrecoTotalComDesconto: (this.priceTotalOrder - discount)
-      }) 
-    } 
+      if (Number(this.priceTotalOrder) >= 25000) {
+        this.getPayloadPaymentDiscount({
+          porcentagem: 5,
+          PrecoTotalComDesconto: (this.priceTotalOrder - discount) + Number(this.getPayloadOrder("pagamento").valorFrete)
+        }) 
+      } else {
+        this.priceTotalOrder = Number(this.priceTotalOrder) + Number(this.getPayloadOrder("pagamento").valorFrete)
+      } 
+    }
   }
 }
