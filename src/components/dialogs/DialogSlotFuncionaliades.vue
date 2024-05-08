@@ -234,6 +234,7 @@
     </slot>
 
     <slot
+      v-if="!/^(home)$/i.test(String($route.name))"
       name="ordersClient"
     >
       <v-dialog
