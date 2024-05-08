@@ -46,6 +46,19 @@
           cols="12"
         >
           <router-view
+            name="viewPartners"
+          />
+        </v-col>
+
+        <v-col
+          cols="12"
+          class="py-5 py-md-7"
+        />
+
+        <v-col
+          cols="12"
+        >
+          <router-view
             name="viewEstabelishLocation"
           />
         </v-col>
@@ -60,9 +73,6 @@
     </v-container>
 
     <dialog-slot-funcionalidades-component>
-      <template
-        #tableSelected
-      />
       <template
         #serviceClient
       />
