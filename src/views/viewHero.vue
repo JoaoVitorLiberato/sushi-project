@@ -74,7 +74,7 @@
                       depressed
                       large
                       width="300"
-                      @click="redirectToRouteDelevery"
+                      @click.stop="returnProductRoute('delivery')"
                     >
                       <span
                         v-font-size="14"

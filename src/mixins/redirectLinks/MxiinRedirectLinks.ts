@@ -3,11 +3,15 @@ import { Component, Vue } from "vue-property-decorator"
 @Component({})
 
 export default class MixinRedirectLinks extends Vue {
-  redirectToRouteDelevery (): void {
-    location.replace(`/produto/delivery/vamoscomecar`)
+  goToHome (): void {
+    location.replace(`/${location.search}`)
   }
 
-  toGoRouteFoodPark (): void {
-    location.replace("/produto/foodpark/vamoscomecar")
+  returnProductRoute (key?: string): void {
+    if (key) {
+      location.replace(`/produto/${key}/vamoscomecar${location.search}`)
+    } else {
+      location.replace(`/produto/${this.$route.query.location}/vamoscomecar${location.search}`)
+    }
   }
 }

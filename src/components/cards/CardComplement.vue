@@ -8,7 +8,7 @@
       no-gutters
     >
       <v-col
-        cols="4"
+        cols="8"
       >
         <h3
           v-font-size="18"
@@ -19,7 +19,7 @@
       </v-col>
 
       <v-col
-        cols="8"
+        cols="4"
         class="text-end"
       >
         <span
@@ -157,7 +157,8 @@
 
     calculingPriceWithComplements (price?:number): void {
       if (Number(price) <= 1) this.priceCalculed = 0
-      else this.priceCalculed = Number(price) * Number(this.count)
+      if (Number(this.count) <= 2) this.priceCalculed = 0
+      else this.priceCalculed += Number(price)
     }
 
     AddToResumeComplements (data: IComplements): void {

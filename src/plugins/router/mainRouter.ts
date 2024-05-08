@@ -26,6 +26,11 @@ export default [
             /* webpackPrefetch: 1 */
             "@/views/viewDescriptionCook.vue"
           ),
+          viewPartners: (): Promise<typeof import("*.vue")> => import(
+            /* webpackChunkName: "partners-route-view" */
+            /* webpackPrefetch: 1 */
+            "@/views/viewPartners.vue"
+          ),
           viewEstabelishLocation: (): Promise<typeof import("*.vue")> => import(
             /* webpackChunkName: "estabelish-location-route-view" */
             /* webpackPrefetch: 1 */

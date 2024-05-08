@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div
+    v-if="getCacheOrderCart().length > 0"
+  >
     <v-btn
       color="secondary"
       fab

@@ -85,7 +85,7 @@
 
     redirectHome (): void {
       if (/form-view/i.test(String(this.$route.name || ""))) return
-      location.replace("/")
+      location.replace(`/${location.search}`)
     }
   }
 </script>

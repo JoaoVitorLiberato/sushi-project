@@ -4,7 +4,7 @@
       fluid
       class="pa-0"
     >
-      <router-view 
+      <router-view
         name="viewForm"
       />
     </v-container>
@@ -12,6 +12,9 @@
     <dialog-slot-funcionalidades-component>
       <template
         #ordersClient
+      />
+      <template
+        #cepDelivery
       />
     </dialog-slot-funcionalidades-component>
   </v-main>
@@ -22,7 +25,6 @@
   import { namespace } from "vuex-class"
 
   const dialogStore = namespace("dialogStoreModule")
-  const cacheStore = namespace("cacheStoreModule")
 
   @Component({
     components: {
@@ -53,23 +55,14 @@
       next: (arg0: (vm) => void) => void,
     ) {
       next((vm) => {
-        if (/foodpark|delivery/i.test(String(to.query.location))) {
-          if (vm.getCacheOrderCart().length <= 0 && vm.ordersCostumer && JSON.parse(vm.ordersCostumer).length > 0) {
-            vm.setDialogOrdersClient(!vm.getDialogOrdersClient())
-          } else if (!vm.ordersCostumer) {
-            location.replace(`/produto/${to.query.location}/vamoscomecar`)
-          }
-        } else {
-          location.replace("/")
+        if (/delivery/i.test(String(to.query.location || ""))) {
+          vm.setDialogCepDelivery(!vm.getDialogCepDelivery())
         }
       })
     }
 
-    @cacheStore.Getter("CacheOrderCart") getCacheOrderCart
-    @dialogStore.Getter("DialogOrdersClient") getDialogOrdersClient
-    @dialogStore.Action("ActionDialogOrdersClient") setDialogOrdersClient
-
-    ordersCostumer = sessionStorage.getItem("order")
+    @dialogStore.Getter("DialogCepDelivery") getDialogCepDelivery
+    @dialogStore.Action("ActionDialogCepDelivery") setDialogCepDelivery
   }
 
 </script>

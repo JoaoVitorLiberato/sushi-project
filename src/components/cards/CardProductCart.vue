@@ -98,6 +98,7 @@
             </v-btn>
           </v-col>
           <v-col
+            v-if="!routeForm"
             cols="4"
             class="text-end"
             @click="$emit('deleteProduct')"
@@ -176,7 +177,7 @@
                 </div>
                   <span
                     v-font-size="12"
-                    v-text="item.price ? `R$ ${Number(item.price) < 100 ? '0' : '' }${formatedPrice(Number(item.price), '.')}` : `R$ ${Number(item.price) > 0 && Number(item.price) < 100 ? '0' : '' }${formatedPrice(Number(item.price), '.')}`"
+                    v-text="item.priceTotal ? `R$ ${Number(item.priceTotal) < 100 ? '0' : '' }${formatedPrice(Number(item.priceTotal), '.')}` : `R$ ${Number(item.priceTotal) > 0 && Number(item.price) < 100 ? '0' : '' }${formatedPrice(Number(item.priceTotal), '.')}`"
                   />
               </v-col>
               <v-col
@@ -218,6 +219,10 @@
     @Prop({ default: {} }) differences?: IDifferences
 
     open = false
+
+    get routeForm (): boolean {
+      return /^(form-view)$/i.test(String(this.$route.name || ""))
+    }
 
     typeDifferenceProduct (): string {
       let typeText = [] as string[]
