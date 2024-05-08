@@ -68,6 +68,6 @@ export default class MixinFormConfig extends mixins(
         })
       })
     },
-    1500,
+    800,
   )
 }

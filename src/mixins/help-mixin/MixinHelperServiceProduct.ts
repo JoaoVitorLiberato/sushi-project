@@ -88,17 +88,17 @@ export default class MixinHelperServiceProduct extends Vue {
     if (CACHE_PRODUCT_CART) {
       JSON.parse(CACHE_PRODUCT_CART).forEach(item => {
         if (item.price && item.price.total) {
-          this.priceTotalOrder = this.priceTotalOrder + Number(item.price.total) + Number(this.getPayloadOrder("pagamento").valorFrete)
+          this.priceTotalOrder = this.priceTotalOrder + Number(item.price.total)
         }
       })
     }
 
-    discount = Number((5 / 100) * this.priceTotalOrder)
     if (Number(this.priceTotalOrder) >= 25000) {
+      discount = Number((5 / 100) * this.priceTotalOrder)
       this.getPayloadPaymentDiscount({
         porcentagem: 5,
-        PrecoTotalComDesconto: this.priceTotalOrder - discount
+        PrecoTotalComDesconto: (this.priceTotalOrder - discount)
       }) 
-    }
+    } 
   }
 }
