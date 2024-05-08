@@ -65,7 +65,7 @@
               depressed
               style="width: 30px;height:30px"
               :disabled="count <= 0"
-              @click="count -= 1, calculingPriceWithComplements(price)"
+              @click="count -= 1, calculingPriceWithComplements(price, 'subtrair')"
             >
               <v-icon>
                 remove
@@ -83,7 +83,7 @@
               dense
               depressed
               style="width: 30px;height:30px"
-              @click="count += 1, calculingPriceWithComplements(price)"
+              @click="count += 1, calculingPriceWithComplements(price, 'somar')"
             >
               <v-icon>
                 add
@@ -155,10 +155,13 @@
         this.objComplement = {} as IComplements
       }
 
-    calculingPriceWithComplements (price?:number): void {
-      if (Number(price) <= 1) this.priceCalculed = 0
+    calculingPriceWithComplements (price?:number, operation?: string): void {
       if (Number(this.count) <= 2) this.priceCalculed = 0
-      else this.priceCalculed += Number(price)
+      else if (/somar/i.test(String(operation))) {
+        this.priceCalculed += Number(price)
+      } else if (/subtrair/i.test(String(operation))) {
+        this.priceCalculed -= Number(price)
+      }
     }
 
     AddToResumeComplements (data: IComplements): void {

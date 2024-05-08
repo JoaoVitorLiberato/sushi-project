@@ -217,7 +217,7 @@
                           <span
                             v-font-size="$vuetify.breakpoint.smAndDown ? 16 : 18"
                             class="font-weight-medium"
-                            v-text="formatedPrice((Number(cacheTemporario().price.total) * Number(cacheTemporario().price.qtd_product)) + Number(totalComplementsCalculed))"
+                            v-text="formatedPrice(Number(cacheTemporario().price.total) + Number(totalComplementsCalculed))"
                           />
                         </v-col>
                       </v-row>
@@ -263,7 +263,7 @@
             depressed
             large
             color="secondary"
-            @click="closeCostumerOrder"
+            @click.stop="closeCostumerOrder(), totalPriceOrderClient()"
           >
             <span
               class="primary--text font-weight-bold"
@@ -419,7 +419,7 @@
           ...JSON.parse(CACHE_PRODUCT_TEMP),
           price: {
             ...JSON.parse(CACHE_PRODUCT_TEMP).price,
-            total: (Number(JSON.parse(CACHE_PRODUCT_TEMP).price.total) * Number(JSON.parse(CACHE_PRODUCT_TEMP).price.qtd_product)) + Number(this.totalComplementsCalculed),
+            total: Number(JSON.parse(CACHE_PRODUCT_TEMP).price.total) + Number(this.totalComplementsCalculed),
             total_price_complements: Number(this.totalComplementsCalculed),
           },
           complements: [

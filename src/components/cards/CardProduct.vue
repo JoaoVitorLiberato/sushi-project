@@ -300,9 +300,9 @@
 
       Object.keys(product.differences).forEach(item => {
         if (/actived/i.test(String(product.differences[item].input || "")) && product.differences[item].active) {
-          return sumInnitial = Number(sumInnitial) + (Number(product.price.default) + Number(product.differences[item].additional))
+          return sumInnitial = Number(this.formatedPriceWithBreadedAndQuantity()) + Number(product.differences[item].additional)
         } else {
-          return sumInnitial = Number(product.price.default)
+          return sumInnitial = Number(this.formatedPriceWithBreadedAndQuantity())
         }
       })
 
