@@ -1,8 +1,9 @@
 <template>
   <v-row
     no-gutters
-    class="pa-4"
+    class="pa-4 mx-auto"
     justify="center"
+    style="width: 100%;max-width: 1100px;"
   >
     <v-col
       cols="12"
@@ -14,6 +15,12 @@
         Conheça nossos parceiros
       </h2>
     </v-col>
+
+    <v-col
+      cols="12"
+      class="py-4"
+    />
+
     <v-col
       cols="12"
       class="hidden-sm-and-down"
@@ -21,26 +28,40 @@
       <div
         class="d-flex justify-center align-center"
       >
-        <div
-          v-for="{ name, url, link } in imagesPartners"
-          :key="`partners-${name}`"
+        <v-slide-group
+          show-arrows
+          mobile
+          prev-icon="arrow_back"
+          next-icon="arrow_forward"
+          :class="`d-flex fix--v-slide-group flex-wrap`"
+          center-active
+          mandatory
         >
-          <a 
-            :href="link"
-            target="_blank"
+          <v-slide-item
+            v-for="{ name, url, link } in imagesPartners"
+            :key="`partners-${name}`"
+            class="mr-5 py-5"
           >
-            <v-img
-              :src="url"
-              :alt="`Conheça nosso parceiro ${name}`"
-              :title="`Conheça nosso parceiro ${name}`"
-              contain
-              :width="$vuetify.breakpoint.width > 970 && $vuetify.breakpoint.width <= 1024 ? 260 : 300"
-              :height="$vuetify.breakpoint.width > 970 && $vuetify.breakpoint.width <= 1024 ? 200 : 250"
-            />
-          </a>
-        </div>
+            <div>
+              <a 
+                :href="link"
+                target="_blank"
+              >
+                <v-img
+                  :src="url"
+                  :alt="`Conheça nosso parceiro ${name}`"
+                  :title="`Conheça nosso parceiro ${name}`"
+                  contain
+                  :width="$vuetify.breakpoint.width > 970 && $vuetify.breakpoint.width <= 1024 ? 260 : 300"
+                  :height="$vuetify.breakpoint.width > 970 && $vuetify.breakpoint.width <= 1024 ? 200 : 250"
+                />
+              </a>
+          </div>
+          </v-slide-item>
+        </v-slide-group>
       </div>
     </v-col>
+
     <v-col
       cols="12"
       class="hidden-md-and-up"
@@ -81,6 +102,7 @@
 <script lang="ts">
   import { Component, Vue } from "vue-property-decorator"
   import "@/styles/view/viewPartners.styl"
+  import "@/styles/view/viewDishes.styl"
 
   @Component({})
   export default class viewPartners extends Vue {
@@ -96,18 +118,23 @@
           link: ""
         },
         {
+          name: "Taynara Gomes - Bolos, Salgados e Petiscos",
+          url: "/img/project/parceiros/taynara-gomes.jpg",
+          link: "https://www.instagram.com/tanara_gomes?igsh=MTV6NGFuZmt6NXJjbg=="
+        },
+        {
           name: "Águia Fitness",
           url: "/img/project/parceiros/aguia-fitness.png",
           link: ""
         },
         {
-          name: "Águia Motos",
-          url: "/img/project/parceiros/aguia-motos.png",
+          name: "Center Car",
+          url: "/img/project/parceiros/center-car.png",
           link: ""
         },
         {
-          name: "Center Car",
-          url: "/img/project/parceiros/center-car.png",
+          name: "Águia Motos",
+          url: "/img/project/parceiros/aguia-motos.png",
           link: ""
         },
       ]

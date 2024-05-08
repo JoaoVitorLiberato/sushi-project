@@ -146,6 +146,8 @@
               >
                 <v-form
                   ref="forminputValidateCEP"
+                  @submit.prevent="validateDataInput ? validateInput() : itemsInputChangeValidate({ value: inputCep.value })"
+                  @keydown.enter="validateDataInput ? validateInput() : itemsInputChangeValidate({ value: inputCep.value })"
                 >
                   <v-row
                     no-gutters
@@ -194,6 +196,7 @@
                         <v-btn
                           v-if="statusAPICEP.error"
                           color="secondary"
+                          type="button"
                           depressed
                           block
                           @click.stop="returnProductRoute()"
@@ -209,8 +212,8 @@
                           v-else
                           color="secondary"
                           depressed
+                          type="submit"
                           block
-                          @click="validateDataInput ? validateInput() : itemsInputChangeValidate({ value: inputCep.value })"
                         >
                           <span
                             style="color:var(--v-primary-text)"
@@ -328,8 +331,8 @@
     @dialogStore.Action("ActionDialogServiceClient") setDialogSeviceClient
     @dialogStore.Getter("DialogCepDelivery") getDialogCepDelivery
     @dialogStore.Action("ActionDialogCepDelivery") declare setDialogCepDelivery
-    @dialogStore.Getter("DialogOrdersClient") getDialogOrdersClient
-    @dialogStore.Action("ActionDialogOrdersClient") setDialogOrdersClient
+    @dialogStore.Getter("DialogOrdersClient") declare getDialogOrdersClient
+    @dialogStore.Action("ActionDialogOrdersClient") declare setDialogOrdersClient
     @cacheStore.Action("ActionCacheCepValidation") setCacheCepValidation
     @cacheStore.Action("ActionCacheOrdersCart") declare setCacheOrdersCart
 
