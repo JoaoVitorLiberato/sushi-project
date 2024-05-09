@@ -1,0 +1,68 @@
+{
+  "web": {
+    "path": "/",
+    "canal": "Landing Page"
+  },
+  "// Exemplo de preenchimento esperado, o nome da chave é o source": {
+    "// path": "O path deverá ser a url exata que se espera, com todo o search e todo o URI",
+    "path":"/uricasoexistauma?utm_source=sourcedeteste&utm_campaign=campaigndeteste&utm_medium=mediumdeteste",
+    "// canal": "O canal que será adicionado no Bitrix, user friendly, diferente ou parecido com o source",
+    "canal": "Canal no bitrix",
+    "// source": "O source que será utilizado, caso existam 2 urls ou mais para 1 source, não necessário para source único com url única",
+    "// params": "no Params deverá ser colocado todos os parametros de search do path",
+    "// params.keys": "// values - repita cada parametro que existe no path, com sua key e seu value identicos",
+    "params": {
+      "utm_source": "sourcedeteste",
+      "utm_campaign": "campaigndeteste",
+      "utm_medium": "mediumdeteste"
+    },
+    "links": [
+      "// caso existam vários links para um source, poderá ser colocado em um array para consultas"
+    ]
+  },
+  "webparceiropostoaguia": {
+    "path": "?utm_source=aguia&utm_medium=posto&utm_campaign=parceiro",
+    "canal": "Canal Parceiro Posto Águia",
+    "params": {
+      "utm_source": "aguia",
+      "utm_medium": "posto",
+      "utm_campaign": "parceiro"
+    }
+  },
+  "webparceiroaguiafitness": {
+    "path": "?utm_source=aguia&utm_medium=fitness&utm_campaign=parceiro",
+    "canal": "Canal Parceiro Águia Fitness",
+    "params": {
+      "utm_source": "aguia",
+      "utm_medium": "fitness",
+      "utm_campaign": "parceiro"
+    }
+  },
+  "webparceiroaguiamotos": {
+    "path": "?utm_source=aguia&utm_medium=moto&utm_campaign=parceiro",
+    "canal": "Canal Parceiro Águia Motos",
+    "params": {
+      "utm_source": "aguia",
+      "utm_medium": "moto",
+      "utm_campaign": "parceiro"
+    }
+  },
+  "webparceirocarcenter": {
+    "path": "?utm_source=aguia&utm_medium=carcenter&utm_campaign=parceiro",
+    "canal": "Canal Parceiro Águia Car Center",
+    "params": {
+      "utm_source": "aguia",
+      "utm_medium": "carcenter",
+      "utm_campaign": "parceiro"
+    }
+  },
+  "webparceirotaynara": {
+    "path": "?utm_source=taynara&utm_medium=salgados&utm_campaign=parceiro",
+    "canal": "Canal Parceiro Taynara Bolos, Salgados e Petiscos",
+    "params": {
+      "utm_source": "taynara",
+      "utm_medium": "salgados",
+      "utm_campaign": "parceiro"
+    }
+  }
+}

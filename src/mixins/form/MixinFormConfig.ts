@@ -14,7 +14,7 @@ const dialogStore = namespace("dialogStoreModule")
 export default class MixinFormConfig extends mixins(
   MixinCacheProduct,
 ) {
-  @cacheStore.Getter("CacheCepValidation") getCacheCepValidation
+  @cacheStore.Getter("CacheCepValidation") declare getCacheCepValidation
   @dialogStore.Action("ActionDialogCepDelivery") setDialogCepDelivery
 
   statusAPICEP = {

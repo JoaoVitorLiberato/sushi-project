@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Module, GetterTree, ActionTree, MutationTree } from "vuex"
 import { rootStateInterface } from "@/plugins/store/interfaces/rootStateInterface"
 import PAYLOAD_DEFAULT from "@/data/payload/payloadDefault.json"
+import { channelSearch } from "@/helpers/analyticsChannel"
 
 const moduleCache = (): typeof PAYLOAD_DEFAULT => {
   return PAYLOAD_DEFAULT
@@ -70,6 +72,15 @@ const mutations: MutationTree<typeof PAYLOAD_DEFAULT> = {
       PrecoTotalComDesconto: data.PrecoTotalComDesconto
     }
   },
+  mutationPayloadSourceOrder (state, data) {
+    state.canal = data
+  },
+  mutationPayloadSourceChannel (state, data) {
+    state.analytics = data
+  },
+  mutationPayloadPriceTotalProducts (state, data) {
+    state.pagamento.valorProdutos = data
+  },
 }
 
 const actions: ActionTree<typeof PAYLOAD_DEFAULT, rootStateInterface> = {
@@ -123,7 +134,26 @@ const actions: ActionTree<typeof PAYLOAD_DEFAULT, rootStateInterface> = {
   },
   actionPayloadPaymentDiscount ({ commit }, data) {
     commit("mutationPaymentDiscount", data)
-  }
+  },
+  actionPayloadSourceOrder ({ commit, dispatch, getters, rootState, rootGetters }, data) {
+    commit("mutationPayloadSourceOrder", rootGetters["cacheStoreModule/CacheRastreamentoUsuarioPayloadSource"](data))
+  },
+  ActionPayloadChannelAnalytics ({ commit, dispatch, getters, rootState, rootGetters }) {
+    if (!/web/i.test(rootGetters["cacheStoreModule/CacheRastreamentoUsuarioPayloadSource"])) {
+      dispatch("actionPayloadSourceOrder")
+      setTimeout(() => {
+        commit("mutationPayloadSourceChannel", {
+          campaign: channelSearch("utm_campaign"),
+          medium: channelSearch("utm_medium"),
+          source: channelSearch("utm_source"),
+          params: channelSearch(),
+        })
+      }, 600)
+    }
+  },
+  actionPayloadPriceTotalProducts ({ commit }, data) {
+    commit("mutationPayloadPriceTotalProducts", data)
+  },
 }
 
 const payloadStoreModule: Module<typeof PAYLOAD_DEFAULT, rootStateInterface> = {

@@ -43,7 +43,7 @@
             class="mr-5 py-5"
           >
             <div>
-              <a 
+              <a
                 :href="link"
                 target="_blank"
               >
@@ -80,7 +80,7 @@
           style="max-width: 400px;"
           class="mx-auto"
         >
-          <a 
+          <a
             :href="link"
             target="_blank"
           >
@@ -115,7 +115,7 @@
         {
           name: "Posto Águia",
           url: "/img/project/parceiros/posto-aguia.png",
-          link: ""
+          link: "https://www.instagram.com/postoeconvenienciaaguia?igsh=cXRhbjg3ODN6dWh4 "
         },
         {
           name: "Taynara Gomes - Bolos, Salgados e Petiscos",
@@ -125,7 +125,7 @@
         {
           name: "Águia Fitness",
           url: "/img/project/parceiros/aguia-fitness.png",
-          link: ""
+          link: "https://www.instagram.com/aguiafiitness?igsh=MTVueHJzbDRiaWFwag=="
         },
         {
           name: "Center Car",

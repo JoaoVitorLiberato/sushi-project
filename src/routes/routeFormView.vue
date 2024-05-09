@@ -23,7 +23,10 @@
 <script lang="ts">
   import { Component, Vue } from "vue-property-decorator"
   import { namespace } from "vuex-class"
+  import { channelSource } from "@/helpers/analyticsChannel"
 
+  const cacheStore = namespace("cacheStoreModule")
+  const payloadStore = namespace("payloadStoreModule")
   const dialogStore = namespace("dialogStoreModule")
 
   @Component({
@@ -63,6 +66,15 @@
 
     @dialogStore.Getter("DialogCepDelivery") getDialogCepDelivery
     @dialogStore.Action("ActionDialogCepDelivery") setDialogCepDelivery
+    @cacheStore.Action("ActionCacheRastreamentoUsuarioSource") setCacheRastreamentoUsuarioPayloadSource
+    @payloadStore.Action("ActionPayloadChannelAnalytics") setPayloadChannelAnalytics
+
+    created (): void {
+      channelSource().then((source: string) => {
+        this.setCacheRastreamentoUsuarioPayloadSource({ source: String(source) })
+        this.setPayloadChannelAnalytics()
+      })
+    }
   }
 
 </script>

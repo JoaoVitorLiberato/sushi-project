@@ -116,7 +116,10 @@
 <script lang="ts">
   import { Component, Vue } from "vue-property-decorator"
   import { namespace } from "vuex-class"
+  import { channelSource } from "@/helpers/analyticsChannel"
 
+  const cacheStore = namespace("cacheStoreModule")
+  const payloadStore = namespace("payloadStoreModule")
   const dialogStore = namespace("dialogStoreModule")
 
   @Component({
@@ -160,7 +163,7 @@
       next: (arg0: (vm) => void) => void,
     ) {
       next((vm) => {
-        
+
         if (vm.ordersCostumer && JSON.parse(vm.ordersCostumer).length > 0) {
           vm.setDialogOrdersClient(!vm.getDialogOrdersClient())
         }
@@ -172,7 +175,16 @@
 
     @dialogStore.Getter("DialogOrdersClient") getDialogOrdersClient
     @dialogStore.Action("ActionDialogOrdersClient") setDialogOrdersClient
+    @cacheStore.Action("ActionCacheRastreamentoUsuarioSource") setCacheRastreamentoUsuarioPayloadSource
+    @payloadStore.Action("ActionPayloadChannelAnalytics") setPayloadChannelAnalytics
 
     ordersCostumer = sessionStorage.getItem("order")
+
+    created (): void {
+      channelSource().then((source: string) => {
+        this.setCacheRastreamentoUsuarioPayloadSource({ source: String(source) })
+        this.setPayloadChannelAnalytics()
+      })
+    }
   }
 </script>
