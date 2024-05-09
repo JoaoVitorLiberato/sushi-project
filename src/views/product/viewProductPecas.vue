@@ -44,5 +44,5 @@
     }
   })
 
-  export default class ViewProductPecas extends Vue {}
+  export default class viewProductPecas extends Vue {}
 </script>

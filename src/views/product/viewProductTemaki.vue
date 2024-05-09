@@ -44,5 +44,5 @@
     }
   })
 
-  export default class ViewProductTemaki extends Vue {}
+  export default class viewProductTemaki extends Vue {}
 </script>

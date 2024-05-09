@@ -15,7 +15,7 @@
           <h2
             class="font-weight-bold text-uppercase"
           >
-            Entradas
+            Doces
           </h2>
         </v-col>
 
@@ -23,7 +23,7 @@
           cols="12"
         >
           <content-section-order-component 
-            category="entrada"
+            category="doces"
           />
         </v-col>
       </v-row>
@@ -44,5 +44,5 @@
     }
   })
 
-  export default class viewProductEntrada extends Vue {}
+  export default class viewProductDoces extends Vue {}
 </script>

@@ -70,6 +70,32 @@
             name="viewProductEspecial"
           />
         </v-col>
+
+        <v-col
+          cols="12"
+          class="py-1 py-sm-6"
+        />
+
+        <v-col
+          cols="12"
+        >
+          <router-view
+            name="viewProductCombinados"
+          />
+        </v-col>
+
+        <v-col
+          cols="12"
+          class="py-1 py-sm-6"
+        />
+
+        <v-col
+          cols="12"
+        >
+          <router-view
+            name="viewProductDoces"
+          />
+        </v-col>
       </v-row>
 
 
