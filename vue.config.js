@@ -40,7 +40,7 @@ module.exports = {
     manifestOptions: {
       id: process.env.npm_package_version,
       short_name: "Bangalô Sushi Lounge",
-      description: "O melhor sushi de Santa Luzia de Paruá.p",
+      description: "O melhor sushi de Santa Luzia de Paruá.",
       background_color: "#000",
       orientation: "portrait",
       start_url: "/",

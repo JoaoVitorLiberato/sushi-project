@@ -13,9 +13,12 @@ export default class MixinHelperServiceProduct extends Vue {
   @payloadStore.Action("actionPayloadPaymentDiscount") getPayloadPaymentDiscount
   @cacheStore.Action("ActionCacheOrdersCart") setCacheOrdersCart
   @cacheStore.Getter("CachePriceTotal") getCachePriceTotal
+  @cacheStore.Getter("CacheRastreamentoUsuarioPayloadSource") getCacheRastreamentoUsuarioPayloadSource
   @cacheStore.Action("ActionCachePriceTotal") setCachePriceTotal
   @dialogStore.Action("ActionDialogComplements") setDialogComplements
   @dialogStore.Getter("DialogComplements") getDialogComplements
+  @payloadStore.Action("actionPayloadPriceTotal") setPayloadPriceTotal
+  @payloadStore.Action("actionPayloadPriceTotalProducts") setPayloadPriceTotalProducts
   formatedPrice = formatedPrice
 
   count = 1
@@ -33,6 +36,16 @@ export default class MixinHelperServiceProduct extends Vue {
   countSubtrationQuantityProduct (): void {
     if (this.count === 1) return
     this.count = this.count - 1
+  }
+
+  get discountPartners (): boolean {
+    return [
+      "webparceiropostoaguia",
+      "webparceiroaguiafitness",
+      "webparceiroaguiamotos",
+      "webparceirocarcenter",
+      "webparceirotaynara",
+    ].includes(String(this.getCacheRastreamentoUsuarioPayloadSource()).toLowerCase())
   }
 
   countSumQuantityProduct (): void {
@@ -92,7 +105,7 @@ export default class MixinHelperServiceProduct extends Vue {
 
   totalPriceOrderClient (): void {
     const CACHE_PRODUCT_CART = sessionStorage.getItem("order")
-    let discount = 0
+
     this.priceTotalOrder = 0
     this.getPayloadPaymentDiscount({
       porcentagem: 0,
@@ -103,19 +116,24 @@ export default class MixinHelperServiceProduct extends Vue {
     if (CACHE_PRODUCT_CART) {
       JSON.parse(CACHE_PRODUCT_CART).forEach(item => {
         if (item.price && item.price.total) {
-          this.priceTotalOrder = this.priceTotalOrder + Number(item.price.total)
+          this.priceTotalOrder = Number(this.priceTotalOrder) + Number(item.price.total)
         }
       })
-
-      discount = Number((5 / 100) * this.priceTotalOrder)
-      if (Number(this.priceTotalOrder) >= 25000) {
-        this.getPayloadPaymentDiscount({
-          porcentagem: 5,
-          PrecoTotalComDesconto: (this.priceTotalOrder - discount) + Number(this.getPayloadOrder("pagamento").valorFrete)
-        }) 
-      } else {
-        this.priceTotalOrder = Number(this.priceTotalOrder) + Number(this.getPayloadOrder("pagamento").valorFrete)
-      } 
     }
+
+    this.dicountAplicated()
+  }
+
+  dicountAplicated (): void {
+    if (this.discountPartners || Number(this.priceTotalOrder) >= 25000) {
+      const discount = (Number(this.priceTotalOrder) - Number((5 / 100) * this.priceTotalOrder))
+      this.getPayloadPaymentDiscount({
+        porcentagem: 5,
+        PrecoTotalComDesconto: Number(discount) + Number(this.getPayloadOrder("pagamento").valorFrete)
+      })
+    }
+
+    this.setPayloadPriceTotalProducts(this.getCachePriceTotal())
+    this.setPayloadPriceTotal( Number(this.getPayloadOrder("pagamento").valorProdutos) + Number(this.getPayloadOrder("pagamento").valorFrete))
   }
 }

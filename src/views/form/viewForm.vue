@@ -104,7 +104,7 @@
                     cols="12"
                     class="mt-5"
                   >
-                    <v-divider 
+                    <v-divider
                       color="#000"
                     />
                   </v-col>
@@ -152,7 +152,7 @@
                       class="font-weight-bold text-uppercase"
                       :style="`text-decoration:${getPayloadOrder('pagamento').desconto.PrecoTotalComDesconto > 0 ?'line-through' : 'none'}`"
                     >
-                      {{ formatedPrice(Number(getCachePriceTotal())) }}
+                      {{ formatedPrice(Number(getCachePriceTotal()) + Number(getPayloadOrder("pagamento").valorFrete)) }}
                     </span>
 
                     <span
@@ -487,7 +487,6 @@
     ) {
       next((vm) => {
         vm.setPayloadSegment(String(to.query.location || ""))
-        vm.setPayloadPriceTotal(Number(vm.getCachePriceTotal()))
         vm.setPayloadProducts(vm.getCacheOrderCart())
         if (/foodpark/i.test(String(to.query.location || ""))) {
           vm.setCacheCepValidation("65272000")
@@ -525,7 +524,7 @@
                   vm.itemsFirstFields[input].value = String(formatedPrice(Number(0)))
                   vm.setPayloadPaymentFrete(0)
                 }
-  
+
                 vm.itemsFirstFields[input].valid = true
                 vm.itemsFirstFields[input].readonly = true
               }
@@ -570,11 +569,10 @@
         } else {
           vm.goToHome()
         }
-        vm.totalPriceOrderClient()
+        vm.dicountAplicated()
       })
     }
 
-    @cacheStore.Getter("CachePriceTotal") declare getCachePriceTotal
     @cacheStore.Getter("CacheOrderCart") declare getCacheOrderCart
     @cacheStore.Action("ActionCacheCepValidation") setCacheCepValidation
     @payloadStore.Getter("PayloadOrder") declare getPayloadOrder
@@ -590,7 +588,6 @@
     @payloadStore.Action("actionPayloadCostumerStateAddress") setPayloadCostumerStateAddress
     @payloadStore.Action("actionPayloadPaymentFrete") setPayloadPaymentFrete
     @payloadStore.Action("actionPayloadFormPayment") setPayloadFormPayment
-    @payloadStore.Action("actionPayloadPriceTotal") setPayloadPriceTotal
     @payloadStore.Action("actionPayloadCostumerMessage") setPayloadCostumerMessage
     @payloadStore.Action("actionPayloadSegment") setPayloadSegment
     @payloadStore.Action("actionPayloadProducts") setPayloadProducts
@@ -611,7 +608,7 @@
     }
 
     created () {
-      this.totalPriceOrderClient()
+      this.dicountAplicated()
     }
 
     validateCart (): void {

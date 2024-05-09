@@ -4,6 +4,7 @@ import { cacheStoreInterface } from "@/plugins/store/interfaces/cacheStoreInterf
 
 const moduleCache = (): cacheStoreInterface => {
   return {
+    rastreamentoUsuario: {},
     cache: {},
     overdrawerMenu: false,
     cepValidation: "",
@@ -18,6 +19,9 @@ const state: cacheStoreInterface = moduleCache()
 const getters: GetterTree<cacheStoreInterface, rootStateInterface> = {
   getCache: ({ cache }) => ({ data }) => {
     return cache[data]
+  },
+  CacheRastreamentoUsuarioPayloadSource: ({ rastreamentoUsuario }) => () => {
+    return rastreamentoUsuario.source
   },
   getCacheOverdrawerMenu: ({ overdrawerMenu }) => () => {
     return overdrawerMenu
@@ -40,6 +44,10 @@ const actions: ActionTree<cacheStoreInterface, rootStateInterface> = {
   setCache ({ commit }, { data, value }) {
     commit("mutationCache", { data, value })
   },
+  ActionCacheRastreamentoUsuarioSource: ({ commit }, { source }) => {
+    commit("mutationCacheRastreamentoSource", source)
+    sessionStorage.setItem("payload.source", source)
+  },
   ActionCacheOverdrawerMenu ({ commit }, data) {
     commit("mutationCacheOverdrawerMenu", data)
   },
@@ -60,6 +68,9 @@ const actions: ActionTree<cacheStoreInterface, rootStateInterface> = {
 const mutations: MutationTree<cacheStoreInterface> = {
   mutationCache ({ cache }, { data, value }) {
     cache[data] = value
+  },
+  mutationCacheRastreamentoSource: (state, source) => {
+    state.rastreamentoUsuario.source = source
   },
   mutationCacheOverdrawerMenu (state, data) {
     state.overdrawerMenu = data

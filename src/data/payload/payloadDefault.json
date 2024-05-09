@@ -21,6 +21,7 @@
   "produtos": [],
   "pagamento": {
     "valorFrete": 0,
+    "valorProdutos": 0,
     "valorTotal": 0,
 		"formaPagamento": "",
     "desconto": {

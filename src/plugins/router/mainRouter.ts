@@ -6,6 +6,10 @@ export default [
       /* webpackPrefetch: 0 */
       "@/routes/routeHomeView.vue"
     ),
+    meta: {
+      title: "Bangalô Sushi Lounge",
+      description: "Venha conhecer o melhor sushi de Santa Luzia de Paruá",
+    },
     children: [
       {
         path: ":uri?",

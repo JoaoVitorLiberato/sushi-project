@@ -6,6 +6,10 @@ export default [
       /* webpackPrefetch: 0 */
       "@/routes/routeProductView.vue"
     ),
+    meta: {
+      title: "Bangalô Sushi Lounge",
+      description: "Conhece nossos produtos melhor do Bangalô",
+    },
     children: [
       {
         path: ":type/vamoscomecar",
