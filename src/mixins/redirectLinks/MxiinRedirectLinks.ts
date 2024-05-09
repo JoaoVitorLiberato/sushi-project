@@ -11,7 +11,7 @@ export default class MixinRedirectLinks extends Vue {
     if (key) {
       location.replace(`/produto/${key}/vamoscomecar${location.search}`)
     } else {
-      location.replace(`/produto/${this.$route.query.location}/vamoscomecar${location.search}`)
+      location.replace(`/produto/${this.$route.params.type}/vamoscomecar${location.search}`)
     }
   }
 }

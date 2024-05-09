@@ -1,6 +1,6 @@
 export default [
   {
-    path: "/pedido",
+    path: "/pedido/:type",
     component: (): Promise<typeof import("*.vue")> => import(
       /* webpackChunkName: "form-route" */
       /* webpackPrefetch: 0 */

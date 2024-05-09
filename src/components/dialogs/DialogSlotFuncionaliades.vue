@@ -426,7 +426,7 @@
       this.setCacheOrdersCart([])
       this.dialogOrdersClientModel = !this.dialogOrdersClientModel
 
-      if (/form-view/i.test(String(this.$route.name || ""))) location.replace(`/produto/${this.$route.query.location}/vamoscomecar`)
+      if (/form-view/i.test(String(this.$route.name || ""))) location.replace(`/produto/${this.$route.params.type}/vamoscomecar`)
     }
 
   }

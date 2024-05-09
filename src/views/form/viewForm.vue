@@ -486,9 +486,9 @@
       next: (arg0: (vm) => void) => void,
     ) {
       next((vm) => {
-        vm.setPayloadSegment(String(to.query.location || ""))
+        vm.setPayloadSegment(String(to.params.type || ""))
         vm.setPayloadProducts(vm.getCacheOrderCart())
-        if (/foodpark/i.test(String(to.query.location || ""))) {
+        if (/foodpark/i.test(String(to.params.type || ""))) {
           vm.setCacheCepValidation("65272000")
           vm.APIValidadorCEPMixin()
           if (/error_api/i.test(String(viaCepFields("erro") || ""))) {
@@ -530,7 +530,7 @@
               }
             })
           }
-        } else if (/delivery/i.test(String(to.query.location || ""))) {
+        } else if (/delivery/i.test(String(to.params.type|| ""))) {
           if (viaCepFields("erro") && /error_api/i.test(String(viaCepFields("erro") || ""))) {
             Object.keys(vm.itemsFirstFields).forEach((input) => {
               setTimeout(() => {
