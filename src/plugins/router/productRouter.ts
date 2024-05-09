@@ -36,6 +36,16 @@ export default [
             /* webpackPrefetch: 1 */
             "@/views/product/viewProductEspecial.vue"
           ),
+          viewProductCombinados: (): Promise<typeof import("*.vue")> => import(
+            /* webpackChunkName: "combinados-product-view" */
+            /* webpackPrefetch: 1 */
+            "@/views/product/viewProductCombinados.vue"
+          ),
+          viewProductDoces: (): Promise<typeof import("*.vue")> => import(
+            /* webpackChunkName: "doces-product-view" */
+            /* webpackPrefetch: 1 */
+            "@/views/product/viewProductDoces.vue"
+          ),
         },
       },
     ],

@@ -14,16 +14,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -48,16 +51,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -82,16 +88,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -116,16 +125,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -150,16 +162,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -184,16 +199,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 500
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -218,16 +236,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 500
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -252,16 +273,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 500
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -286,16 +310,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 500
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -320,16 +347,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 500
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -354,16 +384,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 500
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -388,16 +421,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 500
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -422,16 +458,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 500
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -456,16 +495,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 500
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -490,16 +532,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 500
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -524,16 +569,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 500
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -558,16 +606,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 500
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -592,16 +643,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 500
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -626,16 +680,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 400
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -660,16 +717,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 400
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -694,16 +754,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 500
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -728,16 +791,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 500
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -762,16 +828,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 400
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -796,16 +865,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 400
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -830,16 +902,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 400
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -862,6 +937,7 @@
         "value": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 400
@@ -869,16 +945,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 400
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -903,16 +982,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -937,16 +1019,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -971,16 +1056,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -1005,16 +1093,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -1039,16 +1130,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -1073,16 +1167,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -1107,16 +1204,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -1141,16 +1241,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -1175,16 +1278,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -1209,16 +1315,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -1243,16 +1352,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -1277,16 +1389,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -1311,16 +1426,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -1345,16 +1463,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -1379,16 +1500,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -1413,16 +1537,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 400
@@ -1447,16 +1574,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -1481,16 +1611,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -1515,16 +1648,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 400
@@ -1549,16 +1685,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 400
@@ -1583,16 +1722,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 400
@@ -1617,16 +1759,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 400
@@ -1651,16 +1796,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 400
@@ -1685,16 +1833,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 400
@@ -1719,16 +1870,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": true,
         "input": "actived",
         "active": true,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -1753,16 +1907,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": true,
         "input": "actived",
         "active": true,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -1787,16 +1944,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 400
@@ -1821,16 +1981,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -1855,16 +2018,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -1889,16 +2055,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -1923,16 +2092,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 500
@@ -1957,16 +2129,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 500
@@ -1991,16 +2166,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "actived",
         "active": false,
         "additional": 500
@@ -2025,16 +2203,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -2059,16 +2240,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -2093,16 +2277,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -2127,16 +2314,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -2161,16 +2351,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -2184,8 +2377,8 @@
     "id": 65,
     "url_image": "/img/project/sushi-bark2.jpg",
     "category": "doces",
-    "name": "Uramaki de abacaxi caramelizado, 8 und",
-    "description": "Recheado de camarão",
+    "name": "Uramaki de abacaxi, 8 und",
+    "description": "Uramaki de abacaxi caramelizado recheado de camarão",
     "price": {
       "default": 2500,
       "discount": {
@@ -2195,16 +2388,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
@@ -2218,8 +2414,8 @@
     "id": 66,
     "url_image": "/img/project/sushi-bark2.jpg",
     "category": "doces",
-    "name": "Uramaki de banana caramelizada, 8 und",
-    "description": "Recheado de camarão",
+    "name": "Uramaki de banana, 8 und",
+    "description": "Uramaki de banana caramelizada recheado de camarão",
     "price": {
       "default": 2500,
       "discount": {
@@ -2229,16 +2425,19 @@
     },
     "differences": {
       "especial": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "breaded": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0
       },
       "flambed": {
+        "readonly": false,
         "input": "desatived",
         "active": false,
         "additional": 0

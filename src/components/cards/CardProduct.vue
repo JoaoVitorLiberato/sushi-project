@@ -109,6 +109,7 @@
               v-if="/actived/i.test(String(differences?.breaded?.input || ''))"
               v-model="differences.breaded.active"
               color="success"
+              :readonly="differences?.breaded?.readonly"
               dense
               @change="formatedPriceWithBreadedAndQuantity(product)"
             >
@@ -124,6 +125,7 @@
             <v-checkbox
               v-else-if="/actived/i.test(String(differences?.especial.input || ''))"
               v-model="differences.especial.active"
+              :readonly="differences?.breaded?.readonly"
               color="success"
               dense
               @change="formatedPriceWithBreadedAndQuantity(product)"
@@ -140,6 +142,7 @@
             <v-checkbox
               v-else-if="/actived/i.test(String(differences?.flambed.input || ''))"
               v-model="differences.flambed.active"
+              :readonly="differences?.breaded?.readonly"
               color="success"
               dense
               @change="formatedPriceWithBreadedAndQuantity(product)"

@@ -44,5 +44,5 @@
     }
   })
 
-  export default class ViewProductHot extends Vue {}
+  export default class viewProductHot extends Vue {}
 </script>
