@@ -17,7 +17,7 @@ export default class MixinCacheProduct extends Vue {
       if (this.getCacheOrderCart().length <= 0 && JSON.parse(CACHE_ORDER).length > 0) {
         this.setDialogOrdersClient(!this.getDialogOrdersClient())
       } else if (/^(form-view)$/i.test(String(this.$route.name || "")) && !CACHE_ORDER) {
-        location.replace(`/produto/${this.$route.query.location}/vamoscomecar`)
+        location.replace(`/produto/${this.$route.params.type}/vamoscomecar`)
       }
     }
   }

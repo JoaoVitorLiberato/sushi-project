@@ -22,10 +22,6 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.query.location && /product/i.test(String(to.name || ""))) {
-    to.query.location = to.params.type
-  }
-
   try {
     titleUpdate(to)
   } catch {/* EMPTY */}

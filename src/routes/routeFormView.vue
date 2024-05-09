@@ -58,7 +58,7 @@
       next: (arg0: (vm) => void) => void,
     ) {
       next((vm) => {
-        if (/delivery/i.test(String(to.query.location || ""))) {
+        if (/delivery/i.test(String(to.params.type || ""))) {
           vm.setDialogCepDelivery(!vm.getDialogCepDelivery())
         }
       })

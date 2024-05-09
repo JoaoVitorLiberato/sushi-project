@@ -186,7 +186,7 @@
     prepareAddToCart (): void {
       if (!this.getCacheOrderCart() || this.getCacheOrderCart().length <= 0) return
       this.drawerCartProduct = !this.drawerCartProduct
-      this.$router.replace(`/pedido/finalizar${String(location.search).replace(/&location=delivery|&location=foodpark/g, "")}&location=${String(this.$route.params.type || '')}`)
+      this.$router.replace(`/pedido/${this.$route.params.type}/finalizar${location.search}`)
     }
   }
 </script>
