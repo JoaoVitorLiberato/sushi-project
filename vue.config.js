@@ -30,7 +30,7 @@ module.exports = {
   },
 
   pwa: {
-    name: "Bangalô Sushi Lounge",
+    name: "BANGALÔ",
     themeColor: "#000",
     msTileColor: "#000",
     appleMobileWebAppCapable: "yes",
