@@ -175,7 +175,7 @@
                 </div>
                   <span
                     v-font-size="12"
-                    v-text="formatedPrice(Number(price_default))"
+                    v-text="formatedPrice(Number(price_default) * Number(qtd_product))"
                   />
               </v-col>
               <v-col
@@ -199,7 +199,7 @@
                 </div>
                   <span
                     v-font-size="12"
-                    v-text="formatedPrice(item.price)"
+                    v-text="formatedPrice(item.priceTotal)"
                   />
               </v-col>
             </v-row>

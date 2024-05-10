@@ -281,13 +281,12 @@
                   :name="label"
                   :type="type||'text'"
                   :rules="optional?[itemsFirstFields[input].valid||true]:[required,itemsFirstFields[input].valid]"
-                  tabindex="0"
-                  flat
-                  color="white"
                   dark
                   outlined
                   class="mx-1"
                   hide-details="auto"
+                  autocomplete="no"
+                  tabindex="0"
                   :title="label"
                   :readonly="readonly"
                 >
@@ -310,13 +309,13 @@
                   :items="['Pix', 'Cartão de Crédito']"
                   v-model="itemsFirstFields.formaPagamento.value"
                   :rules="[required]"
-                  tabindex="0"
                   label="Forma de pagamento"
+                  tabindex="0"
                   flat
                   color="white"
                   class="mx-1"
                   outlined
-                  autocomplete="no"
+                  autocomplete="off"
                   dark
                   hide-details="auto"
                 >
@@ -453,6 +452,7 @@
   import APIValidadorCEPMixin from "@/mixins/form/MixinFormConfig"
   import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
   import MixinRedirectLinks from "@/mixins/redirectLinks/MxiinRedirectLinks"
+  import Debounce from "lodash.debounce"
 
   const payloadStore = namespace("payloadStoreModule")
   const cacheStore = namespace("cacheStoreModule")
@@ -817,6 +817,19 @@
 
     finishCostumerCart (): void {
       console.log("Finalizando")
+      this.loading = true
+      this.conversionOrder()
     }
+
+    conversionOrder = Debounce(
+      function (this) {
+        this.loading = false
+        console.log("Esperando API...", this.getPayloadOrder())
+        sessionStorage.clear()
+        sessionStorage.setItem("numero-pedido", "1234")
+        location.replace("/detalhes/pedido")
+      },
+      3000
+    )
   }
 </script>
