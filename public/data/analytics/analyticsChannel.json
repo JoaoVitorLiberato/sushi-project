@@ -64,5 +64,14 @@
       "utm_medium": "salgados",
       "utm_campaign": "parceiro"
     }
+  },
+  "webparceirosol": {
+    "path": "?utm_source=sol&utm_medium=distribuidora&utm_campaign=parceiro",
+    "canal": "Canal Parceiro Sol Distribuidora",
+    "params": {
+      "utm_source": "sol",
+      "utm_medium": "distribuidora",
+      "utm_campaign": "parceiro"
+    }
   }
 }

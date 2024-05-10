@@ -123,17 +123,22 @@
           link: "https://www.instagram.com/tanara_gomes?igsh=MTV6NGFuZmt6NXJjbg=="
         },
         {
-          name: "Águia Fitness",
+          name: "Águia Fitness - A melhor forma de se cuidar",
           url: "/img/project/parceiros/aguia-fitness.png",
           link: "https://www.instagram.com/aguiafiitness?igsh=MTVueHJzbDRiaWFwag=="
         },
         {
-          name: "Center Car",
+          name: "Distribuidora SOL - Delivery de bebidas",
+          url: "/img/project/parceiros/sol-distribuidora.png",
+          link: "https://www.instagram.com/soldeliverybeer?igsh=cjEwMWZuZ3h4cTVk"
+        },
+        {
+          name: "Center Car - O centro de serviços do seu carro",
           url: "/img/project/parceiros/center-car.png",
           link: ""
         },
         {
-          name: "Águia Motos",
+          name: "Águia Motos - A casa do motoqueiro",
           url: "/img/project/parceiros/aguia-motos.png",
           link: ""
         },
