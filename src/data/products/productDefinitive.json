@@ -816,7 +816,7 @@
   {
     "id": 23,
     "url_image": "/img/project/sushi-bark2.jpg",
-    "category": "temaki",
+    "category": "temakisa",
     "name": "Temaki s/arroz Salmão",
     "description": "1 unidade sem arroz enrolado no nori em formato de cone com cream cheese e cebolinha.",
     "price": {
@@ -853,7 +853,7 @@
   {
     "id": 24,
     "url_image": "/img/project/sushi-bark2.jpg",
-    "category": "temaki",
+    "category": "temakisa",
     "name": "Temaki s/arroz Camarão",
     "description": "1 unidade sem arroz enrolado no nori em formato de cone com cream cheese, camarão e cebolinha.",
     "price": {
@@ -890,7 +890,7 @@
   {
     "id": 25,
     "url_image": "/img/project/sushi-bark2.jpg",
-    "category": "temaki",
+    "category": "temakisa",
     "name": "Temaki s/arroz Skin",
     "description": "1 unidade sem arroz enrolado no nori em formato de cone com cream cheese, pele de peixe e cebolinha.",
     "price": {
@@ -927,7 +927,7 @@
   {
     "id": 26,
     "url_image": "/img/project/sushi-bark2.jpg",
-    "category": "temaki",
+    "category": "temakisa",
     "name": "Temaki s/arroz Misto",
     "description": "1 unidade sem arroz enrolado no nori em formato de cone com cream cheese, camarão, salmão, kani e cebolinha.",
     "price": {
@@ -1969,7 +1969,7 @@
   {
     "id": 57,
     "url_image": "/img/project/sushi-bark2.jpg",
-    "category": "especial",
+    "category": "supremo",
     "name": "Temaki supremo Salmão - (700g)",
     "description": "Lâmina de salmão envolta de arroz e mais salmão com cream cheese, cebolinha e gergelim em forma de cone.",
     "price": {
@@ -2006,7 +2006,7 @@
   {
     "id": 58,
     "url_image": "/img/project/sushi-bark2.jpg",
-    "category": "especial",
+    "category": "supremo",
     "name": "Temaki supremo Camarão - (700g)",
     "description": "Lâmina de camarão envolta de arroz e mais camarão com cream cheese, cebolinha e gergelim em forma de cone.",
     "price": {
@@ -2043,7 +2043,7 @@
   {
     "id": 59,
     "url_image": "/img/project/sushi-bark2.jpg",
-    "category": "especial",
+    "category": "supremo",
     "name": "Temaki supremo Misto - (700g)",
     "description": "Lâmina de salmão envolta de arroz recheado com salmão, camarão e kani com cream cheese, cebolinha e gergelim em forma de cone.",
     "price": {

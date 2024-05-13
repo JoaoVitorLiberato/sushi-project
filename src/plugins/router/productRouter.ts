@@ -30,6 +30,16 @@ export default [
             /* webpackPrefetch: 1 */
             "@/views/product/viewProductTemaki.vue"
           ),
+          viewProductTemakiSemArroz: (): Promise<typeof import("*.vue")> => import(
+            /* webpackChunkName: "temaki-product-view" */
+            /* webpackPrefetch: 1 */
+            "@/views/product/viewProductTemakiSemArroz.vue"
+          ),
+          viewProductTemakiSupremo: (): Promise<typeof import("*.vue")> => import(
+            /* webpackChunkName: "temaki-product-view" */
+            /* webpackPrefetch: 1 */
+            "@/views/product/viewProductTemakiSupremo.vue"
+          ),
           viewProductHot: (): Promise<typeof import("*.vue")> => import(
             /* webpackChunkName: "hot-product-view" */
             /* webpackPrefetch: 1 */
