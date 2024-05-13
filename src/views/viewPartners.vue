@@ -118,11 +118,6 @@
           link: "https://www.instagram.com/postoeconvenienciaaguia?igsh=cXRhbjg3ODN6dWh4 "
         },
         {
-          name: "Taynara Gomes - Bolos, Salgados e Petiscos",
-          url: "/img/project/parceiros/taynara-gomes.jpg",
-          link: "https://www.instagram.com/tanara_gomes?igsh=MTV6NGFuZmt6NXJjbg=="
-        },
-        {
           name: "Águia Fitness - A melhor forma de se cuidar",
           url: "/img/project/parceiros/aguia-fitness.png",
           link: "https://www.instagram.com/aguiafiitness?igsh=MTVueHJzbDRiaWFwag=="
@@ -141,6 +136,16 @@
           name: "Águia Motos - A casa do motoqueiro",
           url: "/img/project/parceiros/aguia-motos.png",
           link: ""
+        },
+        {
+          name: "Taynara Gomes - Bolos, Salgados e Petiscos",
+          url: "/img/project/parceiros/taynara-gomes.jpg",
+          link: "https://www.instagram.com/tanara_gomes?igsh=MTV6NGFuZmt6NXJjbg=="
+        },
+        {
+          name: "Diamond Black Store - O rei das jóias e relógios importados",
+          url: "/img/project/parceiros/diamond-black-store.JPG",
+          link: "https://www.instagram.com/diamontblackst?igsh=MWx6NWM5dWR1ZDIxZA=="
         },
       ]
     }

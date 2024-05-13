@@ -306,7 +306,7 @@
                 class="mb-3"
               >
                 <v-autocomplete
-                  :items="['Pix', 'Cartão de Crédito']"
+                  :items="['Pix', 'Cartão de Crédito', 'Dinheiro']"
                   v-model="itemsFirstFields.formaPagamento.value"
                   :rules="[required]"
                   label="Forma de pagamento"
@@ -645,7 +645,7 @@
         readonly: false,
       },
       enderecoLogradouro: {
-        label: "Endereço",
+        label: "Rua",
         value: "",
         valid: "",
         readonly: false,
