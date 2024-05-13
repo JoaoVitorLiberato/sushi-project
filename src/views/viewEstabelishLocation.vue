@@ -65,7 +65,7 @@
               </p>
 
               <a
-                href="https://wa.me/21967559557?text=Oi, Tudo bem?!"
+                href="https://wa.me/98992269238?text=Boa noite!!"
                 style="color:var(--v-primary-text)"
                 class="d-flex align-center justify-center justify-md-start"
                 title="Clique aqui para entrar em contato com Bangalô Sushi Lounge via WhatsApp"
@@ -74,7 +74,7 @@
                 <span
                   class="mr-2 font-weigth-regular"
                 >
-                  (98) 9 9999-9999
+                  (98) 9 9226-9238
                 </span>
                 <img 
                   src="/img/project/rede-sociais/whatsapp.png"

@@ -29,8 +29,8 @@
             style="color: var(--v-primary-text);"
             class="font-weight-thin font-italic pl-1"
           >
-            <strong>terça-feira</strong> a <strong>domingo</strong><br>
-            dás <strong>17:00</strong> às <strong>00:00</strong>
+            De <strong>segunda-feira</strong> à <strong>segunda-feira</strong><br>
+            dás <strong>18:30</strong> às <strong>23:00</strong>
           </p>
         </v-col>
 

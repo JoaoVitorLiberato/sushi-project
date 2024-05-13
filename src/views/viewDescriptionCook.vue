@@ -94,8 +94,12 @@
                   <p
                     class="font-weight-regular"
                   >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, sint libero beatae rerum magni dolores sunt eum sapiente nulla cumque iusto! Voluptatem eum alias officiis quod laborum obcaecati quas accusamus magnam laboriosam unde. Fugiat perferendis quisquam non quibusdam quos ipsam, magni alias velit? Quidem quae dignissimos pariatur, quas modi minus laudantium velit qui tempore perferendis, facilis repellat tempora aut at delectus rem a ab! Vitae harum, molestiae nostrum labore hic dolores reiciendis in fugit a quae nihil iusto aliquam sit facere quos rerum velit ipsum maxime nesciunt voluptates deleniti nemo!
-                    Culpa adipisci esse, et nam explicabo voluptas quas voluptate eos.
+                    Lailson, {{ new Date().getFullYear() - 1998 }} anos, sushiman e empreendedor visionário não apenas encanta paladares exigentes, 
+                    mas também molda destinos gastronômicos com sua criatividade e paixão. Apaixonado pela arte da culinária desde
+                    tenra idade, encontrou sua verdadeira vocação na fusão de sabores orientais e ocidentais. 
+                    Sua jornada rumo à excelência culinária foi pavimentada com uma combinação única de talento inato,
+                    trabalho árduo e uma curiosidade insaciável.
+
                   </p>
                 </v-col>
 
@@ -111,8 +115,12 @@
                   <p
                     class="font-weight-regular"
                   >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, sint libero beatae rerum magni dolores sunt eum sapiente nulla cumque iusto! Voluptatem eum alias officiis quod laborum obcaecati quas accusamus magnam laboriosam unde. Fugiat perferendis quisquam non quibusdam quos ipsam, magni alias velit? Quidem quae dignissimos pariatur, quas modi minus laudantium velit qui tempore perferendis, facilis repellat tempora aut at delectus rem a ab! Vitae harum, molestiae nostrum labore hic dolores reiciendis in fugit a quae nihil iusto aliquam sit facere quos rerum velit ipsum maxime nesciunt voluptates deleniti nemo!
-                    Culpa adipisci esse, et nam explicabo voluptas quas voluptate eos.
+                    Em um momento de inspiração que Lailson deu vida ao Bangalô Sushi, 
+                    uma ode à delicadeza e complexidade da culinária japonesa, imbuída com um toque de brasilidade.
+                    O Bangalô Sushi é uma variação contemporânea da culinária japonesa, fundindo técnicas tradicionais 
+                    com influências modernas. Essa tendência gastronômica muitas vezes combina elementos do sushi com toques
+                    criativos e apresentação sofisticada, muitas vezes servidos em espaços elegantes e descontraídos. É uma experiência que apela tanto para os amantes da culinária japonesa
+                    tradicional quanto para aqueles em busca de novas interpretações e sabores únicos.
                   </p>
                 </v-col>
               </v-row>

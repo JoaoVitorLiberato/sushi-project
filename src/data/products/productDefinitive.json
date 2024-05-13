@@ -6,7 +6,7 @@
     "name": "Sunomono de salmão",
     "description": "1 Porção - Salada de pepino com cubos de salmão com gergelim torrado.",
     "price": {
-      "default": 3000,
+      "default": 2500,
       "discount": {
         "active": false,
         "value": 0
@@ -263,7 +263,7 @@
     "url_image": "/img/project/sushi-bark2.jpg",
     "category": "pecas",
     "name": "Hot Carioca skin - (5 peças)",
-    "description": "",
+    "description": "Arroz espalhado na nori com pele do salmão frita e cream cheese empanado na farinha panko.",
     "price": {
       "default": 1000,
       "discount": {
@@ -300,7 +300,7 @@
     "url_image": "/img/project/sushi-bark2.jpg",
     "category": "pecas",
     "name": "Hot Carioca kani - (5 peças)",
-    "description": "",
+    "description": "Arroz espalhado na nori com carne de caranguejo frita e cream cheese empanado na farinha panko.",
     "price": {
       "default": 1300,
       "discount": {
@@ -350,7 +350,7 @@
         "readonly": false,
         "input": "actived",
         "active": false,
-        "additional": 500
+        "additional": 300
       },
       "breaded": {
         "readonly": false,
@@ -387,7 +387,7 @@
         "readonly": false,
         "input": "actived",
         "active": false,
-        "additional": 500
+        "additional": 300
       },
       "breaded": {
         "readonly": false,
@@ -424,7 +424,7 @@
         "readonly": false,
         "input": "actived",
         "active": false,
-        "additional": 500
+        "additional": 300
       },
       "breaded": {
         "readonly": false,
@@ -461,7 +461,7 @@
         "readonly": false,
         "input": "actived",
         "active": false,
-        "additional": 500
+        "additional": 300
       },
       "breaded": {
         "readonly": false,
@@ -498,7 +498,7 @@
         "readonly": false,
         "input": "actived",
         "active": false,
-        "additional": 500
+        "additional": 300
       },
       "breaded": {
         "readonly": false,
@@ -535,7 +535,7 @@
         "readonly": false,
         "input": "actived",
         "active": false,
-        "additional": 500
+        "additional": 300
       },
       "breaded": {
         "readonly": false,
@@ -572,7 +572,7 @@
         "readonly": false,
         "input": "actived",
         "active": false,
-        "additional": 500
+        "additional": 300
       },
       "breaded": {
         "readonly": false,
@@ -609,7 +609,7 @@
         "readonly": false,
         "input": "actived",
         "active": false,
-        "additional": 500
+        "additional": 300
       },
       "breaded": {
         "readonly": false,
@@ -652,7 +652,7 @@
         "readonly": false,
         "input": "actived",
         "active": false,
-        "additional": 500
+        "additional": 300
       },
       "flambed": {
         "readonly": false,
@@ -689,7 +689,7 @@
         "readonly": false,
         "input": "actived",
         "active": false,
-        "additional": 400
+        "additional": 300
       },
       "flambed": {
         "readonly": false,
@@ -726,7 +726,7 @@
         "readonly": false,
         "input": "actived",
         "active": false,
-        "additional": 400
+        "additional": 300
       },
       "flambed": {
         "readonly": false,
@@ -763,7 +763,7 @@
         "readonly": false,
         "input": "actived",
         "active": false,
-        "additional": 500
+        "additional": 300
       },
       "flambed": {
         "readonly": false,
@@ -800,7 +800,7 @@
         "readonly": false,
         "input": "actived",
         "active": false,
-        "additional": 500
+        "additional": 300
       },
       "flambed": {
         "readonly": false,
@@ -988,9 +988,9 @@
         "additional": 0
       },
       "breaded": {
-        "readonly": false,
+        "readonly": true,
         "input": "actived",
-        "active": false,
+        "active": true,
         "additional": 0
       },
       "flambed": {
@@ -1025,9 +1025,9 @@
         "additional": 0
       },
       "breaded": {
-        "readonly": false,
+        "readonly": true,
         "input": "actived",
-        "active": false,
+        "active": true,
         "additional": 0
       },
       "flambed": {
@@ -1062,9 +1062,9 @@
         "additional": 0
       },
       "breaded": {
-        "readonly": false,
+        "readonly": true,
         "input": "actived",
-        "active": false,
+        "active": true,
         "additional": 0
       },
       "flambed": {
@@ -1210,9 +1210,9 @@
         "additional": 0
       },
       "breaded": {
-        "readonly": false,
-        "input": "desatived",
-        "active": false,
+        "readonly": true,
+        "input": "actived",
+        "active": true,
         "additional": 0
       },
       "flambed": {
@@ -1247,9 +1247,9 @@
         "additional": 0
       },
       "breaded": {
-        "readonly": false,
-        "input": "desatived",
-        "active": false,
+        "readonly": true,
+        "input": "actived",
+        "active": true,
         "additional": 0
       },
       "flambed": {
@@ -1284,9 +1284,9 @@
         "additional": 0
       },
       "breaded": {
-        "readonly": false,
-        "input": "desatived",
-        "active": false,
+        "readonly": true,
+        "input": "actived",
+        "active": true,
         "additional": 0
       },
       "flambed": {
@@ -1321,9 +1321,9 @@
         "additional": 0
       },
       "breaded": {
-        "readonly": false,
-        "input": "desatived",
-        "active": false,
+        "readonly": true,
+        "input": "actived",
+        "active": true,
         "additional": 0
       },
       "flambed": {
@@ -1358,120 +1358,9 @@
         "additional": 0
       },
       "breaded": {
-        "readonly": false,
-        "input": "desatived",
-        "active": false,
-        "additional": 0
-      },
-      "flambed": {
-        "readonly": false,
-        "input": "desatived",
-        "active": false,
-        "additional": 0
-      }
-    },
-    "note_client": 0,
-    "apper_start": false,
-    "hero_product": false
-  },
-  {
-    "id": 39,
-    "url_image": "/img/project/sushi-bark2.jpg",
-    "category": "hot",
-    "name": "Bolinha camarão 5und",
-    "description": "Camarão batido com arroz, cream cheese e cebolinha empanado na farinha panko.",
-    "price": {
-      "default": 2500,
-      "discount": {
-        "active": false,
-        "value": 0
-      }
-    },
-    "differences": {
-      "especial": {
-        "readonly": false,
-        "input": "desatived",
-        "active": false,
-        "additional": 0
-      },
-      "breaded": {
-        "readonly": false,
-        "input": "desatived",
-        "active": false,
-        "additional": 0
-      },
-      "flambed": {
-        "readonly": false,
-        "input": "desatived",
-        "active": false,
-        "additional": 0
-      }
-    },
-    "note_client": 0,
-    "apper_start": false,
-    "hero_product": false
-  },
-  {
-    "id": 40,
-    "url_image": "/img/project/sushi-bark2.jpg",
-    "category": "hot",
-    "name": "Bolinha mista",
-    "description": "Salmão, camarão e kani batido com arroz, cream cheese e cebolinha empanado na farinha panko.",
-    "price": {
-      "default": 2500,
-      "discount": {
-        "active": false,
-        "value": 0
-      }
-    },
-    "differences": {
-      "especial": {
-        "readonly": false,
-        "input": "desatived",
-        "active": false,
-        "additional": 0
-      },
-      "breaded": {
-        "readonly": false,
-        "input": "desatived",
-        "active": false,
-        "additional": 0
-      },
-      "flambed": {
-        "readonly": false,
-        "input": "desatived",
-        "active": false,
-        "additional": 0
-      }
-    },
-    "note_client": 0,
-    "apper_start": false,
-    "hero_product": false
-  },
-  {
-    "id": 40,
-    "url_image": "/img/project/sushi-bark2.jpg",
-    "category": "hot",
-    "name": "Bolinha mista",
-    "description": "Salmão, camarão e kani batido com arroz, cream cheese e cebolinha empanado na farinha panko.",
-    "price": {
-      "default": 2500,
-      "discount": {
-        "active": false,
-        "value": 0
-      }
-    },
-    "differences": {
-      "especial": {
-        "readonly": false,
-        "input": "desatived",
-        "active": false,
-        "additional": 0
-      },
-      "breaded": {
-        "readonly": false,
+        "readonly": true,
         "input": "actived",
-        "active": false,
+        "active": true,
         "additional": 0
       },
       "flambed": {
@@ -1486,10 +1375,10 @@
     "hero_product": false
   },
   {
-    "id": 41,
+    "id": 40,
     "url_image": "/img/project/sushi-bark2.jpg",
     "category": "hot",
-    "name": "Bolinha mista",
+    "name": "Bolinha mista - (5 unid)",
     "description": "Salmão, camarão e kani batido com arroz, cream cheese e cebolinha empanado na farinha panko.",
     "price": {
       "default": 2500,
@@ -1506,9 +1395,9 @@
         "additional": 0
       },
       "breaded": {
-        "readonly": false,
-        "input": "desatived",
-        "active": false,
+        "readonly": true,
+        "input": "actived",
+        "active": true,
         "additional": 0
       },
       "flambed": {
@@ -1677,7 +1566,7 @@
     "name": "Joy Joy - 6 unid",
     "description": "Lamina de salmão envolta da bolinha do arroz com salmão batido encima com cream cheese.",
     "price": {
-      "default": 3000,
+      "default": 2800,
       "discount": {
         "active": false,
         "value": 0
@@ -1700,7 +1589,7 @@
         "readonly": false,
         "input": "actived",
         "active": false,
-        "additional": 400
+        "additional": 200
       }
     },
     "note_client": 0,
@@ -1714,7 +1603,7 @@
     "name": "Eby Joy - 6 unid",
     "description": "Lâmina de salmão envolta do arroz com camarão encima.",
     "price": {
-      "default": 3000,
+      "default": 2800,
       "discount": {
         "active": false,
         "value": 0
@@ -1737,7 +1626,7 @@
         "readonly": false,
         "input": "actived",
         "active": false,
-        "additional": 400
+        "additional": 200
       }
     },
     "note_client": 0,
@@ -1751,7 +1640,7 @@
     "name": "Dragon - 6 unid",
     "description": "Lâmina de salmão recheada com cream cheese temperado.",
     "price": {
-      "default": 3000,
+      "default": 2800,
       "discount": {
         "active": false,
         "value": 0
@@ -1774,7 +1663,7 @@
         "readonly": false,
         "input": "actived",
         "active": false,
-        "additional": 400
+        "additional": 200
       }
     },
     "note_client": 0,
@@ -1788,7 +1677,7 @@
     "name": "Eby dragon - 6 unid",
     "description": "Lâmina de salmão recheada com cream cheese temperado e camarão.",
     "price": {
-      "default": 3000,
+      "default": 2800,
       "discount": {
         "active": false,
         "value": 0
@@ -1811,7 +1700,7 @@
         "readonly": false,
         "input": "actived",
         "active": false,
-        "additional": 400
+        "additional": 200
       }
     },
     "note_client": 0,
@@ -1825,7 +1714,7 @@
     "name": "Eby house - 6 unid",
     "description": "Lâmina de salmão envolta do camarão crocante.",
     "price": {
-      "default": 3000,
+      "default": 2800,
       "discount": {
         "active": false,
         "value": 0
@@ -1848,7 +1737,7 @@
         "readonly": false,
         "input": "actived",
         "active": false,
-        "additional": 400
+        "additional": 200
       }
     },
     "note_client": 0,
@@ -1859,10 +1748,10 @@
     "id": 51,
     "url_image": "/img/project/sushi-bark2.jpg",
     "category": "especial",
-    "name": "Eby shake",
+    "name": "Eby shakê",
     "description": "Lâmina de salmão, recheada com cream cheese temperado e camarão natural, empanado na farinha panko.",
     "price": {
-      "default": 3300,
+      "default": 3000,
       "discount": {
         "active": false,
         "value": 0
@@ -1899,7 +1788,7 @@
     "name": "Dragon empanado",
     "description": "Lâmina de salmão recheado com cream cheese temperado, empanado na farinha panko.",
     "price": {
-      "default": 3300,
+      "default": 3000,
       "discount": {
         "active": false,
         "value": 0
@@ -1959,7 +1848,7 @@
         "readonly": false,
         "input": "actived",
         "active": false,
-        "additional": 400
+        "additional": 200
       }
     },
     "note_client": 0,
@@ -2269,81 +2158,7 @@
     "name": "Bangalô hot, 30 peças",
     "description": "10 hot salmão, 10 hot kani, 10 hot camarão",
     "price": {
-      "default": 7500,
-      "discount": {
-        "active": false,
-        "value": 0
-      }
-    },
-    "differences": {
-      "especial": {
-        "readonly": false,
-        "input": "desatived",
-        "active": false,
-        "additional": 0
-      },
-      "breaded": {
-        "readonly": false,
-        "input": "desatived",
-        "active": false,
-        "additional": 0
-      },
-      "flambed": {
-        "readonly": false,
-        "input": "desatived",
-        "active": false,
-        "additional": 0
-      }
-    },
-    "note_client": 0,
-    "apper_start": false,
-    "hero_product": false
-  },
-  {
-    "id": 63,
-    "url_image": "/img/project/sushi-bark2.jpg",
-    "category": "doces",
-    "name": "Hot banana",
-    "description": "Acompanha Nutella",
-    "price": {
-      "default": 2000,
-      "discount": {
-        "active": false,
-        "value": 0
-      }
-    },
-    "differences": {
-      "especial": {
-        "readonly": false,
-        "input": "desatived",
-        "active": false,
-        "additional": 0
-      },
-      "breaded": {
-        "readonly": false,
-        "input": "desatived",
-        "active": false,
-        "additional": 0
-      },
-      "flambed": {
-        "readonly": false,
-        "input": "desatived",
-        "active": false,
-        "additional": 0
-      }
-    },
-    "note_client": 0,
-    "apper_start": false,
-    "hero_product": false
-  },
-  {
-    "id": 64,
-    "url_image": "/img/project/sushi-bark2.jpg",
-    "category": "doces",
-    "name": "Hot banana",
-    "description": "acompanha leite condensado com raspa de limão",
-    "price": {
-      "default": 2000,
+      "default": 7000,
       "discount": {
         "active": false,
         "value": 0
