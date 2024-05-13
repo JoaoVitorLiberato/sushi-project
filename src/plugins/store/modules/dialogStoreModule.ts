@@ -9,7 +9,7 @@ const moduleCache = (): dialogStoreInterface => {
     dialogOrdersClient: false,
     dialogComplements: false,
     dialogCommentsCostumers: false,
-    dialogSearchOrderClient: true,
+    dialogSearchOrderClient: false,
   }
 }
 

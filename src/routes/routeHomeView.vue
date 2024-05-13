@@ -77,6 +77,8 @@
         #serviceClient
       />
     </dialog-slot-funcionalidades-component>
+
+    <button-whats-chat />
   </v-main>
 </template>
 
@@ -105,6 +107,11 @@
         /* webpackChunkName: "footer-component" */
         /* webpackMode: "eager" */
         "@/components/FooterComponent.vue"
+      ),
+      ButtonWhatsChat: () => import(
+        /* webpackChunkName: "button-whatschat-porduct-component" */
+        /* webpackMode: "eager" */
+        "@/components/buttons/ButtonWhatsChat.vue"
       ),
     }
   })

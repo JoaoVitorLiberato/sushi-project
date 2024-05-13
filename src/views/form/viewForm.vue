@@ -596,7 +596,7 @@
     required = required
     formatedPrice = formatedPrice
 
-    expand = true
+    expand = false
     loading = false
 
     formDadosCadastrais = false
@@ -824,8 +824,14 @@
     conversionOrder = Debounce(
       function (this) {
         this.loading = false
-        console.log("Esperando API...", this.getPayloadOrder())
+        const DATA_FAKE = {
+          nome: this.getPayloadOrder("consumidor").nome,
+          telefone: this.getPayloadOrder("consumidor").telefone.contato,
+          status: "preparando",
+          produtos: [...this.getPayloadOrder("produtos")]
+        }
         sessionStorage.clear()
+        sessionStorage.setItem("api-fake", JSON.stringify(DATA_FAKE))
         sessionStorage.setItem("numero-pedido", "123456")
         location.replace("/detalhes/pedido")
       },

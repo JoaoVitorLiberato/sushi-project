@@ -321,9 +321,9 @@
   import { Component, Watch } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
   import { namespace } from "vuex-class"
-  import MixinRedirectLinks from "@/mixins/redirectLinks/MxiinRedirectLinks"
   import { required, cep } from "@/helpers/rules"
   import { $refs } from "@/implements/types"
+  import MixinRedirectLinks from "@/mixins/redirectLinks/MxiinRedirectLinks"
   import MixinFormConfig from "@/mixins/form/MixinFormConfig"
   import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
 

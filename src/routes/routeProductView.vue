@@ -136,6 +136,8 @@
         #ordersClient
       />
     </dialog-slot-funcionalidades-component>
+
+    <button-whats-chat />
   </v-main>
 </template>
 
@@ -174,7 +176,12 @@
         /* webpackChuckName: "dialog-complements-product-component" */
         /* webpackMode: "eager" */
         "@/components/dialogs/DialogComplementsProduct.vue"
-      )
+      ),
+      ButtonWhatsChat: () => import(
+        /* webpackChunkName: "button-whatschat-porduct-component" */
+        /* webpackMode: "eager" */
+        "@/components/buttons/ButtonWhatsChat.vue"
+      ),
     }
   })
   export default class RouteProductView extends Vue {
