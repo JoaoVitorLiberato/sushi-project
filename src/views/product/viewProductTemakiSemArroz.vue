@@ -15,7 +15,7 @@
           <h2
             class="font-weight-bold text-uppercase"
           >
-            Temaki's com arroz
+            Temaki's sem arroz
           </h2>
         </v-col>
 
@@ -23,7 +23,7 @@
           cols="12"
         >
           <content-section-order-component 
-            category="temaki"
+            category="temakisa"
           />
         </v-col>
       </v-row>
@@ -44,5 +44,5 @@
     }
   })
 
-  export default class viewProductTemaki extends Vue {}
+  export default class viewProductTemakiSemArroz extends Vue {}
 </script>

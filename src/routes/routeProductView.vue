@@ -7,7 +7,7 @@
       <toolbar-component />
 
       <v-row
-        v-width.max="'1100px'"
+        v-width.max="'1440px'"
         no-gutters
         class="mx-auto"
       >
@@ -42,6 +42,32 @@
         >
           <router-view
             name="viewProductTemaki"
+          />
+        </v-col>
+
+        <v-col
+          cols="12"
+          class="py-1 py-sm-6"
+        />
+
+        <v-col
+          cols="12"
+        >
+          <router-view
+            name="viewProductTemakiSemArroz"
+          />
+        </v-col>
+
+        <v-col
+          cols="12"
+          class="py-1 py-sm-6"
+        />
+
+        <v-col
+          cols="12"
+        >
+          <router-view
+            name="viewProductTemakiSupremo"
           />
         </v-col>
 
