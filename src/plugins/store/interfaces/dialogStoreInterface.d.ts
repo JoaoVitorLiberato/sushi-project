@@ -4,6 +4,7 @@ interface dialogStoreInterface {
   dialogOrdersClient: boolean,
   dialogComplements: boolean,
   dialogCommentsCostumers: boolean,
+  dialogSearchOrderClient: boolean,
 }
 
 export {

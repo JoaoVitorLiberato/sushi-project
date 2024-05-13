@@ -9,6 +9,7 @@ const moduleCache = (): dialogStoreInterface => {
     dialogOrdersClient: false,
     dialogComplements: false,
     dialogCommentsCostumers: false,
+    dialogSearchOrderClient: true,
   }
 }
 
@@ -30,24 +31,9 @@ const getters: GetterTree<dialogStoreInterface, rootStateInterface> = {
   DialogCommentsCostumers: ({ dialogCommentsCostumers }) => () => {
     return dialogCommentsCostumers
   },
-}
-
-const actions: ActionTree<dialogStoreInterface, rootStateInterface> = {
-  ActionDialogServiceClient ({ commit }, data) {
-    commit("MutationServiceClient", data)
+  DialogSearchOrderClient: ({ dialogSearchOrderClient }) => () => {
+    return dialogSearchOrderClient
   },
-  ActionDialogCepDelivery ({ commit }, data) {
-    commit("MutationCepDelivery", data)
-  },
-  ActionDialogOrdersClient ({ commit }, data) {
-    commit("MutationOrdersClient", data)
-  },
-  ActionDialogComplements ({ commit }, data) {
-    commit("MutationComplements", data)
-  },
-  ActionDialogCommentsCostumers ({ commit }, data) {
-    commit("MutationCommentsCostumers", data)
-  }
 }
 
 const mutations: MutationTree<dialogStoreInterface> = {
@@ -65,7 +51,31 @@ const mutations: MutationTree<dialogStoreInterface> = {
   },
   MutationCommentsCostumers (state, data) {
     state.dialogCommentsCostumers = data
+  },
+  MutationSearchOrderClient (state, data) {
+    state.dialogSearchOrderClient = data
   }
+}
+
+const actions: ActionTree<dialogStoreInterface, rootStateInterface> = {
+  ActionDialogServiceClient ({ commit }, data) {
+    commit("MutationServiceClient", data)
+  },
+  ActionDialogCepDelivery ({ commit }, data) {
+    commit("MutationCepDelivery", data)
+  },
+  ActionDialogOrdersClient ({ commit }, data) {
+    commit("MutationOrdersClient", data)
+  },
+  ActionDialogComplements ({ commit }, data) {
+    commit("MutationComplements", data)
+  },
+  ActionDialogCommentsCostumers ({ commit }, data) {
+    commit("MutationCommentsCostumers", data)
+  },
+  ActionDialogSearchOrderClient ({ commit }, data) {
+    commit("MutationSearchOrderClient", data)
+  },
 }
 
 const dialogStoreModule: Module<dialogStoreInterface, rootStateInterface> = {
