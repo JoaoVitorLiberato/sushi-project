@@ -232,7 +232,7 @@
     open = false
 
     get routeForm (): boolean {
-      return /^(form-view)$/i.test(String(this.$route.name || ""))
+      return /^(form-view|order-view)$/i.test(String(this.$route.name || ""))
     }
 
     typeDifferenceProduct (): string {

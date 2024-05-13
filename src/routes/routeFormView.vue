@@ -17,6 +17,8 @@
         #cepDelivery
       />
     </dialog-slot-funcionalidades-component>
+
+    <button-whats-chat />
   </v-main>
 </template>
 
@@ -41,6 +43,11 @@
         /* webpackMode: "eager" */
         "@/components/dialogs/DialogSlotFuncionaliades.vue"
       ),
+      ButtonWhatsChat: () => import(
+        /* webpackChunkName: "button-whatschat-porduct-component" */
+        /* webpackMode: "eager" */
+        "@/components/buttons/ButtonWhatsChat.vue"
+      ),
     }
   })
   export default class routeFormView extends Vue {
@@ -50,9 +57,6 @@
         params: {
           type: string|RegExp
         },
-        query: {
-          location: string|RegExp
-        }
       },
       _from: never,
       next: (arg0: (vm) => void) => void,

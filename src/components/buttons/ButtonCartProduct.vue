@@ -7,7 +7,6 @@
       fixed
       right
       bottom
-      class="v-btn--example"
       title="Botão abrir carrinho"
       @click="totalPriceOrderClient(), drawerCartProduct = !drawerCartProduct"
     >

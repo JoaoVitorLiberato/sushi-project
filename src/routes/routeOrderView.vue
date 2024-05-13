@@ -8,12 +8,22 @@
         name="viewOrder"
       />
     </v-container>
+
+    <button-whats-chat />
   </v-main>
 </template>
 
 <script lang="ts">
   import { Component, Vue } from "vue-property-decorator"
 
-  @Component({})
+  @Component({
+    components: {
+      ButtonWhatsChat: () => import(
+        /* webpackChunkName: "button-whatschat-porduct-component" */
+        /* webpackMode: "eager" */
+        "@/components/buttons/ButtonWhatsChat.vue"
+      ),
+    }
+  })
   export default class routeOrderView extends Vue {}
 </script>
