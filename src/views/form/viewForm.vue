@@ -826,7 +826,7 @@
         this.loading = false
         console.log("Esperando API...", this.getPayloadOrder())
         sessionStorage.clear()
-        sessionStorage.setItem("numero-pedido", "1234")
+        sessionStorage.setItem("numero-pedido", "123456")
         location.replace("/detalhes/pedido")
       },
       3000
