@@ -5,7 +5,7 @@ import { MiddlareConectAPI } from "@/middleware/middlewareBangaloSupportAPI"
 export default class MixinServiceOrderCostumer extends Vue {
   getOrderCostumer (numeroPedido: string|number) {
     async function serviceAPI () {
-      return await MiddlareConectAPI.get(`/pedido/${numeroPedido}`)
+      return await MiddlareConectAPI.get(`/order/${numeroPedido}`)
     }
 
     return new Promise((resolve) => {
@@ -20,6 +20,8 @@ export default class MixinServiceOrderCostumer extends Vue {
             resolve({
               ...JSON.parse(API_FAKE)
             })
+          } else {
+            resolve("")
           }
         })
     })

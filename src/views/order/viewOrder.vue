@@ -1,11 +1,18 @@
 <template>
   <v-row
     no-gutters
-    style="width:100%;max-width:1440px;"
+    style="width:100%;max-width:1110px;"
     class="mx-auto"
   >
     <v-col
       cols="12"
+    >
+      <toolbar-component />
+    </v-col>
+
+    <v-col
+      cols="12"
+      style="min-height:600px"
     >
       <v-row
         no-gutters
@@ -15,7 +22,7 @@
           cols="12"
         >
           <v-progress-linear
-            indeterminate
+            :indeterminate="!/concluido/i.test(String(detailOrder.status))"
             color="secondary"
           />
         </v-col>
@@ -30,16 +37,33 @@
           class="text-center"
         >
           <span
+            v-if="/preparando/i.test(String(detailOrder.status))"
             v-font-size="14"
             class="font-weight-meddium"
           >
             O seu pedido está sendo preparado...
           </span>
+
+          <span
+            v-if="/entrega/i.test(String(detailOrder.status))"
+            v-font-size="14"
+            class="font-weight-meddium"
+          >
+            Seu pedido saiu para entrega...
+          </span>
+
+          <span
+            v-if="/concluido/i.test(String(detailOrder.status))"
+            v-font-size="14"
+            class="font-weight-meddium"
+          >
+            Seu pedido está concluído.
+          </span>
         </v-col>
 
         <v-col
           cols="12"
-          class="py-8"
+          class="py-5"
         />
 
         <v-col
@@ -120,6 +144,28 @@
                     />
                   </v-col>
                 </v-row>
+              </v-col>
+
+              <v-col
+                cols="12"
+                class="py-3"
+              />
+
+              <v-col
+                cols="12"
+              >
+                <v-btn
+                  block
+                  large
+                  color="secondary"
+                  @click="openDialogComments"
+                >
+                  <span
+                    class="font-weight-bold primary--text"
+                  >
+                    Avaliar produtos
+                  </span>
+                </v-btn>
               </v-col>
             </v-row>
           </v-card>
@@ -269,6 +315,22 @@
           </v-card>
         </v-dialog>
       </v-overlay>
+
+      <dialog-comments-clients
+        :open="dialogCommentsClients"
+        :products="detailOrder.produtos"
+      />
+    </v-col>
+
+    <v-col
+      cols="12"
+      class="py-4"
+    />
+
+    <v-col
+      cols="12"
+    >
+      <footer-component />
     </v-col>
   </v-row>
 </template>
@@ -292,6 +354,21 @@
         /* webpackChuckName: "card-product-cart-component" */
         /* webpackMode: "eager" */
         "@/components/cards/CardProductCart.vue"
+      ),
+      ToolbarComponent: () => import(
+        /* webpackChunkName: "toolbar-component" */
+        /* webpackMode: "eager" */
+        "@/components/ToolbarComponent.vue"
+      ),
+      FooterComponent: () => import(
+        /* webpackChunkName: "footer-component" */
+        /* webpackMode: "eager" */
+        "@/components/FooterComponent.vue"
+      ),
+      DialogCommentsClients: () => import(
+        /* webpackChunkName: "dialog-comments-clients-component" */
+        /* webpackMode: "eager" */
+        "@/components/dialogs/DialogCommentsClients.vue"
       )
     }
   })
@@ -306,12 +383,14 @@
 
     $refs
     required = required
+    dialogCommentsClients = false
 
     numeroPedido = {
       valid: "",
       mask: "######",
       value: ""
     }
+    progress = 100
     error = {
       status: false,
       msg: ""
@@ -319,6 +398,7 @@
     loadingService = false
     formInputBuscarPedido = false
     detailOrder: any = {}
+
 
     get dialogSearchOrderClient (): boolean {
       return this.getDialogSearchOrderClient()
@@ -376,6 +456,10 @@
             msg: `Você não possui pedidos`
           }
         })
+    }
+
+    openDialogComments (): void {
+      this.dialogCommentsClients = true
     }
   }
 </script>

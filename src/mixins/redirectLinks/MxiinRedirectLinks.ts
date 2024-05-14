@@ -14,4 +14,8 @@ export default class MixinRedirectLinks extends Vue {
       location.replace(`/produto/${this.$route.params.type}/vamoscomecar${location.search}`)
     }
   }
+
+  goToDatailOrder (): void {
+    location.replace(`/detalhes/pedido${location.search}`)
+  }
 }

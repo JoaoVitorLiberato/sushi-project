@@ -1,7 +1,7 @@
 <template>
   <v-footer
     padless
-    :absolute="$vuetify.breakpoint.mdAndUp"
+    :absolute="$vuetify.breakpoint.mdAndUp || !/order-view/i.test(String($route.name))"
   >
     <v-card
       tile
@@ -62,7 +62,7 @@
                 target="_blank"
                 class="d-flex align-center"
               >
-                <img 
+                <img
                   :src="item.img"
                   :alt="`Nos sigam em nossas redes socias - ${item.rede}`"
                   width="20"
@@ -84,8 +84,8 @@
 
       <v-divider></v-divider>
 
-      <v-card-text 
-        class="text-center"
+      <v-card-text
+        class="font-weight-medium text-center text-uppercase"
         style="color:var(--v-primary-text)"
       >
         {{ new Date().getFullYear() }} — <strong>Bangalô Sushi Lounge</strong>

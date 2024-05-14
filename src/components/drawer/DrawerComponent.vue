@@ -28,7 +28,7 @@
       class="mt-8"
     >
       <v-list-item
-        v-if="routeProductClient"
+        v-if="disabledRoutes"
         link
         @click="goToHome"
       >
@@ -50,7 +50,7 @@
       </v-list-item>
 
       <v-list-item
-        v-if="!routeProductClient"
+        v-if="!disabledRoutes"
         link
         @click.stop="returnProductRoute('delivery')"
       >
@@ -72,7 +72,7 @@
       </v-list-item>
 
       <v-list-item
-        v-if="!routeProductClient"
+        v-if="!disabledRoutes"
         link
         @click.stop="returnProductRoute('foodpark')"
       >
@@ -94,6 +94,7 @@
       </v-list-item>
 
       <v-list-item
+        v-if="!disabledRoutes"
         link
       >
         <v-list-item-icon>
@@ -109,6 +110,28 @@
           style="color:var(--v-primary-text)"
         >
           Administrador
+        </v-list-item-title>
+      </v-list-item-content>
+      </v-list-item>
+
+      <v-list-item
+        v-if="!disabledRoutes"
+        link
+        @click="goToDatailOrder"
+      >
+        <v-list-item-icon>
+          <v-icon
+            color="white"
+          >
+            receipt_long
+          </v-icon>
+        </v-list-item-icon>
+
+      <v-list-item-content>
+        <v-list-item-title
+          style="color:var(--v-primary-text)"
+        >
+          Meu pedido
         </v-list-item-title>
       </v-list-item-content>
       </v-list-item>
@@ -139,8 +162,8 @@
       this.setOverdrawerMenu(value)
     }
 
-    get routeProductClient (): boolean {
-      return /product/i.test(String(this.$route.name || ""))
+    get disabledRoutes (): boolean {
+      return /product|order-view/i.test(String(this.$route.name || ""))
     }
   }
 </script>
