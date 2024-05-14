@@ -437,6 +437,84 @@
           </v-row>
         </v-col>
       </v-row>
+      <v-dialog
+        ref="dialogNumberOrder"
+        hide-overlay
+        persistent
+        max-width="400"
+        height="200"
+      >
+        <v-card
+          color="primary"
+          elevation="0"
+        >
+          <v-row
+            no-gutters
+            style="border: 1px solid var(--v-secondary-base)"
+            class="pa-4"
+          >
+            <v-col
+              cols="12"
+              style="line-height:1;"
+            >
+              <span
+                v-font-size="14"
+                class="font-weight-regular"
+                style="color:var(--v-primary-text)"
+              >
+                Copie o número do seu pedido para você o andamento do seu pedido. 
+              </span>
+            </v-col>
+
+            <v-col
+              cols="12"
+              class="py-2"
+            />
+
+            <v-col
+              cols="12"
+            >
+              <v-text-field
+                id="numberOrderInput"
+                v-height="68"
+                :value="numeroPedido"
+                label="Número do pedido"
+                readonly
+                dark
+                color="grey lighten-4"
+                append-icon="content_copy"
+                :success-messages="copyInput ? 'Copiado com sucesso!' : ''"
+                @click:append="copy('numberOrderInput')"
+                @click="copy('numberOrderInput')"
+                outlined
+              />
+            </v-col>
+
+            <v-col
+              cols="12"
+              class="py-3"
+            />
+
+            <v-col
+              cols="12"
+            >
+              <v-btn
+                color="secondary"
+                large
+                block
+                depressed
+                @click.stop="redirectDetailOrder()"
+              >
+                <span
+                  class="font-weight-bold primary--text"
+                >
+                  Detalhes do pedido
+                </span>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-dialog>
     </v-col>
   </v-row>
 </template>
@@ -596,10 +674,12 @@
     required = required
     formatedPrice = formatedPrice
 
-    expand = false
+    expand = true
     loading = false
+    numeroPedido = ""
 
     formDadosCadastrais = false
+    copyInput = false
 
     get validateFieldsInput (): boolean {
       return [
@@ -816,7 +896,6 @@
     }
 
     finishCostumerCart (): void {
-      console.log("Finalizando")
       this.loading = true
       this.conversionOrder()
     }
@@ -830,12 +909,29 @@
           status: "preparando",
           produtos: [...this.getPayloadOrder("produtos")]
         }
+        this.numeroPedido = "123456"
         sessionStorage.clear()
         sessionStorage.setItem("api-fake", JSON.stringify(DATA_FAKE))
         sessionStorage.setItem("numero-pedido", "123456")
-        location.replace("/detalhes/pedido")
+        this.$refs.dialogNumberOrder.isActive = true
       },
       3000
     )
+
+    copy (id:string): void {
+      this.copyInput = true
+      const COPY_NUMBER = document.querySelector(`#${id}`) as HTMLInputElement
+      COPY_NUMBER.select()
+      document.execCommand("copy")
+
+      setTimeout(() => {
+        this.copyInput = false
+      }, 5000)
+    }
+
+    redirectDetailOrder (): void {
+      this.$refs.dialogNumberOrder.save()
+      location.replace("/detalhes/pedido")
+    }
   }
 </script>
