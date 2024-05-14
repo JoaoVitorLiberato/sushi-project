@@ -73,5 +73,14 @@
       "utm_medium": "distribuidora",
       "utm_campaign": "parceiro"
     }
+  },
+  "webparceirodiamondstore": {
+    "path": "?utm_source=diamond&utm_medium=black&utm_campaign=parceiro",
+    "canal": "Canal Parceiro Diamond Black Store - O rei das jóias e relógios importados",
+    "params": {
+      "utm_source": "diamond",
+      "utm_medium": "black",
+      "utm_campaign": "parceiro"
+    }
   }
 }
