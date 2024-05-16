@@ -16,11 +16,12 @@ export default class MixinAuthUser extends Vue {
     return new Promise((resolve) => {
       serviceAPI()
         .then(responseMiddleware => {
-          console.log(responseMiddleware)
-          resolve(responseMiddleware.data)
+          resolve(responseMiddleware.data.token)
         }).catch(err => {
           window.log("AUTH USER ERROR", err)
           if (err.response.data.error === "senha incorreta") resolve("senha-incorreta")
+          else if (err.response.data.error === "usuário não encontrado") resolve("user-not-exist")
+          else resolve("error-api")
         })
     })
   }

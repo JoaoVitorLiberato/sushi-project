@@ -50,6 +50,9 @@ const CONNECT_API = Axios.create({
 })
 
 CONNECT_API.interceptors.request.use((request) => {
+  const TOKEN_CACHE = sessionStorage.getItem("token-admin")
+
+  if (TOKEN_CACHE) request.headers.Authorization = `Bearer ${TOKEN_CACHE}` || ""
   request.headers["x-api-key"] = process.env.VUE_APP_BANGALO_SUPPORT_API_KEY
 
   return request
