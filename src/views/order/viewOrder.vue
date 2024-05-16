@@ -1,11 +1,18 @@
 <template>
   <v-row
     no-gutters
-    style="width:100%;max-width:1440px;"
+    style="width:100%;max-width:1110px;"
     class="mx-auto"
   >
     <v-col
       cols="12"
+    >
+      <toolbar-component />
+    </v-col>
+
+    <v-col
+      cols="12"
+      style="min-height:600px"
     >
       <v-row
         no-gutters
@@ -15,7 +22,7 @@
           cols="12"
         >
           <v-progress-linear
-            indeterminate
+            :indeterminate="!/concluido/i.test(String(detailOrder.status))"
             color="secondary"
           />
         </v-col>
@@ -30,16 +37,54 @@
           class="text-center"
         >
           <span
+            v-if="/preparando/i.test(String(detailOrder.status))"
             v-font-size="14"
             class="font-weight-meddium"
           >
             O seu pedido está sendo preparado...
           </span>
+
+          <span
+            v-if="/entrega/i.test(String(detailOrder.status))"
+            v-font-size="14"
+            class="font-weight-meddium"
+          >
+            Seu pedido saiu para entrega...
+          </span>
+
+          <span
+            v-if="/concluido/i.test(String(detailOrder.status))"
+            v-font-size="14"
+            class="font-weight-meddium"
+          >
+            Seu pedido está concluído.
+          </span>
         </v-col>
 
         <v-col
           cols="12"
-          class="py-8"
+          class="py-5"
+        />
+
+        <v-col
+          cols="12"
+          class="text-center"
+          style="line-height:1"
+        >
+          <span
+            v-font-size="13"
+            class="font-weight-regular warning--text"
+          >
+            <strong class="font-weight-bold error--text text-uppercase">
+              Atenção
+            </strong>:<br>
+            você poderá avaliar o produto após o pedido está concluído.
+          </span>
+        </v-col>
+
+        <v-col
+          cols="12"
+          class="py-2"
         />
 
         <v-col
@@ -120,6 +165,31 @@
                     />
                   </v-col>
                 </v-row>
+              </v-col>
+
+              <v-col
+                v-if="!/disable/i.test(String(disableButton))"
+                cols="12"
+                class="py-1"
+              />
+
+              <v-col
+                v-if="/concluido/i.test(String(detailOrder.status))"
+                cols="12"
+              >
+                <v-btn
+                  block
+                  large
+                  color="secondary"
+                  :disabled="/disable/i.test(String(disableButton))"
+                  @click="openDialogComments"
+                >
+                  <span
+                    class="font-weight-bold primary--text"
+                  >
+                    Avaliar produtos
+                  </span>
+                </v-btn>
               </v-col>
             </v-row>
           </v-card>
@@ -269,6 +339,23 @@
           </v-card>
         </v-dialog>
       </v-overlay>
+
+      <dialog-comments-clients
+        :open="dialogCommentsClients"
+        @closeDialog="() => dialogCommentsClients = !dialogCommentsClients"
+        @emitDisableButton="v=>disableButton=v"
+      />
+    </v-col>
+
+    <v-col
+      cols="12"
+      class="py-4 py-md-8 my-md-14"
+    />
+
+    <v-col
+      cols="12"
+    >
+      <footer-component />
     </v-col>
   </v-row>
 </template>
@@ -285,6 +372,7 @@
   import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
 
   const dialogStore = namespace("dialogStoreModule")
+  const cacheStore = namespace("cacheStoreModule")
 
   @Component({
     components: {
@@ -292,6 +380,21 @@
         /* webpackChuckName: "card-product-cart-component" */
         /* webpackMode: "eager" */
         "@/components/cards/CardProductCart.vue"
+      ),
+      ToolbarComponent: () => import(
+        /* webpackChunkName: "toolbar-component" */
+        /* webpackMode: "eager" */
+        "@/components/ToolbarComponent.vue"
+      ),
+      FooterComponent: () => import(
+        /* webpackChunkName: "footer-component" */
+        /* webpackMode: "eager" */
+        "@/components/FooterComponent.vue"
+      ),
+      DialogCommentsClients: () => import(
+        /* webpackChunkName: "dialog-comments-clients-component" */
+        /* webpackMode: "eager" */
+        "@/components/dialogs/DialogCommentsClients.vue"
       )
     }
   })
@@ -303,22 +406,27 @@
   ) implements $refs {
     @dialogStore.Getter("DialogSearchOrderClient") getDialogSearchOrderClient
     @dialogStore.Action("ActionDialogSearchOrderClient") setDialogSearchOrderClient
+    @cacheStore.Action("ActionCacheOrdersCart") declare setCacheOrdersCart
 
     $refs
     required = required
+    dialogCommentsClients = false
 
     numeroPedido = {
       valid: "",
       mask: "######",
       value: ""
     }
+    progress = 100
     error = {
       status: false,
       msg: ""
     }
     loadingService = false
     formInputBuscarPedido = false
+    disableButton = ""
     detailOrder: any = {}
+
 
     get dialogSearchOrderClient (): boolean {
       return this.getDialogSearchOrderClient()
@@ -343,6 +451,12 @@
       clearInput ():void {
         this.error.status = false
         this.error.msg = ""
+      }
+
+    @Watch("disableButton")
+      handleDisableButton (): void {
+        console.log("chamou", this.disableButton)
+        if (/not-product/i.test(String(this.disableButton))) this.disableButton = "disable"
       }
 
     validateInput ():void {
@@ -376,6 +490,11 @@
             msg: `Você não possui pedidos`
           }
         })
+    }
+
+    openDialogComments (): void {
+      this.setCacheOrdersCart(this.detailOrder.produtos)
+      this.dialogCommentsClients = true
     }
   }
 </script>

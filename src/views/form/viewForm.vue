@@ -462,7 +462,7 @@
                 class="font-weight-regular"
                 style="color:var(--v-primary-text)"
               >
-                Copie o número do seu pedido para você o andamento do seu pedido. 
+                Copie o número do seu pedido para você o andamento do seu pedido.
               </span>
             </v-col>
 
@@ -906,7 +906,7 @@
         const DATA_FAKE = {
           nome: this.getPayloadOrder("consumidor").nome,
           telefone: this.getPayloadOrder("consumidor").telefone.contato,
-          status: "preparando",
+          status: "concluido",
           produtos: [...this.getPayloadOrder("produtos")]
         }
         this.numeroPedido = "123456"
