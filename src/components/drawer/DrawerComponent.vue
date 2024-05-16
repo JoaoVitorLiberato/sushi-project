@@ -28,7 +28,7 @@
       class="mt-8"
     >
       <v-list-item
-        v-if="disabledRoutes"
+        v-if="!/home/i.test(String($route.name))"
         link
         @click="goToHome"
       >

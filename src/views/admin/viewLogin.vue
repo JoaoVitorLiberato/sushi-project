@@ -117,7 +117,7 @@
   import { mixins } from "vue-class-component"
   import { $refs } from "@/implements/types"
   import { required, email } from "@/helpers/rules"
-  import MixinServiceOrderCostumer from "@/mixins/auth/mixinAuthUser"
+  import MixinAuthUser from "@/mixins/auth/mixinAuthUser"
 
   @Component({
     components: {
@@ -129,7 +129,7 @@
     }
   })
   export default class viewAdminLogin extends mixins(
-    MixinServiceOrderCostumer,
+    MixinAuthUser,
   ) implements $refs {
     $refs
     required = required
@@ -167,8 +167,8 @@
 
     @Watch("itemsInput.password.value")
       changePassword (value:string): void {
-        if (String(value).length <= 6) {
-          this.itemsInput.password.valid = "Minino 6 caracteres"
+        if (String(value).length < 8) {
+          this.itemsInput.password.valid = "Minino 8 caracteres"
         } else {
           this.itemsInput.password.valid = true
         }
@@ -193,7 +193,8 @@
     }
 
     authUser (): void {
-      if (email(this.itemsInput.email.value) && String(this.itemsInput.password.value).length <= 6) {
+      this.loading = true
+      if (email(this.itemsInput.email.value) && String(this.itemsInput.password.value).length <= 7) {
         this.validateInputs()
         return
       }
@@ -204,11 +205,19 @@
         }
       )
         .then(responseMixin => {
+          this.loading = false
           if (/senha-incorreta/i.test(String(responseMixin || ""))) {
             this.itemsInput.password.valid = "E-mail ou senha inválido(a)"
             return
+          } else if (/user-not-exist/i.test(String(responseMixin || ""))) {
+            this.itemsInput.email.valid = "Este usuário não encontrado"
+            return
+          } else if (/error-api/i.test(String(responseMixin || ""))) {
+            return
+          } else {
+            sessionStorage.setItem("token-admin", responseMixin)
+            location.replace("/admin/conectado")
           }
-          console.log("login", responseMixin)
         })
     }
   }

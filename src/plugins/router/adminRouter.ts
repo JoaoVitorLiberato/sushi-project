@@ -21,6 +21,17 @@ export default [
             "@/views/admin/viewLogin.vue"
           ),
         }
+      },
+      {
+        path: "conectado",
+        name: "admin-view",
+        components: {
+          viewAdmin: (): Promise<typeof import("*.vue")> => import(
+            /* webpackChunkName: "admin-view" */
+            /* webpackPrefetch: 1 */
+            "@/views/admin/viewAdmin.vue"
+          ),
+        }
       }
     ]
   },
