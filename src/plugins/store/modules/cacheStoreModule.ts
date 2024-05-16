@@ -10,7 +10,8 @@ const moduleCache = (): cacheStoreInterface => {
     cepValidation: "",
     drawerCartProduct: false,
     ordersCart: [],
-    priceTotal: 0
+    priceTotal: 0,
+    rastreamentoProdutos: [],
   }
 }
 
@@ -37,6 +38,39 @@ const getters: GetterTree<cacheStoreInterface, rootStateInterface> = {
   },
   CachePriceTotal: ({ priceTotal }) => () => {
     return priceTotal
+  },
+  CacheRatreamentoComentariosProduto: ({ rastreamentoProdutos }) => () => {
+    return rastreamentoProdutos
+  },
+}
+
+const mutations: MutationTree<cacheStoreInterface> = {
+  mutationCache ({ cache }, { data, value }) {
+    cache[data] = value
+  },
+  mutationCacheRastreamentoSource: (state, source) => {
+    state.rastreamentoUsuario.source = source
+  },
+  mutationCacheOverdrawerMenu (state, data) {
+    state.overdrawerMenu = data
+  },
+  mutationCacheCepValidation (state, data) {
+    state.cepValidation = data
+  },
+  mutationCacheDrawerCartProduct (state, data) {
+    state.drawerCartProduct = data
+  },
+  mutationCacheOrdersCart (state, data) {
+    state.ordersCart = data
+  },
+  mutationCachePriceTotal (state, data) {
+    state.priceTotal = data
+  },
+  mutationCacheRastreamentoComentariosProduto (state, data) {
+    state.rastreamentoProdutos = [
+      ...state.rastreamentoProdutos,
+      data
+    ]
   }
 }
 
@@ -63,29 +97,8 @@ const actions: ActionTree<cacheStoreInterface, rootStateInterface> = {
   ActionCachePriceTotal ({ commit }, data) {
     commit("mutationCachePriceTotal", data)
   },
-}
-
-const mutations: MutationTree<cacheStoreInterface> = {
-  mutationCache ({ cache }, { data, value }) {
-    cache[data] = value
-  },
-  mutationCacheRastreamentoSource: (state, source) => {
-    state.rastreamentoUsuario.source = source
-  },
-  mutationCacheOverdrawerMenu (state, data) {
-    state.overdrawerMenu = data
-  },
-  mutationCacheCepValidation (state, data) {
-    state.cepValidation = data
-  },
-  mutationCacheDrawerCartProduct (state, data) {
-    state.drawerCartProduct = data
-  },
-  mutationCacheOrdersCart (state, data) {
-    state.ordersCart = data
-  },
-  mutationCachePriceTotal (state, data) {
-    state.priceTotal = data
+  ActionCacheRastreamentoComentariosProduto ({ commit }, data) {
+    commit("mutationCacheRastreamentoComentariosProduto", data)
   },
 }
 

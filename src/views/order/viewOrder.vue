@@ -69,6 +69,27 @@
         <v-col
           cols="12"
           class="text-center"
+          style="line-height:1"
+        >
+          <span
+            v-font-size="13"
+            class="font-weight-regular warning--text"
+          >
+            <strong class="font-weight-bold error--text text-uppercase">
+              Atenção
+            </strong>:<br>
+            você poderá avaliar o produto após o pedido está concluído.
+          </span>
+        </v-col>
+
+        <v-col
+          cols="12"
+          class="py-2"
+        />
+
+        <v-col
+          cols="12"
+          class="text-center"
         >
           <v-card
             color="primary"
@@ -147,17 +168,20 @@
               </v-col>
 
               <v-col
+                v-if="!/disable/i.test(String(disableButton))"
                 cols="12"
-                class="py-3"
+                class="py-1"
               />
 
               <v-col
+                v-if="/concluido/i.test(String(detailOrder.status))"
                 cols="12"
               >
                 <v-btn
                   block
                   large
                   color="secondary"
+                  :disabled="/disable/i.test(String(disableButton))"
                   @click="openDialogComments"
                 >
                   <span
@@ -318,13 +342,14 @@
 
       <dialog-comments-clients
         :open="dialogCommentsClients"
-        :products="detailOrder.produtos"
+        @closeDialog="() => dialogCommentsClients = !dialogCommentsClients"
+        @emitDisableButton="v=>disableButton=v"
       />
     </v-col>
 
     <v-col
       cols="12"
-      class="py-4"
+      class="py-4 py-md-8 my-md-14"
     />
 
     <v-col
@@ -347,6 +372,7 @@
   import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
 
   const dialogStore = namespace("dialogStoreModule")
+  const cacheStore = namespace("cacheStoreModule")
 
   @Component({
     components: {
@@ -380,6 +406,7 @@
   ) implements $refs {
     @dialogStore.Getter("DialogSearchOrderClient") getDialogSearchOrderClient
     @dialogStore.Action("ActionDialogSearchOrderClient") setDialogSearchOrderClient
+    @cacheStore.Action("ActionCacheOrdersCart") declare setCacheOrdersCart
 
     $refs
     required = required
@@ -397,6 +424,7 @@
     }
     loadingService = false
     formInputBuscarPedido = false
+    disableButton = ""
     detailOrder: any = {}
 
 
@@ -423,6 +451,12 @@
       clearInput ():void {
         this.error.status = false
         this.error.msg = ""
+      }
+
+    @Watch("disableButton")
+      handleDisableButton (): void {
+        console.log("chamou", this.disableButton)
+        if (/not-product/i.test(String(this.disableButton))) this.disableButton = "disable"
       }
 
     validateInput ():void {
@@ -459,6 +493,7 @@
     }
 
     openDialogComments (): void {
+      this.setCacheOrdersCart(this.detailOrder.produtos)
       this.dialogCommentsClients = true
     }
   }

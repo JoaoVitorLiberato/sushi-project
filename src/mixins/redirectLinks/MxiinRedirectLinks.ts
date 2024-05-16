@@ -15,6 +15,10 @@ export default class MixinRedirectLinks extends Vue {
     }
   }
 
+  goToAdminLogin(): void {
+    location.replace(`/admin/login${location.search}`)
+  }
+
   goToDatailOrder (): void {
     location.replace(`/detalhes/pedido${location.search}`)
   }

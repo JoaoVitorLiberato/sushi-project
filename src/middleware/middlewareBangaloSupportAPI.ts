@@ -45,12 +45,12 @@ function getTotp () {
 const CONNECT_API = Axios.create({
   baseURL: process.env.VUE_APP_BANGALO_SUPPORT_API_URL,
   headers: {
-    responseType: "json",
+    responseType: "json"
   }
 })
 
 CONNECT_API.interceptors.request.use((request) => {
-  request.headers.Authorization = getTotp() || process.env.VUE_APP_BANGALO_SUPPORT_API_KEY
+  request.headers["x-api-key"] = process.env.VUE_APP_BANGALO_SUPPORT_API_KEY
 
   return request
 }, function(error) {

@@ -11,7 +11,7 @@ export default class MixinServiceOrderCostumer extends Vue {
     return new Promise((resolve) => {
       serviceAPI()
         .then((resposeApi) => {
-          resolve(resposeApi)
+          if (resposeApi) resolve(resposeApi)
         }).catch((error) => {
           window.log(`ERROR GETORDERCOSTUMER MIXIN`, error)
           console.log("mixin getOrderCostumer - catch")
@@ -23,6 +23,28 @@ export default class MixinServiceOrderCostumer extends Vue {
           } else {
             resolve("")
           }
+        })
+    })
+  }
+
+  commentProductCostumer (data: {
+    id: number
+    name: string,
+    rating: number,
+    comment: string
+  }) {
+    async function serviceAPI () {
+      return await MiddlareConectAPI.post(`/product/${data.id}/rate`, data)
+    }
+
+    return new Promise((resolve) => {
+      serviceAPI()
+        .then((responseApi) => {
+          if (responseApi) resolve(true)
+        }).catch(erro => {
+          window.log(`ERROR MIXIN COMMENT-PRODUCT-COSTUMER`, erro.response.data.error)
+          console.log(`catch MIXIN commentProductCostumer - `, erro.response.data.error)
+          resolve(false)
         })
     })
   }

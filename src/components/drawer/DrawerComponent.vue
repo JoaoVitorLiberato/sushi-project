@@ -96,6 +96,7 @@
       <v-list-item
         v-if="!disabledRoutes"
         link
+        @click="goToAdminLogin()"
       >
         <v-list-item-icon>
           <v-icon
