@@ -40,11 +40,11 @@ export default class MixinServiceOrderCostumer extends Vue {
     return new Promise((resolve) => {
       serviceAPI()
         .then((responseApi) => {
-          if (responseApi) resolve(true)
+          if (responseApi.data) resolve(true)
         }).catch(erro => {
           window.log(`ERROR MIXIN COMMENT-PRODUCT-COSTUMER`, erro.response.data.error)
-          console.log(`catch MIXIN commentProductCostumer - `, erro.response.data.error)
-          resolve(false)
+          if (erro.response.data.error === "não existe um produto com esse id") resolve("product-not-found")
+          else resolve("error-api")
         })
     })
   }

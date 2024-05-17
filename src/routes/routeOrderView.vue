@@ -9,6 +9,12 @@
       />
     </v-container>
 
+    <dialog-slot-funcionalidades-component>
+      <template
+        #tryAgain
+      />
+    </dialog-slot-funcionalidades-component>
+
     <button-whats-chat />
   </v-main>
 </template>
@@ -22,6 +28,11 @@
         /* webpackChunkName: "button-whatschat-porduct-component" */
         /* webpackMode: "eager" */
         "@/components/buttons/ButtonWhatsChat.vue"
+      ),
+      dialogSlotFuncionalidadesComponent: () => import(
+        /* webpackChunkName: "dialog-slot-funcionalidades-component" */
+        /* webpackMode: "eager" */
+        "@/components/dialogs/DialogSlotFuncionaliades.vue"
       ),
     }
   })

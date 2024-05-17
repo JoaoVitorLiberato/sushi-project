@@ -35,6 +35,7 @@
           :key="`card-dishes-selected-${index}`"
           :image="item.url_image"
           :title="item.name"
+          :note_client="item.note_client"
           :description="item.description"
         />
       </div>
@@ -66,6 +67,7 @@
               <card-product-component
                 :image="item.url_image"
                 :title="item.name"
+                :note_client="item.note_client"
                 :description="item.description"
               />
             </div>

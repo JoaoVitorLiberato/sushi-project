@@ -67,6 +67,7 @@
         />
 
         <v-col
+          v-if="!/disable/i.test(String(disableButton))"
           cols="12"
           class="text-center"
           style="line-height:1"
@@ -83,6 +84,7 @@
         </v-col>
 
         <v-col
+          v-if="!/disable/i.test(String(disableButton))"
           cols="12"
           class="py-2"
         />
@@ -180,8 +182,7 @@
                 <v-btn
                   block
                   large
-                  color="secondary"
-                  :disabled="/disable/i.test(String(disableButton))"
+                  :color="/disable/i.test(String(disableButton)) ? 'grey lighten-2' : 'secondary'"
                   @click="openDialogComments"
                 >
                   <span
@@ -493,7 +494,25 @@
     }
 
     openDialogComments (): void {
-      this.setCacheOrdersCart(this.detailOrder.produtos)
+      if (/disable/i.test(String(this.disableButton))) return
+
+      const IDS_COMMENTED = sessionStorage.getItem("id-commented")
+      const REMOVE_ID_COMMENTED = this.detailOrder.produtos.filter(item => {
+        console.log("add", IDS_COMMENTED)
+        if (IDS_COMMENTED !== null) {
+          if (!JSON.parse(IDS_COMMENTED).includes(Number(item.id))) {
+            return item
+          }
+        }
+      })
+
+      if (REMOVE_ID_COMMENTED.length > 0) {
+        console.log("entrou aqui", REMOVE_ID_COMMENTED)
+        sessionStorage.setItem("cache-coment", JSON.stringify([...REMOVE_ID_COMMENTED]))
+      } else {
+        sessionStorage.setItem("cache-coment", JSON.stringify([...this.detailOrder.produtos]))
+      }
+      
       this.dialogCommentsClients = true
     }
   }

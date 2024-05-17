@@ -10,6 +10,9 @@ const moduleCache = (): dialogStoreInterface => {
     dialogComplements: false,
     dialogCommentsCostumers: false,
     dialogSearchOrderClient: false,
+    dialogRegisterEmployee: false,
+    dialogRegisterProduct: false,
+    dialogTryAgain: false,
   }
 }
 
@@ -34,6 +37,15 @@ const getters: GetterTree<dialogStoreInterface, rootStateInterface> = {
   DialogSearchOrderClient: ({ dialogSearchOrderClient }) => () => {
     return dialogSearchOrderClient
   },
+  DialogRegisterEmployee: ({ dialogRegisterEmployee }) => () => {
+    return dialogRegisterEmployee
+  },
+  DialogRegisterProduct: ({ dialogRegisterProduct }) => () => {
+    return dialogRegisterProduct
+  },
+  DialogTryAgain: ({ dialogTryAgain }) => () => {
+    return dialogTryAgain
+  },
 }
 
 const mutations: MutationTree<dialogStoreInterface> = {
@@ -54,6 +66,15 @@ const mutations: MutationTree<dialogStoreInterface> = {
   },
   MutationSearchOrderClient (state, data) {
     state.dialogSearchOrderClient = data
+  },
+  MutationRegisterEmployee (state, data) {
+    state.dialogRegisterEmployee = data
+  },
+  MutationRegisterProduct (state, data) {
+    state.dialogRegisterProduct = data
+  },
+  MutationTryAgain (state, data) {
+    state.dialogTryAgain = data
   }
 }
 
@@ -76,6 +97,15 @@ const actions: ActionTree<dialogStoreInterface, rootStateInterface> = {
   ActionDialogSearchOrderClient ({ commit }, data) {
     commit("MutationSearchOrderClient", data)
   },
+  ActionDialogRegisterEmployee ({ commit }, data) {
+    commit("MutationRegisterEmployee", data)
+  },
+  ActionDialogRegisterProduct ({ commit }, data) {
+    commit("MutationRegisterProduct", data)
+  },
+  ActionDialogTryAgain ({ commit }, data) {
+    commit("MutationTryAgain", data)
+  }
 }
 
 const dialogStoreModule: Module<dialogStoreInterface, rootStateInterface> = {

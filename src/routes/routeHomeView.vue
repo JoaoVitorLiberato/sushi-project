@@ -65,7 +65,6 @@
 
         <v-col
           cols="12"
-          :style="`margin-bottom:${$vuetify.breakpoint.mdAndUp ? '250px' : ''}`"
           class="py-5 py-md-14"
         />
       </v-row>
@@ -75,6 +74,9 @@
     <dialog-slot-funcionalidades-component>
       <template
         #serviceClient
+      />
+      <template
+        #tryAgain
       />
     </dialog-slot-funcionalidades-component>
 

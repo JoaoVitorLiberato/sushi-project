@@ -1,7 +1,7 @@
 <template>
   <v-footer
     padless
-    :absolute="$vuetify.breakpoint.mdAndUp || !/order-view/i.test(String($route.name))"
+    :style="/order-view/i.test(String($route.name)) && $vuetify.breakpoint.mdAndUp ? 'position:fixed;bottom:0;left:0;width:100vw' : ''"
   >
     <v-card
       tile

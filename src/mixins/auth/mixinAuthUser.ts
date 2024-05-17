@@ -25,4 +25,32 @@ export default class MixinAuthUser extends Vue {
         })
     })
   }
+
+  registerEmployee (
+    data: {
+      admin: boolean,
+      name: string,
+      email: string,
+      password: string
+    }
+  ): Promise<string> {
+    async function serviceAPI () {
+      return await MiddlareConectAPI.post(`/admin/register`, data)
+    }
+
+    return new Promise((resolve) => {
+      serviceAPI()
+        .then(responseMiddleware => {
+          resolve(responseMiddleware.data)
+        }).catch(err => {
+          window.log("registerEmployee", err)
+          resolve("error-api")
+        })
+    })
+  }
+
+  logoutUser (): void {
+    sessionStorage.removeItem("token-admin")
+    location.reload()
+  }
 }

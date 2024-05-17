@@ -5,6 +5,9 @@ interface dialogStoreInterface {
   dialogComplements: boolean,
   dialogCommentsCostumers: boolean,
   dialogSearchOrderClient: boolean,
+  dialogRegisterEmployee: boolean,
+  dialogRegisterProduct: boolean,
+  dialogTryAgain: boolean,
 }
 
 export {
