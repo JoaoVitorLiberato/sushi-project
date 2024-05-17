@@ -33,9 +33,7 @@
     ) {
       next((vm) => {
         const TOKEN_CACHE = sessionStorage.getItem("token-admin")
-        if (!TOKEN_CACHE) vm.$router.replace({ name: "login-admin-view" })
-        else if (TOKEN_CACHE && /^(admin-view)$/i.test(String(to.name ||""))) return
-        else vm.$router.replace({ name: "admin-view" })
+        if (!TOKEN_CACHE && /admin-view/i.test(String(to.name ||""))) vm.$router.replace({ name: "login-admin-view" })
       })
     }
   }

@@ -9,7 +9,6 @@ interface cacheStoreInterface {
   drawerCartProduct: boolean;
   cepValidation: string,
   ordersCart: IproductData[],
-  rastreamentoProdutos: number[]
   priceTotal: number,
 }
 

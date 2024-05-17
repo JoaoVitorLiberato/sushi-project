@@ -314,6 +314,65 @@
         </v-dialog>
       </v-overlay>
     </slot>
+
+    <slot
+      name="tryAgain"
+    >
+      <v-overlay
+        :value="dialogTryAgainModel"
+        opacity="1"
+      >
+        <v-dialog
+          ref="componentDialogTryAgain"
+          v-model="dialogTryAgainModel"
+          hide-overlay
+          persistent
+          :max-width="400"
+        >
+          <v-card
+            color="primary"
+            class="mx-auto"
+            dark
+          >
+            <v-row
+              v-border="'1px solid var(--v-secondary-base)'"
+              no-gutters
+              class="pa-4"
+            >
+              <v-col
+                cols="12"
+              >
+                <span
+                  sty
+                  class="font-weight-medium"
+                >
+                  Houve um erro em nosso servidor, por favor, tente novamente.
+                </span>
+              </v-col>
+
+              <v-col
+                cols="12"
+                class="py-2"
+              />
+
+              <v-col
+                cols="12"
+              >
+                <v-btn
+                  color="secondary"
+                  block
+                  @click.stop="goToHome()"
+                >
+                  <span>
+                    Tentar novamente
+                  </span>
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-dialog>
+      </v-overlay>
+    </slot>
   </div>
 </template>
 
@@ -344,6 +403,8 @@
     @dialogStore.Action("ActionDialogCepDelivery") declare setDialogCepDelivery
     @dialogStore.Getter("DialogOrdersClient") declare getDialogOrdersClient
     @dialogStore.Action("ActionDialogOrdersClient") declare setDialogOrdersClient
+    @dialogStore.Getter("DialogTryAgain") declare getDialogTryAgain
+    @dialogStore.Action("ActionDialogTryAgain") declare setDialogTryAgain
     @cacheStore.Action("ActionCacheCepValidation") setCacheCepValidation
     @cacheStore.Action("ActionCacheOrdersCart") declare setCacheOrdersCart
 
@@ -384,6 +445,14 @@
 
     set dialogOrdersClientModel (value: boolean) {
       this.setDialogOrdersClient(value)
+    }
+
+    get dialogTryAgainModel (): boolean {
+      return this.getDialogTryAgain()
+    }
+
+    set dialogTryAgainModel (value: boolean) {
+      this.setDialogTryAgain(value)
     }
 
     get validateDataInput (): boolean {

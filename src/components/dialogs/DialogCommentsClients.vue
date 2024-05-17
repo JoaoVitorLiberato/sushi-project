@@ -39,7 +39,7 @@
           class="pa-2"
         >
           <div
-            v-if="productComments.length <= 0"
+            v-if="productCacheComment().length <= 0"
             class="text-center"
           >
             <span
@@ -81,7 +81,7 @@
                 height="380"
               >
                 <v-carousel-item
-                  v-for="{ id, name } in productComments"
+                  v-for="{ id, name } in productCacheComment()"
                   :key="`card-dialog-comments-client-${id}-${name}`"
                 >
                   <v-row
@@ -187,6 +187,56 @@
               </v-carousel>
             </v-col>
           </v-row>
+
+          <v-dialog
+            ref="dialogErrorComment"
+            width="400"
+          >
+            <v-card
+              style="border-radius:0;"
+              color="primary"
+            >
+              <v-row
+                no-gutters
+                style="border: 1px solid var(--v-secondary-base);"
+                class="pa-4"
+              >
+                <v-col
+                  cols="12"
+                  style="line-height: 1;"
+                >
+                  <span
+                    class="grey--text font-weight-regular"
+                  >
+                    Houve um erro no servidor ao tentar avaliar nosso produto. Por favor,
+                    tente mais tarde.
+                  </span>
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  class="py-2"
+                />
+
+                <v-col
+                  cols="12"
+                >
+                  <v-btn
+                    color="secondary"
+                    depressed
+                    block
+                    @click="$refs.dialogErrorComment.save()"
+                  >
+                    <span
+                      class="primary--text font-weight-bold"
+                    >
+                      Tentar mais tarde
+                    </span>
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-card>
+          </v-dialog>
         </v-col>
       </v-row>
     </v-card>
@@ -199,6 +249,7 @@
   import { mixins } from "vue-class-component"
   import { IproductData } from "@/types/types-product"
   import { namespace } from "vuex-class"
+  import { $refs } from "@/implements/types"
   import MixinServiceOrderCostumer from "@/mixins/order/mixinServiceOrderCostumer"
 
   const cacheStore = namespace("cacheStoreModule")
@@ -206,7 +257,8 @@
   @Component({})
   export default class DialogCommentsClients extends mixins(
     MixinServiceOrderCostumer,
-  ) {
+  ) implements $refs {
+    $refs
     @cacheStore.Action("ActionCacheRastreamentoComentariosProduto") setCacheRastreamentoComentariosProduto
     @cacheStore.Action("ActionCacheOrdersCart") setCacheOrdersCart
     @cacheStore.Getter("CacheOrderCart") getCacheOrdersCart
@@ -224,15 +276,15 @@
       comment: ""
     }
 
-    get productComments (): IproductData[] {
-      return this.getCacheOrdersCart() || []
-    }
-
-    set productComments (value) {
-      this.setCacheOrdersCart(value)
+    productCacheComment (): IproductData[] {
+      const CACHE_RASTREIO_PRODUCT = sessionStorage.getItem("cache-coment")
+      if (CACHE_RASTREIO_PRODUCT) return JSON.parse(CACHE_RASTREIO_PRODUCT)
+      else return []
     }
 
     created (): void {
+      sessionStorage.removeItem("id-commented")
+      sessionStorage.removeItem("cache-coment")
       const CACHE_ORDER_DATA = sessionStorage.getItem("api-fake")
       if (CACHE_ORDER_DATA) this.data.name = JSON.parse(CACHE_ORDER_DATA).nome
     }
@@ -240,20 +292,30 @@
     sendRatingAndCommentClient (id:string|number): void {
       this.loading = true
       this.data.id = Number(id)
-      const LIST_REMOVED = this.productComments.filter(item => Number(item.id) !== Number(id))
+
+      const LIST_REMOVED = this.productCacheComment().filter(item => Number(item.id) !== Number(id))
+      const CACHE_IDS_COMMENTED = sessionStorage.getItem("id-commented")
 
       this.commentProductCostumer(this.data)
         .then(responseMixin => {
-          if (!responseMixin) throw Error("Caiu no catch")
-          this.productComments = LIST_REMOVED
-          this.setCacheRastreamentoComentariosProduto(Number(id))
+          if (/error-api|product-not-found/i.test(String(responseMixin || ""))) throw Error("Caiu no catch")
+
+          if (CACHE_IDS_COMMENTED) {
+            sessionStorage.setItem("id-commented", JSON.stringify([
+              ...JSON.parse(CACHE_IDS_COMMENTED),
+              Number(id)
+            ]))
+          } else  sessionStorage.setItem("id-commented", JSON.stringify([Number(id)]))
+
+          sessionStorage.setItem("cache-coment", JSON.stringify([...LIST_REMOVED]))
           this.data.rating = 1
           this.data.comment = ""
-
-          if (this.productComments.length === 0) this.statusDisable = "not-product"
-          this.loading = false
         }).catch(err => {
           window.log(`ERROR MIXIN sendRatingAndCommentClient`, err)
+          this.loading = false
+          this.$refs.dialogErrorComment.isActive = true
+        }).finally(() => {
+          if (this.productCacheComment().length === 0) this.statusDisable = "not-product"
           this.loading = false
         })
     }

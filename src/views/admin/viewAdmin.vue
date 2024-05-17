@@ -5,7 +5,7 @@
   >
     <v-row
       no-gutters
-      style="height:100vh"
+      :style="`height:100vh;`"
     >
       <v-col
         cols="2"
@@ -30,7 +30,7 @@
 
               <v-list-item-content>
                 <v-list-item-title
-                  class="text-uppercase"
+                  class="text-uppercase font-weight-bold"
                 >
                   Bangalô SLP
                 </v-list-item-title>
@@ -106,6 +106,7 @@
 
             <v-list-item
               link
+              @click="logoutUser"
             >
               <v-list-item-icon>
                 <v-icon
@@ -133,7 +134,7 @@
       </v-col>
     </v-row>
 
-    <button-add />
+    <button-add-products-or-employee />
   </v-card>
 </template>
 
@@ -144,8 +145,8 @@
 
   @Component({
     components: {
-      ButtonAdd: () => import(
-        "@/components/buttons/ButtonAdd.vue"
+      ButtonAddProductsOrEmployee: () => import(
+        "@/components/buttons/ButtonAddProductsOrEmployee.vue"
       )
     }
   })
