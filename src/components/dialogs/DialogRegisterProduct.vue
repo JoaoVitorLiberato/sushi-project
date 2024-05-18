@@ -599,7 +599,7 @@
 
 <script lang="ts">
   /* eslint-disable @typescript-eslint/no-explicit-any*/
-  import { Component, Watch } from "vue-property-decorator"
+  import { Component } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
   import { $refs } from "@/implements/types"
   import { IproductData } from "@/types/types-product"
@@ -679,11 +679,6 @@
       this.setDialogRegisterProduct(value)
     }
 
-    @Watch('productData', { deep: true })
-    testeString(value) {
-      console.log( value )
-    }
-
     ver (e): void {
       console.log(e)
     }
@@ -754,11 +749,8 @@
       const PRODUCT_DATA = new FormData();
       
       if (/dispositivo/i.test(String(this.chooseInputImage || ""))) {
-        console.log(this.filesInputDevice)
         PRODUCT_DATA.append('image', Object(this.filesInputDevice));
       }
-
-      console.log( "teste", this.productData )
 
       PRODUCT_DATA.append('product', JSON.stringify(this.productData));
 
