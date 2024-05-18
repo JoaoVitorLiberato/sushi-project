@@ -67,5 +67,5 @@ CONNECT_API.interceptors.response.use((response) => {
 })
 
 export {
-  CONNECT_API as MiddlareConectAPI
+  CONNECT_API as MiddlewareConnectAPI
 }

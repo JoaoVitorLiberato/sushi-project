@@ -1,5 +1,5 @@
 export interface IproductData {
-  id: number,
+  id?: number,
   url_image: string,
   category: string,
   name: string,
@@ -33,16 +33,19 @@ export interface IComplements {
 
 export interface IDifferences {
   especial: {
+    readonly: boolean,
     input: string,
     active: boolean,
     additional: number
   },
   breaded: {
+    readonly: boolean
     input: string,
     active: boolean,
     additional: number
   },
   flambed: {
+    readonly: boolean
     input: string,
     active: boolean,
     additional: number

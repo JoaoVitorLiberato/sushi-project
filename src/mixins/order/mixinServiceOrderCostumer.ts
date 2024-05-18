@@ -1,11 +1,11 @@
 import { Component, Vue } from "vue-property-decorator"
-import { MiddlareConectAPI } from "@/middleware/middlewareBangaloSupportAPI"
+import { MiddlewareConnectAPI } from "@/middleware/middlewareBangaloSupportAPI"
 
 @Component({})
 export default class MixinServiceOrderCostumer extends Vue {
   getOrderCostumer (numeroPedido: string|number) {
     async function serviceAPI () {
-      return await MiddlareConectAPI.get(`/order/${numeroPedido}`)
+      return await MiddlewareConnectAPI.get(`/order/${numeroPedido}`)
     }
 
     return new Promise((resolve) => {
@@ -34,7 +34,7 @@ export default class MixinServiceOrderCostumer extends Vue {
     comment: string
   }) {
     async function serviceAPI () {
-      return await MiddlareConectAPI.post(`/product/${data.id}/rate`, data)
+      return await MiddlewareConnectAPI.post(`/product/${data.id}/rate`, data)
     }
 
     return new Promise((resolve) => {

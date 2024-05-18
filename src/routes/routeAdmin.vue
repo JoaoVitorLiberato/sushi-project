@@ -24,17 +24,9 @@
 
   @Component({})
   export default class routeOrderView extends Vue {
-        beforeRouteEnter (
-      to: {
-        name: string,
-      },
-      _from: never,
-      next: (arg0: (vm) => void) => void,
-    ) {
-      next((vm) => {
-        const TOKEN_CACHE = sessionStorage.getItem("token-admin")
-        if (!TOKEN_CACHE && /admin-view/i.test(String(to.name ||""))) vm.$router.replace({ name: "login-admin-view" })
-      })
+    created (): void {
+      const TOKEN_CACHE = sessionStorage.getItem("token-admin")
+      if (!TOKEN_CACHE && /^(admin-view)$/i.test(String(this.$route.name ||""))) location.replace("/admin/login")
     }
   }
 </script>

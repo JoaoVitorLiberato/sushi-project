@@ -1,5 +1,5 @@
 import { Component, Vue } from "vue-property-decorator"
-import { MiddlareConectAPI } from "@/middleware/middlewareBangaloSupportAPI"
+import { MiddlewareConnectAPI } from "@/middleware/middlewareBangaloSupportAPI"
 
 @Component({})
 export default class MixinAuthUser extends Vue {
@@ -10,7 +10,7 @@ export default class MixinAuthUser extends Vue {
     }
   ): Promise<string> {
     async function serviceAPI () {
-      return await MiddlareConectAPI.post(`/auth/login`, data)
+      return await MiddlewareConnectAPI.post(`/auth/login`, data)
     }
 
     return new Promise((resolve) => {
@@ -35,7 +35,7 @@ export default class MixinAuthUser extends Vue {
     }
   ): Promise<string> {
     async function serviceAPI () {
-      return await MiddlareConectAPI.post(`/admin/register`, data)
+      return await MiddlewareConnectAPI.post(`/admin/register`, data)
     }
 
     return new Promise((resolve) => {

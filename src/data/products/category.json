@@ -1,0 +1,38 @@
+[
+  {
+    "id": "entrada",
+    "name": "Entradas"
+  },
+  {
+    "id": "pecas",
+    "name": "Peças"
+  },
+  {
+    "id": "temaki",
+    "name": "Temaki com arroz"
+  },
+  {
+    "id": "temakisa",
+    "name": "Temaki sem arroz"
+  },
+  {
+    "id": "supremo",
+    "name": "Temaki supremo"
+  },
+  {
+    "id": "hot",
+    "name": "Hot's"
+  },
+  {
+    "id": "combinados",
+    "name": "Combinados"
+  },
+  {
+    "id": "especiais",
+    "name": "Especiais"
+  },
+  {
+    "id": "doces",
+    "name": "Especiais"
+  }
+]
