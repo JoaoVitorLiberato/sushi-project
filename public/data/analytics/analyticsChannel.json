@@ -82,5 +82,23 @@
       "utm_medium": "black",
       "utm_campaign": "parceiro"
     }
+  },
+  "webparceiro360assessoria": {
+    "path": "?utm_source=360&utm_medium=assessoria&utm_campaign=parceiro",
+    "canal": "Canal Parceiro 360 Assessoria de capital",
+    "params": {
+      "utm_source": "360",
+      "utm_medium": "assessoria",
+      "utm_campaign": "parceiro"
+    }
+  },
+  "webparceirorosanaestetica": {
+    "path": "?utm_source=rosana&utm_medium=estetica&utm_campaign=parceiro",
+    "canal": "Canal Parceiro Rosana Andrade Estética",
+    "params": {
+      "utm_source": "rosana",
+      "utm_medium": "estetica",
+      "utm_campaign": "parceiro"
+    }
   }
 }

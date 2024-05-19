@@ -775,6 +775,9 @@
             this.error.msg = "Houve algum problema ao criar o produto, por favor, tente novamente."
             setTimeout(() => { this.error.status = false }, 5000)
           }
+        }).catch(err => {
+          console.log("error", err)
+          this.loadingService = false
         }).finally(() => {
           this.error.status = true
             this.error.msg = "Produto criado com sucesso."

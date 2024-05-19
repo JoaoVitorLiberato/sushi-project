@@ -14,7 +14,7 @@ export default class MixinProductAPI extends Vue {
     return new Promise((resolve, reject) => {
       serviceAPI()
         .then(responseMiddleware => {
-          if (!responseMiddleware.data) reject(Error("sem data"))
+          if (!("data" in responseMiddleware)) reject(Error("sem data"))
           if (responseMiddleware.data.message === "Product created") {
             resolve(responseMiddleware.data)
           }

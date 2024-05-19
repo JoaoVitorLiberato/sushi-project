@@ -118,6 +118,11 @@
           link: "https://www.instagram.com/postoeconvenienciaaguia?igsh=cXRhbjg3ODN6dWh4 "
         },
         {
+          name: "360 - Assessoria de capital",
+          url: "/img/project/parceiros/360.png",
+          link: "https://www.instagram.com/360assessoriabr?igsh=YjVlajJsbGdybm84"
+        },
+        {
           name: "Águia Fitness - A melhor forma de se cuidar",
           url: "/img/project/parceiros/aguia-fitness.png",
           link: "https://www.instagram.com/aguiafiitness?igsh=MTVueHJzbDRiaWFwag=="
@@ -131,6 +136,11 @@
           name: "Center Car - O centro de serviços do seu carro",
           url: "/img/project/parceiros/center-car.png",
           link: ""
+        },
+        {
+          name: "Rosana Andrade Estética",
+          url: "/img/project/parceiros/rosana.png",
+          link: "https://www.instagram.com/rosanaaestetica?igsh=MWc4cW9zZGEwNXR5dg%3D%3D"
         },
         {
           name: "Águia Motos - A casa do motoqueiro",
