@@ -131,7 +131,7 @@
               >
                 <v-switch
                   color="success"
-                  v-model="data.admin"
+                  v-model="admin"
                   hide-details
                 >
                   <template #label>
@@ -158,7 +158,13 @@
               <v-col
                 cols="12"
               >
+                <v-progress-linear
+                  v-if="loading"
+                  color="secondary"
+                  indeterminate
+                />
                 <v-btn
+                  v-else
                   x-large
                   block
                   depressed
@@ -176,6 +182,20 @@
           </v-form>
         </v-col>
       </v-row>
+
+      <v-snackbar
+        v-model="error.status"
+      >
+        <div
+          class="text-center"
+        >
+          <span
+            class="font-weight-regular"
+          >
+            {{ error.msg }}
+          </span>
+        </div>
+      </v-snackbar>
     </v-card>
   </v-dialog>
 </template>
@@ -202,12 +222,19 @@
     email = email
     nome = nome
     showPassword = false
+    admin = false
+    loading = false
 
     data = {
       name: "",
       email: "",
       password: "",
-      admin: false
+      role: ""
+    }
+
+    error = {
+      status: false,
+      msg: ""
     }
 
     get validateInput (): boolean {
@@ -233,9 +260,26 @@
     }
 
     finishRegister (): void {
+      if (this.admin) this.data.role = "admin"
+      else this.data.role = "not-permission"
+      this.loading = true
+
       this.registerEmployee(this.data)
         .then(responseMixin => {
-          console.log("responseMixin", responseMixin)
+          if (/error/i.test(responseMixin)) {
+            this.loading = false
+            this.error.status = true
+            this.error.msg = "Houve um error ao criar um usuário, tente novamente."
+            return
+          }
+
+          this.error.status = true
+          this.error.msg = "Usuário criado com sucesso!"
+          setTimeout(() => {
+            this.loading = false
+            this.error.status = false
+            this.dialogRegisterEmployee = false
+          }, 5000)
         })
     }
   }

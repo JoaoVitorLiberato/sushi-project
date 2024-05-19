@@ -215,7 +215,8 @@
           } else if (/error-api/i.test(String(responseMixin || ""))) {
             return
           } else {
-            sessionStorage.setItem("token-admin", responseMixin)
+            sessionStorage.setItem("token-user", responseMixin.token)
+            sessionStorage.setItem("permission", responseMixin.role)
             location.replace("/admin/conectado")
           }
         })

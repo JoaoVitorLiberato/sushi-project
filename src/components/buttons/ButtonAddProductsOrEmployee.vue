@@ -64,7 +64,7 @@
         <span
           class="primary--text ml-2 hidden-sm-and-down"
         >
-          Registrar produto novo
+          Criar novo produto
         </span>
       </v-btn>
     </v-speed-dial>

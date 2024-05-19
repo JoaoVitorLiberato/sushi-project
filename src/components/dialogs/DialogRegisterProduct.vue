@@ -593,12 +593,25 @@
           </v-form>
         </v-col>
       </v-row>
+
+      <v-snackbar
+        v-model="error.status"
+      >
+        <div
+          class="text-center"
+        >
+          <span
+            class="font-weight-regular"
+          >
+            {{ error.msg }}
+          </span>
+        </div>
+      </v-snackbar>
     </v-card>
   </v-dialog>
 </template>
 
 <script lang="ts">
-  /* eslint-disable @typescript-eslint/no-explicit-any*/
   import { Component } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
   import { $refs } from "@/implements/types"
@@ -667,6 +680,11 @@
     filesInputDevice: Record<string, string|number|string[]|boolean> = {}
     readerImageDevice = ""
 
+    error = {
+      status: false,
+      msg: ""
+    }
+
     get category (): typeof DATA_CATEGORY {
       return DATA_CATEGORY
     }
@@ -679,9 +697,6 @@
       this.setDialogRegisterProduct(value)
     }
 
-    ver (e): void {
-      console.log(e)
-    }
     changeSelectCategory (id?:string): void {
       this.productData.category = String(id || "")
     }
@@ -693,10 +708,9 @@
 
     changeInputFileImage (files: Record<string, string|string[]|number|boolean>): void {
       if (Object(files).length <= 0) return
-      console.log(files)
 
       this.filesInputDevice = files
-      this.productData.url_image = String(`${process.env.VUE_APP_BANGALO_SUPPORT_API_URL}/uploads/${files.name}` || "")
+      this.productData.url_image = String(`${files.name}` || "")
 
       const READER_IMAGE = new FileReader()
       READER_IMAGE.onload = () => {
@@ -756,11 +770,19 @@
 
       this.createNewProduct(PRODUCT_DATA)
         .then(responseMixin => {
-          this.loadingService = false
-          console.log("finishRegister", responseMixin)
+          if (/error/i.test(String(responseMixin || ""))) {
+            this.error.status = true
+            this.error.msg = "Houve algum problema ao criar o produto, por favor, tente novamente."
+            setTimeout(() => { this.error.status = false }, 5000)
+          }
+        }).finally(() => {
+          this.error.status = true
+            this.error.msg = "Produto criado com sucesso."
+            setTimeout(() => {
+              this.error.status = false
+              this.dialogRegisterProduct = false
+            }, 5000)
         })
-
-      this.loadingService = false
     }
   }
 </script>
