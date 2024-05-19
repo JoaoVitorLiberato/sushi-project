@@ -10,6 +10,7 @@
       <v-col
         cols="2"
         md="1"
+        sm="1"
       >
         <v-navigation-drawer
           permanent
