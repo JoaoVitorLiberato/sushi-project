@@ -16,25 +16,32 @@
         name="viewAdmin"
       />
     </v-container>
+
+    <dialog-slot-funcionalidades-component>
+      <template
+        #tryAgain
+      />
+    </dialog-slot-funcionalidades-component>
   </v-main>
 </template>
 
 <script lang="ts">
   import { Component, Vue } from "vue-property-decorator"
 
-  @Component({})
+  @Component({
+    components: {
+      dialogSlotFuncionalidadesComponent: () => import(
+        /* webpackChunkName: "dialog-slot-funcionalidades-component" */
+        /* webpackMode: "eager" */
+        "@/components/dialogs/DialogSlotFuncionaliades.vue"
+      ),
+    }
+  })
+
   export default class routeOrderView extends Vue {
-        beforeRouteEnter (
-      to: {
-        name: string,
-      },
-      _from: never,
-      next: (arg0: (vm) => void) => void,
-    ) {
-      next((vm) => {
-        const TOKEN_CACHE = sessionStorage.getItem("token-admin")
-        if (!TOKEN_CACHE && /admin-view/i.test(String(to.name ||""))) vm.$router.replace({ name: "login-admin-view" })
-      })
+    created (): void {
+      const TOKEN_CACHE = sessionStorage.getItem("token-user")
+      if (!TOKEN_CACHE && /^(admin-view)$/i.test(String(this.$route.name ||""))) this.$router.replace("/admin/login")
     }
   }
 </script>

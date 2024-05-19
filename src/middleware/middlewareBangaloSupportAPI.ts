@@ -50,9 +50,9 @@ const CONNECT_API = Axios.create({
 })
 
 CONNECT_API.interceptors.request.use((request) => {
-  const TOKEN_CACHE = sessionStorage.getItem("token-admin")
+  const TOKEN_CACHE = sessionStorage.getItem("token-user")
 
-  if (TOKEN_CACHE) request.headers.Authorization = `Bearer ${TOKEN_CACHE}` || ""
+  if (TOKEN_CACHE) request.headers.Authorization = `Bearer ${JSON.stringify(TOKEN_CACHE)}` || ""
   request.headers["x-api-key"] = process.env.VUE_APP_BANGALO_SUPPORT_API_KEY
 
   return request
@@ -67,5 +67,5 @@ CONNECT_API.interceptors.response.use((response) => {
 })
 
 export {
-  CONNECT_API as MiddlareConectAPI
+  CONNECT_API as MiddlewareConnectAPI
 }

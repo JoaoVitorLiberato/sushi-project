@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any*/
 import { Component, Vue } from "vue-property-decorator"
-import { MiddlareConectAPI } from "@/middleware/middlewareBangaloSupportAPI"
+import { MiddlewareConnectAPI } from "@/middleware/middlewareBangaloSupportAPI"
 
 @Component({})
 export default class MixinAuthUser extends Vue {
@@ -8,15 +9,15 @@ export default class MixinAuthUser extends Vue {
       email: string,
       password: string
     }
-  ): Promise<string> {
+  ): Promise<any> {
     async function serviceAPI () {
-      return await MiddlareConectAPI.post(`/auth/login`, data)
+      return await MiddlewareConnectAPI.post(`/auth/login`, data)
     }
 
     return new Promise((resolve) => {
       serviceAPI()
         .then(responseMiddleware => {
-          resolve(responseMiddleware.data.token)
+          resolve(responseMiddleware.data)
         }).catch(err => {
           window.log("AUTH USER ERROR", err)
           if (err.response.data.error === "senha incorreta") resolve("senha-incorreta")
@@ -28,29 +29,31 @@ export default class MixinAuthUser extends Vue {
 
   registerEmployee (
     data: {
-      admin: boolean,
+      role: string,
       name: string,
       email: string,
       password: string
     }
   ): Promise<string> {
     async function serviceAPI () {
-      return await MiddlareConectAPI.post(`/admin/register`, data)
+      return await MiddlewareConnectAPI.post(`/auth/register`, data)
     }
 
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       serviceAPI()
         .then(responseMiddleware => {
+          if (!responseMiddleware.data) reject(Error("sem-data"))
           resolve(responseMiddleware.data)
         }).catch(err => {
           window.log("registerEmployee", err)
-          resolve("error-api")
+          resolve("error")
         })
     })
   }
 
   logoutUser (): void {
-    sessionStorage.removeItem("token-admin")
-    location.reload()
+    sessionStorage.removeItem("token-user")
+    sessionStorage.removeItem("permission")
+    this.$router.replace({ name: "login-admin-view" })
   }
 }
