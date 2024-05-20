@@ -5,20 +5,26 @@
   >
     <toolbar-component />
     <v-row
-      style="max-width: 450px;"
+      style="width:100%;max-width: 450px;"
       class="mx-auto"
       no-gutters
       align="center"
     >
       <v-col
         cols="12"
+        class="py-6"
+      />
+
+      <v-col
+        cols="12"
         class="text-center"
       >
-        <h2
-          class="text-uppercase"
-        >
-          Bangalô Login
-        </h2>
+        <v-img
+          src="/img/project/logo.png"
+          alt="Logo Bangalô sushi lounge"
+          width="100%"
+          contain
+        />
       </v-col>
 
       <v-col
@@ -210,14 +216,14 @@
             this.itemsInput.password.valid = "E-mail ou senha inválido(a)"
             return
           } else if (/user-not-exist/i.test(String(responseMixin || ""))) {
-            this.itemsInput.email.valid = "Este usuário não encontrado"
+            this.itemsInput.email.valid = "Usuário não encontrado"
             return
           } else if (/error-api/i.test(String(responseMixin || ""))) {
             return
           } else {
             sessionStorage.setItem("token-user", responseMixin.token)
             sessionStorage.setItem("permission", responseMixin.role)
-            location.replace("/admin/conectado")
+            this.$router.replace("/admin/conectado")
           }
         })
     }

@@ -11,6 +11,11 @@ const moduleCache = (): cacheStoreInterface => {
     drawerCartProduct: false,
     ordersCart: [],
     priceTotal: 0,
+    products: [],
+    loading: {
+      status: false,
+      msg: ""
+    }
   }
 }
 
@@ -38,6 +43,12 @@ const getters: GetterTree<cacheStoreInterface, rootStateInterface> = {
   CachePriceTotal: ({ priceTotal }) => () => {
     return priceTotal
   },
+  CacheProducts: ({ products }) => () => {
+    return products
+  },
+  CacheLoading: ({ loading }) => () => {
+    return loading
+  },
 }
 
 const mutations: MutationTree<cacheStoreInterface> = {
@@ -61,6 +72,15 @@ const mutations: MutationTree<cacheStoreInterface> = {
   },
   mutationCachePriceTotal (state, data) {
     state.priceTotal = data
+  },
+  mutationCacheProducts (state, data) {
+    state.products = data
+  },
+  mutationLoading (state, data) {
+    state.loading = {
+      status: data.status,
+      msg: data.msg,
+    }
   },
 }
 
@@ -87,6 +107,12 @@ const actions: ActionTree<cacheStoreInterface, rootStateInterface> = {
   ActionCachePriceTotal ({ commit }, data) {
     commit("mutationCachePriceTotal", data)
   },
+  ActionCacheProducts ({ commit }, data) {
+    commit("mutationCacheProducts", data)
+  },
+  ActionCacheLoading ({ commit }, data) {
+    commit("mutationLoading", data)
+  }
 }
 
 const cacheStoreModule: Module<cacheStoreInterface, rootStateInterface> = {

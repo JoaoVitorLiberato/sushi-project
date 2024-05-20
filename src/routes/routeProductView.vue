@@ -21,21 +21,11 @@
 
         <v-col
           cols="12"
-          class="py-1 py-sm-6"
-        />
-
-        <v-col
-          cols="12"
         >
           <router-view
             name="viewProductPecas"
           />
         </v-col>
-
-        <v-col
-          cols="12"
-          class="py-1 py-sm-6"
-        />
 
         <v-col
           cols="12"
@@ -47,21 +37,11 @@
 
         <v-col
           cols="12"
-          class="py-1 py-sm-6"
-        />
-
-        <v-col
-          cols="12"
         >
           <router-view
             name="viewProductTemakiSemArroz"
           />
         </v-col>
-
-        <v-col
-          cols="12"
-          class="py-1 py-sm-6"
-        />
 
         <v-col
           cols="12"
@@ -71,10 +51,6 @@
           />
         </v-col>
 
-        <v-col
-          cols="12"
-          class="py-1 py-sm-6"
-        />
 
         <v-col
           cols="12"
@@ -86,21 +62,11 @@
 
         <v-col
           cols="12"
-          class="py-1 py-sm-6"
-        />
-
-        <v-col
-          cols="12"
         >
           <router-view
             name="viewProductEspecial"
           />
         </v-col>
-
-        <v-col
-          cols="12"
-          class="py-1 py-sm-6"
-        />
 
         <v-col
           cols="12"
@@ -112,11 +78,6 @@
 
         <v-col
           cols="12"
-          class="py-1 py-sm-6"
-        />
-
-        <v-col
-          cols="12"
         >
           <router-view
             name="viewProductDoces"
@@ -124,8 +85,7 @@
         </v-col>
       </v-row>
 
-
-    <!-- <footer-component /> -->
+      <footer-component />
     </v-container>
 
     <button-cart-product />
@@ -138,12 +98,15 @@
     </dialog-slot-funcionalidades-component>
 
     <button-whats-chat />
+    <overlay-loading-service />
   </v-main>
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from "vue-property-decorator"
+  import { Component } from "vue-property-decorator"
+  import { mixins } from "vue-class-component"
   import { namespace } from "vuex-class"
+  import MixinProductAPI from "@/mixins/product/mixinProductAPI"
   import { channelSource } from "@/helpers/analyticsChannel"
 
   const cacheStore = namespace("cacheStoreModule")
@@ -182,9 +145,16 @@
         /* webpackMode: "eager" */
         "@/components/buttons/ButtonWhatsChat.vue"
       ),
+      OverlayLoadingService: () => import(
+        /* webpackChunkName: "overlay-loading-service-component" */
+        /* webpackMode: "eager" */
+        "@/components/overlays/LoadingService.vue"
+      ),
     }
   })
-  export default class RouteProductView extends Vue {
+  export default class RouteProductView extends mixins(
+    MixinProductAPI,
+  ) {
     beforeRouteEnter (
       to: {
         name: string;
@@ -214,6 +184,7 @@
     ordersCostumer = sessionStorage.getItem("order")
 
     created (): void {
+      this.getProducts()
       channelSource().then((source: string) => {
         this.setCacheRastreamentoUsuarioPayloadSource({ source: String(source) })
         this.setPayloadChannelAnalytics()

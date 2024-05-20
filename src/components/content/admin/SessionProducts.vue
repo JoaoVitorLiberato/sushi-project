@@ -17,7 +17,7 @@
         <p
           class="font-weight-regular mt-2"
         >
-          Carregando a lista produtos...
+          Carregando a lista produtos e complementos...
         </p>
       </div>
       <v-row
@@ -31,7 +31,7 @@
           <span
             class="font-weight-regular grey--text"
           >
-            Não há produtos no mo momento.
+            Não há produtos cadastrado em nosso bando de dados mo momento.
           </span>
         </v-col>
 
@@ -45,18 +45,37 @@
             <v-col
               cols="12"
             >
+              <h2
+                v-font-size="$vuetify.breakpoint.smAndDown ? 18 : 22"
+                class="font-weight-bold text-uppercase"
+              >
+                Produtos
+              </h2>
+            </v-col>
+
+            <v-col
+              cols="12"
+              class="py-2"
+            />
+
+            <v-col
+              cols="12"
+              style="max-height: 600px;overflow-y: scroll;"
+            >
               <v-expansion-panels
                 focusable
-                class="fix--expansion-panel d-md-flex"
+                class="fix--expansion-panel d-flex flex-column justify-start"
               >
                 <v-expansion-panel
-                  v-for="{ id, name, description, differences, price }, in listProducts"
+                  v-for="{ id, name, description, differences, price, url_image }, in listProducts"
                   :key="`expanse-paniel-product-admin-${id}`"
-                  :style="`max-width:${$vuetify.breakpoint.smAndDown ? '100%' : '600px'}`"
+                  :style="`max-width:${$vuetify.breakpoint.smAndDown ? '100%' : '500px'}`"
                   :value="[true]"
+                  elevation="0"
                 >
                   <v-expansion-panel-header>
                     <span
+                      v-font-size="14"
                       class="font-weight-medium text-uppercase"
                       v-text="name"
                     />
@@ -71,17 +90,11 @@
                           md="4"
                         >
                           <v-img
-                            src="/img/project/sushi-bark2.jpg"
-                            contain
-                            :height="$vuetify.breakpoint.width > 350 && $vuetify.breakpoint.width < 600 ? 200 : 150"
-                            width="100%"
-                          />
-                          <!-- <v-img
-                            :src="`https://bangalo-app.onrender.com/uploads/${url_image}`"
+                            :src="url_image"
                             contain
                             height="150"
                             width="100%"
-                          /> -->
+                          />
                         </v-col>
 
                         <v-col
@@ -92,29 +105,6 @@
                             no-gutters
                             class="pa-md-2"
                           >
-                            <v-col
-                              cols="12"
-                              :class="$vuetify.breakpoint.mdAndUp ? 'd-flex justify-space-between align-center' : ''"
-                            >
-                              <span
-                                v-font-size="$vuetify.breakpoint.smAndDown ? 14 : 16"
-                                class="text-uppercase font-weight-medium"
-                              >
-                                {{ name }}
-                              </span>
-
-                              <span
-                                class="hidden-sm-and-down font-weight-medium"
-                              >
-                                {{ formatedPrice(price.default) }}
-                              </span>
-                            </v-col>
-
-                            <v-col
-                              cols="12"
-                              class="py-1"
-                            />
-
                             <v-col
                               cols="12"
                               style="line-height: 1"
@@ -146,12 +136,11 @@
 
                             <v-col
                               cols="12"
-                              class="py-1 hidden-md-and-up"
+                              class="py-1"
                             />
 
                             <v-col
                               cols="12"
-                              class="hidden-md-and-up"
                             >
                               <span
                                 v-font-size="16"
@@ -210,51 +199,150 @@
               </v-expansion-panels>
             </v-col>
           </v-row>
-
-          <v-dialog
-            ref="dialogErrorProducts"
-            width="400"
-          >
-            <v-card>
-              <v-row
-                no-gutters
-                class="pa-4"
-              >
-                <v-col
-                  cols="12"
-                  class="text-end"
-                >
-                  <v-btn
-                    text
-                    fab
-                    depressed
-                    dense
-                    width="30"
-                    height="30"
-                    @click="$refs.dialogErrorProducts.save()"
-                  >
-                    <v-icon>
-                      close
-                    </v-icon>
-                  </v-btn>
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  style="line-height: 1;"
-                >
-                  <span
-                    class="font-weight-regular primary--text"
-                  >
-                    Error com o servidor ao tentar buscar os produtos.
-                    recarregue a página e tente novemente.
-                  </span>
-                </v-col>
-              </v-row>
-            </v-card>
-          </v-dialog>
         </v-col>
       </v-row>
+    </v-col>
+
+    <v-col
+      cols="12"
+      class="py-8"
+    />
+
+    <v-col
+      cols="12"
+    >
+      <v-row
+        no-gutters
+      >
+        <v-col
+          cols="12"
+        >
+          <span
+            class="font-weight-regular grey--text"
+          >
+            Não há complementos salvo em nosso banco de dados.
+          </span>
+        </v-col>
+
+        <v-col
+          cols="12"
+        >
+          <v-row
+            no-gutters
+          >
+            <v-col
+              cols="12"
+            >
+              <h2
+                v-font-size="$vuetify.breakpoint.smAndDown ? 18 : 22"
+                class="font-weight-bold text-uppercase"
+              >
+                Complementos
+              </h2>
+            </v-col>
+
+            <v-col
+              cols="12"
+              class="py-2"
+            />
+
+            <v-col
+              cols="12"
+              style="max-height: 600px;overflow-y: scroll;"
+            >
+              <v-card
+                max-width="344"
+                outlined
+              >
+                <v-list-item 
+                  three-line
+                >
+                  <v-list-item-content>
+                    <div
+                      style="font-size: 12px !important;letter-spacing: 0.12px !important;"
+                      class="text-overline mb-4 font-weight-bold"
+                    >
+                      complempemento
+                    </div>
+                    <v-list-item-title
+                      style="font-size: 18px !important;"
+                      class="text-h5 mb-1"
+                    >
+                      Headline 5
+                    </v-list-item-title>
+                    <v-list-item-subtitle>
+                      Greyhound divisely hello coldly fonwderfully
+                    </v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+
+                <v-card-actions>
+                  <v-btn
+                    text
+                    color="warning"
+                  >
+                    editar
+                  </v-btn>
+
+                  <v-btn
+                    text
+                    color="error"
+                  >
+                    deletar
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-col>
+
+    <v-col
+      cols="12"
+    >
+      <v-dialog
+        ref="dialogErrorProducts"
+        width="400"
+      >
+        <v-card>
+          <v-row
+            no-gutters
+            class="pa-4"
+            persistent
+          >
+            <v-col
+              cols="12"
+              class="text-end"
+            >
+              <v-btn
+                text
+                fab
+                depressed
+                dense
+                width="30"
+                height="30"
+                @click="$refs.dialogErrorProducts.save()"
+              >
+                <v-icon>
+                  close
+                </v-icon>
+              </v-btn>
+            </v-col>
+
+            <v-col
+              cols="12"
+              class="py-2"
+              style="line-height: 1;"
+            >
+              <span
+                class="font-weight-regular primary--text"
+                v-text="errorMsg"
+              />
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-dialog>
     </v-col>
   </v-row>
 </template>
@@ -283,6 +371,7 @@
 
     loading = false
     listProducts: IproductData[] = []
+    errorMsg = ""
 
     get dialogRegisterProduct (): boolean {
       return this.getDialogRegisterProduct()
@@ -306,6 +395,10 @@
       this.getProducts()
         .then(responseMixin => {
           if (/erro/i.test(String(responseMixin || ""))) {
+            this.errorMsg = `
+              Ops, Error ao buscar produtos no servidor.
+              Recarregue a página e tente novemente ou chame o suporte.
+            `
             this.$refs.dialogErrorProducts.isActive = true
           } else if (/list-void-product/i.test(String(responseMixin || ""))) {
             this.listProducts = []
@@ -315,14 +408,6 @@
         }).finally(() => {
           this.loading = false
         })
-    }
-
-    deleteProductAPI (id: number): void {
-      this.listProducts.find(item => {
-        if (Number(item.id) === Number(id)) {
-          this.deleteProduct(item)
-        }
-      })
     }
 
     showDiference (differences: IDifferences): string {
@@ -369,6 +454,12 @@
       }
 
       return value
+    }
+
+    deleteProductAPI (id: number): void {
+      this.listProducts.find(item => {
+        if (Number(item.id) === Number(id)) this.deleteProduct(item)
+      })
     }
   }
 </script>

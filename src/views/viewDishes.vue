@@ -27,6 +27,24 @@
       class="hidden-sm-and-down"
     >
       <div
+        v-if="cacheLoading.status"
+        v-width.max="'400px'"
+        class="mx-auto text-center"
+      >
+        <v-progress-linear 
+          color="secondary"
+          indeterminate
+        />
+
+        <span
+        class="white--text d-block my-3 font-weight-regular"
+        >
+          {{ cacheLoading.msg }}
+        </span>
+      </div>
+
+      <div
+        v-else
         v-width.max="'1100px'"
         class="d-flex justify-center mx-auto"
       >
@@ -106,6 +124,7 @@
   import { namespace } from "vuex-class"
   import "@/styles/view/viewDishes.styl"
 
+  const cacheStore = namespace("cacheStoreModule")
   const dialogStore = namespace("dialogStoreModule")
 
   @Component({
@@ -121,6 +140,14 @@
   export default class viewDishes extends Vue {
     @dialogStore.Getter("DialogServiceClient") getDialogServiceClient
     @dialogStore.Action("ActionDialogServiceClient") setDialogSeviceClient
+    @cacheStore.Getter("CacheLoading") getCacheLoading
+
+    get cacheLoading (): {
+      status: boolean,
+      msg: string
+    }  {
+      return this.getCacheLoading()
+    }
 
     get dialogServiceClient (): boolean {
       return this.getDialogServiceClient()
