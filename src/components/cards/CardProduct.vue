@@ -215,11 +215,12 @@
                   fab
                   dense
                   depressed
-                  dark
                   style="width: 30px;height:30px"
                   @click="countSubtrationQuantityProduct(), formatedPriceWithBreadedAndQuantity(product)"
                 >
-                  <v-icon>
+                  <v-icon
+                    color="primary"
+                  >
                     remove
                   </v-icon>
                 </v-btn>
@@ -230,15 +231,16 @@
                   {{ count }}
                 </span>
                 <v-btn
-                color="secondary"
+                  color="secondary"
                   fab
                   dense
                   depressed
-                  dark
                   style="width: 30px;height:30px"
                   @click="countSumQuantityProduct(), formatedPriceWithBreadedAndQuantity(product)"
                 >
-                  <v-icon>
+                  <v-icon
+                    color="primary"
+                  >
                     add
                   </v-icon>
                 </v-btn>
@@ -318,7 +320,7 @@
         }
       })
 
-      sessionStorage.setItem("productId", JSON.stringify(id))
+      sessionStorage.setItem("productId", String(id))
       sessionStorage.setItem("cacheProductTemp", JSON.stringify(Object.assign({}, ...CACHE_PRODUCT_CART)))
       this.setDialogComplements(!this.getDialogComplements())
     }

@@ -1,5 +1,5 @@
 export interface IproductData {
-  id?: number,
+  id?: string,
   url_image: string,
   category: string,
   name: string,
@@ -24,11 +24,11 @@ export interface IproductData {
 
 export interface IComplements {
   description: string,
-  id: string
+  id: string|number
   name: string,
   price: number
-  priceTotal: number,
-  qtd:number
+  priceTotal?: number,
+  qtd?:number
 }
 
 export interface IDifferences {

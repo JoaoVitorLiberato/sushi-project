@@ -710,8 +710,6 @@
       if (Object(files).length <= 0) return
 
       this.filesInputDevice = files
-      this.productData.url_image = String(`${files.name}` || "")
-
       const READER_IMAGE = new FileReader()
       READER_IMAGE.onload = () => {
         this.readerImageDevice = String(READER_IMAGE.result)

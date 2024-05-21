@@ -199,7 +199,7 @@
                 </div>
                   <span
                     v-font-size="12"
-                    v-text="formatedPrice(item.priceTotal)"
+                    v-text="formatedPrice(Number(item.priceTotal))"
                   />
               </v-col>
             </v-row>

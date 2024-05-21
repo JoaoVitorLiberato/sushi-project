@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any*/
 import { Component, Vue } from "vue-property-decorator"
 import { MiddlewareConnectAPI } from "@/middleware/middlewareBangaloSupportAPI"
-import { IproductData } from "@/types/types-product"
+import { IComplements, IproductData } from "@/types/types-product"
 import { namespace } from "vuex-class"
 
 const cacheStore = namespace("cacheStoreModule")
@@ -90,13 +90,35 @@ export default class MixinProductAPI extends Vue {
       return await MiddlewareConnectAPI.delete(`/product/${id || ""}`)
     }
 
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       serviceAPI()
         .then(responseMiddleware => {
+          if (responseMiddleware.data.message === "Produto deletado com sucesso.") {
+            resolve("")
+          } else reject(Error("error"))
+        }).catch(err => {
+          window.log("error MixinCacheProduct", err)
+          resolve("error")
+        })
+        
+    })
+  }
+
+
+  getComplements (): Promise<IComplements[]|string> {
+    async function serviceAPI () {
+      return await MiddlewareConnectAPI.get(`/complements`)
+    }
+
+    return new Promise((resolve, reject) => {
+      serviceAPI()
+        .then(responseMiddleware => {
+          if (!responseMiddleware.data) reject("error")
+          else if (responseMiddleware.data.length <= 0) resolve([])
           resolve(responseMiddleware.data)
         }).catch(err => {
           window.log("error MixinCacheProduct", err)
-          console.log("error ao deletar", err.response.data)
+          resolve("error")
         })
         
     })

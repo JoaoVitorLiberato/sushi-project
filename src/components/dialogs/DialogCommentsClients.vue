@@ -177,7 +177,7 @@
                         v-else
                         color="secondary"
                         block
-                        @click="sendRatingAndCommentClient(id)"
+                        @click="sendRatingAndCommentClient(String(id))"
                       >
                         Enviar
                       </v-btn>
@@ -270,7 +270,7 @@
 
     loading = false
     data = {
-      id: 0,
+      id: 0 || "",
       rating: 1,
       name: "",
       comment: ""
@@ -291,9 +291,9 @@
 
     sendRatingAndCommentClient (id:string|number): void {
       this.loading = true
-      this.data.id = Number(id)
+      this.data.id = String(id)
 
-      const LIST_REMOVED = this.productCacheComment().filter(item => Number(item.id) !== Number(id))
+      const LIST_REMOVED = this.productCacheComment().filter(item => String(item.id) !== String(id))
       const CACHE_IDS_COMMENTED = sessionStorage.getItem("id-commented")
 
       this.commentProductCostumer(this.data)
@@ -303,9 +303,9 @@
           if (CACHE_IDS_COMMENTED) {
             sessionStorage.setItem("id-commented", JSON.stringify([
               ...JSON.parse(CACHE_IDS_COMMENTED),
-              Number(id)
+              String(id)
             ]))
-          } else  sessionStorage.setItem("id-commented", JSON.stringify([Number(id)]))
+          } else  sessionStorage.setItem("id-commented", JSON.stringify([String(id)]))
 
           sessionStorage.setItem("cache-coment", JSON.stringify([...LIST_REMOVED]))
           this.data.rating = 1
