@@ -100,5 +100,14 @@
       "utm_medium": "estetica",
       "utm_campaign": "parceiro"
     }
+  },
+  "webparceiroslponline": {
+    "path": "?utm_source=slp&utm_medium=online&utm_campaign=parceiro",
+    "canal": "Canal Parceiro SLP Online Ativa",
+    "params": {
+      "utm_source": "slp",
+      "utm_medium": "online",
+      "utm_campaign": "parceiro"
+    }
   }
 }

@@ -762,7 +762,7 @@
       this.loadingService = true
       const PRODUCT_DATA = new FormData();
       
-      if (/dispositivo/i.test(String(this.chooseInputImage || ""))) {
+      if (/dispositivo/i.test(String(this.chooseInputImage || "")) && "name" in this.filesInputDevice) {
         PRODUCT_DATA.append('image', Object(this.filesInputDevice));
       }
 
@@ -770,21 +770,18 @@
 
       this.createNewProduct(PRODUCT_DATA)
         .then(responseMixin => {
-          if (/error/i.test(String(responseMixin || ""))) {
-            this.error.status = true
-            this.error.msg = "Houve algum problema ao criar o produto, por favor, tente novamente."
-            setTimeout(() => { this.error.status = false }, 5000)
-          }
-        }).catch(err => {
-          console.log("error", err)
-          this.loadingService = false
-        }).finally(() => {
+          if (/erro/i.test(String(responseMixin || ""))) throw Error("error")
           this.error.status = true
-            this.error.msg = "Produto criado com sucesso."
-            setTimeout(() => {
-              this.error.status = false
-              this.dialogRegisterProduct = false
-            }, 5000)
+          this.error.msg = "Produto criado com sucesso."
+          setTimeout(() => {
+            this.error.status = false
+            this.dialogRegisterProduct = false
+          }, 5000)
+        }).catch(err => {
+          window.log(`error finishRegister`, err)
+          this.loadingService = false
+          this.error.status = true
+          this.error.msg = "Houve algum problema ao criar o produto, por favor, tente novamente."
         })
     }
   }

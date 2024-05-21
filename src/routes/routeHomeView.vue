@@ -89,6 +89,7 @@
   import { mixins } from "vue-class-component"
   import { namespace } from "vuex-class"
   import APIValidadorCEPMixin from "@/mixins/form/MixinFormConfig"
+  import MixinProductAPI from "@/mixins/product/mixinProductAPI"
 
   const cacheStore = namespace("cacheStoreModule")
 
@@ -120,10 +121,12 @@
 
   export default class routeMain extends mixins(
     APIValidadorCEPMixin,
+    MixinProductAPI,
   ) {
     @cacheStore.Action("ActionCacheCepValidation") setCacheCepValidation
 
     created (): void {
+      this.getProducts()
       this.setCacheCepValidation("65272000")
       this.APIValidadorCEPMixin()
     }

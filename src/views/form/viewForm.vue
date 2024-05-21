@@ -910,9 +910,10 @@
           produtos: [...this.getPayloadOrder("produtos")]
         }
         this.numeroPedido = "123456"
+
         sessionStorage.clear()
         sessionStorage.setItem("api-fake", JSON.stringify(DATA_FAKE))
-        sessionStorage.setItem("numero-pedido", "123456")
+        sessionStorage.setItem("numero-pedido", this.numeroPedido)
         this.$refs.dialogNumberOrder.isActive = true
       },
       3000

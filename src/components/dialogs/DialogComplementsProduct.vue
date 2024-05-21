@@ -35,18 +35,18 @@
             <v-col
               cols="12"
               md="8"
-              style="width:100%;max-width:980px"
-              class="mx-auto"
+              class="pa-2"
             >
               <v-row
                 no-gutters
-                class="ma-2"
+                style="width:100%;max-width:980px"
+                class="mx-auto"
               >
                 <v-col
                   cols="12"
                   class="py-4"
                 />
-    
+
                 <v-col
                   cols="12"
                   style="line-height: 1"
@@ -70,8 +70,8 @@
                   v-for="item in returnComplementAdditional"
                   :key="`card-complemento-adicional-${item.id}`"
                   cols="12"
-                  md="6"
-                  class="pa-2 mx-md-2 my-2 grey lighten-4"
+                  md="5"
+                  class="pa-2 mx-md-2 mx-auto my-2 grey lighten-4"
                   :style="`max-width:${$vuetify.breakpoint.xsOnly ? '100%' : 350}px;border-radius: 15px;`"
                 >
                   <card-complement

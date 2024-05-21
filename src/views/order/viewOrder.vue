@@ -498,7 +498,6 @@
 
       const IDS_COMMENTED = sessionStorage.getItem("id-commented")
       const REMOVE_ID_COMMENTED = this.detailOrder.produtos.filter(item => {
-        console.log("add", IDS_COMMENTED)
         if (IDS_COMMENTED !== null) {
           if (!JSON.parse(IDS_COMMENTED).includes(Number(item.id))) {
             return item
@@ -507,7 +506,6 @@
       })
 
       if (REMOVE_ID_COMMENTED.length > 0) {
-        console.log("entrou aqui", REMOVE_ID_COMMENTED)
         sessionStorage.setItem("cache-coment", JSON.stringify([...REMOVE_ID_COMMENTED]))
       } else {
         sessionStorage.setItem("cache-coment", JSON.stringify([...this.detailOrder.produtos]))

@@ -75,14 +75,9 @@
     }
   })
 
-  export default class ContentSectionOrderComponent extends Vue {
+  export default class ContentSectionProductsOrderComponent extends Vue {
     @Prop({ default: "" }) category?: string
 
     filterDataProduct = filterDataProduct
-
-    get productData () {
-      return filterDataProduct(this.category)
-    }
-    
   }
 </script>

@@ -2,10 +2,37 @@
 import { Component, Vue } from "vue-property-decorator"
 import { MiddlewareConnectAPI } from "@/middleware/middlewareBangaloSupportAPI"
 import { IproductData } from "@/types/types-product"
+import { namespace } from "vuex-class"
+
+const cacheStore = namespace("cacheStoreModule")
 
 @Component({})
 
 export default class MixinProductAPI extends Vue {
+  @cacheStore.Action("ActionCacheProducts") setCacheProducts
+  @cacheStore.Getter("CacheProducts") getCacheProducts
+  @cacheStore.Action("ActionCacheLoading") setCacheLoading
+  @cacheStore.Getter("CacheLoading") getCacheLoading
+
+  get cacheProduct (): IproductData[] {
+    return this.getCacheProducts
+  }
+
+  set cacheProduct (value) {
+    this.setCacheProducts(value)
+  }
+
+  get cacheLoading (): {
+    status: boolean,
+    msg: string
+  } {
+    return this.getCacheLoading()
+  }
+
+  set cacheLoading (value) {
+    this.setCacheLoading(value)
+  }
+
   createNewProduct (product): Promise<string> {
     async function serviceAPI () {
       return await MiddlewareConnectAPI.post(`/product`, product)
@@ -14,7 +41,7 @@ export default class MixinProductAPI extends Vue {
     return new Promise((resolve, reject) => {
       serviceAPI()
         .then(responseMiddleware => {
-          if (!("data" in responseMiddleware)) reject(Error("sem data"))
+          if (!responseMiddleware.data || /error/i.test(String(responseMiddleware.data.status))) reject(Error("sem data"))
           if (responseMiddleware.data.message === "Product created") {
             resolve(responseMiddleware.data)
           }
@@ -27,6 +54,11 @@ export default class MixinProductAPI extends Vue {
   }
 
   getProducts (): Promise<string|IproductData[]> {
+    this.cacheLoading = {
+      status: true,
+      msg: "Carregando produtos...",
+    }
+
     async function serviceAPI () {
       return await MiddlewareConnectAPI.get(`/products`)
     }
@@ -34,14 +66,22 @@ export default class MixinProductAPI extends Vue {
     return new Promise((resolve, reject) => {
       serviceAPI()
         .then(responseMiddleware => {
-          if (!responseMiddleware.data) reject(Error("sem data"))
+          if (!responseMiddleware.data || /error/i.test(String(responseMiddleware.data.status))) reject(Error("sem data"))
           else if (responseMiddleware.data.length <= 0) resolve("list-void-product")
-          resolve(responseMiddleware.data)
+          else {
+            this.cacheProduct = responseMiddleware.data
+            sessionStorage.setItem("cache-product", JSON.stringify(responseMiddleware.data))
+            resolve(responseMiddleware.data)
+          }
         }).catch(err => {
           window.log("error MixinCacheProduct", err)
           resolve("erro")
+        }).finally(() => {
+          this.cacheLoading = {
+            status: false,
+            msg: "",
+          }
         })
-        
     })
   }
 
@@ -56,7 +96,7 @@ export default class MixinProductAPI extends Vue {
           resolve(responseMiddleware.data)
         }).catch(err => {
           window.log("error MixinCacheProduct", err)
-          resolve("")
+          console.log("error ao deletar", err.response.data)
         })
         
     })
