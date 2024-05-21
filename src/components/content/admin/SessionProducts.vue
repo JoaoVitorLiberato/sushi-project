@@ -167,6 +167,7 @@
                                 color="secondary"
                                 text
                                 class="mr-1"
+                                @click="openDialogRegisterProductToUpdate(String(id))"
                               >
                                 <span
                                   class="pr-1"
@@ -530,6 +531,15 @@
             .finally(() => {
               this.loading = false
             })
+        }
+      })
+    }
+
+    openDialogRegisterProductToUpdate (id: string): void {
+      this.listProducts.find(item => {
+        if (String(item.id) === String(id)) {
+          sessionStorage.setItem("update", JSON.stringify(item))
+          this.dialogRegisterProduct = true
         }
       })
     }

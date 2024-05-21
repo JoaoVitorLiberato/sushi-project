@@ -104,6 +104,24 @@ export default class MixinProductAPI extends Vue {
     })
   }
 
+  updateProduct (product): Promise<void|string> {
+    async function serviceAPI () {
+      return await MiddlewareConnectAPI.patch(`/product`, product)
+    }
+
+    return new Promise((resolve, reject) => {
+      serviceAPI()
+        .then(responseMiddleware => {
+          if (!responseMiddleware.data) reject(Error("sem-data"))
+          resolve(responseMiddleware.data)
+        }).catch(err => {
+          window.log("ERR UPDATE PRODUCT", err)
+          resolve("erro")
+        })
+        
+    })
+  }
+
 
   getComplements (): Promise<IComplements[]|string> {
     async function serviceAPI () {
