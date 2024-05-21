@@ -177,7 +177,7 @@
                               <v-btn
                                 color="error"
                                 text
-                                @click.stop="deleteProductAPI(Number(id))"
+                                @click.stop="deleteProductAPI(String(id))"
                               >
                                 <span
                                   class="pr-1"
@@ -456,9 +456,9 @@
       return value
     }
 
-    deleteProductAPI (id: number): void {
+    deleteProductAPI (id: string): void {
       this.listProducts.find(item => {
-        if (Number(item.id) === Number(id)) this.deleteProduct(item)
+        if (String(item.id) === String(id)) this.deleteProduct(id)
       })
     }
   }

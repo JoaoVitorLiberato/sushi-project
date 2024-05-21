@@ -85,9 +85,9 @@ export default class MixinProductAPI extends Vue {
     })
   }
 
-  deleteProduct (data: any): Promise<void|string> {
+  deleteProduct (id: string): Promise<void|string> {
     async function serviceAPI () {
-      return await MiddlewareConnectAPI.delete(`/product`, data)
+      return await MiddlewareConnectAPI.delete(`/product/${id || ""}`)
     }
 
     return new Promise((resolve) => {
