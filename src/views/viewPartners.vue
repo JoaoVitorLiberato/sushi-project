@@ -157,6 +157,11 @@
           url: "/img/project/parceiros/diamond-black-store.JPG",
           link: "https://www.instagram.com/diamontblackst?igsh=MWx6NWM5dWR1ZDIxZA=="
         },
+        {
+          name: "SLP Online Ativa",
+          url: "/img/project/parceiros/slp-online-ativa.jpg",
+          link: "https://www.instagram.com/slp_onlineativa?igsh=N2wxYjRveHAwN3k5"
+        }
       ]
     }
 

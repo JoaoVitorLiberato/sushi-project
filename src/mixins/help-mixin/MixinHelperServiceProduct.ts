@@ -39,16 +39,7 @@ export default class MixinHelperServiceProduct extends Vue {
   }
 
   get discountPartners (): boolean {
-    return [
-      "webparceiropostoaguia",
-      "webparceiroaguiafitness",
-      "webparceiroaguiamotos",
-      "webparceirocarcenter",
-      "webparceirotaynara",
-      "webparceirodiamondstore",
-      "webparceiro360assessoria",
-      "webparceirorosanaestetica",
-    ].includes(String(this.getCacheRastreamentoUsuarioPayloadSource()).toLowerCase())
+    return !/^(web)$/i.test(String(this.getPayloadOrder("canal") || ""))
   }
 
   countSumQuantityProduct (): void {
