@@ -15,7 +15,8 @@ const moduleCache = (): cacheStoreInterface => {
     loading: {
       status: false,
       msg: ""
-    }
+    },
+    complements: []
   }
 }
 
@@ -48,6 +49,9 @@ const getters: GetterTree<cacheStoreInterface, rootStateInterface> = {
   },
   CacheLoading: ({ loading }) => () => {
     return loading
+  },
+  CacheComplements: ({ complements }) => () => {
+    return complements
   },
 }
 
@@ -82,6 +86,9 @@ const mutations: MutationTree<cacheStoreInterface> = {
       msg: data.msg,
     }
   },
+  mutationComplements (state, data) {
+    state.complements = data
+  },
 }
 
 const actions: ActionTree<cacheStoreInterface, rootStateInterface> = {
@@ -112,7 +119,10 @@ const actions: ActionTree<cacheStoreInterface, rootStateInterface> = {
   },
   ActionCacheLoading ({ commit }, data) {
     commit("mutationLoading", data)
-  }
+  },
+  ActionCacheComplements({ commit }, data) {
+    commit("mutationComplements", data)
+  },
 }
 
 const cacheStoreModule: Module<cacheStoreInterface, rootStateInterface> = {

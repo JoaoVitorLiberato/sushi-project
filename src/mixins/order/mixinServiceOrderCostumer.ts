@@ -28,7 +28,7 @@ export default class MixinServiceOrderCostumer extends Vue {
   }
 
   commentProductCostumer (data: {
-    id: number
+    id: number|string
     name: string,
     rating: number,
     comment: string

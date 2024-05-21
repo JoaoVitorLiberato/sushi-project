@@ -95,6 +95,10 @@
       <template
         #ordersClient
       />
+
+      <template
+        #tryAgain
+      />
     </dialog-slot-funcionalidades-component>
 
     <button-whats-chat />

@@ -91,7 +91,7 @@
                         >
                           <v-img
                             :src="url_image"
-                            contain
+                            cover
                             height="150"
                             width="100%"
                           />
@@ -105,6 +105,11 @@
                             no-gutters
                             class="pa-md-2"
                           >
+                            <v-col
+                              cols="12"
+                              class="py-2 hidden-md-and-up"
+                            />
+
                             <v-col
                               cols="12"
                               style="line-height: 1"
@@ -177,7 +182,7 @@
                               <v-btn
                                 color="error"
                                 text
-                                @click.stop="deleteProductAPI(Number(id))"
+                                @click.stop="deleteProductAPI(String(id))"
                               >
                                 <span
                                   class="pr-1"
@@ -215,6 +220,7 @@
         no-gutters
       >
         <v-col
+          v-if="listComplements.length <= 0"
           cols="12"
         >
           <span
@@ -225,6 +231,7 @@
         </v-col>
 
         <v-col
+          v-else
           cols="12"
         >
           <v-row
@@ -250,48 +257,73 @@
               cols="12"
               style="max-height: 600px;overflow-y: scroll;"
             >
-              <v-card
-                max-width="344"
-                outlined
+              <v-row
+                no-gutters
+                style="max-width: 1100px;"
               >
-                <v-list-item 
-                  three-line
+                <v-col
+                  v-for="{ id, name, description, price } in listComplements"
+                  :key="`card-complement-${id}`"
+                  cols="12"
+                  sm="6"
+                  md="4"
+                  class="pa-2"
                 >
-                  <v-list-item-content>
-                    <div
-                      style="font-size: 12px !important;letter-spacing: 0.12px !important;"
-                      class="text-overline mb-4 font-weight-bold"
-                    >
-                      complempemento
-                    </div>
-                    <v-list-item-title
-                      style="font-size: 18px !important;"
-                      class="text-h5 mb-1"
-                    >
-                      Headline 5
-                    </v-list-item-title>
-                    <v-list-item-subtitle>
-                      Greyhound divisely hello coldly fonwderfully
-                    </v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
-
-                <v-card-actions>
-                  <v-btn
-                    text
-                    color="warning"
+                  <v-card
+                    :max-width="$vuetify.breakpoint.smAndDown ? 300 : 344"
+                    outlined
                   >
-                    editar
-                  </v-btn>
+                    <v-list-item 
+                      three-line
+                    >
+                      <v-list-item-content>
+                        <div
+                          class="d-flex justify-space-between align-center"
+                        >
+                          <div
+                            style="font-size: 12px !important;letter-spacing: 0.12px !important;"
+                            class="text-overline mb-4 font-weight-bold"
+                          >
+                            complempemento
+                          </div>
 
-                  <v-btn
-                    text
-                    color="error"
-                  >
-                    deletar
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
+                          <span
+                            v-font-size="14"
+                            class="text-uppercase font-weight-bold mb-4"
+                          >
+                            {{ formatedPrice(price) }}
+                          </span>
+                        </div>
+                        <v-list-item-title
+                          style="font-size: 18px !important;"
+                          class="text-h5 mb-1"
+                        >
+                          {{ name }}
+                        </v-list-item-title>
+                        <v-list-item-subtitle>
+                          {{ description }}
+                        </v-list-item-subtitle>
+                      </v-list-item-content>
+                    </v-list-item>
+    
+                    <v-card-actions>
+                      <v-btn
+                        text
+                        color="warning"
+                      >
+                        editar
+                      </v-btn>
+    
+                      <v-btn
+                        text
+                        color="error"
+                      >
+                        deletar
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-col>
+              </v-row>
             </v-col>
           </v-row>
         </v-col>
@@ -352,7 +384,7 @@
   import { mixins } from "vue-class-component"
   import MixinProductAPI from "@/mixins/product/mixinProductAPI"
   import { $refs } from "@/implements/types"
-  import { IproductData, IDifferences } from "@/types/types-product"
+  import { IproductData, IDifferences, IComplements } from "@/types/types-product"
   import { formatedPrice } from "@/helpers/formatedPrice"
   import { namespace } from "vuex-class"
   import "@/styles/components/content/admin/sessionProducts.styl"
@@ -371,6 +403,7 @@
 
     loading = false
     listProducts: IproductData[] = []
+    listComplements = [] as IComplements[]
     errorMsg = ""
 
     get dialogRegisterProduct (): boolean {
@@ -384,10 +417,12 @@
     @Watch("dialogRegisterProduct")
       changeVariableRegisterProduct (): void {
         this.loadingProducts()
+        this.loadingComplements()
       }
 
     mounted (): void {
       this.loadingProducts()
+      this.loadingComplements()
     }
 
     loadingProducts (): void {
@@ -404,6 +439,26 @@
             this.listProducts = []
           } else {
             this.listProducts = [ ...responseMixin as IproductData[] ]
+          }
+        }).finally(() => {
+          this.loading = false
+        })
+    }
+
+    loadingComplements (): void {
+      this.loading = true
+      this.getComplements()
+        .then(responseMixin => {
+          if (/erro/i.test(String(responseMixin || ""))) {
+            this.errorMsg = `
+              Ops, Error ao buscar produtos no servidor.
+              Recarregue a página e tente novemente ou chame o suporte.
+            `
+            this.$refs.dialogErrorProducts.isActive = true
+          } else if (responseMixin.length <= 0) {
+            this.listComplements = []
+          } else {
+            this.listComplements = [ ...responseMixin as IComplements[] ]
           }
         }).finally(() => {
           this.loading = false
@@ -456,9 +511,26 @@
       return value
     }
 
-    deleteProductAPI (id: number): void {
+    deleteProductAPI (id: string): void {
+      this.loading = true
       this.listProducts.find(item => {
-        if (Number(item.id) === Number(id)) this.deleteProduct(item)
+        if (String(item.id) === String(id)) {
+          this.deleteProduct(id)
+            .then(responseMixin => {
+              if (!responseMixin) this.loadingProducts()
+              else if (/error/i.test(String(responseMixin || ""))) {
+                this.$refs.dialogErrorProducts.isActive = true
+                this.errorMsg = `
+                  Ops, Error ao deletar o produtos no servidor.
+                  Recarregue a página e tente novemente ou chame o suporte.
+                `
+                this.$refs.dialogErrorProducts.isActive = true
+              } 
+            })
+            .finally(() => {
+              this.loading = false
+            })
+        }
       })
     }
   }

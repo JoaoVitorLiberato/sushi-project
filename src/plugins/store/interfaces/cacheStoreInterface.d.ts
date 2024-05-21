@@ -1,4 +1,4 @@
-import { IproductData } from "@/types/types-product"
+import { IproductData, IComplements } from "@/types/types-product"
 
 interface cacheStoreInterface {
   rastreamentoUsuario: Record<string, string|string[]|number|number[]|boolean>
@@ -9,6 +9,7 @@ interface cacheStoreInterface {
   drawerCartProduct: boolean;
   cepValidation: string,
   products: IproductData[],
+  complements: IComplements[],
   ordersCart: IproductData[],
   priceTotal: number,
   loading: {

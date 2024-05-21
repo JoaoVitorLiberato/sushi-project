@@ -7,7 +7,24 @@
     <v-card
       tile
     >
+      <div
+        v-if="loading"
+        class="text-center pa-4"
+      >
+        <v-progress-linear 
+          color="secondary"
+          indeterminate
+          class="mb-4"
+        />
+        <span
+          class="font-weight-regular grey--text mt-3"
+        >
+          Carregando complementos...
+        </span>
+      </div>
+
       <v-row
+        v-else
         no-gutters
       >
         <v-col
@@ -37,7 +54,15 @@
               md="8"
               class="pa-2"
             >
+              <span
+                v-if="error.status"
+                class="font-weight-regular grey--text mt-4"
+              >
+                {{ error.msg }}
+              </span>
+
               <v-row
+                v-else
                 no-gutters
                 style="width:100%;max-width:980px"
                 class="mx-auto"
@@ -67,7 +92,7 @@
                 />
     
                 <v-col
-                  v-for="item in returnComplementAdditional"
+                  v-for="item in cacheComplements"
                   :key="`card-complemento-adicional-${item.id}`"
                   cols="12"
                   md="5"
@@ -84,7 +109,7 @@
                 </v-col>
               </v-row>
             </v-col>
-    
+
             <v-col
               cols="12"
               md="4"
@@ -283,11 +308,12 @@
   import { mixins } from "vue-class-component"
   import { namespace } from "vuex-class"
   import { formatedPrice } from "@/helpers/formatedPrice"
-  import DATA_COMPLEMENTS_ADDITIONAL from "@/data/complements/complementAdditional.json"
-  import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
   import { IComplements, IproductData } from "@/types/types-product"
+  import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
+  import MixinProductAPI from "@/mixins/product/mixinProductAPI"
 
   const dialogStore = namespace("dialogStoreModule")
+  const cacheStore = namespace("cacheStoreModule")
 
   @Component({
     components: {
@@ -301,14 +327,23 @@
 
   export default class DialogComplementsProduct extends mixins(
     MixinHelperServiceProduct,
+    MixinProductAPI,
   ) {
+    @dialogStore.Action("ActionDialogTryAgain") declare setDialogTryAgain
     @dialogStore.Action("ActionDialogComplements") declare setDialogComplements
     @dialogStore.Getter("DialogComplements") declare getDialogComplements
+    @cacheStore.Action("ActionCacheComplements") setCacheComplements
+    @cacheStore.Getter("CacheComplements") getCacheComplements
 
     formatedPrice = formatedPrice
 
     objetoComplete = {} as IComplements
     totalComplementsCalculed = 0
+    loading = false
+    error = {
+      status: false,
+      msg: ""
+    }
 
     get dialogComplements (): boolean {
       return this.getDialogComplements()
@@ -318,8 +353,12 @@
       this.setDialogComplements(value)
     }
 
-    get returnComplementAdditional (): typeof DATA_COMPLEMENTS_ADDITIONAL {
-      return DATA_COMPLEMENTS_ADDITIONAL
+    get cacheComplements (): IComplements[] {
+      return this.getCacheComplements()
+    }
+
+    set cacheComplements (value) {
+      this.setCacheComplements(value)
     }
 
     @Watch("dialogComplements")
@@ -327,6 +366,28 @@
         this.objetoComplete = {} as IComplements
         this.complements = []
         this.complements.shift()
+
+        if (this.dialogComplements === true) {
+          this.loading = true
+          this.getComplements()
+            .then(responseMixin => {
+              if (/error/i.test(String(responseMixin))) throw Error("error")
+              else if (responseMixin.length <= 0) {
+                this.error = {
+                  status: true,
+                  msg: "Estamos sem complementos no momento."
+                }
+                return
+              }
+
+              this.cacheComplements = responseMixin as IComplements[]
+            }).catch(error => {
+              window.log(`ERROR RESPONSE MOUNTED DIALOG COMPLE`, error)
+              this.setDialogTryAgain(true)
+            }).finally(() => {
+              this.loading = false
+            })
+        }
       }
 
     complements = [] as IComplements[]
@@ -358,7 +419,7 @@
       const CACHE_TEMPORARY = sessionStorage.getItem("cacheProductTemp")
       if (CACHE_TEMPORARY) return JSON.parse(CACHE_TEMPORARY)
       else return {
-        id: 0,
+        id: "",
         url_image: "",
         category: "",
         name: "",
@@ -456,6 +517,5 @@
         this.dialogComplements = !this.dialogComplements
       }
     }
-
   }
 </script>

@@ -120,14 +120,14 @@ export default class MixinHelperServiceProduct extends Vue {
 
   dicountAplicated (): void {
     if (this.discountPartners || Number(this.priceTotalOrder) >= 25000) {
-      const discount = (Number(this.priceTotalOrder) - Number((5 / 100) * this.priceTotalOrder))
+      const discount = Number(this.priceTotalOrder) - Number((5 / 100) * this.priceTotalOrder)
       this.getPayloadPaymentDiscount({
         porcentagem: 5,
-        PrecoTotalComDesconto: Number(discount) + Number(this.getPayloadOrder("pagamento").valorFrete)
+        PrecoTotalComDesconto: Number(Math.ceil(discount)) + Number(this.getPayloadOrder("pagamento").valorFrete)
       })
     }
 
     this.setPayloadPriceTotalProducts(this.getCachePriceTotal())
-    this.setPayloadPriceTotal( Number(this.getPayloadOrder("pagamento").valorProdutos) + Number(this.getPayloadOrder("pagamento").valorFrete))
+    this.setPayloadPriceTotal(Number(this.getPayloadOrder("pagamento").valorProdutos) + Number(this.getPayloadOrder("pagamento").valorFrete))
   }
 }
