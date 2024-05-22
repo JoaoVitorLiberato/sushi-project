@@ -153,7 +153,7 @@
                         large
                         depressed
                         color="secondary"
-                        @click.stop="validateForm ? updateProductSelected() : validate()"
+                        @click.stop="validateForm ? updateComplementSelected() : validate()"
                       >
                         <span
                           class="primary--text font-weight-bold"
@@ -301,7 +301,7 @@
         })
     }
 
-    updateProductSelected (): void {
+    updateComplementSelected (): void {
       this.loading = true
 
       this.updateComplement(this.data)
