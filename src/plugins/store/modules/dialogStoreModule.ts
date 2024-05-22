@@ -13,6 +13,7 @@ const moduleCache = (): dialogStoreInterface => {
     dialogRegisterEmployee: false,
     dialogRegisterProduct: false,
     dialogTryAgain: false,
+    dialogRegisterComplement: false,
   }
 }
 
@@ -46,6 +47,9 @@ const getters: GetterTree<dialogStoreInterface, rootStateInterface> = {
   DialogTryAgain: ({ dialogTryAgain }) => () => {
     return dialogTryAgain
   },
+  DialogRegisterComplement: ({ dialogRegisterComplement }) => () => {
+    return dialogRegisterComplement
+  }
 }
 
 const mutations: MutationTree<dialogStoreInterface> = {
@@ -75,6 +79,9 @@ const mutations: MutationTree<dialogStoreInterface> = {
   },
   MutationTryAgain (state, data) {
     state.dialogTryAgain = data
+  },
+  MutationRegisterComplement (state, data) {
+    state.dialogRegisterComplement = data
   }
 }
 
@@ -105,7 +112,10 @@ const actions: ActionTree<dialogStoreInterface, rootStateInterface> = {
   },
   ActionDialogTryAgain ({ commit }, data) {
     commit("MutationTryAgain", data)
-  }
+  },
+  ActionDialogRegisterComplement ({ commit }, data) {
+    commit("MutationRegisterComplement", data)
+  },
 }
 
 const dialogStoreModule: Module<dialogStoreInterface, rootStateInterface> = {

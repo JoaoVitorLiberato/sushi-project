@@ -85,10 +85,10 @@
       <v-divider></v-divider>
 
       <v-card-text
-        class="font-weight-medium text-center text-uppercase"
+        class="font-weight-medium text-center text-uppercase font-italic"
         style="color:var(--v-primary-text)"
       >
-        {{ new Date().getFullYear() }} — <strong>Bangalô Sushi Lounge</strong>
+        {{ new Date().getFullYear() }} — <span>Bangalô Sushi Lounge</span>
       </v-card-text>
     </v-card>
   </v-footer>

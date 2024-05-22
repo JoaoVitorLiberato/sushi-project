@@ -67,6 +67,25 @@
           Criar novo produto
         </span>
       </v-btn>
+
+      <v-btn
+        :fab="$vuetify.breakpoint.smAndDown"
+        color="secondary"
+        title="Botão para cadastrar produto"
+        @click="dialogRegisterComplement = !dialogRegisterComplement"
+      >
+        <v-icon
+          color="primary"
+        >
+          note_add
+        </v-icon>
+
+        <span
+          class="primary--text ml-2 hidden-sm-and-down"
+        >
+          Criar novo complemento
+        </span>
+      </v-btn>
     </v-speed-dial>
 
     <dialog-register-employee 
@@ -74,6 +93,9 @@
     />
     <dialog-register-product 
       v-if="dialogRegisterProduct"
+    />
+    <dialog-register-complement
+      v-if="dialogRegisterComplement"
     />
   </div>
 </template>
@@ -96,6 +118,11 @@
         /* webpackMode: "eager" */
         "@/components/dialogs/DialogRegisterProduct.vue"
       ),
+      DialogRegisterComplement: () => import(
+        /* webpackChuckName: "dialog-register-complement-component" */
+        /* webpackMode: "eager" */
+        "@/components/dialogs/DialogRegisterComplement.vue"
+      ),
     }
   })
   export default class ButtonAddProductsOrEmployee extends Vue {
@@ -103,6 +130,8 @@
     @dialogStore.Action("ActionDialogRegisterEmployee") setDialogRegisterEmployee
     @dialogStore.Getter("DialogRegisterProduct") getDialogRegisterProduct
     @dialogStore.Action("ActionDialogRegisterProduct") setDialogRegisterProduct
+    @dialogStore.Getter("DialogRegisterComplement") getDialogRegisterComplement
+    @dialogStore.Action("ActionDialogRegisterComplement") setDialogRegisterComplement
 
     get dialogRegisterEmployee (): boolean {
       return this.getDialogRegisterEmployee()
@@ -118,6 +147,14 @@
 
     set dialogRegisterProduct (value:boolean) {
       this.setDialogRegisterProduct(value)
+    }
+
+    get dialogRegisterComplement (): boolean {
+      return this.getDialogRegisterComplement()
+    }
+
+    set dialogRegisterComplement (value:boolean) {
+      this.setDialogRegisterComplement(value)
     }
 
     buttonModel = false

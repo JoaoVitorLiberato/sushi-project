@@ -20,8 +20,8 @@
             text
             color="primary"
             fab
-            @click.stop="dialogRegisterProduct = !dialogRegisterProduct"
-            @keydown.esc.prevent="dialogRegisterProduct = !dialogRegisterProduct"
+            @click.stop="closeDialog()"
+            @keydown.esc.prevent="closeDialog()"
           >
             <v-icon
               size="32"
@@ -69,12 +69,12 @@
               >
                 <v-autocomplete
                   :items="category"
+                  v-model="productData.category"
                   item-text="name"
                   item-value="id"
                   label="Categoria do produto"
                   outlined
                   hide-details
-                  @change="changeSelectCategory"
                 />
               </v-col>
 
@@ -573,21 +573,41 @@
                   indeterminate
                 />
 
-                <v-btn
+                <div
                   v-else
-                  type="button"
-                  block
-                  depressed
-                  large
-                  color="secondary"
-                  @click.stop="finishRegister()"
                 >
-                  <span
-                    class="font-weight-bold primary--text"
+                  <v-btn
+                    v-if="/create/i.test(method)"
+                    type="button"
+                    block
+                    depressed
+                    large
+                    color="secondary"
+                    @click.stop="finishRegister()"
                   >
-                    Salvar
-                  </span>
-                </v-btn>
+                    <span
+                      class="font-weight-bold primary--text"
+                    >
+                      Salvar
+                    </span>
+                  </v-btn>
+
+                  <v-btn
+                    v-if="/update/i.test(method)"
+                    type="button"
+                    block
+                    depressed
+                    large
+                    color="secondary"
+                    @click.stop="updateProductSelected()"
+                  >
+                    <span
+                      class="font-weight-bold primary--text"
+                    >
+                      Atualizar
+                    </span>
+                  </v-btn>
+                </div>
               </v-col>
             </v-row>
           </v-form>
@@ -638,6 +658,7 @@
     showFlambed = false
     showEspecial = false
     loadingService = false
+    method = "create"
 
     productData = {
       url_image: "",
@@ -697,8 +718,20 @@
       this.setDialogRegisterProduct(value)
     }
 
-    changeSelectCategory (id?:string): void {
-      this.productData.category = String(id || "")
+    created (): void {
+      const UPDATE_CACHE = sessionStorage.getItem("update")
+      if (UPDATE_CACHE) {
+        this.method = "update"
+        this.readerImageDevice = JSON.parse(UPDATE_CACHE).url_image
+        this.productData = {
+          ...JSON.parse(UPDATE_CACHE)
+        }
+      }
+    }
+
+    closeDialog (): void {
+      sessionStorage.removeItem("update")
+      this.dialogRegisterProduct = !this.dialogRegisterProduct
     }
 
     changeInputUrlImage (url:string): void {
@@ -780,6 +813,40 @@
           this.loadingService = false
           this.error.status = true
           this.error.msg = "Houve algum problema ao criar o produto, por favor, tente novamente."
+        })
+    }
+
+    updateProductSelected (): void {
+      this.loadingService = true
+
+      const PRODUCT_DATA = new FormData();
+      PRODUCT_DATA.append('product', JSON.stringify(this.productData));
+      
+      if (/dispositivo/i.test(String(this.chooseInputImage || "")) && "name" in this.filesInputDevice) {
+        PRODUCT_DATA.append('image', Object(this.filesInputDevice));
+      }
+
+      this.updateProduct(PRODUCT_DATA)
+        .then(responseMixin => {
+          if (/erro/i.test(String(responseMixin || ""))) {
+            this.error.status = true
+            this.error.msg = "Houve algum problema ao atualizar o produto, por favor, tente novamente."
+            setTimeout(() => {
+              this.error.status = false
+              this.loadingService = false
+            }, 1400)
+            return
+          }
+          
+
+          this.error.status = true
+          this.error.msg = "Produto atualizado com sucesso."
+          setTimeout(() => {
+            sessionStorage.removeItem("update")
+            this.error.status = false
+            this.dialogRegisterProduct = false
+            this.loadingService = false
+          }, 1400)
         })
     }
   }
