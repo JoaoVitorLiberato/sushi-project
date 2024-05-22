@@ -311,6 +311,7 @@
                       <v-btn
                         text
                         color="warning"
+                        @click="openDialogRegisterComplementToUpdate(String(id))"
                       >
                         editar
                       </v-btn>
@@ -318,6 +319,7 @@
                       <v-btn
                         text
                         color="error"
+                        @click="deleteComplementAPI(String(id))"
                       >
                         deletar
                       </v-btn>
@@ -335,8 +337,8 @@
       cols="12"
     >
       <v-dialog
-        ref="dialogErrorProducts"
-        width="400"
+        ref="dialogErrorProductOrComplement"
+        width="340"
       >
         <v-card>
           <v-row
@@ -355,7 +357,7 @@
                 dense
                 width="30"
                 height="30"
-                @click="$refs.dialogErrorProducts.save()"
+                @click="$refs.dialogErrorProductOrComplement.save()"
               >
                 <v-icon>
                   close
@@ -398,6 +400,8 @@
   ) implements $refs {
     @dialogStore.Getter("DialogRegisterProduct") getDialogRegisterProduct
     @dialogStore.Action("ActionDialogRegisterProduct") setDialogRegisterProduct
+    @dialogStore.Getter("DialogRegisterComplement") getDialogRegisterComplement
+    @dialogStore.Action("ActionDialogRegisterComplement") setDialogRegisterComplement
 
     $refs
     formatedPrice = formatedPrice
@@ -415,11 +419,20 @@
       this.setDialogRegisterProduct(value)
     }
 
+    get dialogRegisterComplement (): boolean {
+      return this.getDialogRegisterComplement()
+    }
+
+    set dialogRegisterComplement (value:boolean) {
+      this.setDialogRegisterComplement(value)
+    }
+
     @Watch("dialogRegisterProduct")
-      changeVariableRegisterProduct (): void {
-        this.loadingProducts()
-        this.loadingComplements()
-      }
+      @Watch("dialogRegisterComplement")
+        changeVariableRegisterProduct (): void {
+          this.loadingProducts()
+          this.loadingComplements()
+        }
 
     mounted (): void {
       this.loadingProducts()
@@ -435,7 +448,7 @@
               Ops, Error ao buscar produtos no servidor.
               Recarregue a página e tente novemente ou chame o suporte.
             `
-            this.$refs.dialogErrorProducts.isActive = true
+            this.$refs.dialogErrorProductOrComplement.isActive = true
           } else if (/list-void-product/i.test(String(responseMixin || ""))) {
             this.listProducts = []
           } else {
@@ -455,7 +468,7 @@
               Ops, Error ao buscar produtos no servidor.
               Recarregue a página e tente novemente ou chame o suporte.
             `
-            this.$refs.dialogErrorProducts.isActive = true
+            this.$refs.dialogErrorProductOrComplement.isActive = true
           } else if (responseMixin.length <= 0) {
             this.listComplements = []
           } else {
@@ -520,12 +533,35 @@
             .then(responseMixin => {
               if (!responseMixin) this.loadingProducts()
               else if (/error/i.test(String(responseMixin || ""))) {
-                this.$refs.dialogErrorProducts.isActive = true
+                this.$refs.dialogErrorProductOrComplement.isActive = true
                 this.errorMsg = `
                   Ops, Error ao deletar o produtos no servidor.
                   Recarregue a página e tente novemente ou chame o suporte.
                 `
-                this.$refs.dialogErrorProducts.isActive = true
+                this.$refs.dialogErrorProductOrComplement.isActive = true
+              } 
+            })
+            .finally(() => {
+              this.loading = false
+            })
+        }
+      })
+    }
+
+    deleteComplementAPI (id: string): void {
+      this.loading = true
+      this.listComplements.find(item => {
+        if (String(item.id) === String(id)) {
+          this.deleteComplement(item)
+            .then(responseMixin => {
+              if (!responseMixin) this.loadingProducts()
+              else if (/error/i.test(String(responseMixin || ""))) {
+                this.$refs.dialogErrorProductOrComplement.isActive = true
+                this.errorMsg = `
+                  Ops, Error ao deletar o complemento no servidor.
+                  Recarregue a página e tente novemente ou chame o suporte.
+                `
+                this.$refs.dialogErrorProductOrComplement.isActive = true
               } 
             })
             .finally(() => {
@@ -540,6 +576,15 @@
         if (String(item.id) === String(id)) {
           sessionStorage.setItem("update", JSON.stringify(item))
           this.dialogRegisterProduct = true
+        }
+      })
+    }
+
+    openDialogRegisterComplementToUpdate (id: string): void {
+      this.listComplements.find(item => {
+        if (String(item.id) === String(id)) {
+          sessionStorage.setItem("update", JSON.stringify(item))
+          this.dialogRegisterComplement = true
         }
       })
     }

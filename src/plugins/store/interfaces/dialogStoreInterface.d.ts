@@ -8,6 +8,7 @@ interface dialogStoreInterface {
   dialogRegisterEmployee: boolean,
   dialogRegisterProduct: boolean,
   dialogTryAgain: boolean,
+  dialogRegisterComplement: boolean
 }
 
 export {

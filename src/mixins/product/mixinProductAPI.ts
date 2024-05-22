@@ -122,7 +122,6 @@ export default class MixinProductAPI extends Vue {
     })
   }
 
-
   getComplements (): Promise<IComplements[]|string> {
     async function serviceAPI () {
       return await MiddlewareConnectAPI.get(`/complements`)
@@ -134,6 +133,63 @@ export default class MixinProductAPI extends Vue {
           if (!responseMiddleware.data) reject("error")
           else if (responseMiddleware.data.length <= 0) resolve([])
           resolve(responseMiddleware.data)
+        }).catch(err => {
+          window.log("error MixinCacheProduct", err)
+          resolve("error")
+        })
+        
+    })
+  }
+
+  createComplement (data): Promise<string> {
+    async function serviceAPI () {
+      return await MiddlewareConnectAPI.post(`/complement`, data)
+    }
+
+    return new Promise((resolve, reject) => {
+      serviceAPI()
+        .then(responseMiddleware => {
+          if (responseMiddleware.data.message === "Complemento cadastrado com sucesso!") {
+            resolve(responseMiddleware.data)
+          } else reject(Error("error"))
+        }).catch(err => {
+          window.log("error MixinCacheProduct", err)
+          resolve("error")
+        })
+        
+    })
+  }
+
+  deleteComplement (data): Promise<string> {
+    async function serviceAPI () {
+      return await MiddlewareConnectAPI.delete(`/complement`, data)
+    }
+
+    return new Promise((resolve, reject) => {
+      serviceAPI()
+        .then(responseMiddleware => {
+          if (responseMiddleware.data.message === "Complemento deletado com sucesso!") {
+            resolve(responseMiddleware.data)
+          } else reject(Error("error"))
+        }).catch(err => {
+          window.log("error MixinCacheProduct", err)
+          resolve("error")
+        })
+        
+    })
+  }
+
+  updateComplement (data): Promise<string> {
+    async function serviceAPI () {
+      return await MiddlewareConnectAPI.patch(`/complement`, data)
+    }
+
+    return new Promise((resolve, reject) => {
+      serviceAPI()
+        .then(responseMiddleware => {
+          if (responseMiddleware.data.message === "Complemento atualizado com sucesso!") {
+            resolve(responseMiddleware.data)
+          } else reject(Error("error"))
         }).catch(err => {
           window.log("error MixinCacheProduct", err)
           resolve("error")

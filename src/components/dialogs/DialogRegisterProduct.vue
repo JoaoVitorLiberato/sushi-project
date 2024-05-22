@@ -844,6 +844,7 @@
           setTimeout(() => {
             sessionStorage.removeItem("update")
             this.error.status = false
+            this.dialogRegisterProduct = false
             this.loadingService = false
           }, 1400)
         })

@@ -24,7 +24,7 @@ export interface IproductData {
 
 export interface IComplements {
   description: string,
-  id: string|number
+  id?: string|number
   name: string,
   price: number
   priceTotal?: number,
