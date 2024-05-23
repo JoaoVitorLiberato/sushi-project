@@ -443,8 +443,8 @@
     }
 
     created (): void {
-      const CACHE_ORDER = sessionStorage.getItem("numero-pedido")
-      if (CACHE_ORDER) this.numeroPedido.value = CACHE_ORDER
+      const CACHE_ORDER = sessionStorage.getItem("api-fake")
+      if (CACHE_ORDER) this.numeroPedido.value = JSON.parse(CACHE_ORDER).pedido
       this.dialogSearchOrderClient = !this.dialogSearchOrderClient
     }
 
@@ -456,7 +456,6 @@
 
     @Watch("disableButton")
       handleDisableButton (): void {
-        console.log("chamou", this.disableButton)
         if (/not-product/i.test(String(this.disableButton))) this.disableButton = "disable"
       }
 

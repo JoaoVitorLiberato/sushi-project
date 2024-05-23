@@ -905,16 +905,18 @@
         this.loading = false
         const DATA_FAKE = {
           nome: this.getPayloadOrder("consumidor").nome,
+          segment: this.getPayloadOrder("consumidor").segmento,
           telefone: this.getPayloadOrder("consumidor").telefone.contato,
           status: "concluido",
-          produtos: [...this.getPayloadOrder("produtos")]
+          produtos: [...this.getPayloadOrder("produtos")],
+          pedido: "123456"
         }
-        this.numeroPedido = "123456"
 
-        localStorage.removeItem("id-commented")
+        this.numeroPedido = DATA_FAKE.pedido
+
         sessionStorage.clear()
+        localStorage.removeItem("id-commented")
         sessionStorage.setItem("api-fake", JSON.stringify(DATA_FAKE))
-        sessionStorage.setItem("numero-pedido", this.numeroPedido)
         this.$refs.dialogNumberOrder.isActive = true
       },
       3000
