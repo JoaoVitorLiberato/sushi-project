@@ -911,6 +911,7 @@
         }
         this.numeroPedido = "123456"
 
+        localStorage.removeItem("id-commented")
         sessionStorage.clear()
         sessionStorage.setItem("api-fake", JSON.stringify(DATA_FAKE))
         sessionStorage.setItem("numero-pedido", this.numeroPedido)

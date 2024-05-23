@@ -283,7 +283,6 @@
     }
 
     created (): void {
-      sessionStorage.removeItem("id-commented")
       sessionStorage.removeItem("cache-coment")
       const CACHE_ORDER_DATA = sessionStorage.getItem("api-fake")
       if (CACHE_ORDER_DATA) this.data.name = JSON.parse(CACHE_ORDER_DATA).nome
@@ -294,18 +293,18 @@
       this.data.id = String(id)
 
       const LIST_REMOVED = this.productCacheComment().filter(item => String(item.id) !== String(id))
-      const CACHE_IDS_COMMENTED = sessionStorage.getItem("id-commented")
+      const CACHE_IDS_COMMENTED = localStorage.getItem("id-commented")
 
       this.commentProductCostumer(this.data)
         .then(responseMixin => {
           if (/error-api|product-not-found/i.test(String(responseMixin || ""))) throw Error("Caiu no catch")
 
           if (CACHE_IDS_COMMENTED) {
-            sessionStorage.setItem("id-commented", JSON.stringify([
+            localStorage.setItem("id-commented", JSON.stringify([
               ...JSON.parse(CACHE_IDS_COMMENTED),
               String(id)
             ]))
-          } else  sessionStorage.setItem("id-commented", JSON.stringify([String(id)]))
+          } else  localStorage.setItem("id-commented", JSON.stringify([String(id)]))
 
           sessionStorage.setItem("cache-coment", JSON.stringify([...LIST_REMOVED]))
           this.data.rating = 1

@@ -444,8 +444,8 @@
 
     created (): void {
       const CACHE_ORDER = sessionStorage.getItem("numero-pedido")
-        if (CACHE_ORDER) this.numeroPedido.value = CACHE_ORDER
-        this.dialogSearchOrderClient = !this.dialogSearchOrderClient
+      if (CACHE_ORDER) this.numeroPedido.value = CACHE_ORDER
+      this.dialogSearchOrderClient = !this.dialogSearchOrderClient
     }
 
     @Watch("numeroPedido.value")
@@ -481,6 +481,17 @@
           if (!responseMixin) throw Error('Error Mixin')
 
           this.detailOrder = responseMixin || {}
+
+          const IDS_COMMENTED = localStorage.getItem("id-commented")
+          if (IDS_COMMENTED && this.detailOrder.produtos.length > 0) {
+            JSON.parse(IDS_COMMENTED).forEach(id => {
+              this.detailOrder.produtos.filter(item => {
+                if (String(item.id) !== String(id)) this.disableButton = "comment"
+                else this.disableButton = "disable"
+              })
+            })
+          }
+
           this.loadingService = false
           this.dialogSearchOrderClient = !this.dialogSearchOrderClient
         }).catch(error => {
@@ -496,10 +507,10 @@
     openDialogComments (): void {
       if (/disable/i.test(String(this.disableButton))) return
 
-      const IDS_COMMENTED = sessionStorage.getItem("id-commented")
+      const IDS_COMMENTED = localStorage.getItem("id-commented")
       const REMOVE_ID_COMMENTED = this.detailOrder.produtos.filter(item => {
-        if (IDS_COMMENTED !== null) {
-          if (!JSON.parse(IDS_COMMENTED).includes(Number(item.id))) {
+        if (IDS_COMMENTED) {
+          if (!JSON.parse(IDS_COMMENTED).includes(String(item.id))) {
             return item
           }
         }
