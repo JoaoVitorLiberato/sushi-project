@@ -1,31 +1,48 @@
 import { Component, Vue } from "vue-property-decorator"
 import { MiddlewareConnectAPI } from "@/middleware/middlewareBangaloSupportAPI"
+import { namespace } from "vuex-class"
+
+const payloadStore = namespace("payloadStoreModule")
 
 @Component({})
 export default class MixinServiceOrderCostumer extends Vue {
+  @payloadStore.Getter("PayloadOrder") getPayloadOrder
+
   getOrderCostumer (numeroPedido: string|number) {
     async function serviceAPI () {
       return await MiddlewareConnectAPI.get(`/order/${numeroPedido}`)
     }
 
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       serviceAPI()
-        .then((resposeApi) => {
-          if (resposeApi) resolve(resposeApi)
+        .then((responseApi) => {
+          if (!responseApi.data) reject(Error("err"))
+          resolve(responseApi.data)
         }).catch((error) => {
           window.log(`ERROR GETORDERCOSTUMER MIXIN`, error)
-          console.log("mixin getOrderCostumer - catch")
-          const API_FAKE = sessionStorage.getItem("api-fake")
-          if (API_FAKE) {
-            resolve({
-              ...JSON.parse(API_FAKE)
-            })
-          } else {
-            resolve("")
-          }
+          if (error.response.data.message === "ordem não encontrada") resolve("not-order")
+          else resolve("error")
         })
     })
   }
+
+  setOrderCostumer () {
+    async function serviceAPI (data) {
+      return await MiddlewareConnectAPI.post(`/order`, data)
+    }
+
+    return new Promise((resolve, reject) => {
+      serviceAPI(this.getPayloadOrder())
+        .then((responseApi) => {
+          if (!responseApi.data) reject(Error("err"))
+          if (responseApi.data && responseApi.data.id) resolve(responseApi.data.id)
+        }).catch((error) => {
+          window.log(`ERROR GETORDERCOSTUMER MIXIN`, error)
+          resolve("error")
+        })
+    })
+  }
+
 
   commentProductCostumer (data: {
     id: number|string

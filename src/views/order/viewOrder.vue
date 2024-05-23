@@ -282,7 +282,7 @@
                         <v-text-field
                           label="Nº Pedido"
                           autocomplete="no"
-                          v-mask="numeroPedido.mask"
+                          type="text"
                           v-model="numeroPedido.value"
                           outlined
                           dark
@@ -415,7 +415,6 @@
 
     numeroPedido = {
       valid: "",
-      mask: "######",
       value: ""
     }
     progress = 100
@@ -443,8 +442,8 @@
     }
 
     created (): void {
-      const CACHE_ORDER = sessionStorage.getItem("api-fake")
-      if (CACHE_ORDER) this.numeroPedido.value = JSON.parse(CACHE_ORDER).pedido
+      const CACHE_NUMERO_ORDER = sessionStorage.getItem("numero-pedido")
+      if (CACHE_NUMERO_ORDER) this.numeroPedido.value = CACHE_NUMERO_ORDER
       this.dialogSearchOrderClient = !this.dialogSearchOrderClient
     }
 
@@ -477,7 +476,16 @@
 
       this.getOrderCostumer(String(this.numeroPedido.value))
         .then((responseMixin) => {
+          console.log(responseMixin)
           if (!responseMixin) throw Error('Error Mixin')
+          if (/not-order/i.test(String(responseMixin))) {
+            this.loadingService = false
+            this.error = {
+              status: true,
+              msg: `Você não possui pedidos`
+            }
+            return
+          }
 
           this.detailOrder = responseMixin || {}
 
@@ -498,7 +506,7 @@
           this.loadingService = false
           this.error = {
             status: true,
-            msg: `Você não possui pedidos`
+            msg: `Houve um erro ao tentar buscar seu pedido, por favor, tente novamente`
           }
         })
     }
@@ -520,7 +528,7 @@
       } else {
         sessionStorage.setItem("cache-coment", JSON.stringify([...this.detailOrder.produtos]))
       }
-      
+
       this.dialogCommentsClients = true
     }
   }

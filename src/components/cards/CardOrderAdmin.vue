@@ -10,7 +10,7 @@
           v-font-size="18"
           class="font-weight-bold text-uppercase"
         >
-          Pedido: 
+          Pedido:
         </span>
 
         <span
@@ -92,6 +92,7 @@
               :items="filterStatusForSegment()"
               v-model="status"
               item-text="name"
+              :disabled="/concluido/i.test(String(status))"
               item-value="id"
               hide-details
               outlined
@@ -99,7 +100,7 @@
             />
           </v-col>
 
-          <v-col
+          <!-- <v-col
             cols="12"
             class="py-2"
           />
@@ -119,7 +120,7 @@
                 Ver produtos
               </span>
             </v-btn>
-          </v-col>
+          </v-col> -->
         </v-row>
       </v-card-actions>
     </v-card>
