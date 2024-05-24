@@ -227,7 +227,7 @@
   export default class viewAdmin extends mixins(
     MixinAuthUser,
   ) {
-    service = "products"
+    service = "orders"
     permission = ""
 
     created (): void {

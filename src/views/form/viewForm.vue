@@ -515,6 +515,57 @@
           </v-row>
         </v-card>
       </v-dialog>
+
+      <v-dialog
+        ref="dialogErrorOrder"
+        hide-overlay
+        persistent
+        max-width="450"
+        height="200"
+      >
+        <v-card
+          color="primary"
+          elevation="0"
+        >
+          <v-row
+            no-gutters
+            style="border:1px solid var(--v-secondary-base)"
+            class="pa-4"
+          >
+            <v-col
+              cols="12"
+              style="line-height: 1;"
+            >
+              <span
+                v-font-size="16"
+                class="font-weight-medium white--text"
+              >
+                Prezado cliente, Houve um erro ao tentar efetuar seu pedido. Por favor,
+                Tente novamente.
+              </span>
+            </v-col>
+
+            <v-col
+              cols="12"
+              class="py-3"
+            />
+
+            <v-col
+              cols="12"
+            >
+              <v-btn
+                block
+                color="secondary"
+                @click.stop="$refs.dialogErrorOrder.save()"
+              >
+                <span>
+                  Tentar Novamente
+                </span>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-dialog>
     </v-col>
   </v-row>
 </template>
@@ -530,7 +581,7 @@
   import APIValidadorCEPMixin from "@/mixins/form/MixinFormConfig"
   import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
   import MixinRedirectLinks from "@/mixins/redirectLinks/MxiinRedirectLinks"
-  import Debounce from "lodash.debounce"
+  import MixinServiceOrderCostumer from "@/mixins/order/mixinServiceOrderCostumer"
 
   const payloadStore = namespace("payloadStoreModule")
   const cacheStore = namespace("cacheStoreModule")
@@ -549,6 +600,7 @@
     APIValidadorCEPMixin,
     MixinHelperServiceProduct,
     MixinRedirectLinks,
+    MixinServiceOrderCostumer,
   ) implements $refs {
     beforeRouteEnter (
       to: {
@@ -565,7 +617,6 @@
     ) {
       next((vm) => {
         vm.setPayloadSegment(String(to.params.type || ""))
-        vm.setPayloadProducts(vm.getCacheOrderCart())
         if (/foodpark/i.test(String(to.params.type || ""))) {
           vm.setCacheCepValidation("65272000")
           vm.APIValidadorCEPMixin()
@@ -681,11 +732,18 @@
     formDadosCadastrais = false
     copyInput = false
 
+    dialog= true
+
     get validateFieldsInput (): boolean {
       return [
         this.formDadosCadastrais
       ].every(o => !!o)
     }
+
+    get cacheProducts () {
+      return this.getCacheOrderCart()
+    }
+
 
     created () {
       this.dicountAplicated()
@@ -696,7 +754,6 @@
         this.$refs.formDadosCadastrais.validate()
       }
     }
-
 
     itemsFirstFields: {
       [key:string]:{
@@ -786,6 +843,11 @@
         valid: "",
       },
     }
+
+    @Watch("cacheProducts")
+      changeCacheProduct (): void {
+        this.setPayloadProducts(this.cacheProducts)
+      }
 
     @Watch("itemsFirstFields.nomeCompleto.value")
       payloadSetName (value: string):void {
@@ -897,31 +959,28 @@
 
     finishCostumerCart (): void {
       this.loading = true
-      this.conversionOrder()
+
+      this.setOrderCostumer()
+        .then(responseMixin => {
+          if (/error/i.test(String(responseMixin || ""))) {
+            this.loading = false
+            this.$refs.dialogErrorOrder.isActive = true
+            return
+          }
+
+          this.numeroPedido = responseMixin as string
+
+          sessionStorage.clear()
+          sessionStorage.setItem("numero-pedido", this.numeroPedido)
+          localStorage.removeItem("id-commented")
+          this.loading = false
+          this.$refs.dialogNumberOrder.isActive = true
+        })
     }
-
-    conversionOrder = Debounce(
-      function (this) {
-        this.loading = false
-        const DATA_FAKE = {
-          nome: this.getPayloadOrder("consumidor").nome,
-          telefone: this.getPayloadOrder("consumidor").telefone.contato,
-          status: "concluido",
-          produtos: [...this.getPayloadOrder("produtos")]
-        }
-        this.numeroPedido = "123456"
-
-        sessionStorage.clear()
-        sessionStorage.setItem("api-fake", JSON.stringify(DATA_FAKE))
-        sessionStorage.setItem("numero-pedido", this.numeroPedido)
-        this.$refs.dialogNumberOrder.isActive = true
-      },
-      3000
-    )
 
     copy (id:string): void {
       this.copyInput = true
-      const COPY_NUMBER = document.querySelector(`#${id}`) as HTMLInputElement
+      const COPY_NUMBER = document.getElementById(id) as HTMLInputElement
       COPY_NUMBER.select()
       document.execCommand("copy")
 

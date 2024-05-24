@@ -157,6 +157,7 @@
   import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
 
   const cacheStore = namespace("cacheStoreModule")
+  const payloadStore = namespace("payloadStoreModule")
 
   @Component({
     components: {
@@ -174,6 +175,7 @@
     @cacheStore.Getter("CacheDrawerCartProduct") getDrawerCartProduct
     @cacheStore.Action("ActionCacheDrawerCartProduct") setDrawerCartProduct
     @cacheStore.Getter("CacheOrderCart") getCacheOrderCart
+    @payloadStore.Action("actionPayloadProducts") setPayloadProducts
 
     get drawerCartProduct (): boolean {
       return this.getDrawerCartProduct()
@@ -185,6 +187,7 @@
 
     prepareAddToCart (): void {
       if (!this.getCacheOrderCart() || this.getCacheOrderCart().length <= 0) return
+      this.setPayloadProducts(this.getCacheOrderCart())
       this.drawerCartProduct = !this.drawerCartProduct
       this.$router.replace(`/pedido/${this.$route.params.type}/finalizar${location.search}`)
     }

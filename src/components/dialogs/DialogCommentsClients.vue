@@ -248,20 +248,14 @@
   import { Component, ModelSync } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
   import { IproductData } from "@/types/types-product"
-  import { namespace } from "vuex-class"
   import { $refs } from "@/implements/types"
   import MixinServiceOrderCostumer from "@/mixins/order/mixinServiceOrderCostumer"
-
-  const cacheStore = namespace("cacheStoreModule")
 
   @Component({})
   export default class DialogCommentsClients extends mixins(
     MixinServiceOrderCostumer,
   ) implements $refs {
     $refs
-    @cacheStore.Action("ActionCacheRastreamentoComentariosProduto") setCacheRastreamentoComentariosProduto
-    @cacheStore.Action("ActionCacheOrdersCart") setCacheOrdersCart
-    @cacheStore.Getter("CacheOrderCart") getCacheOrdersCart
 
     @ModelSync("open", "closeDialog", { type: Boolean })
       readonly dialogOpen?:boolean
@@ -282,11 +276,11 @@
       else return []
     }
 
-    created (): void {
-      sessionStorage.removeItem("id-commented")
+    mounted (): void {
       sessionStorage.removeItem("cache-coment")
-      const CACHE_ORDER_DATA = sessionStorage.getItem("api-fake")
+      const CACHE_ORDER_DATA = sessionStorage.getItem("order-costumer")
       if (CACHE_ORDER_DATA) this.data.name = JSON.parse(CACHE_ORDER_DATA).nome
+      console.log("dialogComment-created", this.data)
     }
 
     sendRatingAndCommentClient (id:string|number): void {
@@ -294,18 +288,18 @@
       this.data.id = String(id)
 
       const LIST_REMOVED = this.productCacheComment().filter(item => String(item.id) !== String(id))
-      const CACHE_IDS_COMMENTED = sessionStorage.getItem("id-commented")
+      const CACHE_IDS_COMMENTED = localStorage.getItem("id-commented")
 
       this.commentProductCostumer(this.data)
         .then(responseMixin => {
           if (/error-api|product-not-found/i.test(String(responseMixin || ""))) throw Error("Caiu no catch")
 
           if (CACHE_IDS_COMMENTED) {
-            sessionStorage.setItem("id-commented", JSON.stringify([
+            localStorage.setItem("id-commented", JSON.stringify([
               ...JSON.parse(CACHE_IDS_COMMENTED),
               String(id)
             ]))
-          } else  sessionStorage.setItem("id-commented", JSON.stringify([String(id)]))
+          } else  localStorage.setItem("id-commented", JSON.stringify([String(id)]))
 
           sessionStorage.setItem("cache-coment", JSON.stringify([...LIST_REMOVED]))
           this.data.rating = 1

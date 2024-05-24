@@ -65,7 +65,7 @@
               </p>
 
               <a
-                href="https://wa.me/5598992269238"
+                href="https://wa.link/lu54ui"
                 style="color:var(--v-primary-text)"
                 class="d-flex align-center justify-center justify-md-start"
                 title="Clique aqui para entrar em contato com Bangalô Sushi Lounge via WhatsApp"

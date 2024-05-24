@@ -1,0 +1,26 @@
+{
+  "delivery": [
+    {
+      "id": "preparando",
+      "name": "Preparando"
+    },
+    {
+      "id": "entrega",
+      "name": "Entrega"
+    },
+    {
+      "id": "concluido",
+      "name": "Concluído"
+    }
+  ],
+  "foodpark": [
+  {
+      "id": "preparando",
+      "name": "Preparando"
+    },
+    {
+      "id": "concluido",
+      "name": "Concluído"
+    }
+  ]
+}

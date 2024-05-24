@@ -282,7 +282,7 @@
                         <v-text-field
                           label="Nº Pedido"
                           autocomplete="no"
-                          v-mask="numeroPedido.mask"
+                          type="text"
                           v-model="numeroPedido.value"
                           outlined
                           dark
@@ -342,6 +342,7 @@
       </v-overlay>
 
       <dialog-comments-clients
+        v-if="/concluido/i.test(String(detailOrder.status))"
         :open="dialogCommentsClients"
         @closeDialog="() => dialogCommentsClients = !dialogCommentsClients"
         @emitDisableButton="v=>disableButton=v"
@@ -415,7 +416,6 @@
 
     numeroPedido = {
       valid: "",
-      mask: "######",
       value: ""
     }
     progress = 100
@@ -443,9 +443,10 @@
     }
 
     created (): void {
-      const CACHE_ORDER = sessionStorage.getItem("numero-pedido")
-        if (CACHE_ORDER) this.numeroPedido.value = CACHE_ORDER
-        this.dialogSearchOrderClient = !this.dialogSearchOrderClient
+      sessionStorage.removeItem("order-costumer")
+      const CACHE_NUMERO_ORDER = sessionStorage.getItem("numero-pedido")
+      if (CACHE_NUMERO_ORDER) this.numeroPedido.value = CACHE_NUMERO_ORDER
+      this.dialogSearchOrderClient = !this.dialogSearchOrderClient
     }
 
     @Watch("numeroPedido.value")
@@ -456,8 +457,24 @@
 
     @Watch("disableButton")
       handleDisableButton (): void {
-        console.log("chamou", this.disableButton)
         if (/not-product/i.test(String(this.disableButton))) this.disableButton = "disable"
+      }
+
+
+    intervalOrder = 0
+    initialCountStatus = "no"
+    @Watch("initialCountStatus")
+      checkStatusOrder (): void {
+        if (/concluido/i.test(String(this.detailOrder.status))) {
+          window.clearInterval(this.intervalOrder)
+          return
+        }
+
+        this.intervalOrder = window.setInterval(() => {
+          this.searchOrderClient()
+          console.log("detailOrder", this.detailOrder)
+          this.dialogSearchOrderClient = false
+        }, 30000)
       }
 
     validateInput ():void {
@@ -479,27 +496,50 @@
       this.getOrderCostumer(String(this.numeroPedido.value))
         .then((responseMixin) => {
           if (!responseMixin) throw Error('Error Mixin')
+          if (/not-order/i.test(String(responseMixin))) {
+            this.loadingService = false
+            this.error = {
+              status: true,
+              msg: `Você não possui pedidos`
+            }
+            return
+          }
 
           this.detailOrder = responseMixin || {}
+
+          const IDS_COMMENTED = localStorage.getItem("id-commented")
+          if (IDS_COMMENTED && this.detailOrder.produtos.length > 0) {
+            JSON.parse(IDS_COMMENTED).forEach(id => {
+              this.detailOrder.produtos.filter(item => {
+                if (String(item.id) !== String(id)) this.disableButton = "comment"
+                else this.disableButton = "disable"
+              })
+            })
+          }
+
           this.loadingService = false
-          this.dialogSearchOrderClient = !this.dialogSearchOrderClient
+          sessionStorage.setItem("order-costumer", JSON.stringify(this.detailOrder))
+          this.dialogSearchOrderClient = false
         }).catch(error => {
           window.log(error)
           this.loadingService = false
           this.error = {
             status: true,
-            msg: `Você não possui pedidos`
+            msg: `Houve um erro ao tentar buscar seu pedido, por favor, tente novamente`
           }
+        }).finally(() => {
+          if (/yes/i.test(String(this.initialCountStatus))) return
+          this.initialCountStatus = "yes"
         })
     }
 
     openDialogComments (): void {
       if (/disable/i.test(String(this.disableButton))) return
 
-      const IDS_COMMENTED = sessionStorage.getItem("id-commented")
+      const IDS_COMMENTED = localStorage.getItem("id-commented")
       const REMOVE_ID_COMMENTED = this.detailOrder.produtos.filter(item => {
-        if (IDS_COMMENTED !== null) {
-          if (!JSON.parse(IDS_COMMENTED).includes(Number(item.id))) {
+        if (IDS_COMMENTED) {
+          if (!JSON.parse(IDS_COMMENTED).includes(String(item.id))) {
             return item
           }
         }
@@ -510,7 +550,7 @@
       } else {
         sessionStorage.setItem("cache-coment", JSON.stringify([...this.detailOrder.produtos]))
       }
-      
+
       this.dialogCommentsClients = true
     }
   }

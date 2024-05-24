@@ -169,7 +169,6 @@
 
       DATA_COMPLEMENT.add({
         ...data,
-        id: `${String(data.name).replace(/\s/g, "").toLowerCase()}-${data.id}`,
         qtd: this.count,
         priceTotal: this.priceCalculed,
       })
