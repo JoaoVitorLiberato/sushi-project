@@ -4,17 +4,18 @@
       class="ma-2"
     >
       <v-card-title
-        class="d-flex justify-space-between aling-center"
+        class="py-2"
+        style="line-height: 22px;"
       >
         <span
-          v-font-size="18"
-          class="font-weight-bold text-uppercase"
+          v-font-size="16"
+          class="font-weight-bold text-uppercase d-block"
         >
           Pedido:
         </span>
 
         <span
-          v-font-size="18"
+          v-font-size="11"
           class="font-weight-medium text-uppercase"
         >
           {{ order }}

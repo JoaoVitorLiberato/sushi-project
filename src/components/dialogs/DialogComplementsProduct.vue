@@ -94,6 +94,7 @@
                 <v-col
                   v-for="item in cacheComplements"
                   :key="`card-complemento-adicional-${item.id}`"
+                  v-show="!(String(item.id) === '')"
                   cols="12"
                   md="5"
                   class="pa-2 mx-md-2 mx-auto my-2 grey lighten-4"

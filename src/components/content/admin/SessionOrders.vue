@@ -105,11 +105,12 @@
           >
             <v-col
               cols="12"
-              class="py-3"
+              class="py-6"
             />
 
             <v-col
               cols="12"
+              style="max-height: 700px;overflow-y: scroll;"
             >
               <v-row
                 no-gutters
@@ -144,7 +145,7 @@
                     mandatory
                   >
                     <v-slide-item
-                      v-for="{ pedido, segmento, nome, status, telefone, produtos } in ordersPreparing"
+                      v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('preparando')"
                       :key="`caroucel-order-client-${pedido}`"
                       class="mr-5"
                     >
@@ -165,7 +166,7 @@
                 </v-col>
 
                 <v-col
-                  v-for="{ pedido, segmento, nome, status, telefone, produtos } in ordersPreparing"
+                  v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('preparando')"
                   :key="`order-client-${pedido}`"
                   cols="12"
                   md="3"
@@ -185,11 +186,12 @@
 
             <v-col
               cols="12"
-              class="py-6"
+              class="py-8"
             />
 
             <v-col
               cols="12"
+              style="max-height: 700px;overflow-y: scroll;"
             >
               <v-row
                 no-gutters
@@ -224,7 +226,7 @@
                     mandatory
                   >
                     <v-slide-item
-                      v-for="{ pedido, segmento, nome, status, telefone, produtos } in ordersDelivery"
+                      v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('entrega')"
                       :key="`caroucel-order-client-${pedido}`"
                       class="mr-5"
                     >
@@ -245,7 +247,7 @@
                 </v-col>
 
                 <v-col
-                  v-for="{ pedido, segmento, nome, status, telefone, produtos } in ordersDelivery"
+                  v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('entrega')"
                   :key="`order-client-${pedido}`"
                   cols="12"
                   md="3"
@@ -265,11 +267,12 @@
 
             <v-col
               cols="12"
-              class="py-6"
+              class="py-8"
             />
 
             <v-col
               cols="12"
+              style="max-height: 700px;overflow-y: scroll;"
             >
               <v-row
                 no-gutters
@@ -304,7 +307,7 @@
                     mandatory
                   >
                     <v-slide-item
-                      v-for="{ pedido, segmento, nome, status, telefone, produtos } in ordersConcluded"
+                      v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('concluido')"
                       :key="`caroucel-order-client-${pedido}`"
                       class="mr-5"
                     >
@@ -325,7 +328,7 @@
                 </v-col>
 
                 <v-col
-                  v-for="{ pedido, segmento, nome, status, telefone, produtos } in ordersConcluded"
+                  v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('concluido')"
                   :key="`order-client-${pedido}`"
                   cols="12"
                   md="3"
@@ -492,6 +495,7 @@
   import { IOrderData } from "@/types/type-order"
   import { IproductData } from "@/types/types-product"
   import { $refs } from "@/implements/types"
+  import MixinServiceOrderCostumer from "@/mixins/order/mixinServiceOrderCostumer"
   import "@/styles/components/caroucels.styl"
 
   @Component({
@@ -504,51 +508,31 @@
     }
   })
 
-  export default class ContentAdminSessionOrders extends mixins() implements $refs {
+  export default class ContentAdminSessionOrders extends mixins(
+    MixinServiceOrderCostumer,
+  ) implements $refs {
     $refs
     productsDialog: IproductData[]  = []
     showComplements = false
 
     orderFiltered = [] as IOrderData[]
-    ordersPreparing = [] as IOrderData[]
-    ordersDelivery = [] as IOrderData[]
-    ordersConcluded = [] as IOrderData[]
-
-    get ordersFake (): IOrderData[] {
-      const ORDER_FAKE = sessionStorage.getItem("order-fake")
-
-      if (ORDER_FAKE) {
-        return [
-          ...JSON.parse(ORDER_FAKE)
-        ]
-      }
-
-      return []
-    }
+    allOrders: IOrderData[] = []
+    statusCard = ""
 
     mounted (): void {
-      this.filterCardsForStatus()
+      this.getAllOrderCostumer()
+        .then(responseMixin => {
+          if (/error/i.test(String(responseMixin || ""))) throw Error("err")
+          if (responseMixin.length > 0) this.allOrders = [...responseMixin as IOrderData[]]
+        }).catch(err => {
+          window.log(err)
+        })
     }
 
-    filterCardsForStatus (): void {
-      const ORDER_FAKE = sessionStorage.getItem("order-fake")
-      if (ORDER_FAKE) {
-        this.ordersConcluded = []
-        this.ordersDelivery = []
-        this.ordersPreparing = []
-
-        JSON.parse(ORDER_FAKE).filter(item => {
-          if ((item.status).includes("concluido")) {
-            this.ordersConcluded.push(item)
-          }
-          if ((item.status).includes("entrega")) {
-            this.ordersDelivery.push(item)
-          }
-          if ((item.status).includes("preparando")) {
-            this.ordersPreparing.push(item)
-          }
-        })
-      }
+    CardsFilteredForStatus (status?:string): IOrderData[] {
+      return this.allOrders.filter(item => {
+        if (String(item.status || "") === String(status || "")) return item
+      })
     }
 
     filterOrderClient (e?:string):void {
@@ -557,12 +541,15 @@
         return
       }
 
-      const PRODUCT_FILTER = this.ordersFake.filter(item => {
-        if (String(item.pedido).includes(String(e))) return item
-        else if (String(item.nome).toLowerCase().includes(String(e).toLowerCase())) return item
-      })
-
-      this.orderFiltered = [ ...PRODUCT_FILTER ]
+      setTimeout(() => {
+        const PRODUCT_FILTER = this.allOrders.filter(item => {
+          if (String(item.pedido).includes(String(e))) return item
+          else if (String(item.nome).toLowerCase().includes(String(e).toLowerCase())) return item
+          else if (String(item.telefone).includes(String(e))) return item
+        })
+  
+        this.orderFiltered = [ ...PRODUCT_FILTER ]
+      }, 400)
     }
 
     openDialogProducts (product): void {

@@ -342,6 +342,7 @@
       </v-overlay>
 
       <dialog-comments-clients
+        v-if="/concluido/i.test(String(detailOrder.status))"
         :open="dialogCommentsClients"
         @closeDialog="() => dialogCommentsClients = !dialogCommentsClients"
         @emitDisableButton="v=>disableButton=v"
@@ -442,6 +443,7 @@
     }
 
     created (): void {
+      sessionStorage.removeItem("order-costumer")
       const CACHE_NUMERO_ORDER = sessionStorage.getItem("numero-pedido")
       if (CACHE_NUMERO_ORDER) this.numeroPedido.value = CACHE_NUMERO_ORDER
       this.dialogSearchOrderClient = !this.dialogSearchOrderClient
@@ -456,6 +458,23 @@
     @Watch("disableButton")
       handleDisableButton (): void {
         if (/not-product/i.test(String(this.disableButton))) this.disableButton = "disable"
+      }
+
+
+    intervalOrder = 0
+    initialCountStatus = "no"
+    @Watch("initialCountStatus")
+      checkStatusOrder (): void {
+        if (/concluido/i.test(String(this.detailOrder.status))) {
+          window.clearInterval(this.intervalOrder)
+          return
+        }
+
+        this.intervalOrder = window.setInterval(() => {
+          this.searchOrderClient()
+          console.log("detailOrder", this.detailOrder)
+          this.dialogSearchOrderClient = false
+        }, 30000)
       }
 
     validateInput ():void {
@@ -476,7 +495,6 @@
 
       this.getOrderCostumer(String(this.numeroPedido.value))
         .then((responseMixin) => {
-          console.log(responseMixin)
           if (!responseMixin) throw Error('Error Mixin')
           if (/not-order/i.test(String(responseMixin))) {
             this.loadingService = false
@@ -500,7 +518,8 @@
           }
 
           this.loadingService = false
-          this.dialogSearchOrderClient = !this.dialogSearchOrderClient
+          sessionStorage.setItem("order-costumer", JSON.stringify(this.detailOrder))
+          this.dialogSearchOrderClient = false
         }).catch(error => {
           window.log(error)
           this.loadingService = false
@@ -508,6 +527,9 @@
             status: true,
             msg: `Houve um erro ao tentar buscar seu pedido, por favor, tente novamente`
           }
+        }).finally(() => {
+          if (/yes/i.test(String(this.initialCountStatus))) return
+          this.initialCountStatus = "yes"
         })
     }
 

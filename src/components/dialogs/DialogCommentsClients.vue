@@ -248,20 +248,14 @@
   import { Component, ModelSync } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
   import { IproductData } from "@/types/types-product"
-  import { namespace } from "vuex-class"
   import { $refs } from "@/implements/types"
   import MixinServiceOrderCostumer from "@/mixins/order/mixinServiceOrderCostumer"
-
-  const cacheStore = namespace("cacheStoreModule")
 
   @Component({})
   export default class DialogCommentsClients extends mixins(
     MixinServiceOrderCostumer,
   ) implements $refs {
     $refs
-    @cacheStore.Action("ActionCacheRastreamentoComentariosProduto") setCacheRastreamentoComentariosProduto
-    @cacheStore.Action("ActionCacheOrdersCart") setCacheOrdersCart
-    @cacheStore.Getter("CacheOrderCart") getCacheOrdersCart
 
     @ModelSync("open", "closeDialog", { type: Boolean })
       readonly dialogOpen?:boolean
@@ -282,10 +276,11 @@
       else return []
     }
 
-    created (): void {
+    mounted (): void {
       sessionStorage.removeItem("cache-coment")
-      const CACHE_ORDER_DATA = sessionStorage.getItem("api-fake")
+      const CACHE_ORDER_DATA = sessionStorage.getItem("order-costumer")
       if (CACHE_ORDER_DATA) this.data.name = JSON.parse(CACHE_ORDER_DATA).nome
+      console.log("dialogComment-created", this.data)
     }
 
     sendRatingAndCommentClient (id:string|number): void {
