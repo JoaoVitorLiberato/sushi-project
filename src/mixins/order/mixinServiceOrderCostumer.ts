@@ -1,15 +1,29 @@
 import { Component, Vue } from "vue-property-decorator"
 import { MiddlewareConnectAPI } from "@/middleware/middlewareBangaloSupportAPI"
 import { namespace } from "vuex-class"
-import { IOrderData } from "@/types/type-order"
+import { IOrderData, IStatusOrder } from "@/types/type-order"
 
 const payloadStore = namespace("payloadStoreModule")
+const cacheStore = namespace("cacheStoreModule")
 
 @Component({})
 export default class MixinServiceOrderCostumer extends Vue {
   @payloadStore.Getter("PayloadOrder") getPayloadOrder
+  @cacheStore.Action("ActionCacheLoading") setCacheLoading
+  @cacheStore.Getter("CacheLoading") getCacheLoading
 
-  getOrderCostumer (numeroPedido: string|number) {
+  get cacheLoading (): {
+    status: boolean,
+    msg: string
+  } {
+    return this.getCacheLoading()
+  }
+
+  set cacheLoading (value) {
+    this.setCacheLoading(value)
+  }
+
+  getOrderCostumer (numeroPedido: string|number): Promise<IOrderData|string> {
     async function serviceAPI () {
       return await MiddlewareConnectAPI.get(`/order/${numeroPedido}`)
     }
@@ -35,16 +49,17 @@ export default class MixinServiceOrderCostumer extends Vue {
     return new Promise((resolve, reject) => {
       serviceAPI()
         .then((responseApi) => {
-          if (!responseApi.data) reject(Error("err"))
+          if (!responseApi.data) reject(Error("err") || responseApi.data.message === "não foi possível obter os pedidos")
           resolve(responseApi.data)
         }).catch((error) => {
           window.log(`ERROR GETORDERCOSTUMER MIXIN`, error)
+          this.cacheLoading.status = false
           resolve("error")
         })
     })
   }
 
-  setOrderCostumer () {
+  setOrderCostumer (): Promise<string> {
     async function serviceAPI (data) {
       return await MiddlewareConnectAPI.post(`/order`, data)
     }
@@ -57,6 +72,30 @@ export default class MixinServiceOrderCostumer extends Vue {
         }).catch((error) => {
           window.log(`ERROR GETORDERCOSTUMER MIXIN`, error)
           resolve("error")
+        })
+    })
+  }
+
+  setChangeStatusOrder (data: IStatusOrder): Promise<string> {
+    this.cacheLoading = {
+      status: true,
+      msg: "Atualizando status do pedido..."
+    }
+
+    async function serviceAPI () {
+      return await MiddlewareConnectAPI.patch(`/order`, data)
+    }
+
+    return new Promise((resolve, reject) => {
+      serviceAPI()
+        .then((responseApi) => {
+          if (!responseApi.data) reject(Error("err"))
+          resolve("")
+        }).catch((error) => {
+          window.log(`ERROR GETORDERCOSTUMER MIXIN`, error)
+          resolve("error")
+        }).finally(() => {
+          this.cacheLoading.status = false
         })
     })
   }

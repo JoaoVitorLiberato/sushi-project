@@ -5,23 +5,7 @@
     <v-col
       cols="12"
     >
-      <div
-        v-if="loading"
-        class="text-center"
-      >
-        <v-progress-linear
-          color="secondary"
-          indeterminate
-        />
-        
-        <p
-          class="font-weight-regular mt-2"
-        >
-          Carregando a lista produtos e complementos...
-        </p>
-      </div>
       <v-row
-        v-else
         no-gutters
       >
         <v-col
@@ -274,7 +258,7 @@
                     :max-width="$vuetify.breakpoint.smAndDown ? 300 : 344"
                     outlined
                   >
-                    <v-list-item 
+                    <v-list-item
                       three-line
                     >
                       <v-list-item-content>
@@ -306,7 +290,7 @@
                         </v-list-item-subtitle>
                       </v-list-item-content>
                     </v-list-item>
-    
+
                     <v-card-actions>
                       <v-btn
                         text
@@ -315,7 +299,7 @@
                       >
                         editar
                       </v-btn>
-    
+
                       <v-btn
                         text
                         color="error"
@@ -539,7 +523,7 @@
                   Recarregue a página e tente novemente ou chame o suporte.
                 `
                 this.$refs.dialogErrorProductOrComplement.isActive = true
-              } 
+              }
             })
             .finally(() => {
               this.loading = false
@@ -549,26 +533,18 @@
     }
 
     deleteComplementAPI (id: string): void {
-      this.loading = true
-      this.listComplements.find(item => {
-        if (String(item.id) === String(id)) {
-          this.deleteComplement(item)
-            .then(responseMixin => {
-              if (!responseMixin) this.loadingProducts()
-              else if (/error/i.test(String(responseMixin || ""))) {
-                this.$refs.dialogErrorProductOrComplement.isActive = true
-                this.errorMsg = `
-                  Ops, Error ao deletar o complemento no servidor.
-                  Recarregue a página e tente novemente ou chame o suporte.
-                `
-                this.$refs.dialogErrorProductOrComplement.isActive = true
-              } 
-            })
-            .finally(() => {
-              this.loading = false
-            })
-        }
-      })
+      this.deleteComplement(id)
+        .then(responseMixin => {
+          if (!responseMixin) this.loadingComplements()
+          else if (/error/i.test(String(responseMixin || ""))) {
+            this.$refs.dialogErrorProductOrComplement.isActive = true
+            this.errorMsg = `
+              Ops, Error ao deletar o complemento no servidor.
+              Recarregue a página e tente novemente ou chame o suporte.
+            `
+            this.$refs.dialogErrorProductOrComplement.isActive = true
+          }
+        })
     }
 
     openDialogRegisterProductToUpdate (id: string): void {

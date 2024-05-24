@@ -27,11 +27,49 @@
                 label="Pesquisar"
                 outlined
                 rounded
-                placeholder="Pesquise pelo número do pedido ou nome"
+                placeholder="Pesquise pelo telefone ou nome do cliente"
                 dense
                 hide-details
                 @input="filterOrderClient"
               />
+            </v-col>
+          </v-row>
+        </v-col>
+
+        <v-col
+          cols="12"
+          class="py-3"
+        />
+
+        <v-col
+          cols="12"
+          class="text-center"
+        >
+          <v-row
+            no-gutters
+          >
+            <v-col
+              cols="12"
+            >
+              <v-progress-linear
+                indeterminate
+                color="secondary"
+              />
+            </v-col>
+
+            <v-col
+              cols="12"
+              class="py-2"
+            />
+
+            <v-col
+              cols="12"
+            >
+              <span
+                class="font-weight-regular mt-3"
+              >
+                {{ messageUpdateOrders }}
+              </span>
             </v-col>
           </v-row>
         </v-col>
@@ -50,67 +88,45 @@
           >
             <v-col
               cols="12"
-              class="hidden-md-and-up"
             >
-              <v-slide-group
-                show-arrows
-                prev-icon="arrow_back"
-                next-icon="arrow_forward"
-                :class="`d-flex fix--v-slide-group flex-wrap`"
-                center-active
-                mandatory
+              <h2
+                class="font-weight-bold text-uppercase"
               >
-                <v-slide-item
-                  v-for="{ pedido, segmento, nome, status, telefone, produtos } in orderFiltered"
-                  :key="`caroucel-order-client-${pedido}`"
-                  class="mr-5"
-                >
-                  <div
-                    style="width: 300px;"
-                  >
-                    <card-order-admin-component
-                      :segment="segmento"
-                      :order="pedido"
-                      :name="nome"
-                      :phone="telefone"
-                      :statusOrder="status"
-                      @dialogProductEmit="openDialogProducts(produtos)"
-                    />
-                  </div>
-                </v-slide-item>
-              </v-slide-group>
+                Pedidos encontrados
+              </h2>
             </v-col>
 
             <v-col
-              v-for="{ pedido, segmento, nome, status, telefone, produtos } in orderFiltered"
-              :key="`order-client-${pedido}`"
               cols="12"
-              md="3"
-              class="hidden-sm-and-down"
+              class="d-flex align-center flex-wrap"
             >
-              <card-order-admin-component
-                :segment="segmento"
-                :order="pedido"
-                :name="nome"
-                :phone="telefone"
-                :statusOrder="status"
-                @dialogProductEmit="openDialogProducts(produtos)"
-              />
+              <div
+                v-for="{ pedido, segmento, nome, status, telefone, produtos } in orderFiltered"
+                :key="`order-client-${pedido}`"
+              >
+                <card-order-admin-component
+                  :segment="segmento"
+                  :order="pedido"
+                  :name="nome"
+                  :phone="telefone"
+                  :statusOrder="status"
+                  @dialogProductEmit="openDialogProducts(produtos)"
+                  @changeStatusOrderEmit="v=>statusCard=v"
+                />
+
+              </div>
             </v-col>
           </v-row>
 
           <v-row
             v-else
             no-gutters
+            class="mt-4"
           >
             <v-col
+              v-if="CardsFilteredForStatus('preparando').length > 0"
               cols="12"
-              class="py-6"
-            />
-
-            <v-col
-              cols="12"
-              style="max-height: 700px;overflow-y: scroll;"
+              :style="$vuetify.breakpoint.mdAndUp ? 'max-height: 700px;overflow-y: scroll;' : ''"
             >
               <v-row
                 no-gutters
@@ -159,6 +175,7 @@
                           :phone="telefone"
                           :statusOrder="status"
                           @dialogProductEmit="openDialogProducts(produtos)"
+                          @changeStatusOrderEmit="v=>statusCard=v"
                         />
                       </div>
                     </v-slide-item>
@@ -166,32 +183,37 @@
                 </v-col>
 
                 <v-col
-                  v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('preparando')"
-                  :key="`order-client-${pedido}`"
                   cols="12"
-                  md="3"
-                  class="hidden-sm-and-down"
+                  class="hidden-sm-and-down d-md-flex align-center flex-wrap"
                 >
-                  <card-order-admin-component
-                    :segment="segmento"
-                    :order="pedido"
-                    :name="nome"
-                    :phone="telefone"
-                    :statusOrder="status"
-                    @dialogProductEmit="openDialogProducts(produtos)"
-                  />
+                  <div
+                    v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('preparando')"
+                    :key="`order-client-${pedido}`"
+                  >
+                    <card-order-admin-component
+                      :segment="segmento"
+                      :order="pedido"
+                      :name="nome"
+                      :phone="telefone"
+                      :statusOrder="status"
+                      @dialogProductEmit="openDialogProducts(produtos)"
+                      @changeStatusOrderEmit="v=>statusCard=v"
+                    />
+                  </div>
                 </v-col>
               </v-row>
             </v-col>
 
             <v-col
+              v-if="CardsFilteredForStatus('preparando').length > 0"
               cols="12"
               class="py-8"
             />
 
             <v-col
+              v-if="CardsFilteredForStatus('entrega').length > 0"
               cols="12"
-              style="max-height: 700px;overflow-y: scroll;"
+              :style="$vuetify.breakpoint.mdAndUp ? 'max-height: 700px;overflow-y: scroll;' : ''"
             >
               <v-row
                 no-gutters
@@ -240,6 +262,7 @@
                           :phone="telefone"
                           :statusOrder="status"
                           @dialogProductEmit="openDialogProducts(produtos)"
+                          @changeStatusOrderEmit="v=>statusCard=v"
                         />
                       </div>
                     </v-slide-item>
@@ -247,32 +270,37 @@
                 </v-col>
 
                 <v-col
-                  v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('entrega')"
-                  :key="`order-client-${pedido}`"
                   cols="12"
-                  md="3"
-                  class="hidden-sm-and-down"
+                  class="hidden-sm-and-down d-md-flex align-center flex-wrap"
                 >
-                  <card-order-admin-component
-                    :segment="segmento"
-                    :order="pedido"
-                    :name="nome"
-                    :phone="telefone"
-                    :statusOrder="status"
-                    @dialogProductEmit="openDialogProducts(produtos)"
-                  />
+                  <div
+                    v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('entrega')"
+                    :key="`order-client-${pedido}`"
+                  >
+                    <card-order-admin-component
+                      :segment="segmento"
+                      :order="pedido"
+                      :name="nome"
+                      :phone="telefone"
+                      :statusOrder="status"
+                      @dialogProductEmit="openDialogProducts(produtos)"
+                      @changeStatusOrderEmit="v=>statusCard=v"
+                    />
+                  </div>
                 </v-col>
               </v-row>
             </v-col>
 
             <v-col
+              v-if="CardsFilteredForStatus('entrega').length > 0"
               cols="12"
               class="py-8"
             />
 
             <v-col
+              v-if="CardsFilteredForStatus('concluido').length > 0"
               cols="12"
-              style="max-height: 700px;overflow-y: scroll;"
+              :style="$vuetify.breakpoint.mdAndUp ? 'max-height: 700px;overflow-y: scroll;' : ''"
             >
               <v-row
                 no-gutters
@@ -321,6 +349,7 @@
                           :phone="telefone"
                           :statusOrder="status"
                           @dialogProductEmit="openDialogProducts(produtos)"
+                          @changeStatusOrderEmit="v=>statusCard=v"
                         />
                       </div>
                     </v-slide-item>
@@ -328,20 +357,23 @@
                 </v-col>
 
                 <v-col
-                  v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('concluido')"
-                  :key="`order-client-${pedido}`"
                   cols="12"
-                  md="3"
-                  class="hidden-sm-and-down"
+                  class="hidden-sm-and-down d-md-flex align-center flex-wrap"
                 >
-                  <card-order-admin-component
-                    :segment="segmento"
-                    :order="pedido"
-                    :name="nome"
-                    :phone="telefone"
-                    :statusOrder="status"
-                    @dialogProductEmit="openDialogProducts(produtos)"
-                  />
+                  <div
+                    v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('concluido')"
+                    :key="`order-client-${pedido}`"
+                  >
+                    <card-order-admin-component
+                      :segment="segmento"
+                      :order="pedido"
+                      :name="nome"
+                      :phone="telefone"
+                      :statusOrder="status"
+                      @dialogProductEmit="openDialogProducts(produtos)"
+                      @changeStatusOrderEmit="v=>statusCard=v"
+                    />
+                  </div>
                 </v-col>
               </v-row>
             </v-col>
@@ -490,13 +522,16 @@
 </template>
 
 <script lang="ts">
-  import { Component } from "vue-property-decorator"
+  import { Component, Watch } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
-  import { IOrderData } from "@/types/type-order"
+  import { IOrderData, IStatusOrder } from "@/types/type-order"
   import { IproductData } from "@/types/types-product"
   import { $refs } from "@/implements/types"
   import MixinServiceOrderCostumer from "@/mixins/order/mixinServiceOrderCostumer"
+  import { namespace } from "vuex-class"
   import "@/styles/components/caroucels.styl"
+
+  const dialogStore = namespace("dialogStoreModule")
 
   @Component({
     components: {
@@ -511,21 +546,48 @@
   export default class ContentAdminSessionOrders extends mixins(
     MixinServiceOrderCostumer,
   ) implements $refs {
+    @dialogStore.Action("ActionDialogTryAgain") setDialogTryAgain
+    @dialogStore.Getter("DialogTryAgain") getDialogTryAgain
+
     $refs
     productsDialog: IproductData[]  = []
     showComplements = false
-
+    messageUpdateOrders = ""
     orderFiltered = [] as IOrderData[]
     allOrders: IOrderData[] = []
-    statusCard = ""
+
+    statusCard = {} as IStatusOrder
+    @Watch("statusCard")
+      changeStatusOrderCostumer (): void {
+        this.setChangeStatusOrder(this.statusCard)
+          .then(responseMixin => {
+            if (/error/.test(String(responseMixin || ""))) {
+              this.setDialogTryAgain(true)
+              return
+            }
+          }).finally(() => {
+            if (this.getDialogTryAgain()) return
+            this.renderOrderCostumers()
+          })
+      }
 
     mounted (): void {
+      this.renderOrderCostumers()
+      setInterval(() => { this.renderOrderCostumers() }, 60000)
+    }
+
+    renderOrderCostumers (): void {
+      this.messageUpdateOrders = "Atualizando os pedidos..."
       this.getAllOrderCostumer()
         .then(responseMixin => {
           if (/error/i.test(String(responseMixin || ""))) throw Error("err")
           if (responseMixin.length > 0) this.allOrders = [...responseMixin as IOrderData[]]
         }).catch(err => {
           window.log(err)
+          this.messageUpdateOrders = "houve algum erro ao atualizar os pedidos..."
+          this.setDialogTryAgain(true)
+        }).finally(() => {
+          this.messageUpdateOrders = "Pedidos atualizados..."
         })
     }
 
@@ -536,20 +598,18 @@
     }
 
     filterOrderClient (e?:string):void {
-      if (String(e).length <=0 || String(e) === "") {
+      if (String(e).length <= 0 || String(e) === "") {
         this.orderFiltered = []
         return
       }
 
-      setTimeout(() => {
-        const PRODUCT_FILTER = this.allOrders.filter(item => {
-          if (String(item.pedido).includes(String(e))) return item
-          else if (String(item.nome).toLowerCase().includes(String(e).toLowerCase())) return item
-          else if (String(item.telefone).includes(String(e))) return item
-        })
-  
-        this.orderFiltered = [ ...PRODUCT_FILTER ]
-      }, 400)
+      const PRODUCT_FILTER = this.allOrders.filter(item => {
+        if (String(item.pedido).includes(String(e))) return item
+        else if (String(item.nome).toLowerCase().includes(String(e).toLowerCase())) return item
+        else if (String(item.telefone).includes(String(e))) return item
+      })
+
+      this.orderFiltered = [ ...PRODUCT_FILTER ]
     }
 
     openDialogProducts (product): void {

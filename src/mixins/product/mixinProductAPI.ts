@@ -49,14 +49,14 @@ export default class MixinProductAPI extends Vue {
           window.log("error MixinCacheProduct", err)
           resolve("erro")
         })
-        
+
     })
   }
 
   getProducts (): Promise<string|IproductData[]> {
     this.cacheLoading = {
       status: true,
-      msg: "Carregando produtos...",
+      msg: /admin-view/i.test(String(this.$route.name)) ? "Carregando os produtos e complemento..." : "Carregando produtos..."
     }
 
     async function serviceAPI () {
@@ -82,8 +82,8 @@ export default class MixinProductAPI extends Vue {
             msg: "",
           }
         })
-    })
-  }
+      })
+    }
 
   deleteProduct (id: string): Promise<void|string> {
     async function serviceAPI () {
@@ -100,7 +100,7 @@ export default class MixinProductAPI extends Vue {
           window.log("error MixinCacheProduct", err)
           resolve("error")
         })
-        
+
     })
   }
 
@@ -118,11 +118,16 @@ export default class MixinProductAPI extends Vue {
           window.log("ERR UPDATE PRODUCT", err)
           resolve("erro")
         })
-        
+
     })
   }
 
   getComplements (): Promise<IComplements[]|string> {
+    this.cacheLoading = {
+      status: true,
+      msg: /admin-view/i.test(String(this.$route.name)) ? "Carregando os produtos e complemento..." : "Carregando produtos..."
+    }
+
     async function serviceAPI () {
       return await MiddlewareConnectAPI.get(`/complements`)
     }
@@ -136,8 +141,13 @@ export default class MixinProductAPI extends Vue {
         }).catch(err => {
           window.log("error MixinCacheProduct", err)
           resolve("error")
+        }).finally(() => {
+          this.cacheLoading = {
+            status: false,
+            msg: "",
+          }
         })
-        
+
     })
   }
 
@@ -156,26 +166,26 @@ export default class MixinProductAPI extends Vue {
           window.log("error MixinCacheProduct", err)
           resolve("error")
         })
-        
+
     })
   }
 
-  deleteComplement (data): Promise<string> {
+  deleteComplement (id:string): Promise<string> {
     async function serviceAPI () {
-      return await MiddlewareConnectAPI.delete(`/complement`, data)
+      return await MiddlewareConnectAPI.delete(`/complement/${id}`)
     }
 
     return new Promise((resolve, reject) => {
       serviceAPI()
         .then(responseMiddleware => {
           if (responseMiddleware.data.message === "Complemento deletado com sucesso!") {
-            resolve(responseMiddleware.data)
+            resolve("")
           } else reject(Error("error"))
         }).catch(err => {
           window.log("error MixinCacheProduct", err)
           resolve("error")
         })
-        
+
     })
   }
 
@@ -194,7 +204,7 @@ export default class MixinProductAPI extends Vue {
           window.log("error MixinCacheProduct", err)
           resolve("error")
         })
-        
+
     })
   }
 }

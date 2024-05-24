@@ -165,15 +165,15 @@
           <v-col
             cols="12"
           >
-            <content-admin-session-products 
+            <content-admin-session-products
               v-if="/products/i.test(service)"
             />
 
-            <content-admin-session-orders 
+            <content-admin-session-orders
               v-if="/orders/i.test(service)"
             />
 
-            <content-admin-session-employee 
+            <content-admin-session-employee
               v-if="/employee/i.test(service)"
             />
             <content-admin-session-reset-password
@@ -184,7 +184,7 @@
       </v-col>
     </v-row>
 
-    <button-add-products-or-employee 
+    <button-add-products-or-employee
       v-if="/admin/i.test(permission)"
     />
   </v-card>
@@ -227,7 +227,7 @@
   export default class viewAdmin extends mixins(
     MixinAuthUser,
   ) {
-    service = "orders"
+    service = "products"
     permission = ""
 
     created (): void {

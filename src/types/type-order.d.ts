@@ -8,3 +8,8 @@ export interface IOrderData {
   status: string,
   telefone: string,
 }
+
+export interface IStatusOrder {
+  id: string,
+  status: string
+}
