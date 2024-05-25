@@ -67,7 +67,25 @@
         v-width.max="'1100px'"
         class="mx-auto"
       >
+        <div
+          v-if="cacheLoading.status"
+          v-width.max="'400px'"
+          class="mx-auto pt-14 text-center"
+        >
+          <v-progress-linear 
+            color="secondary"
+            indeterminate
+          />
+
+          <span
+          class="white--text d-block my-3 font-weight-regular"
+          >
+            {{ cacheLoading.msg }}
+          </span>
+        </div>
+
         <v-slide-group
+          v-else
           show-arrows
           mobile
           prev-icon="arrow_back"
