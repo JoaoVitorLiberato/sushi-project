@@ -2,7 +2,6 @@
   <v-row
     no-gutters
     style="width:100%;max-width: 450px;"
-    class="mx-auto"
   >
     <v-col
       cols="12"
@@ -46,7 +45,7 @@
           no-gutters
         >
           <v-col
-            v-for="({label, type, icon }, input) in itemsInput"
+            v-for="({label, type, icon, readonly }, input) in itemsInput"
             :key="`peencha-seus-dados-cadastrais-${label}`"
             cols="12"
             class="mb-3"
@@ -59,6 +58,7 @@
               :name="label"
               :type="type ||'text'"
               :rules="[required,itemsInput[input].valid]"
+              :readonly="readonly"
               outlined
               color="primary"
               hide-details="auto"
@@ -117,6 +117,46 @@
           </v-col>
         </v-row>
       </v-form>
+
+      <v-dialog
+        ref="dialogResetPassword"
+        width="350"
+      >
+        <v-card>
+          <v-row
+            no-gutters
+            class="pa-4"
+          >
+            <v-col
+              cols="12"
+              class="px-3 pb-4 text-center"
+            >
+              <span
+                v-font-size="18"
+                class="font-weight-regular"
+              >
+                {{ message }}
+              </span>
+            </v-col>
+
+            <v-col
+              cols="12"
+            >
+              <v-btn
+                block
+                color="secondary"
+                @click.stop="$refs.dialogResetPassword.save()"
+              >
+                <span
+                  class="primary--text"
+                >
+                  Fechar
+                </span>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-dialog>
     </v-col>
   </v-row>
 </template>
@@ -125,11 +165,13 @@
   import { Component, Watch } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
   import { $refs } from "@/implements/types"
-  import { required } from "@/helpers/rules"
+  import { required, email } from "@/helpers/rules"
+  import MixinAuthUser from "@/mixins/auth/mixinAuthUser"
 
   @Component({})
-  export default class ContentAdminSessionResetPassword extends mixins()
-    implements $refs {
+  export default class ContentAdminSessionResetPassword extends mixins(
+    MixinAuthUser,
+  ) implements $refs {
     $refs
 
     required = required
@@ -140,9 +182,17 @@
         value: string
         type: string
         icon?: string
+        readonly?: boolean
         label: string
       }
     } = {
+      email: {
+        label: "E-mail",
+        readonly: true,
+        valid: "",
+        value: "",
+        type: "email",
+      },
       password: {
         label: "Nova senha",
         valid: "",
@@ -155,9 +205,15 @@
     loading = false
     showPassword = false
     formvalidate = false
+    message = ""
 
     get validateInput (): boolean {
       return [ this.formvalidate ].every(o => !!o)
+    }
+
+    mounted (): void {
+      const USER_CONNECTED = sessionStorage.getItem("user-connected")
+      if (USER_CONNECTED) this.itemsInput.email.value = String(USER_CONNECTED)
     }
 
     validate (): void {
@@ -178,6 +234,14 @@
       }
     }
 
+    @Watch("itemsInput.email.value")
+      changeEmail (value:string): void {
+        if (email(value)) {
+          this.itemsInput.email.valid = email(value)
+          this.itemsInput.email.value = String(value)
+        }
+      }
+
     @Watch("itemsInput.password.value")
       changePassword (value:string): void {
         if (String(value || "").length < 8) {
@@ -189,7 +253,22 @@
       }
 
     resetPasswordUser (): void {
-      console.log("função")
+      this.loading = true
+      this.resetPassword({
+        email: this.itemsInput.email.value,
+        password: this.itemsInput.password.value
+      }).then(responseMixin => {
+        if (/error/i.test(String(responseMixin))) throw Error("err")
+      }).catch(err => {
+        window.log(`ERROR resetPasswordUser`, err)
+        this.message = "Erro ao atualizar a senha, por favor, tente novamente."
+        this.loading = false
+        this.$refs.dialogResetPassword.isActive = true
+      }).finally(() => {
+        this.message = "Senha atualizada com sucesso!"
+        this.loading = false
+        this.$refs.dialogResetPassword.isActive = true
+      })
     }
   }
 </script>

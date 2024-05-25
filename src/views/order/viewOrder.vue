@@ -465,14 +465,13 @@
     initialCountStatus = "no"
     @Watch("initialCountStatus")
       checkStatusOrder (): void {
-        if (/concluido/i.test(String(this.detailOrder.status))) {
-          window.clearInterval(this.intervalOrder)
-          return
-        }
-
         this.intervalOrder = window.setInterval(() => {
+          if (/concluido/i.test(String(this.detailOrder.status))) {
+            window.clearInterval(this.intervalOrder)
+            return
+          }
+
           this.searchOrderClient()
-          console.log("detailOrder", this.detailOrder)
           this.dialogSearchOrderClient = false
         }, 30000)
       }
@@ -528,7 +527,7 @@
             msg: `Houve um erro ao tentar buscar seu pedido, por favor, tente novamente`
           }
         }).finally(() => {
-          if (/yes/i.test(String(this.initialCountStatus))) return
+          if (this.detailOrder && /yes/i.test(String(this.initialCountStatus))) return
           this.initialCountStatus = "yes"
         })
     }

@@ -534,7 +534,7 @@
                   </v-col>
                 </v-row>
               </v-col>
-              
+
               <v-col
                 cols="12"
                 class="py-2"
@@ -558,7 +558,7 @@
                   </template>
                 </v-switch>
               </v-col>
-              
+
               <v-col
                 cols="12"
                 class="py-4"
@@ -741,6 +741,7 @@
 
     changeInputFileImage (files: Record<string, string|string[]|number|boolean>): void {
       if (Object(files).length <= 0) return
+      if (/update/i.test(this.method)) this.productData.url_image = ""
 
       this.filesInputDevice = files
       const READER_IMAGE = new FileReader()
@@ -792,7 +793,7 @@
 
       this.loadingService = true
       const PRODUCT_DATA = new FormData();
-      
+
       if (/dispositivo/i.test(String(this.chooseInputImage || "")) && "name" in this.filesInputDevice) {
         PRODUCT_DATA.append('image', Object(this.filesInputDevice));
       }
@@ -821,7 +822,7 @@
 
       const PRODUCT_DATA = new FormData();
       PRODUCT_DATA.append('product', JSON.stringify(this.productData));
-      
+
       if (/dispositivo/i.test(String(this.chooseInputImage || "")) && "name" in this.filesInputDevice) {
         PRODUCT_DATA.append('image', Object(this.filesInputDevice));
       }
@@ -837,7 +838,7 @@
             }, 1400)
             return
           }
-          
+
 
           this.error.status = true
           this.error.msg = "Produto atualizado com sucesso."

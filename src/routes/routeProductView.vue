@@ -189,6 +189,10 @@
 
     created (): void {
       this.getProducts()
+        .then(responseMixin => {
+          if (/list-void-product/i.test(String(responseMixin || ""))) this.$router.replace({ name: "home" })
+        })
+
       channelSource().then((source: string) => {
         this.setCacheRastreamentoUsuarioPayloadSource({ source: String(source) })
         this.setPayloadChannelAnalytics()

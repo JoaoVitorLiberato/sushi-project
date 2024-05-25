@@ -22,6 +22,8 @@
         #tryAgain
       />
     </dialog-slot-funcionalidades-component>
+
+    <overlay-loading-service />
   </v-main>
 </template>
 
@@ -34,6 +36,11 @@
         /* webpackChunkName: "dialog-slot-funcionalidades-component" */
         /* webpackMode: "eager" */
         "@/components/dialogs/DialogSlotFuncionaliades.vue"
+      ),
+      OverlayLoadingService: () => import(
+        /* webpackChunkName: "overlay-loading-service-component" */
+        /* webpackMode: "eager" */
+        "@/components/overlays/LoadingService.vue"
       ),
     }
   })

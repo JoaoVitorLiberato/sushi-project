@@ -2,6 +2,7 @@
   <div>
     <v-card
       class="ma-2"
+      :width="$vuetify.breakpoint.smAndDown ? '100%' : 270"
     >
       <v-card-title
         class="py-2"
@@ -15,8 +16,9 @@
         </span>
 
         <span
-          v-font-size="11"
+          v-font-size="13"
           class="font-weight-medium text-uppercase"
+          style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;"
         >
           {{ order }}
         </span>
@@ -24,7 +26,9 @@
 
       <v-divider></v-divider>
 
-      <v-list dense>
+      <v-list
+        dense
+      >
         <v-list-item>
           <v-list-item-content>
             <span
@@ -37,6 +41,7 @@
             <span
               v-font-size="13"
               class="font-weight-regular text-uppercase d-block"
+              style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;"
             >
               {{ name }}
             </span>
@@ -78,10 +83,26 @@
             </span>
           </v-list-item-content>
         </v-list-item>
+
+        <v-list-item>
+          <v-list-item-content>
+            <v-autocomplete
+              :items="filterStatusForSegment()"
+              :value="status"
+              item-text="name"
+              :disabled="/concluido/i.test(String(status))"
+              item-value="id"
+              hide-details
+              outlined
+              dense
+              @change="changeStatusOrder"
+            />
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
 
       <v-card-actions
-        class="pa-4"
+        class="px-4"
       >
         <v-row
           no-gutters
@@ -89,39 +110,19 @@
           <v-col
             cols="12"
           >
-            <v-autocomplete
-              :items="filterStatusForSegment()"
-              v-model="status"
-              item-text="name"
-              :disabled="/concluido/i.test(String(status))"
-              item-value="id"
-              hide-details
-              outlined
-              dense
-            />
-          </v-col>
-
-          <!-- <v-col
-            cols="12"
-            class="py-2"
-          />
-
-          <v-col
-            cols="12"
-          >
             <v-btn
               text
+              color="error"
               block
-              color="secondary"
               @click="$emit('dialogProductEmit')"
             >
               <span
-                class="font-weight-bold"
+                class="font-weight-medium"
               >
-                Ver produtos
+                imprimir novamente
               </span>
             </v-btn>
-          </v-col> -->
+          </v-col>
         </v-row>
       </v-card-actions>
     </v-card>
@@ -131,6 +132,7 @@
 <script lang="ts">
   import { Vue, Component, PropSync, Prop, ModelSync } from "vue-property-decorator"
   import STATUS_ORDERS_DATA from "@/data/orders/statusOrders.json"
+  import { IStatusOrder } from "@/types/type-order"
 
   @Component({})
   export default class CardOrderAdmin extends Vue {
@@ -141,6 +143,8 @@
     @Prop({ default: "" }) order!:string
     @ModelSync("dialogProduct", "dialogProductEmit")
       setDialogProduct?: boolean
+    @ModelSync("statusOrder", "changeStatusOrderEmit")
+      setStatusClient?:IStatusOrder
 
     itemsPerPage = 4
     status = ""
@@ -172,6 +176,13 @@
       })
 
       return Object.assign([], ...STATUS_FILTER)
+    }
+
+    changeStatusOrder (e?:string): void {
+      this.setStatusClient = {
+        id: this.order,
+        status: String(e)
+      }
     }
   }
 </script>

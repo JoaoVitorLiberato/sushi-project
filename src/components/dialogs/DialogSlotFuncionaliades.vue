@@ -330,9 +330,9 @@
           :max-width="400"
         >
           <v-card
-            color="primary"
+            :color="valideRoute('admin-view') ? 'white' : 'primary'"
             class="mx-auto"
-            dark
+            :dark="valideRoute('admin-view')"
           >
             <v-row
               v-border="'1px solid var(--v-secondary-base)'"
@@ -343,8 +343,8 @@
                 cols="12"
               >
                 <span
-                  sty
                   class="font-weight-medium"
+                  :style="valideRoute('admin-view') ? 'color:var(--v-primary-base)': 'color:var(--v-primary-text)'"
                 >
                   Houve um erro em nosso servidor, por favor, tente novamente.
                 </span>
@@ -361,9 +361,12 @@
                 <v-btn
                   color="secondary"
                   block
-                  @click.stop="goToHome()"
+                  depressed
+                  @click.stop="valideRoute('admin-view') ? $router.go(0) : goToHome()"
                 >
-                  <span>
+                  <span
+                    :style="valideRoute('admin-view') ? 'color:var(--v-primary-base)': 'color:var(--v-primary-text)'"
+                  >
                     Tentar novamente
                   </span>
                 </v-btn>
@@ -508,5 +511,8 @@
       if (/form-view/i.test(String(this.$route.name || ""))) location.replace(`/produto/${this.$route.params.type}/vamoscomecar`)
     }
 
+    valideRoute (name:string): boolean {
+      return String(this.$route.name) === String(name)
+    }
   }
 </script>
