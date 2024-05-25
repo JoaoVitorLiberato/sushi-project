@@ -148,17 +148,6 @@
         >
           <v-col
             cols="12"
-          >
-            <span
-              v-font-size="16"
-              class="font-weight-bold text-uppercase"
-            >
-              {{ /admin/i.test(String(permission)) ? 'Administrador' : 'Funcionário'}}
-            </span>
-          </v-col>
-
-          <v-col
-            cols="12"
             class="py-3"
           />
 
