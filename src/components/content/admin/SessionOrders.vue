@@ -571,9 +571,18 @@
           })
       }
 
+    intervalOrder = 0
     mounted (): void {
       this.renderOrderCostumers()
-      setInterval(() => { this.renderOrderCostumers() }, 60000)
+      this.intervalOrder = window.setInterval(() => {
+        const SESSION_CACHE = sessionStorage.getItem("session")
+        if (SESSION_CACHE && !/orders/i.test(String(SESSION_CACHE || ""))) {
+          window.clearInterval(this.intervalOrder)
+          return
+        }
+
+        this.renderOrderCostumers() 
+      }, 60000)
     }
 
     renderOrderCostumers (): void {
@@ -613,6 +622,7 @@
     }
 
     openDialogProducts (product): void {
+      if (!product) return
       this.productsDialog = [ ...product ]
       this.$refs.dialogOrderProduct.isActive = true
     }

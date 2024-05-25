@@ -44,149 +44,24 @@
 
             <v-col
               cols="12"
-              style="max-height: 600px;overflow-y: scroll;"
+              style="max-height: 500px;overflow-y: scroll;"
+              class="d-flex aling-center flex-wrap"
             >
-              <v-expansion-panels
-                focusable
-                class="fix--expansion-panel d-flex flex-column justify-start"
+              <div
+                v-for="{ id, name, description, differences, price, url_image }, in listProducts"
+                :key="`expanse-paniel-product-admin-${id}`"
+                class="ma-1"
               >
-                <v-expansion-panel
-                  v-for="{ id, name, description, differences, price, url_image }, in listProducts"
-                  :key="`expanse-paniel-product-admin-${id}`"
-                  :style="`max-width:${$vuetify.breakpoint.smAndDown ? '100%' : '500px'}`"
-                  :value="[true]"
-                  elevation="0"
-                >
-                  <v-expansion-panel-header>
-                    <span
-                      v-font-size="14"
-                      class="font-weight-medium text-uppercase"
-                      v-text="name"
-                    />
-                  </v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <div>
-                      <v-row
-                        no-gutters
-                      >
-                        <v-col
-                          cols="12"
-                          md="4"
-                        >
-                          <v-img
-                            :src="url_image"
-                            cover
-                            height="150"
-                            width="100%"
-                          />
-                        </v-col>
-
-                        <v-col
-                          cols="12"
-                          md="8"
-                        >
-                          <v-row
-                            no-gutters
-                            class="pa-md-2"
-                          >
-                            <v-col
-                              cols="12"
-                              class="py-2 hidden-md-and-up"
-                            />
-
-                            <v-col
-                              cols="12"
-                              style="line-height: 1"
-                            >
-                              <span
-                                v-font-size="14"
-                                class="font-weight-regular"
-                              >
-                                {{ description }}
-                              </span>
-                            </v-col>
-
-                            <v-col
-                              cols="12"
-                              class="py-1"
-                            />
-
-                            <v-col
-                              cols="12"
-                              style="line-height: 1"
-                            >
-                              <span
-                                v-font-size="14"
-                                class="font-weight-regular"
-                              >
-                                <Strong>Obs:</Strong> {{ showDiference(differences) }}
-                              </span>
-                            </v-col>
-
-                            <v-col
-                              cols="12"
-                              class="py-1"
-                            />
-
-                            <v-col
-                              cols="12"
-                            >
-                              <span
-                                v-font-size="16"
-                                class="font-weight-medium"
-                              >
-                                {{ formatedPrice(price.default) }}
-                              </span>
-                            </v-col>
-
-                            <v-col
-                              cols="12"
-                              class="py-2"
-                            />
-
-                            <v-col
-                              cols="12"
-                            >
-                              <v-btn
-                                color="secondary"
-                                text
-                                class="mr-1"
-                                @click="openDialogRegisterProductToUpdate(String(id))"
-                              >
-                                <span
-                                  class="pr-1"
-                                >
-                                  Editar
-                                </span>
-
-                                <v-icon>
-                                  edit
-                                </v-icon>
-                              </v-btn>
-
-                              <v-btn
-                                color="error"
-                                text
-                                @click.stop="deleteProductAPI(String(id))"
-                              >
-                                <span
-                                  class="pr-1"
-                                >
-                                  Deletar
-                                </span>
-
-                                <v-icon>
-                                  delete
-                                </v-icon>
-                              </v-btn>
-                            </v-col>
-                          </v-row>
-                        </v-col>
-                      </v-row>
-                    </div>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-              </v-expansion-panels>
+                <card-product-admin 
+                  :name="name"
+                  :image="url_image"
+                  :differences="differences"
+                  :description="description"
+                  :price="price.default"
+                  @updateEmit="openDialogRegisterProductToUpdate(String(id))"
+                  @deleteEmit="deleteProductAPI(String(id))"
+                />
+              </div>
             </v-col>
           </v-row>
         </v-col>
@@ -371,14 +246,22 @@
   import { mixins } from "vue-class-component"
   import MixinProductAPI from "@/mixins/product/mixinProductAPI"
   import { $refs } from "@/implements/types"
-  import { IproductData, IDifferences, IComplements } from "@/types/types-product"
+  import { IproductData, IComplements } from "@/types/types-product"
   import { formatedPrice } from "@/helpers/formatedPrice"
   import { namespace } from "vuex-class"
   import "@/styles/components/content/admin/sessionProducts.styl"
 
   const dialogStore = namespace("dialogStoreModule")
 
-  @Component({})
+  @Component({
+    components: {
+      CardProductAdmin :() => import(
+        /* chuckName: "card-product-admin-component" */
+        /* chuckMode: "eager" */
+        "@/components/cards/CardProductAdmin.vue"
+      )
+    }
+  })
   export default class ContentAdminSessionProducts extends mixins(
     MixinProductAPI,
   ) implements $refs {
@@ -461,52 +344,6 @@
         }).finally(() => {
           this.loading = false
         })
-    }
-
-    showDiference (differences: IDifferences): string {
-      let value = ""
-      const PERMISSIONS: Array<string> = []
-
-      Object.keys(differences).forEach(item => {
-        switch (true) {
-          case differences[item].readonly === true:
-            PERMISSIONS.push("readonly")
-            PERMISSIONS.push(item)
-            break
-          case /actived/i.test(String(differences[item].input || "")):
-            PERMISSIONS.push("input")
-            PERMISSIONS.push(item)
-            break
-          default:
-            PERMISSIONS.push("natural")
-            PERMISSIONS.push(item)
-            break
-        }
-      })
-
-      if (PERMISSIONS[0].includes("readonly") && PERMISSIONS[1].includes("especial")) {
-        value = `Especial travado e não pode mudar para natural.`
-      }
-      if (PERMISSIONS[2].includes("readonly") && PERMISSIONS[3].includes("breaded")) {
-        value = `Empanado travado e não pode mudar para natural.`
-      }
-      if (PERMISSIONS[3].includes("readonly") && PERMISSIONS[5].includes("flambed")) {
-        value = `Flambado travado e não pode mudar para natural.`
-      }
-      if (PERMISSIONS[0].includes("input") && PERMISSIONS[1].includes("especial")) {
-        value = `input escolha empanado liberado para usuário escolher.`
-      }
-      if (PERMISSIONS[2].includes("input") && PERMISSIONS[3].includes("breaded")) {
-        value = `input escolha especial liberado para usuário escolher.`
-      }
-      if (PERMISSIONS[4].includes("input") && PERMISSIONS[5].includes("flambed")) {
-        value = `input escolha famblado liberado para usuário escolher.`
-      }
-      if (PERMISSIONS[0].includes("natural") && PERMISSIONS[2].includes("natural") && PERMISSIONS[4].includes("natural")) {
-        value = "Produto somente natural."
-      }
-
-      return value
     }
 
     deleteProductAPI (id: string): void {

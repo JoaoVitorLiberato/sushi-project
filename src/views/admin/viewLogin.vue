@@ -222,6 +222,7 @@
             return
           } else {
             sessionStorage.setItem("token-user", responseMixin.token)
+            sessionStorage.setItem("user-connected", this.itemsInput.email.value)
             sessionStorage.setItem("permission", responseMixin.role)
             this.$router.replace("/admin/conectado")
           }

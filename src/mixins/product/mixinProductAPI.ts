@@ -49,7 +49,6 @@ export default class MixinProductAPI extends Vue {
           window.log("error MixinCacheProduct", err)
           resolve("erro")
         })
-
     })
   }
 
@@ -86,6 +85,11 @@ export default class MixinProductAPI extends Vue {
     }
 
   deleteProduct (id: string): Promise<void|string> {
+    this.cacheLoading = {
+      status: true,
+      msg: "Deletando Produto, Por favor aguarde..."
+    }
+
     async function serviceAPI () {
       return await MiddlewareConnectAPI.delete(`/product/${id || ""}`)
     }
@@ -98,9 +102,9 @@ export default class MixinProductAPI extends Vue {
           } else reject(Error("error"))
         }).catch(err => {
           window.log("error MixinCacheProduct", err)
+          this.cacheLoading.status = false
           resolve("error")
         })
-
     })
   }
 
@@ -118,14 +122,13 @@ export default class MixinProductAPI extends Vue {
           window.log("ERR UPDATE PRODUCT", err)
           resolve("erro")
         })
-
     })
   }
 
   getComplements (): Promise<IComplements[]|string> {
     this.cacheLoading = {
       status: true,
-      msg: /admin-view/i.test(String(this.$route.name)) ? "Carregando os produtos e complemento..." : "Carregando produtos..."
+      msg: /admin-view/i.test(String(this.$route.name)) ? "Carregando os produtos e complemento..." : "Carregando complementos..."
     }
 
     async function serviceAPI () {
@@ -147,7 +150,6 @@ export default class MixinProductAPI extends Vue {
             msg: "",
           }
         })
-
     })
   }
 
@@ -166,11 +168,15 @@ export default class MixinProductAPI extends Vue {
           window.log("error MixinCacheProduct", err)
           resolve("error")
         })
-
     })
   }
 
   deleteComplement (id:string): Promise<string> {
+    this.cacheLoading = {
+      status: true,
+      msg: "Deletando complemento, Por favor aguarde..."
+    }
+
     async function serviceAPI () {
       return await MiddlewareConnectAPI.delete(`/complement/${id}`)
     }
@@ -183,9 +189,9 @@ export default class MixinProductAPI extends Vue {
           } else reject(Error("error"))
         }).catch(err => {
           window.log("error MixinCacheProduct", err)
+          this.cacheLoading.status = false
           resolve("error")
         })
-
     })
   }
 
@@ -204,7 +210,6 @@ export default class MixinProductAPI extends Vue {
           window.log("error MixinCacheProduct", err)
           resolve("error")
         })
-
     })
   }
 }

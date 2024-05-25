@@ -48,7 +48,7 @@
             <v-list-item
               v-if="/admin/i.test(permission)"
               link
-              @click="service = 'products'"
+              @click="changeSession('products')"
             >
               <v-list-item-icon>
                 <v-icon
@@ -66,7 +66,7 @@
 
             <v-list-item
               link
-              @click="service = 'orders'"
+              @click="changeSession('orders')"
             >
               <v-list-item-icon>
                 <v-icon
@@ -85,7 +85,7 @@
             <v-list-item
               v-if="/admin/i.test(permission)"
               link
-              @click="service = 'employee'"
+              @click="changeSession('employee')"
             >
               <v-list-item-icon>
                 <v-icon
@@ -103,7 +103,7 @@
 
             <v-list-item
               link
-              @click="service = 'reset-password'"
+              @click="changeSession('reset-password')"
             >
               <v-list-item-icon>
                 <v-icon
@@ -232,8 +232,16 @@
 
     created (): void {
       const PERMISSION = sessionStorage.getItem("permission")
+      const SESSION_CACHE = sessionStorage.getItem("session")
       if (PERMISSION) this.permission = PERMISSION
-      if (/not-permission/i.test(String(PERMISSION))) this.service = "orders"
+
+      if (SESSION_CACHE && /admin/i.test(String(PERMISSION))) this.service = String(SESSION_CACHE)
+      else this.service = "orders"
+    }
+
+    changeSession (session?:string): void {
+      this.service = String(session)
+      sessionStorage.setItem("session", String(session))
     }
   }
 </script>
