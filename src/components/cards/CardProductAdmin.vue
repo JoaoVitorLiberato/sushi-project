@@ -9,7 +9,7 @@
       <v-list-item-content>
         <div 
           class="text-overline mb-3"
-          style="font-size: 9px !important;"
+          style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;font-size: 9px !important;"
         >
           {{ name }}
         </div>
@@ -22,8 +22,8 @@
 
         <p
           v-if="differences"
-          v-font-size="11"
           class="font-weight-regular mt-3"
+          style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;font-size: 11px !important;"
         >
           <Strong>Obs:</Strong> {{ showDiference(differences) }}
         </p>
