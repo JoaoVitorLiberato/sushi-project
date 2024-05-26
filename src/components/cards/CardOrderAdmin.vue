@@ -86,7 +86,7 @@
 
         <v-list-item>
           <v-list-item-content>
-            <v-autocomplete
+            <v-select
               :items="filterStatusForSegment()"
               :value="status"
               item-text="name"

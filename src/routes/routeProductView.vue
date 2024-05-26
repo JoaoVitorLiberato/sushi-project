@@ -103,6 +103,7 @@
 
     <button-whats-chat />
     <overlay-loading-service />
+    <dialog-get-comments-product />
   </v-main>
 </template>
 
@@ -154,6 +155,11 @@
         /* webpackMode: "eager" */
         "@/components/overlays/LoadingService.vue"
       ),
+      DialogGetCommentsProduct: () => import(
+        /* webpackChunkName: "dialog-get-comments-product-component" */
+        /* webpackMode: "eager" */
+        "@/components/dialogs/dialogGetCommentsProduct.vue"
+      )
     }
   })
   export default class RouteProductView extends mixins(

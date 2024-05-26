@@ -33,6 +33,7 @@
 
       <v-col
         cols="12"
+        @click.stop="setCacheCommentsIDPorductSelected(product?.id), dialogGetCommentsProduct = !dialogGetCommentsProduct"
       >
         <v-row
           align="center"
@@ -49,15 +50,17 @@
 
           <div
             class="grey--text ms-2 d-flex align-center"
+            style="cursor: pointer;"
+            @click.stop="setCacheCommentsIDPorductSelected(product?.id), dialogGetCommentsProduct = !dialogGetCommentsProduct"
           >
             <div
               class="ml-1"
             >
               <v-icon
-                size="16"
+                size="18"
               >
                 forum
-              </v-icon> (0)
+              </v-icon> ({{ countQuantityCommentOfPorduct(product?.id) }})
             </div>
           </div>
         </v-row>
@@ -286,6 +289,10 @@
   import { mixins } from "vue-class-component"
   import { IproductData } from "@/types/types-product"
   import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
+  import { namespace } from "vuex-class"
+
+  const dialogStore = namespace("dialogStoreModule")
+  const cacheStore = namespace("cacheStoreModule")
 
   @Component({})
 
@@ -298,6 +305,28 @@
     @Prop({ default: 0 }) readonly note_client?:string
     @Prop({ default: false }) readonly  differences?:boolean
     @Prop({ default: 0 }) readonly product?: IproductData
+
+    @dialogStore.Action("ActionDialogGetCommentsProduct") setDialogGetCommentsProduct
+    @dialogStore.Getter("DialogGetCommentsProduct") getDialogGetCommentsProduct
+    @cacheStore.Getter("CacheCommentsProduct") getCacheCommentsProduct
+    @cacheStore.Action("ActionCacheCommentsIDPorductSelected") setCacheCommentsIDPorductSelected
+
+    get dialogGetCommentsProduct (): boolean {
+      return this.getDialogGetCommentsProduct()
+    }
+
+    set dialogGetCommentsProduct (value) {
+      this.setDialogGetCommentsProduct(value)
+    }
+
+    countQuantityCommentOfPorduct (producID:string): number {
+      if (/error/i.test(this.getCacheCommentsProduct()) || this.getCacheCommentsProduct().length <= 0) return 0
+      return this.getCacheCommentsProduct().filter(comment => {
+        if ((comment.ProductID).includes(producID)) {
+          return comment
+        }
+      }).length
+    }
 
     openDialogComplement (product: IproductData, id:number|string): void {
       const CACHE_PRODUCT_CART = new Set()

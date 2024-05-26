@@ -9,6 +9,7 @@ interface dialogStoreInterface {
   dialogRegisterProduct: boolean,
   dialogTryAgain: boolean,
   dialogRegisterComplement: boolean
+  dialogGetCommentsProduct: boolean
 }
 
 export {

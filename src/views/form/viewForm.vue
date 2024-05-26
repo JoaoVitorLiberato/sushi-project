@@ -241,85 +241,89 @@
           </v-form>
         </v-col>
       </v-row>
-
-      <v-dialog
-        ref="dialogNumberOrder"
-        hide-overlay
-        persistent
-        max-width="400"
-        height="200"
+      <v-overlay
+        :value="popupNumberOrder"
+        opacity="1"
       >
-        <v-card
-          color="primary"
-          elevation="0"
+        <v-dialog
+          v-model="popupNumberOrder"
+          hide-overlay
+          persistent
+          max-width="400"
+          height="200"
         >
-          <v-row
-            no-gutters
-            style="border: 1px solid var(--v-secondary-base)"
-            class="pa-4"
+          <v-card
+            color="primary"
+            elevation="0"
           >
-            <v-col
-              cols="12"
-              style="line-height:1;"
+            <v-row
+              no-gutters
+              style="border: 1px solid var(--v-secondary-base)"
+              class="pa-4"
             >
-              <span
-                v-font-size="14"
-                class="font-weight-regular"
-                style="color:var(--v-primary-text)"
-              >
-                Copie o número do seu pedido para você o andamento do seu pedido.
-              </span>
-            </v-col>
-
-            <v-col
-              cols="12"
-              class="py-2"
-            />
-
-            <v-col
-              cols="12"
-            >
-              <v-text-field
-                id="numberOrderInput"
-                v-height="68"
-                :value="numeroPedido"
-                label="Número do pedido"
-                readonly
-                dark
-                color="grey lighten-4"
-                append-icon="content_copy"
-                :success-messages="copyInput ? 'Copiado com sucesso!' : ''"
-                @click:append="copy('numberOrderInput')"
-                @click="copy('numberOrderInput')"
-                outlined
-              />
-            </v-col>
-
-            <v-col
-              cols="12"
-              class="py-3"
-            />
-
-            <v-col
-              cols="12"
-            >
-              <v-btn
-                color="secondary"
-                large
-                block
-                depressed
-                @click.stop="redirectDetailOrder()"
+              <v-col
+                cols="12"
+                style="line-height:1;"
               >
                 <span
-                  class="font-weight-bold primary--text"
+                  v-font-size="14"
+                  class="font-weight-regular"
+                  style="color:var(--v-primary-text)"
                 >
-                  Detalhes do pedido
+                  Copie o número do seu pedido para você o andamento do seu pedido.
                 </span>
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-card>
-      </v-dialog>
+              </v-col>
+
+              <v-col
+                cols="12"
+                class="py-2"
+              />
+
+              <v-col
+                cols="12"
+              >
+                <v-text-field
+                  id="numberOrderInput"
+                  v-height="68"
+                  :value="numeroPedido"
+                  label="Número do pedido"
+                  readonly
+                  dark
+                  color="grey lighten-4"
+                  append-icon="content_copy"
+                  :success-messages="copyInput ? 'Copiado com sucesso!' : ''"
+                  @click:append="copy('numberOrderInput')"
+                  @click="copy('numberOrderInput')"
+                  outlined
+                />
+              </v-col>
+
+              <v-col
+                cols="12"
+                class="py-3"
+              />
+
+              <v-col
+                cols="12"
+              >
+                <v-btn
+                  color="secondary"
+                  large
+                  block
+                  depressed
+                  @click.stop="redirectDetailOrder()"
+                >
+                  <span
+                    class="font-weight-bold primary--text"
+                  >
+                    Detalhes do pedido
+                  </span>
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-dialog>
+      </v-overlay>
 
       <v-dialog
         ref="dialogErrorOrder"
@@ -407,6 +411,7 @@
     MixinServiceOrderCostumer,
   ) implements $refs {
     @dialogStore.Getter("DialogOrdersClient") declare getDialogOrdersClient
+    @dialogStore.Getter("DialogCepDelivery") getDialogCepDelivery
     @cacheStore.Action("ActionCacheCepValidation") setCacheCepValidation
     @payloadStore.Getter("PayloadOrder") declare getPayloadOrder
     @payloadStore.Action("actionPayloadCostumerName") setPayloadCostumerName
@@ -430,11 +435,9 @@
 
     loading = false
     numeroPedido = ""
-
+    popupNumberOrder  = false
     formDadosCadastrais = false
     copyInput = false
-
-    dialog= true
 
     get validateFieldsInput (): boolean {
       return [
@@ -496,47 +499,48 @@
     }
 
     @Watch("getDialogOrdersClient")
-      changeDialogOrderClient (): void {
-        if (this.getDialogOrdersClient()) return
+      @Watch("getDialogCepDelivery")
+        changeDialogOrderClient (): void {
+          if (this.getDialogOrdersClient() || this.getDialogCepDelivery()) return
 
-        if (/delivery/i.test(String(this.$route.params.type|| ""))) {
-          if (viaCepFields("erro") && /error_api/i.test(String(viaCepFields("erro") || ""))) {
-            Object.keys(this.itemsFirstFields).forEach((input) => {
-              setTimeout(() => {
-                if (/^(frete)$/.test(String(input))) {
-                  this.itemsFirstFields[input].value = String(formatedPrice(Number(500)))
-                  this.setPayloadPaymentFrete(500)
-                }
-                if (!/^(frete)$/.test(String(input))) {
-                  this.itemsFirstFields[input].value = ""
-                  this.itemsFirstFields[input].readonly = false
-                }
-              }, 1500)
-            })
-          } else {
-            Object.keys(this.itemsFirstFields).forEach((input) => {
-              if (/^(cep|enderecoUf|enderecoCidade|frete)$/i.test(String(input))) {
-                if (/^(cep)$/.test(String(input))) {
-                  this.itemsFirstFields[input].value = String(viaCepFields("cep") || "")
-                }
-                if (/^(enderecoCidade)$/.test(String(input))) {
-                  this.itemsFirstFields[input].value = String(viaCepFields("localidade") || "")
-                }
-                if (/^(enderecoUf)$/.test(String(input))) {
-                  this.itemsFirstFields[input].value = String(viaCepFields("uf") || "")
-                }
-                if (/^(frete)$/.test(String(input))) {
-                  this.itemsFirstFields[input].value = String(formatedPrice(Number(500)))
-                  this.setPayloadPaymentFrete(500)
-                }
+          if (/delivery/i.test(String(this.$route.params.type|| ""))) {
+            if (viaCepFields("erro") && /error_api/i.test(String(viaCepFields("erro") || ""))) {
+              Object.keys(this.itemsFirstFields).forEach((input) => {
+                setTimeout(() => {
+                  if (/^(frete)$/.test(String(input))) {
+                    this.itemsFirstFields[input].value = String(formatedPrice(Number(500)))
+                    this.setPayloadPaymentFrete(500)
+                  }
+                  if (!/^(frete)$/.test(String(input))) {
+                    this.itemsFirstFields[input].value = ""
+                    this.itemsFirstFields[input].readonly = false
+                  }
+                }, 1500)
+              })
+            } else {
+              Object.keys(this.itemsFirstFields).forEach((input) => {
+                if (/^(cep|enderecoUf|enderecoCidade|frete)$/i.test(String(input))) {
+                  if (/^(cep)$/.test(String(input))) {
+                    this.itemsFirstFields[input].value = String(viaCepFields("cep") || "")
+                  }
+                  if (/^(enderecoCidade)$/.test(String(input))) {
+                    this.itemsFirstFields[input].value = String(viaCepFields("localidade") || "")
+                  }
+                  if (/^(enderecoUf)$/.test(String(input))) {
+                    this.itemsFirstFields[input].value = String(viaCepFields("uf") || "")
+                  }
+                  if (/^(frete)$/.test(String(input))) {
+                    this.itemsFirstFields[input].value = String(formatedPrice(Number(500)))
+                    this.setPayloadPaymentFrete(500)
+                  }
 
-                this.itemsFirstFields[input].valid = true
-                this.itemsFirstFields[input].readonly = true
-              }
-            })
+                  this.itemsFirstFields[input].valid = true
+                  this.itemsFirstFields[input].readonly = true
+                }
+              })
+            }
           }
         }
-      }
 
     itemsFirstFields: {
       [key:string]:{
@@ -746,8 +750,9 @@
           sessionStorage.clear()
           sessionStorage.setItem("numero-pedido", this.numeroPedido)
           localStorage.removeItem("id-commented")
+
           this.loading = false
-          this.$refs.dialogNumberOrder.isActive = true
+          this.popupNumberOrder = true
         })
     }
 
@@ -763,7 +768,7 @@
     }
 
     redirectDetailOrder (): void {
-      this.$refs.dialogNumberOrder.save()
+      this.popupNumberOrder = false
       location.replace("/detalhes/pedido")
     }
   }

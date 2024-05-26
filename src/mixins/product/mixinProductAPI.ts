@@ -13,6 +13,7 @@ export default class MixinProductAPI extends Vue {
   @cacheStore.Getter("CacheProducts") getCacheProducts
   @cacheStore.Action("ActionCacheLoading") setCacheLoading
   @cacheStore.Getter("CacheLoading") getCacheLoading
+  @cacheStore.Action("ActionCacheCommentProduct") setCacheCommentProduct
 
   get cacheProduct (): IproductData[] {
     return this.getCacheProducts
@@ -76,10 +77,7 @@ export default class MixinProductAPI extends Vue {
           window.log("error MixinCacheProduct", err)
           resolve("erro")
         }).finally(() => {
-          this.cacheLoading = {
-            status: false,
-            msg: "",
-          }
+          this.getCommentsProduc()
         })
       })
     }
@@ -209,6 +207,40 @@ export default class MixinProductAPI extends Vue {
         }).catch(err => {
           window.log("error MixinCacheProduct", err)
           resolve("error")
+        })
+    })
+  }
+
+  getCommentsProduc (): Promise<string> {
+    if (!/admin-view/i.test(String(this.$route.name))) {
+      this.cacheLoading = {
+        status: true,
+        msg: "Carregando comentários..."
+      }
+    }
+
+    async function serviceAPI () {
+      return await MiddlewareConnectAPI.get(`/products/comments`)
+    }
+
+    return new Promise((resolve, reject) => {
+      serviceAPI()
+        .then(responseMiddleware => {
+          if (!responseMiddleware.data) reject(Error("error"))
+          else {
+            this.setCacheCommentProduct(responseMiddleware.data)
+            resolve(responseMiddleware.data)
+          }
+        }).catch((err) => {
+          window.log("ERROR getCommentsProduc", err)
+          this.setCacheCommentProduct("error")
+          this.cacheLoading.status = false
+          resolve("error")
+        }).finally(() => {
+          this.cacheLoading = {
+            status: false,
+            msg: "",
+          }
         })
     })
   }
