@@ -1,7 +1,7 @@
 <template>
   <v-card
     elevation="0"
-    color="primary"
+    :color="routeForm(['admin-view']) ? 'white' : 'primary'"
     class="my-2"
   >
     <v-row
@@ -15,8 +15,8 @@
       >
         <span
           v-font-size="$vuetify.breakpoint.smAndDown ? 13 : 16"
-          class="font-weight-medium pr-2 text-uppercase"
-          style="color:var(--v-primary-text)"
+          :class="`font-weight-${routeForm(['admin-view']) ? 'bold' : 'medium'} pr-2 text-uppercase`"
+          :style="routeForm(['admin-view']) ? 'color:var(--v-primary-base)' : 'color:var(--v-primary-text)'"
           v-text="name"
         />
         <div
@@ -43,7 +43,7 @@
         <span
           v-font-size="$vuetify.breakpoint.smAndDown ? 16 : 18"
           class="font-weight-medium pr-2 text-uppercase"
-          style="color:var(--v-primary-text)"
+          :style="routeForm(['admin-view']) ? 'color:var(--v-primary-base)' : 'color:var(--v-primary-text)'"
           v-text="formatedPrice(Number(price_total))"
         />
       </v-col>
@@ -68,37 +68,39 @@
               fab
               dense
               depressed
-              dark
-              disabled
               style="width:20px;height:20px"
             >
-              <v-icon>
+              <v-icon
+                color="primary"
+              >
                 remove
               </v-icon>
             </v-btn>
+
             <span
               v-font-size="20"
               class="font-weight-bold mx-3"
-              style="color:var(--v-primary-text)"
+              :style="routeForm(['admin-view']) ? 'color:var(--v-primary-base)' : 'color:var(--v-primary-text)'"
             >
               {{ qtd_product }}
             </span>
+
             <v-btn
-            color="secondary"
+              color="secondary"
               fab
               dense
               depressed
-              dark
-              disabled
               style="width:20px;height:20px"
             >
-              <v-icon>
+              <v-icon
+                color="primary"
+              >
                 add
               </v-icon>
             </v-btn>
           </v-col>
           <v-col
-            v-if="!routeForm"
+            v-if="!routeForm(['form-view', 'order-view', 'admin-view'])"
             cols="4"
             class="text-end"
             @click="$emit('deleteProduct')"
@@ -133,7 +135,7 @@
         >
           <span
             v-font-size="12"
-            class="font-weight-medium"
+            :class="routeForm(['admin-view']) ? 'font-weight-bold' : 'font-weight-medium'"
           >
             Ver detalhes
           </span>
@@ -164,17 +166,20 @@
                   <span
                     v-font-size="12"
                     class="font-weight-medium mr-1 text-uppercase"
+                    :style="routeForm(['admin-view']) ? 'color:var(--v-primary-base)' : 'color:var(--v-primary-text)'"
                   >
                     {{ name }}
                   </span>
                   <span
                     v-font-size="12"
                     class="font-weight-regular"
+                    :style="routeForm(['admin-view']) ? 'color:var(--v-primary-base)' : 'color:var(--v-primary-text)'"
                     v-text="`( x${qtd_product} )`"
                   />
                 </div>
                   <span
                     v-font-size="12"
+                    :style="routeForm(['admin-view']) ? 'color:var(--v-primary-base)' : 'color:var(--v-primary-text)'"
                     v-text="formatedPrice(Number(price_default) * Number(qtd_product))"
                   />
               </v-col>
@@ -183,6 +188,7 @@
                 :key="`complement-card-${i}`"
                 cols="12"
                 class="px-4 py-1 d-flex align-center justify-space-between"
+                :style="routeForm(['admin-view']) ? 'color:var(--v-primary-base)' : 'color:var(--v-primary-text)'"
               >
                 <div>
                   <span
@@ -231,8 +237,8 @@
 
     open = false
 
-    get routeForm (): boolean {
-      return /^(form-view|order-view)$/i.test(String(this.$route.name || ""))
+    routeForm (routeName: string[]): boolean {
+      return routeName.includes(String(this.$route.name || "").toLowerCase())
     }
 
     typeDifferenceProduct (): string {

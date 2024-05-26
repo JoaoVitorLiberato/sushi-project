@@ -116,76 +116,69 @@
             <v-col
               cols="12"
               style="max-height: 600px;overflow-y: scroll;"
+              class="d-flex aling-center flex-wrap"
             >
-              <v-row
-                no-gutters
-                style="max-width: 1100px;"
+              <div
+                v-for="{ id, name, description, price } in listComplements"
+                :key="`card-complement-${id}`"
+                class="ma-1"
               >
-                <v-col
-                  v-for="{ id, name, description, price } in listComplements"
-                  :key="`card-complement-${id}`"
-                  cols="12"
-                  sm="6"
-                  md="4"
-                  class="pa-2"
+                <v-card
+                  :width="$vuetify.breakpoint.smAndDown ? 290 : 355"
+                  outlined
                 >
-                  <v-card
-                    :max-width="$vuetify.breakpoint.smAndDown ? 300 : 344"
-                    outlined
+                  <v-list-item
+                    three-line
                   >
-                    <v-list-item
-                      three-line
-                    >
-                      <v-list-item-content>
+                    <v-list-item-content>
+                      <div
+                        class="d-flex justify-space-between align-center"
+                      >
                         <div
-                          class="d-flex justify-space-between align-center"
+                          style="font-size: 12px !important;letter-spacing: 0.12px !important;"
+                          class="text-overline mb-4 font-weight-bold"
                         >
-                          <div
-                            style="font-size: 12px !important;letter-spacing: 0.12px !important;"
-                            class="text-overline mb-4 font-weight-bold"
-                          >
-                            complempemento
-                          </div>
-
-                          <span
-                            v-font-size="14"
-                            class="text-uppercase font-weight-bold mb-4"
-                          >
-                            {{ formatedPrice(price) }}
-                          </span>
+                          complempemento
                         </div>
-                        <v-list-item-title
-                          style="font-size: 18px !important;"
-                          class="text-h5 mb-1"
+  
+                        <span
+                          v-font-size="14"
+                          class="text-uppercase font-weight-bold mb-4"
                         >
-                          {{ name }}
-                        </v-list-item-title>
-                        <v-list-item-subtitle>
-                          {{ description }}
-                        </v-list-item-subtitle>
-                      </v-list-item-content>
-                    </v-list-item>
-
-                    <v-card-actions>
-                      <v-btn
-                        text
-                        color="warning"
-                        @click="openDialogRegisterComplementToUpdate(String(id))"
+                          {{ formatedPrice(price) }}
+                        </span>
+                      </div>
+                      <v-list-item-title
+                        style="font-size: 18px !important;"
+                        class="text-h5 mb-1"
                       >
-                        editar
-                      </v-btn>
-
-                      <v-btn
-                        text
-                        color="error"
-                        @click="deleteComplementAPI(String(id))"
-                      >
-                        deletar
-                      </v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-col>
-              </v-row>
+                        {{ name }}
+                      </v-list-item-title>
+                      <v-list-item-subtitle>
+                        {{ description }}
+                      </v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
+  
+                  <v-card-actions>
+                    <v-btn
+                      text
+                      color="warning"
+                      @click="openDialogRegisterComplementToUpdate(String(id))"
+                    >
+                      editar
+                    </v-btn>
+  
+                    <v-btn
+                      text
+                      color="error"
+                      @click="deleteComplementAPI(String(id))"
+                    >
+                      deletar
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </div>
             </v-col>
           </v-row>
         </v-col>

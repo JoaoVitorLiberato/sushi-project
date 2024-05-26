@@ -3,45 +3,13 @@
     no-gutters
   >
     <v-col
-      cols="12"
+    cols="12"
     >
       <v-row
         no-gutters
       >
         <v-col
-          cols="12"
-        >
-          <v-row
-            no-gutters
-            justify="center"
-            justify-md="space-between"
-            align="center"
-          >
-            <v-spacer />
-
-            <v-col
-              cols="12"
-              md="4"
-            >
-              <v-text-field
-                label="Pesquisar"
-                outlined
-                rounded
-                placeholder="Pesquise pelo telefone ou nome do cliente"
-                dense
-                hide-details
-                @input="filterOrderClient"
-              />
-            </v-col>
-          </v-row>
-        </v-col>
-
-        <v-col
-          cols="12"
-          class="py-3"
-        />
-
-        <v-col
+          v-if="messageUpdateOrders !== ''"
           cols="12"
           class="text-center"
         >
@@ -76,6 +44,38 @@
 
         <v-col
           cols="12"
+          class="pt-6"
+        >
+          <v-row
+            no-gutters
+          >
+            <v-col
+              cols="7"
+              class="hidden-sm-and-down"
+            >
+              <v-spacer
+                class="hidden-sm-and-down"
+              />
+            </v-col>
+
+            <v-col
+              cols="12"
+              md="5"
+            >
+              <v-text-field
+                label="Pesquisar pedido"
+                outlined
+                placeholder="Pesquise pelo telefone ou nome do cliente"
+                width="300"
+                hide-details
+                @input="filterOrderClient"
+              />
+            </v-col>
+          </v-row>
+        </v-col>
+
+        <v-col
+          cols="12"
           class="py-3"
         />
 
@@ -88,8 +88,10 @@
           >
             <v-col
               cols="12"
+              class="text-center"
             >
               <h2
+                v-font-size="$vuetify.breakpoint.smAndDown ? 16 : 22"
                 class="font-weight-bold text-uppercase"
               >
                 Pedidos encontrados
@@ -387,24 +389,19 @@
     >
       <v-dialog
         ref="dialogOrderProduct"
-        width="600"
+        width="400"
       >
-        <v-card
-          class="pa-4"
-        >
+        <v-card>
           <v-row
             no-gutters
           >
             <v-col
               cols="12"
-              class="text-end"
+              class="text-end pa-1"
             >
               <v-btn
-                text
-                fab
+                icon
                 color="primary"
-                width="40"
-                height="40"
                 @click="$refs.dialogOrderProduct.save()"
               >
                 <v-icon>
@@ -415,104 +412,26 @@
 
             <v-col
               cols="12"
-              class="py-3"
-            />
-
-            <v-col
-              v-for="item in productsDialog"
-              :key="`card-product-${item.id}`"
-              cols="12"
             >
-              <v-card
-                class="mx-auto my-2"
-                max-width="400"
-                outlined
+              <v-row
+                no-gutters
+                class="pa-4"
               >
-                <v-list-item
-                  three-line
+                <v-col
+                  v-for="item in productsDialog"
+                  :key="`card-product-${item.id}`"
+                  cols="12"
                 >
-                  <v-list-item-content>
-                    <v-list-item-title
-                      class="text-h6 mb-1 text-uppercase font-weight-medium"
-                      style="font-size: 13px !important;"
-                    >
-                      {{ item.name }}
-                    </v-list-item-title>
-                    <v-list-item-subtitle
-                      style="font-size: 12px !important;"
-                    >
-                      {{ item.description }}
-                    </v-list-item-subtitle>
-                  </v-list-item-content>
-
-                  <v-list-item-avatar
-                    tile
-                    size="80"
-                    color="grey"
-                  >
-                    <v-img
-                      :src="item.url_image"
-                    />
-                  </v-list-item-avatar>
-                </v-list-item>
-
-                <v-card-actions>
-                  <v-btn
-                    block
-                    text
-                    color="primary"
-                    class="d-flex justify-space-between align-center"
-                    @click.stop="showComplements = !showComplements"
-                  >
-                    <span
-                      v-font-size="14"
-                      class="font-weight-bold"
-                    >
-                      ver complementos
-                    </span>
-
-                    <v-icon
-                      size="26"
-                    >
-                      {{ showComplements ? 'keyboard_arrow_up'  : 'keyboard_arrow_down' }}
-                    </v-icon>
-                  </v-btn>
-                </v-card-actions>
-
-                <v-expand-transition>
-                  <div
-                    v-show="showComplements"
-                  >
-                    <v-divider></v-divider>
-
-                    <v-row
-                      no-gutters
-                      class="pa-4"
-                    >
-                      <v-col
-                        v-for="complement in item.complements"
-                        :key="`complement-${complement.id}`"
-                        cols="12"
-                        class="d-flex justify-space-between aling-center"
-                      >
-                        <span
-                          v-font-size="12"
-                          class="grey--text text-uppercase font-weight-regular"
-                        >
-                          {{ complement.name }}
-                        </span>
-
-                        <span
-                          v-font-size="12"
-                          class="grey--text text-uppercase font-weight-regular"
-                        >
-                          ({{ complement.qtd }})
-                        </span>
-                      </v-col>
-                    </v-row>
-                  </div>
-                </v-expand-transition>
-              </v-card>
+                  <card-product-cart
+                    :name="item.name"
+                    :qtd_product="item.price.qtd_product"
+                    :price_total="item.price.total"
+                    :price_default="sumPriceDefaultWhiteDiffences(item)"
+                    :complements="item.complements"
+                    :differences="item.differences"
+                  />
+                </v-col>
+              </v-row>
             </v-col>
           </v-row>
         </v-card>
@@ -527,8 +446,9 @@
   import { IOrderData, IStatusOrder } from "@/types/type-order"
   import { IproductData } from "@/types/types-product"
   import { $refs } from "@/implements/types"
-  import MixinServiceOrderCostumer from "@/mixins/order/mixinServiceOrderCostumer"
   import { namespace } from "vuex-class"
+  import MixinServiceOrderCostumer from "@/mixins/order/mixinServiceOrderCostumer"
+  import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
   import "@/styles/components/caroucels.styl"
 
   const dialogStore = namespace("dialogStoreModule")
@@ -539,12 +459,18 @@
         /* webpackChuckName: "card-order-admin-component" */
         /* webpackMode: "eager" */
         "@/components/cards/CardOrderAdmin.vue"
+      ),
+      CardProductCart: () => import(
+        /* webpackChuckName: "card-product-cart-component" */
+        /* webpackMode: "eager" */
+        "@/components/cards/CardProductCart.vue"
       )
     }
   })
 
   export default class ContentAdminSessionOrders extends mixins(
     MixinServiceOrderCostumer,
+    MixinHelperServiceProduct,
   ) implements $refs {
     @dialogStore.Action("ActionDialogTryAgain") setDialogTryAgain
     @dialogStore.Getter("DialogTryAgain") getDialogTryAgain
@@ -567,13 +493,13 @@
             }
           }).finally(() => {
             if (this.getDialogTryAgain()) return
-            this.renderOrderCostumers()
+            this.renderCardOrderCostumers()
           })
       }
 
     intervalOrder = 0
     mounted (): void {
-      this.renderOrderCostumers()
+      this.renderCardOrderCostumers()
       this.intervalOrder = window.setInterval(() => {
         const SESSION_CACHE = sessionStorage.getItem("session")
         if (SESSION_CACHE && !/orders/i.test(String(SESSION_CACHE || ""))) {
@@ -581,22 +507,22 @@
           return
         }
 
-        this.renderOrderCostumers() 
-      }, 60000)
+        this.renderCardOrderCostumers() 
+      }, 45000)
     }
 
-    renderOrderCostumers (): void {
+    renderCardOrderCostumers (): void {
       this.messageUpdateOrders = "Atualizando os pedidos..."
       this.getAllOrderCostumer()
         .then(responseMixin => {
           if (/error/i.test(String(responseMixin || ""))) throw Error("err")
           if (responseMixin.length > 0) this.allOrders = [...responseMixin as IOrderData[]]
         }).catch(err => {
-          window.log(err)
+          window.log("ERROR renderCardOrderCostumers", err)
           this.messageUpdateOrders = "houve algum erro ao atualizar os pedidos..."
           this.setDialogTryAgain(true)
         }).finally(() => {
-          this.messageUpdateOrders = "Pedidos atualizados..."
+          this.messageUpdateOrders = ""
         })
     }
 

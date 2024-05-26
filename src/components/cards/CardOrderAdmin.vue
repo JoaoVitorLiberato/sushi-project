@@ -101,29 +101,30 @@
         </v-list-item>
       </v-list>
 
-      <v-card-actions
-        class="px-4"
-      >
-        <v-row
-          no-gutters
-        >
-          <v-col
-            cols="12"
+      <v-card-actions>
+          <v-btn
+            text
+            color="error"
+            class="px-2"
           >
-            <v-btn
-              text
-              color="error"
-              block
-              @click="$emit('dialogProductEmit')"
+            <span
+              class="font-weight-medium"
             >
-              <span
-                class="font-weight-medium"
-              >
-                imprimir novamente
-              </span>
-            </v-btn>
-          </v-col>
-        </v-row>
+              imprimir
+            </span>
+          </v-btn>
+
+          <v-spacer></v-spacer>
+
+          <v-btn
+            icon
+            color="error"
+            @click="$emit('dialogProductEmit')"
+          >
+            <v-icon>
+              add
+            </v-icon>
+          </v-btn>
       </v-card-actions>
     </v-card>
   </div>

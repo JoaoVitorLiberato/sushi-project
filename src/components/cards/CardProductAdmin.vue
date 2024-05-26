@@ -1,8 +1,8 @@
 <template>
   <v-card
     class="mx-auto"
-    max-width="344"
-    height="202"
+    :width="$vuetify.breakpoint.smAndDown ? 290 : 355"
+    height="190"
     outlined
   >
     <v-list-item three-line>

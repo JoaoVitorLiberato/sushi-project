@@ -280,7 +280,6 @@
       sessionStorage.removeItem("cache-coment")
       const CACHE_ORDER_DATA = sessionStorage.getItem("order-costumer")
       if (CACHE_ORDER_DATA) this.data.name = JSON.parse(CACHE_ORDER_DATA).nome
-      console.log("dialogComment-created", this.data)
     }
 
     sendRatingAndCommentClient (id:string|number): void {
