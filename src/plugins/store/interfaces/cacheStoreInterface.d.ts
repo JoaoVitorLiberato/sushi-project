@@ -1,4 +1,4 @@
-import { IproductData, IComplements } from "@/types/types-product"
+import { IproductData, IComplements, ICommentProduct } from "@/types/types-product"
 
 interface cacheStoreInterface {
   rastreamentoUsuario: Record<string, string|string[]|number|number[]|boolean>
@@ -10,6 +10,8 @@ interface cacheStoreInterface {
   cepValidation: string,
   products: IproductData[],
   complements: IComplements[],
+  commentsPorducts: ICommentProduct[]|string
+  commentsIDPorductSelected: string
   ordersCart: IproductData[],
   priceTotal: number,
   loading: {

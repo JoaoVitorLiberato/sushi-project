@@ -16,7 +16,9 @@ const moduleCache = (): cacheStoreInterface => {
       status: false,
       msg: ""
     },
-    complements: []
+    complements: [],
+    commentsPorducts: [],
+    commentsIDPorductSelected: "",
   }
 }
 
@@ -52,6 +54,12 @@ const getters: GetterTree<cacheStoreInterface, rootStateInterface> = {
   },
   CacheComplements: ({ complements }) => () => {
     return complements
+  },
+  CacheCommentsProduct: ({ commentsPorducts }) => () => {
+    return commentsPorducts
+  },
+  CacheCommentsIDPorductSelected: ({ commentsIDPorductSelected }) => () => {
+    return commentsIDPorductSelected
   },
 }
 
@@ -89,6 +97,12 @@ const mutations: MutationTree<cacheStoreInterface> = {
   mutationComplements (state, data) {
     state.complements = data
   },
+  mutationCommentProduct (state, data) {
+    state.commentsPorducts = data
+  },
+  mutationCommentsIDPorductSelected(state, data) {
+    state.commentsIDPorductSelected = data
+  },
 }
 
 const actions: ActionTree<cacheStoreInterface, rootStateInterface> = {
@@ -120,8 +134,14 @@ const actions: ActionTree<cacheStoreInterface, rootStateInterface> = {
   ActionCacheLoading ({ commit }, data) {
     commit("mutationLoading", data)
   },
-  ActionCacheComplements({ commit }, data) {
+  ActionCacheComplements ({ commit }, data) {
     commit("mutationComplements", data)
+  },
+  ActionCacheCommentProduct ({ commit }, data) {
+    commit("mutationCommentProduct", data)
+  },
+  ActionCacheCommentsIDPorductSelected ({ commit }, data) {
+    commit("mutationCommentsIDPorductSelected", data)
   },
 }
 

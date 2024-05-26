@@ -51,3 +51,12 @@ export interface IDifferences {
     additional: number
   }
 }
+
+export interface ICommentProduct {
+  Id?: string,
+  ProductID?: string,
+  Name?: string,
+  Rating?: number,
+  Comment?: string,
+  CreatedAt: string|number|Date
+}

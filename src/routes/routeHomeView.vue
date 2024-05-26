@@ -81,6 +81,7 @@
     </dialog-slot-funcionalidades-component>
 
     <button-whats-chat />
+    <dialog-get-comments-product />
   </v-main>
 </template>
 
@@ -116,6 +117,11 @@
         /* webpackMode: "eager" */
         "@/components/buttons/ButtonWhatsChat.vue"
       ),
+      DialogGetCommentsProduct: () => import(
+        /* webpackChunkName: "dialog-get-comments-product-component" */
+        /* webpackMode: "eager" */
+        "@/components/dialogs/dialogGetCommentsProduct.vue"
+      )
     }
   })
 
