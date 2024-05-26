@@ -2,29 +2,34 @@
   <v-dialog
     v-model="dialogComplements"
     fullscreen
+    persistent
     hide-overlay
   >
     <v-card
       tile
     >
-      <div
-        v-if="loading"
-        class="text-center pa-4"
+      <v-overlay
+        :value="loading"
+        opacity="1"
       >
-        <v-progress-linear 
-          color="secondary"
-          indeterminate
-          class="mb-4"
-        />
-        <span
-          class="font-weight-regular grey--text mt-3"
+        <div
+          class="text-center pa-4"
         >
-          Carregando complementos...
-        </span>
-      </div>
+          <v-progress-circular
+            color="secondary"
+            size="105"
+            indeterminate
+          />
+
+          <span
+            class="d-block font-weight-regular grey--text mt-3"
+          >
+            Carregando complementos...
+          </span>
+        </div>
+      </v-overlay>
 
       <v-row
-        v-else
         no-gutters
       >
         <v-col
@@ -64,7 +69,7 @@
               <v-row
                 v-else
                 no-gutters
-                style="width:100%;max-width:980px"
+                style="width:100%;max-width:768px"
                 class="mx-auto"
               >
                 <v-col
@@ -85,12 +90,12 @@
                     cada item adicionado.
                   </span>
                 </v-col>
-    
+
                 <v-col
                   cols="12"
                   class="py-2"
                 />
-    
+
                 <v-col
                   v-for="item in cacheComplements"
                   :key="`card-complemento-adicional-${item.id}`"
@@ -115,6 +120,7 @@
               cols="12"
               md="4"
               class="pa-4 grey lighten-5"
+              :style="$vuetify.breakpoint.smAndDown ? '' : 'height:100vh'"
             >
               <v-row
                 no-gutters
@@ -128,7 +134,7 @@
                     Resumo:
                   </span>
                 </v-col>
-    
+
                 <v-col
                   cols="12"
                 >
@@ -137,6 +143,7 @@
                   >
                     <v-col
                       v-if="cacheTemporario()"
+                      v-position.relative
                       cols="12"
                     >
                       <v-row
@@ -213,49 +220,58 @@
                             </v-row>
                           </div>
                         </v-col>
-                        <v-col
-                          cols="12"
-                        >
-                          <span
-                            v-font-size="$vuetify.breakpoint.smAndDown ? 16 : 18"
-                            class="text-uppercase font-weight-bold mr-1"
-                          >
-                            {{ cacheTemporario().name }}
-                          </span>
-                          <span
-                            v-if="'qtd_product' in cacheTemporario().price"
-                            v-font-size="$vuetify.breakpoint.smAndDown ? 14 : 16"
-                            class="text-uppercase font-weight-medium"
-                            v-text="`(x${ cacheTemporario().price.qtd_product})`"
-                          />
-                        </v-col>
 
                         <v-col
-                          v-if="'qtd_product' in cacheTemporario().price"
                           cols="12"
                         >
-                          <span
-                            v-font-size="$vuetify.breakpoint.smAndDown ? 14 : 16"
-                            class="font-weight-bold mr-2 text-uppercase"
+                          <v-row
+                            no-gutters
                           >
-                            Total:
-                          </span>
-                          <span
-                            v-font-size="$vuetify.breakpoint.smAndDown ? 16 : 18"
-                            class="font-weight-medium"
-                            v-text="formatedPrice(Number(cacheTemporario().price.total) + Number(totalComplementsCalculed))"
-                          />
+                            <v-col
+                              cols="12"
+                            >
+                              <span
+                                v-font-size="$vuetify.breakpoint.smAndDown ? 16 : 18"
+                                class="text-uppercase font-weight-bold mr-1"
+                              >
+                                {{ cacheTemporario().name }}
+                              </span>
+                              <span
+                                v-if="'qtd_product' in cacheTemporario().price"
+                                v-font-size="$vuetify.breakpoint.smAndDown ? 14 : 16"
+                                class="text-uppercase font-weight-medium"
+                                v-text="`(x${ cacheTemporario().price.qtd_product})`"
+                              />
+                            </v-col>
+
+                            <v-col
+                              v-if="'qtd_product' in cacheTemporario().price"
+                              cols="12"
+                            >
+                              <span
+                                v-font-size="$vuetify.breakpoint.smAndDown ? 14 : 16"
+                                class="font-weight-bold mr-2 text-uppercase"
+                              >
+                                Total:
+                              </span>
+                              <span
+                                v-font-size="$vuetify.breakpoint.smAndDown ? 16 : 18"
+                                class="font-weight-medium"
+                                v-text="formatedPrice(Number(cacheTemporario().price.total) + Number(totalComplementsCalculed))"
+                              />
+                            </v-col>
+                          </v-row>
                         </v-col>
                       </v-row>
                     </v-col>
                   </v-row>
                 </v-col>
-    
+
                 <v-col
                   cols="12"
                   class="hidden-sm-and-down py-3"
                 />
-    
+
                 <v-col
                   cols="12"
                   class="hidden-sm-and-down"
@@ -278,7 +294,6 @@
             </v-col>
           </v-row>
         </v-col>
-
 
         <v-col
           cols="12"

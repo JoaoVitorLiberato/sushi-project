@@ -1,7 +1,7 @@
 <template>
   <v-card
     color="white"
-    style="border-radius:0;d-flex"
+    style="border-radius:0;"
   >
     <v-row
       no-gutters

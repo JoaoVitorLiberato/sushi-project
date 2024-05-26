@@ -7,200 +7,8 @@
       md="4"
       order="1"
       order-md="2"
-      class="secondary"
     >
-      <v-card
-        style="border-radius: 0;"
-        color="secondary"
-        :min-height="$vuetify.breakpoint.smAndDown ? expand ? '40vh' : '65px' :'100vh'"
-        elevation="0"
-        class="pa-4"
-      >
-        <v-row
-          no-gutters
-        >
-          <v-col
-            cols="12"
-            @click="openPainel"
-          >
-            <v-row
-              no-gutters
-              justify="space-between"
-              align="center"
-            >
-              <v-col
-                cols="10"
-                md="12"
-              >
-                <span
-                  v-font-size="$vuetify.breakpoint.smAndDown ? 18 : 22"
-                  class="font-weight-bold text-uppercase"
-                >
-                  Resumo do pedido:
-                </span>
-              </v-col>
-              <v-col
-                cols="2"
-                class="hidden-sm-and-up"
-              >
-                <v-btn
-                  text
-                  color="primary"
-                >
-                  <v-icon
-                    size="32"
-                    :style="expand ? 'transform: rotate(180deg)' : 'transform: rotate(0deg)'"
-                  >
-                    expand_more
-                  </v-icon>
-                </v-btn>
-              </v-col>
-            </v-row>
-          </v-col>
-
-          <v-col
-            cols="12"
-          >
-            <v-expand-transition>
-              <div
-                v-show="expand"
-                :style="`expand ? 'min-height:40vh' : 'height:65px'`"
-              >
-                <v-row
-                  v-if="getCacheOrderCart().length > 0"
-                  no-gutters
-                >
-                  <v-col
-                    cols="12"
-                    class="py-2"
-                  />
-
-                  <v-col
-                    cols="12"
-                  >
-                    <v-row
-                      no-gutters
-                      class="pa-md-2"
-                      :style="`max-height: ${$vuetify.breakpoint.smAndDown ? 450 : 580}px;overflow-y: scroll;`"
-                    >
-                      <v-col
-                        v-for="item in getCacheOrderCart()"
-                        :key="`cart-product-${item.name}`"
-                        cols="12"
-                      >
-                        <card-product-cart
-                          :name="item.name"
-                          :qtd_product="item.price.qtd_product"
-                          :price_default="sumPriceDefaultWhiteDiffences(item)"
-                          :price_total="item.price.total"
-                          :complements="item.complements"
-                          :differences="item.differences"
-                        />
-                      </v-col>
-                    </v-row>
-                  </v-col>
-
-                  <v-col
-                    cols="12"
-                    class="mt-5"
-                  >
-                    <v-divider
-                      color="#000"
-                    />
-                  </v-col>
-
-                  <v-col
-                    cols="12"
-                    class="py-2"
-                  />
-
-                  <v-col
-                    cols="12"
-                  >
-                    <span
-                      class="font-weight-bold text-uppercase"
-                      style="font-size: 19px;"
-                    >
-                      Valor do frete:
-                    </span>
-                    <br>
-                    <span
-                      class="font-weight-medium text-uppercase"
-                      style="font-size: 19px;"
-                    >
-                      {{ formatedPrice(Number(getPayloadOrder('pagamento').valorFrete)) }}
-                    </span>
-                  </v-col>
-
-                  <v-col
-                    cols="12"
-                    class="py-2"
-                  />
-
-                  <v-col
-                    cols="12"
-                  >
-                    <span
-                      class="font-weight-bold text-uppercase"
-                      style="font-size: 19px;"
-                    >
-                      Total:
-                    </span>
-                    <br>
-                    <span
-                      v-font-size="$vuetify.breakpoint.width < 350 ? 25 : 30"
-                      class="font-weight-bold text-uppercase"
-                      :style="`text-decoration:${getPayloadOrder('pagamento').desconto.PrecoTotalComDesconto > 0 ?'line-through' : 'none'}`"
-                    >
-                      {{ formatedPrice(Number(getCachePriceTotal()) + Number(getPayloadOrder("pagamento").valorFrete)) }}
-                    </span>
-
-                    <span
-                      v-if="getPayloadOrder('pagamento').desconto.PrecoTotalComDesconto > 0"
-                      v-font-size="$vuetify.breakpoint.width < 350 ? 25 : 30"
-                      class="font-weight-bold text-uppercase ml-3"
-                    >
-                      {{ formatedPrice(Number(getPayloadOrder("pagamento").desconto.PrecoTotalComDesconto)) }}
-                    </span>
-                  </v-col>
-
-                  <v-col
-                    v-if="getPayloadOrder('pagamento').desconto.PrecoTotalComDesconto > 0"
-                    cols="12"
-                    class="mt-2"
-                    style="line-height:1"
-                  >
-                    <span
-                      class="font-weight-medium error--text"
-                    >
-                      Desconto de {{ getPayloadOrder('pagamento').desconto.porcentagem }}% aplicado com sucesso!
-                    </span>
-                  </v-col>
-
-                  <v-col
-                    v-if="/(delivery)/i.test(getPayloadOrder('segmento'))"
-                    cols="12"
-                    style="line-height: 1;"
-                    class="mt-3"
-                  >
-                    <strong
-                      class="font-weight-bold"
-                    >
-                      Atenção:
-                    </strong>
-                    <span
-                      v-font-size="13"
-                      class="font-weight-regular pt-1"
-                    >
-                      O valor do frete já está incluso na soma total dos produtos.
-                    </span>
-                  </v-col>
-                </v-row>
-              </div>
-            </v-expand-transition>
-          </v-col>
-        </v-row>
-      </v-card>
+      <painel-form-component />
     </v-col>
 
     <v-col
@@ -213,11 +21,6 @@
       <v-row
         no-gutters
       >
-        <v-col
-          cols="12"
-          class="py-3"
-        />
-
         <v-col
           cols="12"
         >
@@ -328,6 +131,7 @@
                   </template>
                 </v-autocomplete>
               </v-col>
+
               <v-col
                 cols="12"
                 md="6"
@@ -373,70 +177,71 @@
                   row-height="40"
                 />
               </v-col>
+
+              <v-col
+                cols="12"
+                class="py-1"
+              />
+
+              <v-col
+                cols="12"
+              >
+                <v-row
+                  no-gutters
+                  class="px-1"
+                >
+                  <v-col
+                    v-if="loading"
+                    cols="12"
+                  >
+                    <v-progress-linear
+                      indeterminate
+                      color="secondary"
+                    />
+                  </v-col>
+      
+                  <v-col
+                    v-else
+                    cols="12"
+                    :class="$vuetify.breakpoint.smAndDown ? 'd-flex flex-column-reverse' : ''"
+                  >
+                    <v-btn
+                      color="grey lighten-1"
+                      large
+                      depressed
+                      :width="$vuetify.breakpoint.smAndDown ? '100%' : 250"
+                      class="mr-md-4"
+                      @click.stop="returnProductRoute()"
+                    >
+                      <span
+                        class="font-weight-bold"
+                      >
+                        Voltar
+                      </span>
+                    </v-btn>
+      
+                    <v-btn
+                      color="secondary"
+                      large
+                      depressed
+                      class="mb-5 mb-md-0"
+                      :width="$vuetify.breakpoint.smAndDown ? '100%' : 250"
+                      @click.stop="validateFieldsInput ? finishCostumerCart() : validateCart()"
+                    >
+                      <span
+                        class="font-weight-bold primary--text"
+                      >
+                        Finalizar compra
+                      </span>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-col>
             </v-row>
           </v-form>
         </v-col>
-
-        <v-col
-          cols="12"
-          class="py-1"
-        />
-
-        <v-col
-          cols="12"
-        >
-          <v-row
-            no-gutters
-            class="px-1"
-          >
-            <v-col
-              v-if="loading"
-              cols="12"
-            >
-              <v-progress-linear
-                indeterminate
-                color="secondary"
-              />
-            </v-col>
-
-            <v-col
-              v-else
-              cols="12"
-              :class="$vuetify.breakpoint.smAndDown ? 'd-flex flex-column-reverse' : ''"
-            >
-              <v-btn
-                color="grey lighten-1"
-                large
-                depressed
-                :width="$vuetify.breakpoint.smAndDown ? '100%' : 250"
-                class="mr-md-4"
-                @click.stop="returnProductRoute()"
-              >
-                <span
-                  class="font-weight-bold"
-                >
-                  Voltar
-                </span>
-              </v-btn>
-
-              <v-btn
-                color="secondary"
-                large
-                depressed
-                class="mb-5 mb-md-0"
-                :width="$vuetify.breakpoint.smAndDown ? '100%' : 250"
-                @click.stop="validateFieldsInput ? finishCostumerCart() : validateCart()"
-              >
-                <span
-                  class="font-weight-bold primary--text"
-                >
-                  Finalizar compra
-                </span>
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-col>
       </v-row>
+
       <v-dialog
         ref="dialogNumberOrder"
         hide-overlay
@@ -579,130 +384,29 @@
   import { namespace } from "vuex-class"
   import { viaCepFields } from "@/helpers/getViaCepValues"
   import APIValidadorCEPMixin from "@/mixins/form/MixinFormConfig"
-  import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
   import MixinRedirectLinks from "@/mixins/redirectLinks/MxiinRedirectLinks"
   import MixinServiceOrderCostumer from "@/mixins/order/mixinServiceOrderCostumer"
 
   const payloadStore = namespace("payloadStoreModule")
   const cacheStore = namespace("cacheStoreModule")
+  const dialogStore = namespace("dialogStoreModule")
 
   @Component({
     components: {
-      CardProductCart: () => import(
-        /* webpackChuckName: "card-product-cart-component" */
+      PainelFormComponent: () => import(
+        /* webpackChuckName: "painel-form-component" */
         /* webpackMode: "eager" */
-        "@/components/cards/CardProductCart.vue"
+        "@/components/form/components/PainelForm.vue"
       ),
     }
   })
 
   export default class viewForm extends mixins(
     APIValidadorCEPMixin,
-    MixinHelperServiceProduct,
     MixinRedirectLinks,
     MixinServiceOrderCostumer,
   ) implements $refs {
-    beforeRouteEnter (
-      to: {
-        name: string;
-        params: {
-          type: string|RegExp
-        },
-        query: {
-          location: string
-        }
-      },
-      _from: never,
-      next: (arg0: (vm) => void) => void,
-    ) {
-      next((vm) => {
-        vm.setPayloadSegment(String(to.params.type || ""))
-        if (/foodpark/i.test(String(to.params.type || ""))) {
-          vm.setCacheCepValidation("65272000")
-          vm.APIValidadorCEPMixin()
-          if (/error_api/i.test(String(viaCepFields("erro") || ""))) {
-            Object.keys(vm.itemsFirstFields).forEach((input) => {
-              vm.itemsFirstFields[input].value = ""
-              vm.itemsFirstFields[input].readonly = false
-            })
-          } else {
-            Object.keys(vm.itemsFirstFields).forEach((input) => {
-              if (/^(cep|enderecoUf|enderecoLogradouro|enderecoComplemento|enderecoCidade|enderecoReferencia|enderecoBairro|enderecoNumero|frete)$/i.test(String(input))) {
-                if (/^(cep)$/.test(String(input))) {
-                  vm.itemsFirstFields[input].value = viaCepFields("cep")
-                }
-                if (/^(enderecoReferencia)$/.test(String(input))) {
-                  vm.itemsFirstFields[input].value = "Ao lado do posto Águia"
-                }
-                if (/^(enderecoBairro)$/.test(String(input))) {
-                  vm.itemsFirstFields[input].value = "Centro"
-                }
-                if (/^(enderecoNumero|enderecoComplemento)$/.test(String(input))) {
-                  vm.itemsFirstFields[input].value = "S/N"
-                }
-                if (/^(enderecoCidade)$/.test(String(input))) {
-                  vm.itemsFirstFields[input].value = viaCepFields("localidade")
-                }
-                if (/^(enderecoUf)$/.test(String(input))) {
-                  vm.itemsFirstFields[input].value = viaCepFields("uf")
-                }
-                if (/^(enderecoLogradouro)$/.test(String(input))) {
-                  vm.itemsFirstFields[input].value = "Av. Prof. João Morais de Sousa"
-                }
-                if (/^(frete)$/.test(String(input))) {
-                  vm.itemsFirstFields[input].value = String(formatedPrice(Number(0)))
-                  vm.setPayloadPaymentFrete(0)
-                }
-
-                vm.itemsFirstFields[input].valid = true
-                vm.itemsFirstFields[input].readonly = true
-              }
-            })
-          }
-        } else if (/delivery/i.test(String(to.params.type|| ""))) {
-          if (viaCepFields("erro") && /error_api/i.test(String(viaCepFields("erro") || ""))) {
-            Object.keys(vm.itemsFirstFields).forEach((input) => {
-              setTimeout(() => {
-                if (/^(frete)$/.test(String(input))) {
-                  vm.itemsFirstFields[input].value = String(formatedPrice(Number(500)))
-                  vm.setPayloadPaymentFrete(500)
-                }
-                if (!/^(frete)$/.test(String(input))) {
-                  vm.itemsFirstFields[input].value = ""
-                  vm.itemsFirstFields[input].readonly = false
-                }
-              }, 1500)
-            })
-          } else {
-            Object.keys(vm.itemsFirstFields).forEach((input) => {
-              if (/^(cep|enderecoUf|enderecoCidade|frete)$/i.test(String(input))) {
-                if (/^(cep)$/.test(String(input))) {
-                  vm.itemsFirstFields[input].value = viaCepFields("cep")
-                }
-                if (/^(enderecoCidade)$/.test(String(input))) {
-                  vm.itemsFirstFields[input].value = viaCepFields("localidade")
-                }
-                if (/^(enderecoUf)$/.test(String(input))) {
-                  vm.itemsFirstFields[input].value = viaCepFields("uf")
-                }
-                if (/^(frete)$/.test(String(input))) {
-                  vm.itemsFirstFields[input].value = String(formatedPrice(Number(500)))
-                  vm.setPayloadPaymentFrete(500)
-                }
-
-                vm.itemsFirstFields[input].valid = true
-                vm.itemsFirstFields[input].readonly = true
-              }
-            })
-          }
-        } else {
-          vm.goToHome()
-        }
-        vm.dicountAplicated()
-      })
-    }
-
-    @cacheStore.Getter("CacheOrderCart") declare getCacheOrderCart
+    @dialogStore.Getter("DialogOrdersClient") declare getDialogOrdersClient
     @cacheStore.Action("ActionCacheCepValidation") setCacheCepValidation
     @payloadStore.Getter("PayloadOrder") declare getPayloadOrder
     @payloadStore.Action("actionPayloadCostumerName") setPayloadCostumerName
@@ -719,13 +423,11 @@
     @payloadStore.Action("actionPayloadFormPayment") setPayloadFormPayment
     @payloadStore.Action("actionPayloadCostumerMessage") setPayloadCostumerMessage
     @payloadStore.Action("actionPayloadSegment") setPayloadSegment
-    @payloadStore.Action("actionPayloadProducts") setPayloadProducts
 
     $refs
     required = required
     formatedPrice = formatedPrice
 
-    expand = true
     loading = false
     numeroPedido = ""
 
@@ -740,20 +442,101 @@
       ].every(o => !!o)
     }
 
-    get cacheProducts () {
-      return this.getCacheOrderCart()
-    }
-
-
-    created () {
-      this.dicountAplicated()
-    }
-
     validateCart (): void {
       if (this.$refs.formDadosCadastrais.validate) {
         this.$refs.formDadosCadastrais.validate()
       }
     }
+
+    created (): void {
+      this.setPayloadSegment(String(this.$route.params.type || ""))
+      if (/foodpark/i.test(String(this.$route.params.type || ""))) {
+        this.setCacheCepValidation("65272000")
+        this.APIValidadorCEPMixin()
+        if (/error_api/i.test(String(viaCepFields("erro") || ""))) {
+          Object.keys(this.itemsFirstFields).forEach((input) => {
+            this.itemsFirstFields[input].value = ""
+            this.itemsFirstFields[input].readonly = false
+          })
+        } else {
+          Object.keys(this.itemsFirstFields).forEach((input) => {
+            if (/^(cep|enderecoUf|enderecoLogradouro|enderecoComplemento|enderecoCidade|enderecoReferencia|enderecoBairro|enderecoNumero|frete)$/i.test(String(input))) {
+              if (/^(cep)$/.test(String(input))) {
+                this.itemsFirstFields[input].value = String(viaCepFields("cep") || "")
+              }
+              if (/^(enderecoReferencia)$/.test(String(input))) {
+                this.itemsFirstFields[input].value = "Ao lado do posto Águia"
+              }
+              if (/^(enderecoBairro)$/.test(String(input))) {
+                this.itemsFirstFields[input].value = "Centro"
+              }
+              if (/^(enderecoNumero|enderecoComplemento)$/.test(String(input))) {
+                this.itemsFirstFields[input].value = "S/N"
+              }
+              if (/^(enderecoCidade)$/.test(String(input))) {
+                this.itemsFirstFields[input].value = String(viaCepFields("localidade") || "")
+              }
+              if (/^(enderecoUf)$/.test(String(input))) {
+                this.itemsFirstFields[input].value = String(viaCepFields("uf") || "")
+              }
+              if (/^(enderecoLogradouro)$/.test(String(input))) {
+                this.itemsFirstFields[input].value = "Av. Prof. João Morais de Sousa"
+              }
+              if (/^(frete)$/.test(String(input))) {
+                this.itemsFirstFields[input].value = String(formatedPrice(Number(0)))
+                this.setPayloadPaymentFrete(0)
+              }
+
+              this.itemsFirstFields[input].valid = true
+              this.itemsFirstFields[input].readonly = true
+            }
+          })
+        }
+      }
+    }
+
+    @Watch("getDialogOrdersClient")
+      changeDialogOrderClient (): void {
+        if (this.getDialogOrdersClient()) return
+
+        if (/delivery/i.test(String(this.$route.params.type|| ""))) {
+          if (viaCepFields("erro") && /error_api/i.test(String(viaCepFields("erro") || ""))) {
+            Object.keys(this.itemsFirstFields).forEach((input) => {
+              setTimeout(() => {
+                if (/^(frete)$/.test(String(input))) {
+                  this.itemsFirstFields[input].value = String(formatedPrice(Number(500)))
+                  this.setPayloadPaymentFrete(500)
+                }
+                if (!/^(frete)$/.test(String(input))) {
+                  this.itemsFirstFields[input].value = ""
+                  this.itemsFirstFields[input].readonly = false
+                }
+              }, 1500)
+            })
+          } else {
+            Object.keys(this.itemsFirstFields).forEach((input) => {
+              if (/^(cep|enderecoUf|enderecoCidade|frete)$/i.test(String(input))) {
+                if (/^(cep)$/.test(String(input))) {
+                  this.itemsFirstFields[input].value = String(viaCepFields("cep") || "")
+                }
+                if (/^(enderecoCidade)$/.test(String(input))) {
+                  this.itemsFirstFields[input].value = String(viaCepFields("localidade") || "")
+                }
+                if (/^(enderecoUf)$/.test(String(input))) {
+                  this.itemsFirstFields[input].value = String(viaCepFields("uf") || "")
+                }
+                if (/^(frete)$/.test(String(input))) {
+                  this.itemsFirstFields[input].value = String(formatedPrice(Number(500)))
+                  this.setPayloadPaymentFrete(500)
+                }
+
+                this.itemsFirstFields[input].valid = true
+                this.itemsFirstFields[input].readonly = true
+              }
+            })
+          }
+        }
+      }
 
     itemsFirstFields: {
       [key:string]:{
@@ -843,11 +626,6 @@
         valid: "",
       },
     }
-
-    @Watch("cacheProducts")
-      changeCacheProduct (): void {
-        this.setPayloadProducts(this.cacheProducts)
-      }
 
     @Watch("itemsFirstFields.nomeCompleto.value")
       payloadSetName (value: string):void {
@@ -951,11 +729,6 @@
           }
         })
       }
-
-    openPainel (): void {
-      if (this.$vuetify.breakpoint.mdAndUp) return
-      this.expand = !this.expand
-    }
 
     finishCostumerCart (): void {
       this.loading = true

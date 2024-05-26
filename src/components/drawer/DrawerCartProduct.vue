@@ -26,6 +26,7 @@
         </v-col>
 
         <v-col
+          v-if="getCacheOrderCart().length > 0"
           cols="12"
           class="px-4"
           style="line-height: 1;"
@@ -47,24 +48,23 @@
 
         <v-col
           cols="12"
-        >
-          <v-divider
-            color="white"
-            class="mx-1"
-          />
-        </v-col>
-
-        <v-col
-          cols="12"
-          class="py-2"
-        />
-
-        <v-col
-          cols="12"
           class="px-4"
         >
+          <div
+            v-if="getCacheOrderCart().length <= 0"
+            class="py-3 text-center"
+          >
+            <span
+              class="grey--text font-weight-regular font-italic"
+            >
+              O carrinho está sem produtos
+            </span>
+          </div>
+
           <v-row
+            v-else
             no-gutters
+            style="height: 100%;"
           >
             <v-col
               v-for="item in getCacheOrderCart()"
@@ -87,64 +87,82 @@
 
         <v-col
           cols="12"
-          class="py-1"
+          style="height: 155px;"
         />
 
         <v-col
+          v-position.relative
           cols="12"
         >
-          <v-divider
-            color="white"
-            class="mx-1"
-          />
-        </v-col>
-
-        <v-col
-          cols="12"
-          class="py-1"
-        />
-
-        <v-col
-          cols="12"
-          class="px-4"
-        >
-          <span
-            v-font-size="14"
-            class="font-weight-medium text-uppercase"
+          <v-row
+            v-position.fixed
+            no-gutters
+            style="bottom:0;right:0;left:0;"
+            class="primary"
           >
-            preço total:
-          </span>
-        </v-col>
+            <v-col
+              cols="12"
+            >
+              <v-divider
+                color="white"
+                class="mx-1"
+              />
+            </v-col>
 
-        <v-col
-          cols="12"
-          class="px-4"
-        >
-          <span
-            v-font-size="26"
-            class="font-weight-medium"
-            v-text="formatedPrice(priceTotalOrder)"
-          />
-        </v-col>
+            <v-col
+              cols="12"
+              class="py-1"
+            />
 
-        <v-col
-          cols="12"
-        >
-          <v-card-actions>
-            <v-btn
-              block
-              color="secondary"
-              @click="prepareAddToCart"
+            <v-col
+              cols="12"
+              class="px-4"
             >
               <span
                 v-font-size="14"
-                class="font-weight-bold primary--text"
+                class="font-weight-medium text-uppercase"
               >
-                Concluir pedido
+                preço total:
               </span>
-            </v-btn>
-          </v-card-actions>
+            </v-col>
+
+            <v-col
+              cols="12"
+              class="px-4"
+            >
+              <span
+                v-font-size="26"
+                class="font-weight-medium"
+                v-text="formatedPrice(priceTotalOrder)"
+              />
+            </v-col>
+
+            <v-col
+              cols="12"
+              class="py-2"
+            />
+
+            <v-col
+              cols="12"
+              class="pa-2"
+            >
+              <v-btn
+                block
+                color="secondary"
+                large
+                @click="prepareAddToCart"
+              >
+                <span
+                  v-font-size="14"
+                  class="font-weight-bold primary--text"
+                >
+                  Concluir pedido
+                </span>
+              </v-btn>
+            </v-col>
+          </v-row>
         </v-col>
+
       </v-row>
     </v-card>
   </v-navigation-drawer>
