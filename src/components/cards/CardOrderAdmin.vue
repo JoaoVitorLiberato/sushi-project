@@ -162,6 +162,7 @@
       if (/preparando/i.test(String(this.statusOrder))) this.status = "preparando"
       if (/concluido/i.test(String(this.statusOrder))) this.status = "concluido"
       if (/entrega/i.test(String(this.statusOrder))) this.status = "entrega"
+      if (/cancelado/i.test(String(this.statusOrder))) this.status = "cancelado"
     }
 
     filterStatusForSegment (): typeof STATUS_ORDERS_DATA {

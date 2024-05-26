@@ -379,6 +379,93 @@
                 </v-col>
               </v-row>
             </v-col>
+
+            <v-col
+              v-if="CardsFilteredForStatus('concluido').length > 0"
+              cols="12"
+              class="py-8"
+            />
+
+            <v-col
+              v-if="CardsFilteredForStatus('cancelado').length > 0"
+              cols="12"
+              :style="$vuetify.breakpoint.mdAndUp ? 'max-height: 700px;overflow-y: scroll;' : ''"
+            >
+              <v-row
+                no-gutters
+              >
+              <v-col
+                  cols="12"
+                  class="text-center text-md-start"
+                >
+                  <h2
+                    v-font-size="$vuetify.breakpoint.smAndDown ? 16 : 22"
+                    class="font-weight-bold text-uppercase"
+                  >
+                    Pedidos cancelados
+                  </h2>
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  class="py-2"
+                />
+
+                <v-col
+                  cols="12"
+                  class="hidden-md-and-up"
+                >
+                  <v-slide-group
+                    show-arrows
+                    prev-icon="arrow_back"
+                    next-icon="arrow_forward"
+                    :class="`d-flex fix--v-slide-group flex-wrap`"
+                    center-active
+                    mandatory
+                  >
+                    <v-slide-item
+                      v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('cancelado')"
+                      :key="`caroucel-order-client-${pedido}`"
+                      class="mr-5"
+                    >
+                      <div
+                        style="width: 300px;"
+                      >
+                        <card-order-admin-component
+                          :segment="segmento"
+                          :order="pedido"
+                          :name="nome"
+                          :phone="telefone"
+                          :statusOrder="status"
+                          @dialogProductEmit="openDialogProducts(produtos)"
+                          @changeStatusOrderEmit="v=>statusCard=v"
+                        />
+                      </div>
+                    </v-slide-item>
+                  </v-slide-group>
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  class="hidden-sm-and-down d-md-flex align-center flex-wrap"
+                >
+                  <div
+                    v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('cancelado')"
+                    :key="`order-client-${pedido}`"
+                  >
+                    <card-order-admin-component
+                      :segment="segmento"
+                      :order="pedido"
+                      :name="nome"
+                      :phone="telefone"
+                      :statusOrder="status"
+                      @dialogProductEmit="openDialogProducts(produtos)"
+                      @changeStatusOrderEmit="v=>statusCard=v"
+                    />
+                  </div>
+                </v-col>
+              </v-row>
+            </v-col>
           </v-row>
         </v-col>
       </v-row>
