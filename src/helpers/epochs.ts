@@ -46,12 +46,12 @@ export function helperDebugTest (test:string):boolean {
   return !!(location.search && (/debug/.test(location.search) && new RegExp(String(test), "i").test(location.search)))
 }
 
-export function epochSeloPromoRa ():boolean {
+export function epochBuyProductStore ():boolean {
   const PERIODO = AGORA.before(
-    "2024-01-01T10:00:00.000-03:00",
+    "2024-06-07T16:00:00.000-03:00",
   )
 
-  if (helperDebugTest("epochSeloPromoRa")) return !PERIODO
+  if (helperDebugTest("epochBuyProductStore")) return !PERIODO
 
   return PERIODO
 }

@@ -162,7 +162,6 @@
             </v-col>
           </v-row>
         </v-col>
-
       </v-row>
     </v-card>
   </v-navigation-drawer>
@@ -173,6 +172,7 @@
   import { mixins } from "vue-class-component"
   import { namespace } from "vuex-class"
   import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
+  import { epochBuyProductStore } from "@/helpers/epochs"
 
   const cacheStore = namespace("cacheStoreModule")
   const payloadStore = namespace("payloadStoreModule")
@@ -207,7 +207,9 @@
     }
 
     prepareAddToCart (): void {
-      if (ENV("production") || !this.getCacheOrderCart() || this.getCacheOrderCart().length <= 0) return
+      if (ENV("production") && epochBuyProductStore()) return
+      if (!this.getCacheOrderCart() || this.getCacheOrderCart().length <= 0) return
+
       this.setPayloadProducts(this.getCacheOrderCart())
       this.drawerCartProduct = !this.drawerCartProduct
       this.$router.replace(`/pedido/${this.$route.params.type}/finalizar${location.search}`)

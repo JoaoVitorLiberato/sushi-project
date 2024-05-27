@@ -14,6 +14,7 @@ interface cacheStoreInterface {
   commentsIDPorductSelected: string
   ordersCart: IproductData[],
   priceTotal: number,
+  overlayMessageLaunchStore: boolean,
   loading: {
     status: boolean,
     msg: string
