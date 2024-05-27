@@ -150,8 +150,8 @@
                 block
                 color="secondary"
                 large
-                @click="prepareAddToCart"
               >
+                <!-- @click="prepareAddToCart" -->
                 <span
                   v-font-size="14"
                   class="font-weight-bold primary--text"

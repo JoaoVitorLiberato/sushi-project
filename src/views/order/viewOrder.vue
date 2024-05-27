@@ -22,7 +22,7 @@
           cols="12"
         >
           <v-progress-linear
-            :indeterminate="!/concluido/i.test(String(detailOrder.status))"
+            :indeterminate="!/concluido|cancelado/i.test(String(detailOrder.status))"
             color="secondary"
           />
         </v-col>
@@ -35,6 +35,7 @@
         <v-col
           cols="12"
           class="text-center"
+          style="line-height: 1;"
         >
           <span
             v-if="/preparando/i.test(String(detailOrder.status))"
@@ -58,6 +59,15 @@
             class="font-weight-meddium"
           >
             Seu pedido está concluído.
+          </span>
+
+          <span
+            v-if="/cancelado/i.test(String(detailOrder.status))"
+            v-font-size="14"
+            class="font-weight-meddium"
+          >
+            Seu pedido foi cancelado, caso houver algum problema,<br> por favor, clique no
+            botão Whatsapp para falar com a loja física.
           </span>
         </v-col>
 

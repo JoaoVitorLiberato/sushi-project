@@ -11,6 +11,10 @@
     {
       "id": "concluido",
       "name": "Concluído"
+    },
+    {
+      "id": "cancelado",
+      "name": "Cancelar"
     }
   ],
   "foodpark": [
@@ -21,6 +25,10 @@
     {
       "id": "concluido",
       "name": "Concluído"
+    },
+    {
+      "id": "cancelado",
+      "name": "Cancelar"
     }
   ]
 }

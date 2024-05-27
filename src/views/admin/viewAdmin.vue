@@ -42,9 +42,28 @@
           <v-divider></v-divider>
 
           <v-list
+            v-position.relative
             nav
             dense
           >
+            <v-list-item
+              link
+              @click="changeSession('orders')"
+            >
+              <v-list-item-icon>
+                <v-icon
+                  :color="/orders/i.test(service) ? 'error' : 'primary'"
+                >
+                  list
+                </v-icon>
+              </v-list-item-icon>
+              <v-list-item-title
+                :class="/orders/i.test(service) ? 'error--text' : 'primary--text'"
+              >
+                Pedidos
+              </v-list-item-title>
+            </v-list-item>
+
             <v-list-item
               v-if="/admin/i.test(permission)"
               link
@@ -65,20 +84,21 @@
             </v-list-item>
 
             <v-list-item
+              v-if="/admin/i.test(permission)"
               link
-              @click="changeSession('orders')"
+              @click="changeSession('discount')"
             >
               <v-list-item-icon>
                 <v-icon
-                  :color="/orders/i.test(service) ? 'error' : 'primary'"
+                  :color="/discount/i.test(service) ? 'error' : 'primary'"
                 >
-                  list
+                  confirmation_number
                 </v-icon>
               </v-list-item-icon>
               <v-list-item-title
-                :class="/orders/i.test(service) ? 'error--text' : 'primary--text'"
+                :class="/discount/i.test(service) ? 'error--text' : 'primary--text'"
               >
-                Pedidos
+                Descontos
               </v-list-item-title>
             </v-list-item>
 
@@ -148,6 +168,22 @@
         >
           <v-col
             cols="12"
+            class="text-end"
+          >
+            <v-btn
+              icon
+              @click="dialogOpenStore = !dialogOpenStore"
+            >
+              <v-icon
+                :color="colorButtonOpenStore"
+              >
+                power_settings_new
+              </v-icon>
+            </v-btn>
+          </v-col>
+
+          <v-col
+            cols="12"
             class="py-3"
           />
 
@@ -160,6 +196,10 @@
 
             <content-admin-session-orders
               v-if="/orders/i.test(service)"
+            />
+
+            <content-admin-session-discount
+              v-if="/discount/i.test(service)"
             />
 
             <content-admin-session-employee
@@ -176,6 +216,8 @@
     <button-add-products-or-employee
       v-if="/admin/i.test(permission)"
     />
+
+    <dialog-open-store />
   </v-card>
 </template>
 
@@ -183,6 +225,9 @@
   import { Component } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
   import MixinAuthUser from "@/mixins/auth/mixinAuthUser"
+  import { namespace } from "vuex-class"
+
+  const dialogStore = namespace("dialogStoreModule")
 
   @Component({
     components: {
@@ -201,6 +246,11 @@
         /* chuckMode: "eager" */
         "@/components/content/admin/SessionOrders.vue"
       ),
+      ContentAdminSessionDiscount: () => import(
+        /* chuckName: "content-admin-session-discount-component" */
+        /* chuckMode: "eager" */
+        "@/components/content/admin/SessionDiscount.vue"
+      ),
       ContentAdminSessionEmployee: () => import(
         /* chuckName: "content-admin-session-employee-component" */
         /* chuckMode: "eager" */
@@ -211,21 +261,42 @@
         /* chuckMode: "eager" */
         "@/components/content/admin/SessionResetPassword.vue"
       ),
+      DialogOpenStore: () => import(
+        /* chuckName: "dialog-open-store-component" */
+        /* chuckMode: "eager" */
+        "@/components/dialogs/DialogOpenStore.vue"
+      ),
     }
   })
   export default class viewAdmin extends mixins(
     MixinAuthUser,
   ) {
+    @dialogStore.Action("ActionDialogOpenStore") setDialogOpenStore
+    @dialogStore.Getter("DialogOpenStore") getDialogOpenStore
+
     service = "products"
+    colorButtonOpenStore = "grey darken-2"
     permission = ""
 
-    created (): void {
+    get dialogOpenStore (): boolean {
+      return this.getDialogOpenStore()
+    }
+
+    set dialogOpenStore (value) {
+      this.setDialogOpenStore(value)
+    }
+
+    mounted (): void {
       const PERMISSION = sessionStorage.getItem("permission")
       const SESSION_CACHE = sessionStorage.getItem("session")
       if (PERMISSION) this.permission = PERMISSION
 
       if (SESSION_CACHE && /admin/i.test(String(PERMISSION))) this.service = String(SESSION_CACHE)
       else this.service = "orders"
+
+      this.dialogOpenStore = !this.dialogOpenStore
+      const OPEN_STORE = sessionStorage.getItem("status-store")
+      if (OPEN_STORE && /actived/i.test(OPEN_STORE)) this.colorButtonOpenStore = "success"
     }
 
     changeSession (session?:string): void {
