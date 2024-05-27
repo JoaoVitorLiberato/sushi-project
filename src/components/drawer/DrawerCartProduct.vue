@@ -177,8 +177,8 @@
   const cacheStore = namespace("cacheStoreModule")
   const payloadStore = namespace("payloadStoreModule")
 
-    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-    const ENV = (env?: string): string|boolean => window.env(env)
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  const ENV = (env?: string): string|boolean => window.env(env)
 
   @Component({
     components: {
