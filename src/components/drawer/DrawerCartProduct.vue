@@ -151,10 +151,10 @@
                 color="secondary"
                 large
               >
-                <!-- @click="prepareAddToCart" -->
                 <span
                   v-font-size="14"
                   class="font-weight-bold primary--text"
+                  @click="prepareAddToCart"
                 >
                   Concluir pedido
                 </span>
@@ -176,6 +176,9 @@
 
   const cacheStore = namespace("cacheStoreModule")
   const payloadStore = namespace("payloadStoreModule")
+
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+    const ENV = (env?: string): string|boolean => window.env(env)
 
   @Component({
     components: {
@@ -204,7 +207,7 @@
     }
 
     prepareAddToCart (): void {
-      if (!this.getCacheOrderCart() || this.getCacheOrderCart().length <= 0) return
+      if (ENV("production") || !this.getCacheOrderCart() || this.getCacheOrderCart().length <= 0) return
       this.setPayloadProducts(this.getCacheOrderCart())
       this.drawerCartProduct = !this.drawerCartProduct
       this.$router.replace(`/pedido/${this.$route.params.type}/finalizar${location.search}`)
