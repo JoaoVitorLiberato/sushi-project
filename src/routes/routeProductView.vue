@@ -103,6 +103,7 @@
 
     <button-whats-chat />
     <overlay-loading-service />
+    <overlay-message-launch-system />
     <dialog-get-comments-product />
   </v-main>
 </template>
@@ -113,6 +114,10 @@
   import { namespace } from "vuex-class"
   import MixinProductAPI from "@/mixins/product/mixinProductAPI"
   import { channelSource } from "@/helpers/analyticsChannel"
+  import { epochBuyProductStore } from "@/helpers/epochs"
+
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  const ENV = (env?: string): string|boolean => window.env(env)
 
   const cacheStore = namespace("cacheStoreModule")
   const payloadStore = namespace("payloadStoreModule")
@@ -159,50 +164,56 @@
         /* webpackChunkName: "dialog-get-comments-product-component" */
         /* webpackMode: "eager" */
         "@/components/dialogs/dialogGetCommentsProduct.vue"
+      ),
+      OverlayMessageLaunchSystem: () => import(
+        /* webpackChunkName: "overlay-message-launch-system-component" */
+        /* webpackMode: "eager" */
+        "@/components/overlays/MessageLaunchSystem.vue"
       )
     }
   })
   export default class RouteProductView extends mixins(
     MixinProductAPI,
   ) {
-    beforeRouteEnter (
-      to: {
-        name: string;
-        params: {
-          type: string|RegExp
-        },
-      },
-      _from: never,
-      next: (arg0: (vm) => void) => void,
-    ) {
-      next((vm) => {
-
-        if (vm.ordersCostumer && JSON.parse(vm.ordersCostumer).length > 0) {
-          vm.setDialogOrdersClient(!vm.getDialogOrdersClient())
-        }
-        if (!/^(foodpark|delivery)$/i.test(String(to.params.type || ""))) {
-          location.replace(`/${location.search}`)
-        }
-      })
-    }
-
     @dialogStore.Getter("DialogOrdersClient") getDialogOrdersClient
     @dialogStore.Action("ActionDialogOrdersClient") setDialogOrdersClient
+    @cacheStore.Getter("CacheOverlayMessageLaunchStore") getCacheOverlayMessageLaunchStore
+    @cacheStore.Action("ActionCacheOverlayMessageLaunchStore") setCacheOverlayMessageLaunchStore
     @cacheStore.Action("ActionCacheRastreamentoUsuarioSource") setCacheRastreamentoUsuarioPayloadSource
     @payloadStore.Action("ActionPayloadChannelAnalytics") setPayloadChannelAnalytics
 
     ordersCostumer = sessionStorage.getItem("order")
 
-    created (): void {
-      this.getProducts()
-        .then(responseMixin => {
-          if (/list-void-product/i.test(String(responseMixin || ""))) this.$router.replace({ name: "home" })
-        })
+    get overlayMessageLaunchStore ():boolean {
+      return this.getCacheOverlayMessageLaunchStore()
+    }
 
-      channelSource().then((source: string) => {
-        this.setCacheRastreamentoUsuarioPayloadSource({ source: String(source) })
-        this.setPayloadChannelAnalytics()
-      })
+    set overlayMessageLaunchStore (value) {
+      this.setCacheOverlayMessageLaunchStore(value)
+    }
+
+    created (): void {
+      if (ENV("production") && epochBuyProductStore()) {
+        this.overlayMessageLaunchStore = !this.overlayMessageLaunchStore
+      } else {
+        if (this.ordersCostumer && JSON.parse(this.ordersCostumer).length > 0) {
+          this.setDialogOrdersClient(!this.getDialogOrdersClient())
+        }
+  
+        if (!/^(foodpark|delivery)$/i.test(String(this.$route.params.type || ""))) {
+          location.replace(`/${location.search}`)
+        }
+  
+        this.getProducts()
+          .then(responseMixin => {
+            if (/list-void-product/i.test(String(responseMixin || ""))) this.$router.replace({ name: "home" })
+          })
+  
+        channelSource().then((source: string) => {
+          this.setCacheRastreamentoUsuarioPayloadSource({ source: String(source) })
+          this.setPayloadChannelAnalytics()
+        })
+      }
     }
   }
 </script>

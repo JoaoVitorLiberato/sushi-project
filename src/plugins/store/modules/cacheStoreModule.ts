@@ -19,6 +19,7 @@ const moduleCache = (): cacheStoreInterface => {
     complements: [],
     commentsPorducts: [],
     commentsIDPorductSelected: "",
+    overlayMessageLaunchStore: false
   }
 }
 
@@ -61,6 +62,9 @@ const getters: GetterTree<cacheStoreInterface, rootStateInterface> = {
   CacheCommentsIDPorductSelected: ({ commentsIDPorductSelected }) => () => {
     return commentsIDPorductSelected
   },
+  CacheOverlayMessageLaunchStore: ({ overlayMessageLaunchStore }) => () => {
+    return overlayMessageLaunchStore
+  },
 }
 
 const mutations: MutationTree<cacheStoreInterface> = {
@@ -100,9 +104,12 @@ const mutations: MutationTree<cacheStoreInterface> = {
   mutationCommentProduct (state, data) {
     state.commentsPorducts = data
   },
-  mutationCommentsIDPorductSelected(state, data) {
+  mutationCommentsIDPorductSelected (state, data) {
     state.commentsIDPorductSelected = data
   },
+  mutationOverlayMessageLaunchStore (state, data) {
+    state.overlayMessageLaunchStore = data
+  }
 }
 
 const actions: ActionTree<cacheStoreInterface, rootStateInterface> = {
@@ -142,6 +149,9 @@ const actions: ActionTree<cacheStoreInterface, rootStateInterface> = {
   },
   ActionCacheCommentsIDPorductSelected ({ commit }, data) {
     commit("mutationCommentsIDPorductSelected", data)
+  },
+  ActionCacheOverlayMessageLaunchStore({ commit }, data) {
+    commit("mutationOverlayMessageLaunchStore", data)
   },
 }
 
