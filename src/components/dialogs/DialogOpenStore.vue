@@ -28,6 +28,7 @@
         />
 
         <v-col
+          v-if="!loading"
           cols="12"
           style="line-height: 1;"
         >
@@ -52,7 +53,25 @@
 
         <v-col
           cols="12"
-          class="py-2"
+          class="py-1"
+        />
+
+        <v-col
+          v-if="error"
+          cols="12"
+          class="my-2"
+          style="line-height: 1;"
+        >
+            <span
+              v-font-size="14"
+              class="font-weight-regular error--text"
+              v-text="error"
+            />
+        </v-col>
+
+        <v-col
+          cols="12"
+          class="py-1"
         />
 
         <v-col
@@ -62,9 +81,17 @@
             depressed
             block
             :color="openStore ? 'success' : 'grey lighten-1'"
+            :disabled="loading"
             @click.stop="updateStatusStore()"
           >
             <span
+              v-if="loading"
+              class="font-weight-medium"
+              v-text="'Aguarde...'"
+            />
+
+            <span
+              v-else
               class="font-weight-medium"
               v-text="openStore ? 'A Loja está aberta' : 'A Loja está fechada'"
             />
@@ -79,15 +106,21 @@
   import { Component } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
   import { namespace } from "vuex-class"
+  import MixinAdditionalSystem from "@/mixins/additional-system/mixinAdditionlSystem"
 
   const dialogStore = namespace("dialogStoreModule")
 
   @Component({})
-  export default class DialogOpenStore extends mixins() {
+  export default class DialogOpenStore extends mixins(
+    MixinAdditionalSystem
+  ) {
     @dialogStore.Action("ActionDialogOpenStore") setDialogOpenStore
     @dialogStore.Getter("DialogOpenStore") getDialogOpenStore
+    @dialogStore.Action("ActionDialogTryAgain") setDialogTryAgain
 
     openStore = false
+    loading = false
+    error = ""
 
     get dialogOpenStore (): boolean {
       return this.getDialogOpenStore()
@@ -98,15 +131,40 @@
     }
 
     mounted (): void {
-      const OPEN_STORE = sessionStorage.getItem("status-store")
-      if (OPEN_STORE && /actived/i.test(OPEN_STORE)) this.openStore = true
+      this.verifyOpenStore()
+    }
+
+    verifyOpenStore (): void {
+      this.loading = true
+      this.getOpenStore()
+        .then(responseMixin => {
+          if (/error/i.test(String(responseMixin))) throw Error("err")
+          this.openStore = Boolean(responseMixin)
+        }).catch(err => {
+          window.log("ERROR verifyOpenStore", err)
+          this.loading = false
+          this.setDialogTryAgain(true)
+        }).finally(() => {
+          this.loading = false
+        })
     }
 
     updateStatusStore (): void {
+      this.loading = true
       this.openStore = !this.openStore
+      this.updateOpenStore(this.openStore)
+        .then(responseMixin => {
+          this.loading = false
 
-      if (this.openStore) sessionStorage.setItem("status-store", "actived")
-      else sessionStorage.removeItem("status-store")
+          if (/error/i.test(String(responseMixin || ""))) throw Error("err")
+          if (/not-update/i.test(String(responseMixin || ""))) {
+            this.error = "Houve um erro ao atualizar o status da loja, por favor, tente novamente."
+            return
+          }
+        }).catch(err => {
+          window.log("ERROR updateStatusStore", err)
+          this.setDialogTryAgain(true)
+        })
     }
   }
 </script>

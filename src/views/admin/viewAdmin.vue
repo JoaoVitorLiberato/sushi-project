@@ -174,7 +174,13 @@
               icon
               @click="dialogOpenStore = !dialogOpenStore"
             >
+              <v-progress-circular
+                v-if="loading"
+                indeterminate
+                color="secondary"
+              />
               <v-icon
+                v-else
                 :color="colorButtonOpenStore"
               >
                 power_settings_new
@@ -217,15 +223,18 @@
       v-if="/admin/i.test(permission)"
     />
 
-    <dialog-open-store />
+    <dialog-open-store 
+      v-if="dialogOpenStore"
+    />
   </v-card>
 </template>
 
 <script lang="ts">
-  import { Component } from "vue-property-decorator"
+  import { Component, Watch } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
-  import MixinAuthUser from "@/mixins/auth/mixinAuthUser"
   import { namespace } from "vuex-class"
+  import MixinAuthUser from "@/mixins/auth/mixinAuthUser"
+  import MixinAdditionalSystem from "@/mixins/additional-system/mixinAdditionlSystem"
 
   const dialogStore = namespace("dialogStoreModule")
 
@@ -270,13 +279,17 @@
   })
   export default class viewAdmin extends mixins(
     MixinAuthUser,
+    MixinAdditionalSystem,
   ) {
     @dialogStore.Action("ActionDialogOpenStore") setDialogOpenStore
     @dialogStore.Getter("DialogOpenStore") getDialogOpenStore
+    @dialogStore.Action("ActionDialogTryAgain") setDialogTryAgain
 
     service = "products"
     colorButtonOpenStore = "grey darken-2"
     permission = ""
+    loading = false
+
 
     get dialogOpenStore (): boolean {
       return this.getDialogOpenStore()
@@ -286,6 +299,12 @@
       this.setDialogOpenStore(value)
     }
 
+    @Watch("dialogOpenStore")
+      changeDialogOpenStore (): void {
+        if (this.dialogOpenStore) return
+        this.verifyOpenStore()
+      }
+
     mounted (): void {
       const PERMISSION = sessionStorage.getItem("permission")
       const SESSION_CACHE = sessionStorage.getItem("session")
@@ -293,10 +312,24 @@
 
       if (SESSION_CACHE && /admin/i.test(String(PERMISSION))) this.service = String(SESSION_CACHE)
       else this.service = "orders"
+      
+      this.verifyOpenStore()
+    }
 
-      this.dialogOpenStore = !this.dialogOpenStore
-      const OPEN_STORE = sessionStorage.getItem("status-store")
-      if (OPEN_STORE && /actived/i.test(OPEN_STORE)) this.colorButtonOpenStore = "success"
+    verifyOpenStore (): void {
+      this.loading = true
+      this.getOpenStore()
+        .then(responseMixin => {
+          if (/error/i.test(String(responseMixin))) throw Error("err")
+          if (responseMixin)  this.colorButtonOpenStore = "success"
+          else this.colorButtonOpenStore = "grey darken-2"
+        }).catch(err => {
+          window.log("ERROR mounted-view-admin", err)
+          this.loading = false
+          this.setDialogTryAgain(true)
+        }).finally(() => {
+          this.loading = false
+        })
     }
 
     changeSession (session?:string): void {

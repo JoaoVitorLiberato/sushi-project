@@ -148,15 +148,15 @@
             >
               <v-btn
                 block
-                color="secondary"
-                large
+                :color="loading ? 'grey lighten-1' : 'secondary'"
+                x-large
               >
                 <span
                   v-font-size="14"
                   class="font-weight-bold primary--text"
-                  @click="prepareAddToCart"
+                  @click.stop="loading ? '' : prepareAddToCart()"
                 >
-                  Concluir pedido
+                  {{ loading ? 'Aguarde...' : 'Concluir pedido' }}
                 </span>
               </v-btn>
             </v-col>
@@ -172,9 +172,11 @@
   import { mixins } from "vue-class-component"
   import { namespace } from "vuex-class"
   import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
+  import MixinAdditionalSystem from "@/mixins/additional-system/mixinAdditionlSystem"
   import { epochBuyProductStore } from "@/helpers/epochs"
 
   const cacheStore = namespace("cacheStoreModule")
+  const dialogStore = namespace("dialogStoreModule")
   const payloadStore = namespace("payloadStoreModule")
 
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
@@ -192,11 +194,17 @@
 
   export default class DrawerCartProduct extends mixins(
     MixinHelperServiceProduct,
+    MixinAdditionalSystem,
   ) {
     @cacheStore.Getter("CacheDrawerCartProduct") getDrawerCartProduct
     @cacheStore.Action("ActionCacheDrawerCartProduct") setDrawerCartProduct
     @cacheStore.Getter("CacheOrderCart") getCacheOrderCart
     @payloadStore.Action("actionPayloadProducts") setPayloadProducts
+    @dialogStore.Action("ActionDialogTryAgain") setDialogTryAgain
+    @dialogStore.Getter("DialogStoreClosed") getDialogStoreClosed
+    @dialogStore.Action("ActionDialogStoreClosed") setDialogStoreClosed
+
+    loading = false
 
     get drawerCartProduct (): boolean {
       return this.getDrawerCartProduct()
@@ -206,13 +214,39 @@
       this.setDrawerCartProduct(value)
     }
 
-    prepareAddToCart (): void {
-      if (ENV("production") && epochBuyProductStore()) return
-      if (!this.getCacheOrderCart() || this.getCacheOrderCart().length <= 0) return
+    get dialogStoreClosed (): boolean {
+      return this.getDialogStoreClosed()
+    }
 
-      this.setPayloadProducts(this.getCacheOrderCart())
-      this.drawerCartProduct = !this.drawerCartProduct
-      this.$router.replace(`/pedido/${this.$route.params.type}/finalizar${location.search}`)
+    set dialogStoreClosed (value: boolean) {
+      this.setDialogStoreClosed(value)
+    }
+
+    prepareAddToCart (): void {
+      this.loading = true
+      this.getOpenStore()
+        .then(responseMixin => {
+          if (/error/i.test(String(responseMixin))) throw Error("err")
+          else if (!responseMixin) {
+            this.drawerCartProduct = !this.drawerCartProduct
+            this.dialogStoreClosed = !this.dialogStoreClosed
+            return
+          } else {
+            if (ENV("production") && epochBuyProductStore()) return
+            if (!this.getCacheOrderCart() || this.getCacheOrderCart().length <= 0) return
+
+            this.setPayloadProducts(this.getCacheOrderCart())
+            this.drawerCartProduct = !this.drawerCartProduct
+            this.$router.replace(`/pedido/${this.$route.params.type}/finalizar${location.search}`)
+          }
+        }).catch(err => {
+          window.log(err)
+          this.loading = false
+          this.drawerCartProduct = !this.drawerCartProduct
+          this.setDialogTryAgain(true)
+        }).finally(() => {
+          this.loading = false
+        })
     }
   }
 </script>

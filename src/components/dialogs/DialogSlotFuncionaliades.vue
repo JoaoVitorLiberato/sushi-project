@@ -376,6 +376,73 @@
         </v-dialog>
       </v-overlay>
     </slot>
+
+    <slot
+      v-if="/^(product)$/i.test(String($route.name))"
+      name="storeClosed"
+    >
+      <v-overlay
+        :value="dialogStoreClosedModel"
+        opacity="1"
+      >
+        <v-dialog
+          ref="componentDialogTryAgain"
+          v-model="dialogStoreClosedModel"
+          hide-overlay
+          persistent
+          :max-width="400"
+        >
+          <v-card
+            color="primary"
+            class="mx-auto"
+            dark
+          >
+            <v-row
+              v-border="'1px solid var(--v-secondary-base)'"
+              no-gutters
+              class="pa-4"
+            >
+              <v-col
+                cols="12"
+                class="text-end"
+              >
+                <v-btn
+                  icon
+                  @click.stop="dialogStoreClosedModel = !dialogStoreClosedModel"
+                >
+                  <v-icon>
+                    close
+                  </v-icon>
+                </v-btn>
+              </v-col>
+
+              <v-col
+                cols="12"
+                class="py-2"
+              />
+
+              <v-col
+                cols="12"
+              >
+                <span
+                  v-font-size="14"
+                  class="font-weight-regular d-block pb-2"
+                  style="color:var(--v-primary-text)"
+                >
+                  Estamos fechados no momento.
+                  Nosso horário de funcionamento é das 17h30 às 23h00 podendo
+                  prolongar até às 1h da manhã.
+                </span>
+
+                <small>
+                  Equipe Bangalô
+                </small>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-dialog>
+      </v-overlay>
+    </slot>
   </div>
 </template>
 
@@ -408,6 +475,8 @@
     @dialogStore.Action("ActionDialogOrdersClient") declare setDialogOrdersClient
     @dialogStore.Getter("DialogTryAgain") declare getDialogTryAgain
     @dialogStore.Action("ActionDialogTryAgain") declare setDialogTryAgain
+    @dialogStore.Getter("DialogStoreClosed") getDialogStoreClosed
+    @dialogStore.Action("ActionDialogStoreClosed") setDialogStoreClosed
     @cacheStore.Action("ActionCacheCepValidation") setCacheCepValidation
     @cacheStore.Action("ActionCacheOrdersCart") declare setCacheOrdersCart
 
@@ -456,6 +525,14 @@
 
     set dialogTryAgainModel (value: boolean) {
       this.setDialogTryAgain(value)
+    }
+
+    get dialogStoreClosedModel (): boolean {
+      return this.getDialogStoreClosed()
+    }
+
+    set dialogStoreClosedModel (value: boolean) {
+      this.setDialogStoreClosed(value)
     }
 
     get validateDataInput (): boolean {
