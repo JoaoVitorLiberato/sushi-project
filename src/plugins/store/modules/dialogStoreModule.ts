@@ -15,6 +15,7 @@ const moduleCache = (): dialogStoreInterface => {
     dialogTryAgain: false,
     dialogRegisterComplement: false,
     dialogGetCommentsProduct: false,
+    dialogOpenStore: false,
   }
 }
 
@@ -53,6 +54,9 @@ const getters: GetterTree<dialogStoreInterface, rootStateInterface> = {
   },
   DialogGetCommentsProduct: ({ dialogGetCommentsProduct }) => () => {
     return dialogGetCommentsProduct
+  },
+  DialogOpenStore: ({ dialogOpenStore }) => () => {
+    return dialogOpenStore
   }
 }
 
@@ -87,9 +91,12 @@ const mutations: MutationTree<dialogStoreInterface> = {
   MutationRegisterComplement (state, data) {
     state.dialogRegisterComplement = data
   },
-  MutationGetCommentsProduct(state, data) {
+  MutationGetCommentsProduct (state, data) {
     state.dialogGetCommentsProduct = data
   },
+  MutationOpenStore (state, data) {
+    state.dialogOpenStore = data
+  }
 }
 
 const actions: ActionTree<dialogStoreInterface, rootStateInterface> = {
@@ -125,6 +132,9 @@ const actions: ActionTree<dialogStoreInterface, rootStateInterface> = {
   },
   ActionDialogGetCommentsProduct ({ commit }, data) {
     commit("MutationGetCommentsProduct", data)
+  },
+  ActionDialogOpenStore ({ commit }, data) {
+    commit("MutationOpenStore", data)
   },
 }
 

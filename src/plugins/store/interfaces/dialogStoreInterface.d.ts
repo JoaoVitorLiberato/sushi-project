@@ -8,8 +8,9 @@ interface dialogStoreInterface {
   dialogRegisterEmployee: boolean,
   dialogRegisterProduct: boolean,
   dialogTryAgain: boolean,
-  dialogRegisterComplement: boolean
-  dialogGetCommentsProduct: boolean
+  dialogRegisterComplement: boolean,
+  dialogGetCommentsProduct: boolean,
+  dialogOpenStore: boolean,
 }
 
 export {
