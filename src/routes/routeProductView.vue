@@ -95,9 +95,11 @@
       <template
         #ordersClient
       />
-
       <template
         #tryAgain
+      />
+      <template
+        #storeClosed
       />
     </dialog-slot-funcionalidades-component>
 
