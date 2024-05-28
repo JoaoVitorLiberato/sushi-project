@@ -25,6 +25,31 @@ export default [
     ]
   },
   {
+    path: "/detalhes/foodpark",
+    component: (): Promise<typeof import("*.vue")> => import(
+      /* webpackChunkName: "order-route" */
+      /* webpackPrefetch: 0 */
+      "@/routes/routeOrderView.vue"
+    ),
+    meta: {
+      title: "Bangalô Sushi Lounge",
+      description: "O melhor sushi de Santa Luzia de Paruá, Aproveite bastante seu pedido.",
+    },
+    children: [
+      {
+        path: "pedido",
+        name: "order-foodpark-view",
+        components: {
+          viewOrderFoodpark: (): Promise<typeof import("*.vue")> => import(
+            /* webpackChunkName: "order-foodpark-view" */
+            /* webpackPrefetch: 1 */
+            "@/views/order/viewOrderFoodpark.vue"
+          )
+        }
+      }
+    ]
+  },
+  {
     path: "/pedido/:type",
     component: (): Promise<typeof import("*.vue")> => import(
       /* webpackChunkName: "form-route" */

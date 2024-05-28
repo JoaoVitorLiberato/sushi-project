@@ -44,23 +44,17 @@
 
         <v-col
           cols="12"
-          class="pt-6"
+          class="pt-5"
         >
           <v-row
             no-gutters
+            align="center"
           >
-            <v-col
-              cols="7"
-              class="hidden-sm-and-down"
-            >
-              <v-spacer
-                class="hidden-sm-and-down"
-              />
-            </v-col>
-
             <v-col
               cols="12"
               md="5"
+              order="3"
+              order-md="1"
             >
               <v-text-field
                 label="Pesquisar pedido"
@@ -70,6 +64,51 @@
                 hide-details
                 @input="filterOrderClient"
               />
+            </v-col>
+
+            <v-col
+              cols="12"
+              class="py-3 hidden-md-and-up"
+              order="2"
+              order-md="1"
+            />
+
+            <v-col
+              cols="12"
+              md="7"
+              class="text-end"
+              order="1"
+              order-md="2"
+            >
+              <v-menu
+                bottom
+                :offset-y="true"
+              >
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    icon
+                    x-large
+                    color="primary"
+                    dark
+                    v-on="on"
+                  >
+                    <v-icon>
+                      menu
+                    </v-icon>
+                  </v-btn>
+                </template>
+
+                <v-list>
+                  <v-list-item
+                    v-for="(item, index) in [{ title: 'Pedido foodpark', id: 'foodpark' }]"
+                    :key="index"
+                    link
+                    @click="redirectOrder(item.id)"
+                  >
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
             </v-col>
           </v-row>
         </v-col>
@@ -115,7 +154,6 @@
                   @dialogProductEmit="openDialogProducts(produtos)"
                   @changeStatusOrderEmit="v=>statusCard=v"
                 />
-
               </div>
             </v-col>
           </v-row>
@@ -563,6 +601,7 @@
     @dialogStore.Getter("DialogTryAgain") getDialogTryAgain
 
     $refs
+
     productsDialog: IproductData[]  = []
     showComplements = false
     messageUpdateOrders = ""
@@ -614,6 +653,8 @@
     }
 
     CardsFilteredForStatus (status?:string): IOrderData[] {
+      if (!status) return this.allOrders
+
       return this.allOrders.filter(item => {
         if (String(item.status || "") === String(status || "")) return item
       })
@@ -632,6 +673,10 @@
       })
 
       this.orderFiltered = [ ...PRODUCT_FILTER ]
+    }
+
+    redirectOrder (url: string): void {
+      window.open(`${location.origin}/detalhes/${url}/pedido`, "_blank")
     }
 
     openDialogProducts (product): void {
