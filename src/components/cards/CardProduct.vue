@@ -263,7 +263,7 @@
             block
             color="secondary"
             :title="`Botão para Adicionar ${String(product?.name)} ao carrinho`"
-            @click=" openDialogComplement(product, product?.id)"
+            @click="openDialogComplement(product, product?.id)"
           >
             <span
               class="font-weight-bold mr-1 primary--text"

@@ -383,7 +383,7 @@
         this.complements = []
         this.complements.shift()
 
-        if (this.dialogComplements === true) {
+        if (this.dialogComplements === true && this.cacheComplements.length <= 0) {
           this.loading = true
           this.getComplements()
             .then(responseMixin => {

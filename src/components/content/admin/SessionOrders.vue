@@ -44,23 +44,17 @@
 
         <v-col
           cols="12"
-          class="pt-6"
+          class="pt-5"
         >
           <v-row
             no-gutters
+            align="center"
           >
-            <v-col
-              cols="7"
-              class="hidden-sm-and-down"
-            >
-              <v-spacer
-                class="hidden-sm-and-down"
-              />
-            </v-col>
-
             <v-col
               cols="12"
               md="5"
+              order="3"
+              order-md="1"
             >
               <v-text-field
                 label="Pesquisar pedido"
@@ -70,6 +64,51 @@
                 hide-details
                 @input="filterOrderClient"
               />
+            </v-col>
+
+            <v-col
+              cols="12"
+              class="py-3 hidden-md-and-up"
+              order="2"
+              order-md="1"
+            />
+
+            <v-col
+              cols="12"
+              md="7"
+              class="text-end"
+              order="1"
+              order-md="2"
+            >
+              <v-menu
+                bottom
+                :offset-y="true"
+              >
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    icon
+                    x-large
+                    color="primary"
+                    dark
+                    v-on="on"
+                  >
+                    <v-icon>
+                      menu
+                    </v-icon>
+                  </v-btn>
+                </template>
+
+                <v-list>
+                  <v-list-item
+                    v-for="(item, index) in [{ title: 'Pedido foodpark', id: 'foodpark' }]"
+                    :key="index"
+                    link
+                    @click="redirectOrder(item.id)"
+                  >
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
             </v-col>
           </v-row>
         </v-col>
@@ -115,7 +154,6 @@
                   @dialogProductEmit="openDialogProducts(produtos)"
                   @changeStatusOrderEmit="v=>statusCard=v"
                 />
-
               </div>
             </v-col>
           </v-row>
@@ -163,23 +201,27 @@
                     mandatory
                   >
                     <v-slide-item
-                      v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('preparando')"
+                      v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('preparando').reverse()"
                       :key="`caroucel-order-client-${pedido}`"
                       class="mr-5"
                     >
-                      <div
-                        style="width: 300px;"
+                      <v-scroll-x-transition
+                        v-if="/preparando/i.test(String(status))"
                       >
-                        <card-order-admin-component
-                          :segment="segmento"
-                          :order="pedido"
-                          :name="nome"
-                          :phone="telefone"
-                          :statusOrder="status"
-                          @dialogProductEmit="openDialogProducts(produtos)"
-                          @changeStatusOrderEmit="v=>statusCard=v"
-                        />
-                      </div>
+                        <div
+                          style="width: 300px;"
+                        >
+                          <card-order-admin-component
+                            :segment="segmento"
+                            :order="pedido"
+                            :name="nome"
+                            :phone="telefone"
+                            :statusOrder="status"
+                            @dialogProductEmit="openDialogProducts(produtos)"
+                            @changeStatusOrderEmit="v=>statusCard=v"
+                          />
+                        </div>
+                      </v-scroll-x-transition>
                     </v-slide-item>
                   </v-slide-group>
                 </v-col>
@@ -189,8 +231,12 @@
                   class="hidden-sm-and-down d-md-flex align-center flex-wrap"
                 >
                   <div
-                    v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('preparando')"
+                    v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('preparando').reverse()"
                     :key="`order-client-${pedido}`"
+                  >
+
+                  <v-scroll-x-transition
+                    v-if="/preparando/i.test(String(status))"
                   >
                     <card-order-admin-component
                       :segment="segmento"
@@ -201,6 +247,7 @@
                       @dialogProductEmit="openDialogProducts(produtos)"
                       @changeStatusOrderEmit="v=>statusCard=v"
                     />
+                  </v-scroll-x-transition>
                   </div>
                 </v-col>
               </v-row>
@@ -250,23 +297,27 @@
                     mandatory
                   >
                     <v-slide-item
-                      v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('entrega')"
+                      v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('entrega').reverse()"
                       :key="`caroucel-order-client-${pedido}`"
                       class="mr-5"
                     >
-                      <div
-                        style="width: 300px;"
+                      <v-scroll-x-transition
+                        v-if="/entrega/i.test(String(status))"
                       >
-                        <card-order-admin-component
-                          :segment="segmento"
-                          :order="pedido"
-                          :name="nome"
-                          :phone="telefone"
-                          :statusOrder="status"
-                          @dialogProductEmit="openDialogProducts(produtos)"
-                          @changeStatusOrderEmit="v=>statusCard=v"
-                        />
-                      </div>
+                        <div
+                          style="width: 300px;"
+                        >
+                          <card-order-admin-component
+                            :segment="segmento"
+                            :order="pedido"
+                            :name="nome"
+                            :phone="telefone"
+                            :statusOrder="status"
+                            @dialogProductEmit="openDialogProducts(produtos)"
+                            @changeStatusOrderEmit="v=>statusCard=v"
+                          />
+                        </div>
+                      </v-scroll-x-transition>
                     </v-slide-item>
                   </v-slide-group>
                 </v-col>
@@ -276,18 +327,22 @@
                   class="hidden-sm-and-down d-md-flex align-center flex-wrap"
                 >
                   <div
-                    v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('entrega')"
+                    v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('entrega').reverse()"
                     :key="`order-client-${pedido}`"
                   >
-                    <card-order-admin-component
-                      :segment="segmento"
-                      :order="pedido"
-                      :name="nome"
-                      :phone="telefone"
-                      :statusOrder="status"
-                      @dialogProductEmit="openDialogProducts(produtos)"
-                      @changeStatusOrderEmit="v=>statusCard=v"
-                    />
+                    <v-scroll-x-transition
+                      v-if="/entrega/i.test(String(status))"
+                    >
+                      <card-order-admin-component
+                        :segment="segmento"
+                        :order="pedido"
+                        :name="nome"
+                        :phone="telefone"
+                        :statusOrder="status"
+                        @dialogProductEmit="openDialogProducts(produtos)"
+                        @changeStatusOrderEmit="v=>statusCard=v"
+                      />
+                    </v-scroll-x-transition>
                   </div>
                 </v-col>
               </v-row>
@@ -341,19 +396,23 @@
                       :key="`caroucel-order-client-${pedido}`"
                       class="mr-5"
                     >
-                      <div
-                        style="width: 300px;"
+                      <v-scroll-x-transition
+                        v-if="/concluido/i.test(String(status))"
                       >
-                        <card-order-admin-component
-                          :segment="segmento"
-                          :order="pedido"
-                          :name="nome"
-                          :phone="telefone"
-                          :statusOrder="status"
-                          @dialogProductEmit="openDialogProducts(produtos)"
-                          @changeStatusOrderEmit="v=>statusCard=v"
-                        />
-                      </div>
+                        <div
+                          style="width: 300px;"
+                        >
+                          <card-order-admin-component
+                            :segment="segmento"
+                            :order="pedido"
+                            :name="nome"
+                            :phone="telefone"
+                            :statusOrder="status"
+                            @dialogProductEmit="openDialogProducts(produtos)"
+                            @changeStatusOrderEmit="v=>statusCard=v"
+                          />
+                        </div>
+                      </v-scroll-x-transition>
                     </v-slide-item>
                   </v-slide-group>
                 </v-col>
@@ -366,15 +425,19 @@
                     v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('concluido')"
                     :key="`order-client-${pedido}`"
                   >
-                    <card-order-admin-component
-                      :segment="segmento"
-                      :order="pedido"
-                      :name="nome"
-                      :phone="telefone"
-                      :statusOrder="status"
-                      @dialogProductEmit="openDialogProducts(produtos)"
-                      @changeStatusOrderEmit="v=>statusCard=v"
-                    />
+                    <v-scroll-x-transition
+                      v-if="/concluido/i.test(String(status))"
+                    >
+                      <card-order-admin-component
+                        :segment="segmento"
+                        :order="pedido"
+                        :name="nome"
+                        :phone="telefone"
+                        :statusOrder="status"
+                        @dialogProductEmit="openDialogProducts(produtos)"
+                        @changeStatusOrderEmit="v=>statusCard=v"
+                      />
+                    </v-scroll-x-transition>
                   </div>
                 </v-col>
               </v-row>
@@ -394,7 +457,7 @@
               <v-row
                 no-gutters
               >
-              <v-col
+                <v-col
                   cols="12"
                   class="text-center text-md-start"
                 >
@@ -428,19 +491,23 @@
                       :key="`caroucel-order-client-${pedido}`"
                       class="mr-5"
                     >
-                      <div
-                        style="width: 300px;"
+                      <v-scroll-x-transition
+                        v-if="/cancelado/i.test(String(status))"
                       >
-                        <card-order-admin-component
-                          :segment="segmento"
-                          :order="pedido"
-                          :name="nome"
-                          :phone="telefone"
-                          :statusOrder="status"
-                          @dialogProductEmit="openDialogProducts(produtos)"
-                          @changeStatusOrderEmit="v=>statusCard=v"
-                        />
-                      </div>
+                        <div
+                          style="width: 300px;"
+                        >
+                          <card-order-admin-component
+                            :segment="segmento"
+                            :order="pedido"
+                            :name="nome"
+                            :phone="telefone"
+                            :statusOrder="status"
+                            @dialogProductEmit="openDialogProducts(produtos)"
+                            @changeStatusOrderEmit="v=>statusCard=v"
+                          />
+                        </div>
+                      </v-scroll-x-transition>
                     </v-slide-item>
                   </v-slide-group>
                 </v-col>
@@ -453,15 +520,19 @@
                     v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('cancelado')"
                     :key="`order-client-${pedido}`"
                   >
-                    <card-order-admin-component
-                      :segment="segmento"
-                      :order="pedido"
-                      :name="nome"
-                      :phone="telefone"
-                      :statusOrder="status"
-                      @dialogProductEmit="openDialogProducts(produtos)"
-                      @changeStatusOrderEmit="v=>statusCard=v"
-                    />
+                    <v-scroll-x-transition
+                        v-if="/cancelado/i.test(String(status))"
+                    >
+                      <card-order-admin-component
+                        :segment="segmento"
+                        :order="pedido"
+                        :name="nome"
+                        :phone="telefone"
+                        :statusOrder="status"
+                        @dialogProductEmit="openDialogProducts(produtos)"
+                        @changeStatusOrderEmit="v=>statusCard=v"
+                      />
+                    </v-scroll-x-transition>
                   </div>
                 </v-col>
               </v-row>
@@ -563,6 +634,7 @@
     @dialogStore.Getter("DialogTryAgain") getDialogTryAgain
 
     $refs
+
     productsDialog: IproductData[]  = []
     showComplements = false
     messageUpdateOrders = ""
@@ -614,6 +686,8 @@
     }
 
     CardsFilteredForStatus (status?:string): IOrderData[] {
+      if (!status) return this.allOrders
+
       return this.allOrders.filter(item => {
         if (String(item.status || "") === String(status || "")) return item
       })
@@ -632,6 +706,10 @@
       })
 
       this.orderFiltered = [ ...PRODUCT_FILTER ]
+    }
+
+    redirectOrder (url: string): void {
+      window.open(`${location.origin}/detalhes/${url}/pedido`, "_blank")
     }
 
     openDialogProducts (product): void {

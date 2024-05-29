@@ -336,7 +336,7 @@
                           large
                         >
                           <span
-                            style="color:var(--v-primary-text)"
+                            style="color:var(--v-primary-base)"
                             class="font-weight-bold"
                             v-text="'Pesquisar Pedido'"
                           />

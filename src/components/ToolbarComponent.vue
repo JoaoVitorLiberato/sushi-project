@@ -34,7 +34,7 @@
           </span>
         </v-col>
         <v-col
-          v-if="!/form-view/i.test(String($route.name))"
+          v-if="!/form-view|order-foodpark-view/i.test(String($route.name))"
           cols="2"
           class="text-end"
         >

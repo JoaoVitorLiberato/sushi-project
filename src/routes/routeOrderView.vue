@@ -7,6 +7,10 @@
       <router-view 
         name="viewOrder"
       />
+
+      <router-view 
+        name="viewOrderFoodpark"
+      />
     </v-container>
 
     <dialog-slot-funcionalidades-component>
@@ -15,7 +19,9 @@
       />
     </dialog-slot-funcionalidades-component>
 
-    <button-whats-chat />
+    <button-whats-chat 
+      v-if="!/order-foodpark-view/i.test(String($route.name))"
+    />
   </v-main>
 </template>
 
