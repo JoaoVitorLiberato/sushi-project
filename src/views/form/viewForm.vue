@@ -1,6 +1,7 @@
 <template>
   <v-row
     no-gutters
+    style="overflow-y: hidden"
   >
     <v-col
       cols="12"
@@ -83,12 +84,11 @@
                   :label="label"
                   :name="label"
                   :type="type||'text'"
-                  :rules="optional?[itemsFirstFields[input].valid||true]:[required,itemsFirstFields[input].valid]"
+                  :rules="optional?[itemsFirstFields[input].valid||true]:[itemsFirstFields[input].valid,required]"
                   dark
                   outlined
                   class="mx-1"
                   hide-details="auto"
-                  autocomplete="no"
                   tabindex="0"
                   :title="label"
                   :readonly="readonly"
@@ -199,7 +199,7 @@
                       color="secondary"
                     />
                   </v-col>
-      
+
                   <v-col
                     v-else
                     cols="12"
@@ -219,7 +219,7 @@
                         Voltar
                       </span>
                     </v-btn>
-      
+
                     <v-btn
                       color="secondary"
                       large
@@ -642,7 +642,8 @@
     @Watch("itemsFirstFields.numeroDeContato.value")
       payloadSetPhone (value: string): void {
         this.itemsFirstFields.numeroDeContato.valid = telefone(String(value).replace(/\D/g, ""))
-        if ( telefone(String(value).replace(/\D/g, ""))) {
+        console.log(this.itemsFirstFields.numeroDeContato.valid)
+        if (telefone(String(value).replace(/\D/g, ""))) {
           this.setPayloadCostumerPhone(String(value).replace(/\D/g, ""))
         }
       }

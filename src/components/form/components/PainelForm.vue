@@ -1,6 +1,6 @@
 <template>
   <v-card
-    :style="`border-radius: 0;${$vuetify.breakpoint.smAndDown ? 'min-height:65px' : 'height:100%'}`"
+    :style="`border-radius: 0;${$vuetify.breakpoint.smAndDown ? 'min-height:65px' :  'min-height:980px'}`"
     color="secondary"
     elevation="0"
     class="pa-4"
