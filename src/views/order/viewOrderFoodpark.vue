@@ -43,24 +43,22 @@
             <v-card
               dark
               color="primary"
-              height="70vh"
+              height="80vh"
               style="overflow-y: scroll;"
-              class="fix-none-scoll pa-2"
+              class="fix-none-scoll pa-4"
             >
               <v-slide-y-transition
                 class="py-0"
                 group
               >
                 <div
-                  v-for="item in CardsFilteredForStatus('preparando').reverse()"
+                  v-for="item in CardsFilteredByStatus('preparando')"
                   :key="`pedido-${item.pedido}`"
                 >
-                  <v-scroll-x-transition
-                    v-if="/preparando/i.test(String(item.status))"
-                  >
+                  <v-scroll-x-transition>
                     <p
                       class="text-uppercase"
-                      style="font-size:20px"
+                      style="font-size:24px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;"
                     >
                       {{ item.nome }}
                     </p>
@@ -117,19 +115,19 @@
             <v-card
               dark
               color="primary"
-              height="70vh"
+              height="80vh"
               style="overflow-y: scroll;"
-              class="fix-none-scoll pa-2"
+              class="fix-none-scoll pa-4"
             >
               <v-slide-y-transition
                 class="py-0"
                 group
               >
                 <p
-                  v-for="item in CardsFilteredForStatus('concluido')"
+                  v-for="item in CardsFilteredByStatus('concluido').reverse()"
                   :key="`pedido-${item.pedido}`"
                   class="text-uppercase"
-                  style="font-size:20px"
+                  style="font-size:24px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;"
                 >
                   {{ item.nome }}
                 </p>
@@ -193,11 +191,11 @@
           if (/error/i.test(String(responseMixin || ""))) throw Error("err")
           
           if (responseMixin.length > 0) {
-            const ORDER_FILTERRED = (responseMixin as IOrderData[]).filter(order => {
-              if (/^foodpark$/i.test(order.segmento as string)) return order
-            })
-
-            this.allOrders = [ ...ORDER_FILTERRED ]
+            this.allOrders = [ 
+              ...(responseMixin as IOrderData[]).filter(order => {
+                if (/^foodpark$/i.test(order.segmento as string)) return order
+              })
+            ]
           }
         }).catch(err => {
           window.log("ERROR renderCardOrderCostumers", err)
@@ -207,9 +205,13 @@
         })
     }
 
-    CardsFilteredForStatus (status?:string): IOrderData[] {
-      return this.allOrders.filter(item => {
-        if (String(item.status || "") === String(status || "")) return item
+    CardsFilteredByStatus (status?:string): IOrderData[] {
+      const ORDERS_STATUS_FILTERED = this.allOrders.filter(order => {
+        if (String(order.status || "") === String(status || "")) return order
+      })
+
+      return ORDERS_STATUS_FILTERED.sort((prev_order, next_order) => {
+        return Number(String(prev_order.updated_at).replace(/\D/g, "")) - Number(String(next_order.updated_at).replace(/\D/g, ""))
       })
     }
   }

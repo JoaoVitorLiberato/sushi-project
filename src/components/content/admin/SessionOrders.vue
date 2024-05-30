@@ -164,7 +164,7 @@
             class="mt-4"
           >
             <v-col
-              v-if="CardsFilteredForStatus('preparando').length > 0"
+              v-if="CardsFilteredByStatus('preparando').length > 0"
               cols="12"
               :style="$vuetify.breakpoint.mdAndUp ? 'max-height: 700px;overflow-y: scroll;' : ''"
             >
@@ -201,7 +201,7 @@
                     mandatory
                   >
                     <v-slide-item
-                      v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('preparando').reverse()"
+                      v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredByStatus('preparando')"
                       :key="`caroucel-order-client-${pedido}`"
                       class="mr-5"
                     >
@@ -231,7 +231,7 @@
                   class="hidden-sm-and-down d-md-flex align-center flex-wrap"
                 >
                   <div
-                    v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('preparando').reverse()"
+                    v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredByStatus('preparando')"
                     :key="`order-client-${pedido}`"
                   >
 
@@ -254,13 +254,13 @@
             </v-col>
 
             <v-col
-              v-if="CardsFilteredForStatus('preparando').length > 0"
+              v-if="CardsFilteredByStatus('preparando').length > 0"
               cols="12"
               class="py-8"
             />
 
             <v-col
-              v-if="CardsFilteredForStatus('entrega').length > 0"
+              v-if="CardsFilteredByStatus('entrega').length > 0"
               cols="12"
               :style="$vuetify.breakpoint.mdAndUp ? 'max-height: 700px;overflow-y: scroll;' : ''"
             >
@@ -297,7 +297,7 @@
                     mandatory
                   >
                     <v-slide-item
-                      v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('entrega').reverse()"
+                      v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredByStatus('entrega')"
                       :key="`caroucel-order-client-${pedido}`"
                       class="mr-5"
                     >
@@ -327,7 +327,7 @@
                   class="hidden-sm-and-down d-md-flex align-center flex-wrap"
                 >
                   <div
-                    v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('entrega').reverse()"
+                    v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredByStatus('entrega')"
                     :key="`order-client-${pedido}`"
                   >
                     <v-scroll-x-transition
@@ -349,13 +349,13 @@
             </v-col>
 
             <v-col
-              v-if="CardsFilteredForStatus('entrega').length > 0"
+              v-if="CardsFilteredByStatus('entrega').length > 0"
               cols="12"
               class="py-8"
             />
 
             <v-col
-              v-if="CardsFilteredForStatus('concluido').length > 0"
+              v-if="CardsFilteredByStatus('concluido').length > 0"
               cols="12"
               :style="$vuetify.breakpoint.mdAndUp ? 'max-height: 700px;overflow-y: scroll;' : ''"
             >
@@ -392,7 +392,7 @@
                     mandatory
                   >
                     <v-slide-item
-                      v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('concluido')"
+                      v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredByStatus('concluido').reverse()"
                       :key="`caroucel-order-client-${pedido}`"
                       class="mr-5"
                     >
@@ -422,7 +422,7 @@
                   class="hidden-sm-and-down d-md-flex align-center flex-wrap"
                 >
                   <div
-                    v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('concluido')"
+                    v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredByStatus('concluido').reverse()"
                     :key="`order-client-${pedido}`"
                   >
                     <v-scroll-x-transition
@@ -444,13 +444,13 @@
             </v-col>
 
             <v-col
-              v-if="CardsFilteredForStatus('concluido').length > 0"
+              v-if="CardsFilteredByStatus('concluido').length > 0"
               cols="12"
               class="py-8"
             />
 
             <v-col
-              v-if="CardsFilteredForStatus('cancelado').length > 0"
+              v-if="CardsFilteredByStatus('cancelado').length > 0"
               cols="12"
               :style="$vuetify.breakpoint.mdAndUp ? 'max-height: 700px;overflow-y: scroll;' : ''"
             >
@@ -487,7 +487,7 @@
                     mandatory
                   >
                     <v-slide-item
-                      v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('cancelado')"
+                      v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredByStatus('cancelado')"
                       :key="`caroucel-order-client-${pedido}`"
                       class="mr-5"
                     >
@@ -517,7 +517,7 @@
                   class="hidden-sm-and-down d-md-flex align-center flex-wrap"
                 >
                   <div
-                    v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredForStatus('cancelado')"
+                    v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredByStatus('cancelado')"
                     :key="`order-client-${pedido}`"
                   >
                     <v-scroll-x-transition
@@ -685,11 +685,15 @@
         })
     }
 
-    CardsFilteredForStatus (status?:string): IOrderData[] {
+    CardsFilteredByStatus (status?:string): IOrderData[] {
       if (!status) return this.allOrders
 
-      return this.allOrders.filter(item => {
+      const ORDERS_STATUS_FILTERED = this.allOrders.filter(item => {
         if (String(item.status || "") === String(status || "")) return item
+      })
+
+      return ORDERS_STATUS_FILTERED.sort((prev_order, next_order) => {
+        return Number(String(prev_order.updated_at).replace(/\D/g, "")) - Number(String(next_order.updated_at).replace(/\D/g, ""))
       })
     }
 
