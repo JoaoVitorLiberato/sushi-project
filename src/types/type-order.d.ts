@@ -7,6 +7,7 @@ export interface IOrderData {
   produtos: IproductData[],
   status: string,
   telefone: string,
+  updated_at: string|Date
 }
 
 export interface IStatusOrder {
