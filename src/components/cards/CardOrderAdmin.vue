@@ -110,7 +110,9 @@
             <span
               class="font-weight-medium"
             >
-              imprimir
+              <dialog-print-page
+                :numeroDoPedido="order"
+              />
             </span>
           </v-btn>
 
@@ -131,17 +133,28 @@
 </template>
 
 <script lang="ts">
-  import { Vue, Component, PropSync, Prop, ModelSync } from "vue-property-decorator"
+  import { Component, PropSync, Prop, ModelSync } from "vue-property-decorator"
+  import { mixins } from "vue-class-component"
+
   import STATUS_ORDERS_DATA from "@/data/orders/statusOrders.json"
   import { IStatusOrder } from "@/types/type-order"
 
-  @Component({})
-  export default class CardOrderAdmin extends Vue {
+  @Component({
+    components: {
+      DialogPrintPage: () => import(
+        /* webpackChunkName: "print-page-dialog-component" */
+        /* webpackMode: "eager" */
+        "@/components/dialogs/DialogPrintPage.vue"
+      )
+    }
+  })
+  export default class CardOrderAdmin extends mixins() {
     @PropSync("segment", { type: String }) setSegment!:string
     @Prop({ default: "" }) statusOrder!:string
     @Prop({ default: "" }) phone!:string
     @Prop({ default: "" }) name!:string
     @Prop({ default: "" }) order!:string
+
     @ModelSync("dialogProduct", "dialogProductEmit")
       setDialogProduct?: boolean
     @ModelSync("statusOrder", "changeStatusOrderEmit")
@@ -149,6 +162,7 @@
 
     itemsPerPage = 4
     status = ""
+    isOpenPrint = false
 
     items = [
       {

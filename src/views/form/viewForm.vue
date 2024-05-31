@@ -170,6 +170,8 @@
                   label="Messagem (opcional)"
                   auto-grow
                   color="white"
+                  counter
+                  maxlength="150"
                   dark
                   outlined
                   placeholder="Caso você tenha alguma observação, por favor, escreva nesse campo. Ex. Retire as cebolas."
@@ -180,7 +182,19 @@
 
               <v-col
                 cols="12"
-                class="py-1"
+                class="px-2"
+              >
+                <span
+                  class="fix-cupom-text"
+                  @click.stop="$refs.dialogDiscount.isActive = true"
+                >
+                  Desejo aplicar um cupom?
+                </span>
+              </v-col>
+
+              <v-col
+                cols="12"
+                class="py-4"
               />
 
               <v-col
@@ -326,6 +340,100 @@
       </v-overlay>
 
       <v-dialog
+        ref="dialogDiscount"
+        width="450"
+      >
+        <v-card
+          color="primary"
+          dark
+        >
+          <v-row
+            no-gutters
+            style="border:1px solid var(--v-secondary-base)"
+            class="pa-4"
+          >
+            <v-col
+              cols="12"
+              class="text-end"
+            >
+              <v-btn
+                icon
+                color="secondary"
+                @click.stop="$refs.dialogDiscount.save()"
+              >
+                <v-icon>
+                  close
+                </v-icon>
+              </v-btn>
+            </v-col>
+
+            <v-col
+              cols="12"
+              class="py-2"
+            />
+
+            <v-col
+              cols="12"
+              style="line-height: 18px;"
+            >
+              <span
+                class="font-weight-regular"
+              >
+                Digite seu cupom de desconto no campo abaixo
+              </span>
+            </v-col>
+
+            <v-col
+              cols="12"
+              class="py-2"
+            />
+
+            <v-col
+              cols="12"
+            >
+              <v-text-field
+                ref="inputCupomDiscount"
+                v-model="cupom"
+                label="Cupom"
+                :rules="[required]"
+                outlined
+                hide-details="auto"
+              />
+            </v-col>
+
+            <v-col
+              cols="12"
+              class="py-2"
+            />
+
+            <v-col
+              cols="12"
+            >
+              <v-progress-linear
+                v-if="loading"
+                color="secondary"
+                indeterminate
+              />
+
+              <v-btn
+                v-else
+                :color="cupom.length >= 8 ? 'secondary' : 'grey lighten-1'"
+                block
+                large
+                @click="cupom.length < 8 ? $refs.inputCupomDiscount.validate() : ''"
+              >
+                <span
+                  class="font-weight-bold primary--text"
+                >
+                  Aplicar cupom
+                </span>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-dialog>
+
+      <v-dialog
         ref="dialogErrorOrder"
         hide-overlay
         persistent
@@ -390,6 +498,7 @@
   import APIValidadorCEPMixin from "@/mixins/form/MixinFormConfig"
   import MixinRedirectLinks from "@/mixins/redirectLinks/MxiinRedirectLinks"
   import MixinServiceOrderCostumer from "@/mixins/order/mixinServiceOrderCostumer"
+  import "@/styles/view/form/viewForm.styl"
 
   const payloadStore = namespace("payloadStoreModule")
   const cacheStore = namespace("cacheStoreModule")
@@ -438,7 +547,7 @@
     popupNumberOrder  = false
     formDadosCadastrais = false
     copyInput = false
-
+    cupom = ""
     itemsFirstFields: {
       [key:string]:{
         [key:string]:string|boolean|number
@@ -769,7 +878,6 @@
     }
 
     redirectDetailOrder (): void {
-      this.popupNumberOrder = false
       location.replace("/detalhes/pedido")
     }
   }
