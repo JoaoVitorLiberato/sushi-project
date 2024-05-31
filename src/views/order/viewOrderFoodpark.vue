@@ -8,63 +8,66 @@
     <v-row
       no-gutters
       justify="center"
-      justify-md="space-between"
-      align="center"
-      style="height: 100vh;"
+      class="pa-4 my-10"
     >
       <v-col
         cols="12"
         md="5"
       >
-        <v-card
-          dark
-          color="primary"
-          height="95vh"
-          class="pa-2"
+        <v-row
+          style="position:relative"
+          no-gutters
         >
-          <v-row
-            no-gutters
+          <v-col
+            cols="12"
+            class="secondary primary--text text-center pa-4"
+            style="border-radius:10px;position:absolute;top:-35px;left: 0;"
           >
-            <v-col
-              cols="12"
-              class="secondary primary--text text-center pa-2"
-              style="border-radius: 10px;"
+            <h2
+              class="text-uppercase primary--text font-weight-medium"
             >
-              <h2
-                class="text-uppercase primary--text font-weight-medium"
-              >
-                Sendo Preparado
-              </h2>
-            </v-col>
+              Sendo Preparado
+            </h2>
+          </v-col>
 
-            <v-col 
-              cols="12"
-              class="py-3"
-            />
+          <v-col 
+            cols="12"
+            class="py-3"
+          />
 
-            <v-col
-              cols="12"
-              class="text-center"
+          <v-col
+            cols="12"
+            class="text-center"
+            style="border: 1px solid var(--v-secondary-base);"
+          >
+            <v-card
+              dark
+              color="primary"
+              height="80vh"
+              style="overflow-y: scroll;"
+              class="fix-none-scoll pa-4"
             >
-              <transition
-                name="bounce"
+              <v-slide-y-transition
+                class="py-0"
+                group
               >
                 <div
-                  v-show="showCard"
+                  v-for="item in CardsFilteredByStatus('preparando')"
+                  :key="`pedido-${item.pedido}`"
                 >
-                  <p
-                    v-for="item in CardsFilteredForStatus('preparando')"
-                    :key="`pedido-${item.pedido}`"
-                    v-show="showCard"
-                    class="text-uppercase"
-                  >
-                    {{ item.nome }}
-                  </p>
+                  <v-scroll-x-transition>
+                    <p
+                      class="text-uppercase"
+                      style="font-size:24px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;"
+                    >
+                      {{ item.nome }}
+                    </p>
+                  </v-scroll-x-transition>
                 </div>
-              </transition>
-            </v-col>
-          </v-row>
-        </v-card>
+              </v-slide-y-transition>
+            </v-card>
+          </v-col>
+        </v-row>
       </v-col>
 
       <v-col
@@ -83,54 +86,55 @@
         cols="12"
         md="5"
       >
-        <v-card
-          dark
-          color="primary"
-          height="95vh"
-          class="pa-2"
+        <v-row
+          no-gutters
+          style="position:relative"
         >
-          <v-row
-            no-gutters
+          <v-col
+            cols="12"
+            class="secondary primary--text text-center pa-4"
+            style="border-radius:10px;position:absolute;top:-35px;left: 0;"
           >
-            <v-col
-              cols="12"
-              class="secondary primary--text text-center pa-2"
-              style="border-radius: 10px;"
+            <h2
+              class="text-uppercase font-weight-medium"
             >
-              <h2
-                class="text-uppercase font-weight-medium"
-              >
-                concluídos
-              </h2>
-            </v-col>
+              concluídos
+            </h2>
+          </v-col>
 
-            <v-col
-              cols="12"
-              class="py-3"
-            />
+          <v-col
+            cols="12"
+            class="py-3"
+          />
 
-            <v-col
-              cols="12"
-              class="text-center"
+          <v-col
+            cols="12"
+            class="text-center"
+            style="border: 1px solid var(--v-secondary-base);"
+          >
+            <v-card
+              dark
+              color="primary"
+              height="80vh"
+              style="overflow-y: scroll;"
+              class="fix-none-scoll pa-4"
             >
-              <transition
-                name="bounce"
+              <v-slide-y-transition
+                class="py-0"
+                group
               >
-                <div
-                  v-show="showCard"
+                <p
+                  v-for="item in CardsFilteredByStatus('concluido').reverse()"
+                  :key="`pedido-${item.pedido}`"
+                  class="text-uppercase"
+                  style="font-size:24px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;"
                 >
-                  <p
-                    v-for="item in CardsFilteredForStatus('concluido')"
-                    :key="`pedido-${item.pedido}`"
-                    class="text-uppercase"
-                  >
-                    {{ item.nome }}
-                  </p>
-                </div>
-              </transition>
-            </v-col>
-          </v-row>
-        </v-card>
+                  {{ item.nome }}
+                </p>
+              </v-slide-y-transition>
+            </v-card>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
   </v-card>
@@ -142,6 +146,7 @@
   import { IOrderData } from "@/types/type-order"
   import MixinServiceOrderCostumer from "@/mixins/order/mixinServiceOrderCostumer"
   import { namespace } from "vuex-class"
+  import "@/styles/view/orders/viewOrderFoodpark.styl"
 
   const dialogStore = namespace("dialogStoreModule")
 
@@ -177,15 +182,21 @@
         }
 
         this.renderCardOrderCostumers() 
-      }, 45000)
+      }, 30000)
     }
 
     renderCardOrderCostumers (): void {
-      this.showCard = false
       this.getAllOrderCostumer()
         .then(responseMixin => {
           if (/error/i.test(String(responseMixin || ""))) throw Error("err")
-          if (responseMixin.length > 0) this.allOrders = [...responseMixin as IOrderData[]]
+          
+          if (responseMixin.length > 0) {
+            this.allOrders = [ 
+              ...(responseMixin as IOrderData[]).filter(order => {
+                if (/^foodpark$/i.test(order.segmento as string)) return order
+              })
+            ]
+          }
         }).catch(err => {
           window.log("ERROR renderCardOrderCostumers", err)
           this.setDialogTryAgain(true)
@@ -194,31 +205,14 @@
         })
     }
 
-    CardsFilteredForStatus (status?:string): IOrderData[] {
-      return this.allOrders.filter(item => {
-        if (String(item.status || "") === String(status || "")) return item
+    CardsFilteredByStatus (status?:string): IOrderData[] {
+      const ORDERS_STATUS_FILTERED = this.allOrders.filter(order => {
+        if (String(order.status || "") === String(status || "")) return order
+      })
+
+      return ORDERS_STATUS_FILTERED.sort((prev_order, next_order) => {
+        return Number(String(prev_order.updated_at).replace(/\D/g, "")) - Number(String(next_order.updated_at).replace(/\D/g, ""))
       })
     }
   }
 </script>
-
-<style scoped>
-  .bounce-enter-active {
-    animation: bounce-in .5s;
-  }
-  .bounce-leave-active {
-    animation: bounce-in .5s reverse;
-  }
-
-  @keyframes bounce-in {
-    0% {
-      transform: scale(0);
-    }
-    50% {
-      transform: scale(1.5);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
-</style>

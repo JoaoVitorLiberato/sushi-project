@@ -150,11 +150,11 @@
                 block
                 :color="loading ? 'grey lighten-1' : 'secondary'"
                 x-large
+                @click.stop="loading ? '' : prepareAddToCart()"
               >
                 <span
                   v-font-size="14"
                   class="font-weight-bold primary--text"
-                  @click.stop="loading ? '' : prepareAddToCart()"
                 >
                   {{ loading ? 'Aguarde...' : 'Concluir pedido' }}
                 </span>
