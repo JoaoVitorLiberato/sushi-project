@@ -84,7 +84,7 @@
                   :label="label"
                   :name="label"
                   :type="type||'text'"
-                  :rules="optional?[itemsFirstFields[input].valid||true]:[itemsFirstFields[input].valid,required]"
+                  :rules="optional?[itemsFirstFields[input].valid||true]:[required,itemsFirstFields[input].valid]"
                   dark
                   outlined
                   class="mx-1"
@@ -439,109 +439,6 @@
     formDadosCadastrais = false
     copyInput = false
 
-    get validateFieldsInput (): boolean {
-      return [
-        this.formDadosCadastrais
-      ].every(o => !!o)
-    }
-
-    validateCart (): void {
-      if (this.$refs.formDadosCadastrais.validate) {
-        this.$refs.formDadosCadastrais.validate()
-      }
-    }
-
-    created (): void {
-      this.setPayloadSegment(String(this.$route.params.type || ""))
-      if (/foodpark/i.test(String(this.$route.params.type || ""))) {
-        this.setCacheCepValidation("65272000")
-        this.APIValidadorCEPMixin()
-        if (/error_api/i.test(String(viaCepFields("erro") || ""))) {
-          Object.keys(this.itemsFirstFields).forEach((input) => {
-            this.itemsFirstFields[input].value = ""
-            this.itemsFirstFields[input].readonly = false
-          })
-        } else {
-          Object.keys(this.itemsFirstFields).forEach((input) => {
-            if (/^(cep|enderecoUf|enderecoLogradouro|enderecoComplemento|enderecoCidade|enderecoReferencia|enderecoBairro|enderecoNumero|frete)$/i.test(String(input))) {
-              if (/^(cep)$/.test(String(input))) {
-                this.itemsFirstFields[input].value = String(viaCepFields("cep") || "")
-              }
-              if (/^(enderecoReferencia)$/.test(String(input))) {
-                this.itemsFirstFields[input].value = "Ao lado do posto Águia"
-              }
-              if (/^(enderecoBairro)$/.test(String(input))) {
-                this.itemsFirstFields[input].value = "Centro"
-              }
-              if (/^(enderecoNumero|enderecoComplemento)$/.test(String(input))) {
-                this.itemsFirstFields[input].value = "S/N"
-              }
-              if (/^(enderecoCidade)$/.test(String(input))) {
-                this.itemsFirstFields[input].value = String(viaCepFields("localidade") || "")
-              }
-              if (/^(enderecoUf)$/.test(String(input))) {
-                this.itemsFirstFields[input].value = String(viaCepFields("uf") || "")
-              }
-              if (/^(enderecoLogradouro)$/.test(String(input))) {
-                this.itemsFirstFields[input].value = "Av. Prof. João Morais de Sousa"
-              }
-              if (/^(frete)$/.test(String(input))) {
-                this.itemsFirstFields[input].value = String(formatedPrice(Number(0)))
-                this.setPayloadPaymentFrete(0)
-              }
-
-              this.itemsFirstFields[input].valid = true
-              this.itemsFirstFields[input].readonly = true
-            }
-          })
-        }
-      }
-    }
-
-    @Watch("getDialogOrdersClient")
-      @Watch("getDialogCepDelivery")
-        changeDialogOrderClient (): void {
-          if (this.getDialogOrdersClient() || this.getDialogCepDelivery()) return
-
-          if (/delivery/i.test(String(this.$route.params.type|| ""))) {
-            if (viaCepFields("erro") && /error_api/i.test(String(viaCepFields("erro") || ""))) {
-              Object.keys(this.itemsFirstFields).forEach((input) => {
-                setTimeout(() => {
-                  if (/^(frete)$/.test(String(input))) {
-                    this.itemsFirstFields[input].value = String(formatedPrice(Number(500)))
-                    this.setPayloadPaymentFrete(500)
-                  }
-                  if (!/^(frete)$/.test(String(input))) {
-                    this.itemsFirstFields[input].value = ""
-                    this.itemsFirstFields[input].readonly = false
-                  }
-                }, 1500)
-              })
-            } else {
-              Object.keys(this.itemsFirstFields).forEach((input) => {
-                if (/^(cep|enderecoUf|enderecoCidade|frete)$/i.test(String(input))) {
-                  if (/^(cep)$/.test(String(input))) {
-                    this.itemsFirstFields[input].value = String(viaCepFields("cep") || "")
-                  }
-                  if (/^(enderecoCidade)$/.test(String(input))) {
-                    this.itemsFirstFields[input].value = String(viaCepFields("localidade") || "")
-                  }
-                  if (/^(enderecoUf)$/.test(String(input))) {
-                    this.itemsFirstFields[input].value = String(viaCepFields("uf") || "")
-                  }
-                  if (/^(frete)$/.test(String(input))) {
-                    this.itemsFirstFields[input].value = String(formatedPrice(Number(500)))
-                    this.setPayloadPaymentFrete(500)
-                  }
-
-                  this.itemsFirstFields[input].valid = true
-                  this.itemsFirstFields[input].readonly = true
-                }
-              })
-            }
-          }
-        }
-
     itemsFirstFields: {
       [key:string]:{
         [key:string]:string|boolean|number
@@ -631,6 +528,107 @@
       },
     }
 
+    get validateFieldsInput (): boolean {
+      return [
+        this.formDadosCadastrais
+      ].every(o => !!o)
+    }
+
+    validateCart (): void {
+      if (this.$refs.formDadosCadastrais.validate) {
+        this.$refs.formDadosCadastrais.validate()
+      }
+    }
+
+    created (): void {
+      this.setPayloadSegment(String(this.$route.params.type || ""))
+      if (/foodpark/i.test(String(this.$route.params.type || ""))) {
+        this.setCacheCepValidation("65272000")
+        this.APIValidadorCEPMixin()
+        if (/error_api/i.test(String(viaCepFields("erro") || ""))) {
+          Object.keys(this.itemsFirstFields).forEach((input) => {
+            this.itemsFirstFields[input].value = ""
+            this.itemsFirstFields[input].readonly = false
+          })
+        } else {
+          Object.keys(this.itemsFirstFields).forEach((input) => {
+            if (/^(cep|enderecoUf|enderecoLogradouro|enderecoComplemento|enderecoCidade|enderecoReferencia|enderecoBairro|enderecoNumero|frete)$/i.test(String(input))) {
+              if (/^(cep)$/.test(String(input))) {
+                this.itemsFirstFields[input].value = String(viaCepFields("cep") || "")
+              }
+              if (/^(enderecoReferencia)$/.test(String(input))) {
+                this.itemsFirstFields[input].value = "Ao lado do posto Águia"
+              }
+              if (/^(enderecoBairro)$/.test(String(input))) {
+                this.itemsFirstFields[input].value = "Centro"
+              }
+              if (/^(enderecoNumero|enderecoComplemento)$/.test(String(input))) {
+                this.itemsFirstFields[input].value = "S/N"
+              }
+              if (/^(enderecoCidade)$/.test(String(input))) {
+                this.itemsFirstFields[input].value = String(viaCepFields("localidade") || "")
+              }
+              if (/^(enderecoUf)$/.test(String(input))) {
+                this.itemsFirstFields[input].value = String(viaCepFields("uf") || "")
+              }
+              if (/^(enderecoLogradouro)$/.test(String(input))) {
+                this.itemsFirstFields[input].value = "Av. Prof. João Morais de Sousa"
+              }
+              if (/^(frete)$/.test(String(input))) {
+                this.itemsFirstFields[input].value = String(formatedPrice(Number(0)))
+                this.setPayloadPaymentFrete(0)
+              }
+
+              this.itemsFirstFields[input].readonly = true
+            }
+          })
+        }
+      }
+    }
+
+    @Watch("getDialogOrdersClient")
+      @Watch("getDialogCepDelivery")
+        changeDialogOrderClient (): void {
+          if (this.getDialogOrdersClient() || this.getDialogCepDelivery()) return
+
+          if (/delivery/i.test(String(this.$route.params.type|| ""))) {
+            if (viaCepFields("erro") && /error_api/i.test(String(viaCepFields("erro") || ""))) {
+              Object.keys(this.itemsFirstFields).forEach((input) => {
+                setTimeout(() => {
+                  if (/^(frete)$/.test(String(input))) {
+                    this.itemsFirstFields[input].value = String(formatedPrice(Number(500)))
+                    this.setPayloadPaymentFrete(500)
+                  }
+                  if (!/^(frete)$/.test(String(input))) {
+                    this.itemsFirstFields[input].value = ""
+                    this.itemsFirstFields[input].readonly = false
+                  }
+                }, 1500)
+              })
+            } else {
+              Object.keys(this.itemsFirstFields).forEach((input) => {
+                if (/^(cep|enderecoUf|enderecoCidade|frete)$/i.test(String(input))) {
+                  if (/^(cep)$/.test(String(input))) {
+                    this.itemsFirstFields[input].value = String(viaCepFields("cep") || "")
+                  }
+                  if (/^(enderecoCidade)$/.test(String(input))) {
+                    this.itemsFirstFields[input].value = String(viaCepFields("localidade") || "")
+                  }
+                  if (/^(enderecoUf)$/.test(String(input))) {
+                    this.itemsFirstFields[input].value = String(viaCepFields("uf") || "")
+                  }
+                  if (/^(frete)$/.test(String(input))) {
+                    this.itemsFirstFields[input].value = String(formatedPrice(Number(500)))
+                    this.setPayloadPaymentFrete(500)
+                  }
+
+                  this.itemsFirstFields[input].readonly = true
+                }
+              })
+            }
+          }
+        }
+
     @Watch("itemsFirstFields.nomeCompleto.value")
       payloadSetName (value: string):void {
         this.itemsFirstFields.nomeCompleto.valid = nome(value)
@@ -642,7 +640,7 @@
     @Watch("itemsFirstFields.numeroDeContato.value")
       payloadSetPhone (value: string): void {
         this.itemsFirstFields.numeroDeContato.valid = telefone(String(value).replace(/\D/g, ""))
-        console.log(this.itemsFirstFields.numeroDeContato.valid)
+
         if (telefone(String(value).replace(/\D/g, ""))) {
           this.setPayloadCostumerPhone(String(value).replace(/\D/g, ""))
         }
@@ -667,7 +665,7 @@
     @Watch("itemsFirstFields.enderecoNumero.value")
       payloadSetNumber (value: string): void {
         this.itemsFirstFields.enderecoNumero.valid = numero(String(value))
-        if (numero(String())) {
+        if (numero(String(value))) {
           this.setPayloadCostumerNumberAddress(String(value))
         }
       }
@@ -688,8 +686,8 @@
 
     @Watch("itemsFirstFields.enderecoBairro.value")
       payloadSetDistrict (value: string): void {
-        this.itemsFirstFields.enderecoBairro.valid = numero(String(value))
-        if (numero(String(value))) {
+        this.itemsFirstFields.enderecoBairro.valid = nome(String(value))
+        if (nome(String(value))) {
           this.setPayloadCostumerDistrictAddress(String(value))
         }
       }
@@ -721,14 +719,16 @@
     @Watch("itemsFirstFields.messagem.value")
       payloadSetMessage(value: string): void {
         this.itemsFirstFields.formaPagamento.valid = true
-        this.setPayloadCostumerMessage(String(value))
+        if (String(value)) {
+          this.setPayloadCostumerMessage(String(value))
+        }
       }
 
     @Watch("itemsFirstFields", { deep: true })
       itemsFormWatch (value:string): void {
         Object.keys(value).forEach((input) => {
           if (this.itemsFirstFields[input] && !("optional" in this.itemsFirstFields[input])) {
-            if (/^(nomeCompleto|numeroDeContato|cep|enderecoLogradouro|enderecoBairro|enderecoNumero|enderecoReferencia|frete|formaPagamento|messagem)$/i.test(input)) {
+            if (/^(cep|enderecoLogradouro|enderecoBairro|enderecoNumero|enderecoReferencia)$/i.test(input)) {
               this.itemsFirstFields[input].valid = !!value
             }
           }
