@@ -6,10 +6,34 @@ export interface IOrderData {
   segmento: string,
   produtos: IproductData[],
   status: string,
-  telefone: string,
+  telefone: string
 }
 
 export interface IStatusOrder {
   id: string,
   status: string
+}
+
+export interface IOrderDataAll extends IOrderData {
+  consumidor: {
+    nome: string,
+    telefone: {
+      contato: string
+    },
+    endereco: {
+      cep: string,
+      logradouro: string,
+      bairro: string,
+      cidade: string,
+      uf: string,
+      numero: string,
+      complemento: string,
+      referencia: string
+    },
+    mensagem: string
+  },
+  pagamento: {
+    valorTotal: number,
+    formaPagamento: string
+  }
 }

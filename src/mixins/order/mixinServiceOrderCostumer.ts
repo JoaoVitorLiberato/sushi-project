@@ -1,7 +1,7 @@
 import { Component, Vue } from "vue-property-decorator"
 import { MiddlewareConnectAPI } from "@/middleware/middlewareBangaloSupportAPI"
 import { namespace } from "vuex-class"
-import { IOrderData, IStatusOrder } from "@/types/type-order"
+import { IOrderData, IStatusOrder, IOrderDataAll } from "@/types/type-order"
 
 const payloadStore = namespace("payloadStoreModule")
 const cacheStore = namespace("cacheStoreModule")
@@ -26,6 +26,24 @@ export default class MixinServiceOrderCostumer extends Vue {
   getOrderCostumer (numeroPedido: string|number): Promise<IOrderData|string> {
     async function serviceAPI () {
       return await MiddlewareConnectAPI.get(`/order/${numeroPedido}`)
+    }
+
+    return new Promise((resolve, reject) => {
+      serviceAPI()
+        .then((responseApi) => {
+          if (!responseApi.data) reject(Error("err"))
+          resolve(responseApi.data)
+        }).catch((error) => {
+          window.log(`ERROR GETORDERCOSTUMER MIXIN`, error)
+          if (error.response.data.message === "ordem não encontrada") resolve("not-order")
+          else resolve("error")
+        })
+    })
+  }
+
+  getOrderPrinter (numeroPedido: string|number): Promise<IOrderDataAll|string> {
+    async function serviceAPI () {
+      return await MiddlewareConnectAPI.get(`/order/printer/${numeroPedido}`)
     }
 
     return new Promise((resolve, reject) => {
