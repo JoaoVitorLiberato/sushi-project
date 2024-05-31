@@ -45,16 +45,17 @@
           <tbody>
             <tr
               v-for="item in listDiscount"
-              :key="`tr-user-${item.name}`"
+              :key="`tr-user-${item.id}`"
             >
               <td>
                 {{ item.name }}
               </td>
               <td>
                 <v-switch 
-                  v-model="item.active"
+                  v-model="item.status"
+                  :label="item.status ? 'Ativado' : 'Desativado'"
                   color="success"
-                  @change="updateStatusDiscount"
+                  @change="updateStatusDiscount(item)"
                 />
               </td>
               <td
@@ -63,6 +64,7 @@
                 <v-btn
                   icon
                   color="error"
+                  @click.stop="deleteVoucherSelected(String(item.id))"
                 >
                   <v-icon>
                     delete
@@ -77,13 +79,12 @@
 
     <v-col
       cols="12"
-      class="py-2"
+      class="py-4"
     />
 
     <v-col
       cols="12"
-      style="max-width: 400px;"
-      class="pa-4"
+      style="max-width: 400px"
     >
       <v-row
         no-gutters
@@ -107,6 +108,7 @@
 
         <v-col
           cols="5"
+          md="7"
         >
           <v-autocomplete
             :items="numberDiscount()"
@@ -119,10 +121,11 @@
 
         <v-col
           cols="5"
+          class="text-end"
         >
 
           <span
-            v-font-size="18"
+            v-font-size="$vuetify.breakpoint.smAndDown ? 14 : 18"
             class="font-weight-bold"
           >
             {{ coupon.name }}
@@ -157,12 +160,13 @@
             color="secondary"
             depressed
             block
-            disabled
+            :disabled="coupon.name === ''"
+            @click.stop="createdCouponDiscount"
           >
             <span
               class="font-weight-bold primary--text"
             >
-              Gerar - (esperando api)
+              Gerar
             </span>
           </v-btn>
         </v-col> 
@@ -174,26 +178,69 @@
 <script lang="ts">
   import { Component } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
+  import { IVouchers } from "@/types/type-voucher"
   import { $refs } from "@/implements/types"
+  import { namespace } from "vuex-class"
+  import MixinVouchersDiscount from "@/mixins/additional-system/mixinVouchersDiscount"
+
+  const dialogStore = namespace("dialogStoreModule")
 
   @Component({})
   export default class ContentAdminSessionDiscount extends mixins(
-
+    MixinVouchersDiscount,
   ) implements $refs {
+    @dialogStore.Action("ActionDialogTryAgain") setDialogTryAgain
+    @dialogStore.Getter("DialogTryAgain") getDialogTryAgain
+
     $refs
 
+    listDiscount: IVouchers[] = []
     coupon = {
       name: "",
       status: false
     }
 
-    listDiscount = [
-      { name: 'BANGALO10', active: true }, 
-      { name: 'BANGALO40', active: false }
-    ]
+    created (): void {
+      this.getVouchers()
+    }
+
+    getVouchers (): void {
+      this.getAllVouchers()
+        .then(responseMixin => {
+          if (/error/i.test(String(responseMixin || ""))) {
+            this.setDialogTryAgain(!this.getDialogTryAgain())
+            return
+          } else if (/empty-vouchers/i.test(String(responseMixin || ""))) {
+            this.listDiscount = []
+            return
+          } else {
+            this.listDiscount = [ ...responseMixin as IVouchers[] ]
+          }
+        })
+    }
 
     updateStatusDiscount (e): void {
-      console.log("chage", e)
+      this.updateVoucher(e)
+        .then(responseMixin => {
+          if (/error/i.test(String(responseMixin || ""))) {
+            this.setDialogTryAgain(!this.getDialogTryAgain())
+            return
+          }
+
+          this.getVouchers()
+        })
+    }
+
+    deleteVoucherSelected (id:string) {
+      this.deleteVoucher(id)
+        .then(responseMixin => {
+          if (/error/i.test(String(responseMixin || ""))) {
+            this.setDialogTryAgain(!this.getDialogTryAgain())
+            return
+          }
+
+          this.getVouchers()
+        })
     }
 
     numberDiscount (): number[] {
@@ -206,8 +253,22 @@
       return DISCOUNTS
     }
 
-    generateCoupon (e): void {
+    generateCoupon (e:number): void {
       this.coupon.name = `BANGALO${e}`
+    }
+
+    createdCouponDiscount (): void {
+      this.createVoucher(this.coupon)
+        .then(responseMixin => {
+          if (/error/i.test(String(responseMixin || ""))) {
+            this.setDialogTryAgain(!this.getDialogTryAgain())
+            return
+          }
+
+          this.coupon.status = false
+          this.coupon.name = ""
+          this.getVouchers()
+        })
     }
   }
 </script>
