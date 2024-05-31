@@ -6,75 +6,153 @@
       <v-btn
         :loading="isLoading"
         text
+        block
+        plain
         color="error"
-        class="px-2"
         @click="initPrintPage()"
       >
-        Imprimir Pedido
+        Imprimir
       </v-btn>
 
-      <v-row
+      <div
         v-if="pedido && response"
-        ref="printContent" 
+        ref="printContent"
         style="display: none;"
       >
-        <h1>Detalhes do Pedido</h1>
-        <p>
-          <strong>Segmento:</strong> {{ pedido.segmento }}
-        </p>
-        
-        <h2>Consumidor</h2>
-        <p>
-          <strong>Nome:</strong> {{ pedido.consumidor.nome }}
-        </p>
-        
-        <p>
-          <strong>Telefone:</strong> {{ pedido.consumidor.telefone.contato }}
-        </p>
-        
-        <p>
-          <strong>Endereço:</strong> {{ formatAddress(pedido.consumidor.endereco) }}
-        </p>
-        
-        <h2>Produtos</h2>
-        
-        <div 
-          v-for="produto in pedido.produtos" 
-          :key="produto.id"
-        >
-          <h3>{{ produto.name }}</h3>
-        
-          <p>
-            <strong>Categoria:</strong> {{ produto.category }}
-          </p>
-        
-          <p>
-            <strong>Descrição:</strong> {{ produto.description }}
-          </p>
-        
-          <p>
-            <strong>Preço:</strong> {{ formatPrice(produto.price.total) }}
-          </p>
-        
-          <div 
-            v-if="produto.complements && produto.complements.length"
+        <div>
+          <h2
+            style="text-transform:uppercase;font-size:18px;"
           >
-            <h4>Complementos</h4>
-        
-            <ul>
-              <li v-for="(complement, key) in produto.complements" :key="key">
-                {{ complement.name }} - {{ formatPrice(complement.price) }}
-              </li>
-            </ul>
+            Detalhes do Pedido
+          </h2>
+
+          <div
+            style="line-height: 1;"
+          >
+            <p
+              style="padding:0;margin:0;text-transform:uppercase"
+            >
+              <strong>Segmento:</strong> {{ pedido.segmento }}
+            </p>
+
+            <p
+              style="padding:0;margin:0;text-transform:uppercase;letter-spacing:0.32px"
+            >
+              <strong>Nome:</strong> {{ pedido.consumidor.nome }}
+            </p>
+
+            <p
+              style="padding:0;margin:0;text-transform:uppercase"
+            >
+              <strong>Telefone:</strong> {{ pedido.consumidor.telefone.contato }}
+            </p>
+
+            <p
+              style="padding:0;margin:0;text-transform:uppercase"
+            >
+              <strong>Endereço:</strong> {{ formatAddress(pedido.consumidor.endereco) }}
+            </p>
           </div>
         </div>
-        
-        <h2>Pagamento</h2>
-        <p><strong>Valor Total:</strong> {{ formatPrice(pedido.pagamento.valorTotal) }}</p>
-        <p><strong>Forma de Pagamento:</strong> {{ pedido.pagamento.formaPagamento }}</p>
-        
-        <p><strong>Status:</strong> {{ pedido.status }}</p>
-      </v-row>
+
+        <div
+          style="margin-top: 15px;"
+        >
+          <h2
+            style="text-transform:uppercase;font-size:18px;line-height:1;"
+          >
+            Produtos
+          </h2>
+
+          <div>
+            <div 
+              v-for="produto in pedido.produtos" 
+              :key="produto.id"
+              style="line-height: 1;margin:5px 0"
+            >
+              <p
+                style="padding:0;margin:0;text-transform:uppercase"
+              >
+                <strong>Nome:</strong> {{ produto.name }}
+              </p>
+
+              <p
+                style="padding:0;margin:0;text-transform:uppercase"
+              >
+                <strong>Tipo:</strong> {{ typeDifferenceProduct(produto.differences) }}
+              </p>
+
+              <p
+                style="padding:0;margin:0;text-transform:uppercase"
+              >
+                <strong>Qtd Produto:</strong> {{ produto.price.qtd_product }}
+              </p>
+
+              <p
+                v-if="produto.complements"
+                style="padding:0;margin:0;text-transform:uppercase"
+              >
+                <strong>Complementos: </strong>
+                <span
+                  v-if="produto.complements.length <= 0"
+                  style="padding:0;margin:0;text-transform:uppercase"
+                >
+                  Sem complementos
+                </span>
+                <ul
+                  v-else
+                >
+                  <li
+                    v-for="(complement, key) in produto.complements"
+                    :key="key"
+                    style="margin-left:5px;line-height:1;text-transform: uppercase"
+                  >
+                    {{ complement.name }} - {{ formatPrice(complement.priceTotal) }} -  qtd: {{ complement.qtd }}
+                  </li>
+                </ul>
+              </p>
+            </div>
+
+            <div
+              style="margin-top:10px;line-height:1"
+            >
+              <span>
+                <strong>OBS:</strong> {{ pedido.consumidor.mensagem }}
+              </span>
+            </div>
+
+            <div
+              style="margin-top: 15px;"
+            >
+              <p
+                style="padding:0;margin:0;text-transform:uppercase"
+              >
+                <strong>Forma de Pagamento:</strong> {{ pedido.pagamento.formaPagamento }}
+              </p>
+
+              <p
+                style="padding:0;margin:0;text-transform:uppercase"
+              >
+                <strong>Valor Total:</strong> {{  formatPrice(pedido.pagamento.valorTotal) }}
+              </p>
+
+              <p
+                v-if="pedido.pagamento.desconto.PrecoTotalComDesconto > 0"
+                style="padding:0;margin:0;text-transform:uppercase"
+              >
+                <strong>% do desconto:</strong> {{ pedido.pagamento.desconto.porcentagem }}%
+              </p>
+
+              <p
+                v-if="pedido.pagamento.desconto.PrecoTotalComDesconto > 0"
+                style="padding:0;margin:0;text-transform:uppercase"
+              >
+                <strong>Valor C/ desconto:</strong> {{ formatPrice(pedido.pagamento.desconto.PrecoTotalComDesconto) }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </v-row>
 </template>
@@ -82,7 +160,7 @@
 <script lang="ts">
   import { Component, Prop } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
-  
+  import { IDifferences } from "@/types/types-product"
   import MixinServiceOrderCostumer from "@/mixins/order/mixinServiceOrderCostumer"
   import { $refs } from "@/implements/types"
   import { IOrderDataAll } from "@/types/type-order"
@@ -113,7 +191,7 @@
 
     printPage() {
       const printContent = this.$refs.printContent as HTMLElement | null;
-      console.log(this.$refs['printContent'], this.$refs)
+
       if (printContent) {
         const printWindow = window.open('', '', 'height=600,width=800');
         printWindow!.document.write(`
@@ -145,6 +223,40 @@
 
     formatPrice(price) {
       return `R$ ${(price / 100).toFixed(2)}`;
+    }
+
+    typeDifferenceProduct (differences: IDifferences): string {
+      let typeText = [] as string[]
+      let returnText = ""
+
+      if (differences) {
+        Object.keys(differences).forEach(type => {
+          if (!differences) return typeText.push("Natural")
+
+          switch (true) {
+            case /especial/i.test(type as string) && differences[type].active:
+              return typeText.push("Especial")
+            case /breaded/i.test(type as string) && differences[type].active:
+              return typeText.push("Empanado")
+            case /flambed/i.test(type as string) && differences[type].active:
+              return typeText.push("Flambado")
+            default:
+              return typeText.push("Natural")
+          }
+        })
+      }
+
+      if ((String(typeText).toLowerCase().includes(("Especial").toLowerCase()))) {
+        returnText = "Especial"
+      } else if ((String(typeText).toLowerCase().includes(("Empanado").toLowerCase())))  {
+        returnText = "Empanado"
+      } else if ((String(typeText).toLowerCase().includes(("Flambado").toLowerCase()))) {
+        returnText = "Flambado"
+      } else {
+        returnText = "Natural"
+      }
+
+      return returnText
     }
   }
 </script>

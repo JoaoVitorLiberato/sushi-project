@@ -66,7 +66,7 @@
             <v-row
               no-gutters
               class="pa-md-2"
-              :style="`max-height: 510px;overflow-y: scroll;`"
+              :style="`max-height: ${$vuetify.breakpoint.width > 980 && $vuetify.breakpoint.width < 1080 ? 444 : 510}px;overflow-y: scroll;`"
             >
               <v-col
                 v-for="item in getCacheOrderCart()"
@@ -96,89 +96,94 @@
 
           <v-col
             cols="12"
-            class="py-2"
-          />
-
-          <v-col
-            cols="12"
+            class="mt-5"
           >
-            <span
-              class="font-weight-bold text-uppercase"
-              style="font-size: 19px;"
+            <v-row
+              no-gutters
+              class="py-2"
             >
-              Valor do frete:
-            </span>
-            <br>
-            <span
-              class="font-weight-medium text-uppercase"
-              style="font-size: 19px;"
-            >
-              {{ formatedPrice(Number(getPayloadOrder('pagamento').valorFrete)) }}
-            </span>
-          </v-col>
+              <v-col
+                cols="12"
+              >
+                <span
+                  class="font-weight-bold text-uppercase"
+                  style="font-size: 19px;"
+                >
+                  Valor do frete:
+                </span>
+                <br>
+                <span
+                  class="font-weight-medium text-uppercase"
+                  style="font-size: 19px;"
+                >
+                  {{ formatedPrice(Number(getPayloadOrder('pagamento').valorFrete)) }}
+                </span>
+              </v-col>
 
-          <v-col
-            cols="12"
-            class="py-2"
-          />
+              <v-col
+                cols="12"
+                class="py-2"
+              />
 
-          <v-col
-            cols="12"
-          >
-            <span
-              class="font-weight-bold text-uppercase"
-              style="font-size: 19px;"
-            >
-              Total:
-            </span>
-            <br>
-            <span
-              v-font-size="$vuetify.breakpoint.width < 350 ? 25 : 30"
-              class="font-weight-bold text-uppercase"
-              :style="`text-decoration:${getPayloadOrder('pagamento').desconto.PrecoTotalComDesconto > 0 ?'line-through' : 'none'}`"
-            >
-              {{ formatedPrice(Number(getCachePriceTotal()) + Number(getPayloadOrder("pagamento").valorFrete)) }}
-            </span>
+              <v-col
+                cols="12"
+              >
+                <span
+                  class="font-weight-bold text-uppercase"
+                  style="font-size: 19px;"
+                >
+                  Total:
+                </span>
+                <br>
+                <span
+                  v-font-size="$vuetify.breakpoint.width < 350 ? 25 : 30"
+                  class="font-weight-bold text-uppercase"
+                  :style="`text-decoration:${getPayloadOrder('pagamento').desconto.PrecoTotalComDesconto > 0 ?'line-through' : 'none'}`"
+                >
+                  {{ formatedPrice(Number(getCachePriceTotal()) + Number(getPayloadOrder("pagamento").valorFrete)) }}
+                </span>
+    
+                <span
+                  v-if="getPayloadOrder('pagamento').desconto.PrecoTotalComDesconto > 0"
+                  v-font-size="$vuetify.breakpoint.width < 350 ? 25 : 30"
+                  class="font-weight-bold text-uppercase ml-3"
+                >
+                  {{ formatedPrice(Number(getPayloadOrder("pagamento").desconto.PrecoTotalComDesconto)) }}
+                </span>
+              </v-col>
 
-            <span
-              v-if="getPayloadOrder('pagamento').desconto.PrecoTotalComDesconto > 0"
-              v-font-size="$vuetify.breakpoint.width < 350 ? 25 : 30"
-              class="font-weight-bold text-uppercase ml-3"
-            >
-              {{ formatedPrice(Number(getPayloadOrder("pagamento").desconto.PrecoTotalComDesconto)) }}
-            </span>
-          </v-col>
+              <v-col
+                v-if="getPayloadOrder('pagamento').desconto.PrecoTotalComDesconto > 0"
+                cols="12"
+                class="mt-2"
+                style="line-height:1"
+              >
+                <span
+                  class="font-weight-medium error--text"
+                >
+                  Desconto de {{ getPayloadOrder('pagamento').desconto.porcentagem }}% aplicado com sucesso!
+                </span>
+              </v-col>
 
-          <v-col
-            v-if="getPayloadOrder('pagamento').desconto.PrecoTotalComDesconto > 0"
-            cols="12"
-            class="mt-2"
-            style="line-height:1"
-          >
-            <span
-              class="font-weight-medium error--text"
-            >
-              Desconto de {{ getPayloadOrder('pagamento').desconto.porcentagem }}% aplicado com sucesso!
-            </span>
-          </v-col>
-
-          <v-col
-            v-if="/(delivery)/i.test(getPayloadOrder('segmento'))"
-            cols="12"
-            style="line-height: 1;"
-            class="mt-3"
-          >
-            <strong
-              class="font-weight-bold"
-            >
-              Atenção:
-            </strong>
-            <span
-              v-font-size="13"
-              class="font-weight-regular pt-1"
-            >
-              O valor do frete já está incluso na soma total dos produtos.
-            </span>
+              <v-col
+                v-if="/(delivery)/i.test(getPayloadOrder('segmento'))"
+                cols="12"
+                style="line-height: 1;"
+                class="mt-3"
+              >
+                <strong
+                  class="font-weight-bold"
+                >
+                  Atenção:
+                </strong>
+                <span
+                  v-font-size="13"
+                  class="font-weight-regular pt-1"
+                >
+                  O valor do frete já está incluso na soma total dos produtos.
+                </span>
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
 

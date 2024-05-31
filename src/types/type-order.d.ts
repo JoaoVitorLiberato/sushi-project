@@ -34,6 +34,10 @@ export interface IOrderDataAll extends IOrderData {
     mensagem: string
   },
   pagamento: {
+    desconto: {
+      PrecoTotalComDesconto: number
+      porcentagem: number
+    }
     valorTotal: number,
     formaPagamento: string
   }
