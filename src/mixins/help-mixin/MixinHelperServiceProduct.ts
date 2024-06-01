@@ -130,4 +130,15 @@ export default class MixinHelperServiceProduct extends Vue {
     this.setPayloadPriceTotalProducts(this.getCachePriceTotal())
     this.setPayloadPriceTotal(Number(this.getPayloadOrder("pagamento").valorProdutos) + Number(this.getPayloadOrder("pagamento").valorFrete))
   }
+
+  applyingCouponDiscount (cupom:string): void {
+    if (!cupom) return
+
+    const discount = Number(this.priceTotalOrder) - ((Number(String(cupom).replace(/\D/g, "")) / 100) * Number(this.priceTotalOrder))
+
+    this.getPayloadPaymentDiscount({
+      porcentagem: Number(String(cupom).replace(/\D/g, "")),
+      PrecoTotalComDesconto: Number(Math.ceil(discount)) + Number(this.getPayloadOrder("pagamento").valorFrete)
+    })
+  }
 }

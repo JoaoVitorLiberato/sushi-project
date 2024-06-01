@@ -397,13 +397,32 @@
                 label="Cupom"
                 :rules="[required]"
                 outlined
-                hide-details="auto"
+                hide-details
               />
             </v-col>
 
             <v-col
+              v-if="cupomValidate.status"
               cols="12"
               class="py-2"
+            />
+
+            <v-col
+              v-if="cupomValidate.status"
+              cols="12"
+              style="line-height: 1;"
+            >
+              <span
+                v-font-size="13"
+                :class="`font-weight-regular ${cupomValidate.color}`"
+              >
+                {{ cupomValidate.message }}
+              </span>
+            </v-col>
+
+            <v-col
+              cols="12"
+              class="py-3"
             />
 
             <v-col
@@ -420,7 +439,7 @@
                 :color="cupom.length >= 8 ? 'secondary' : 'grey lighten-1'"
                 block
                 large
-                @click="cupom.length < 8 ? $refs.inputCupomDiscount.validate() : ''"
+                @click="cupom.length < 8 ? $refs.inputCupomDiscount.validate() : validateCoupom()"
               >
                 <span
                   class="font-weight-bold primary--text"
@@ -498,6 +517,8 @@
   import APIValidadorCEPMixin from "@/mixins/form/MixinFormConfig"
   import MixinRedirectLinks from "@/mixins/redirectLinks/MxiinRedirectLinks"
   import MixinServiceOrderCostumer from "@/mixins/order/mixinServiceOrderCostumer"
+  import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
+  import MixinVouchersDiscount from "@/mixins/additional-system/mixinVouchersDiscount"
   import "@/styles/view/form/viewForm.styl"
 
   const payloadStore = namespace("payloadStoreModule")
@@ -518,9 +539,13 @@
     APIValidadorCEPMixin,
     MixinRedirectLinks,
     MixinServiceOrderCostumer,
+    MixinVouchersDiscount,
+    MixinHelperServiceProduct,
   ) implements $refs {
     @dialogStore.Getter("DialogOrdersClient") declare getDialogOrdersClient
     @dialogStore.Getter("DialogCepDelivery") getDialogCepDelivery
+    @dialogStore.Action("ActionDialogTryAgain") setDialogTryAgain
+    @dialogStore.Getter("DialogTryAgain") getDialogTryAgain
     @cacheStore.Action("ActionCacheCepValidation") setCacheCepValidation
     @payloadStore.Getter("PayloadOrder") declare getPayloadOrder
     @payloadStore.Action("actionPayloadCostumerName") setPayloadCostumerName
@@ -548,6 +573,12 @@
     formDadosCadastrais = false
     copyInput = false
     cupom = ""
+    cupomValidate = {
+      status: false,
+      color: "",
+      message: ""
+    }
+
     itemsFirstFields: {
       [key:string]:{
         [key:string]:string|boolean|number
@@ -879,6 +910,33 @@
 
     redirectDetailOrder (): void {
       location.replace("/detalhes/pedido")
+    }
+
+    validateCoupom (): void {
+      this.loading = true
+      this.getVoucherActived(String(this.cupom))
+        .then(responseMixin => {
+          if (/not-found/i.test(String(responseMixin || ""))) {
+            this.cupomValidate.status = true
+            this.cupomValidate.color = "error--text"
+            this.cupomValidate.message = "Este cupom é inválido, por favor, Digite um cupom válido."
+            return
+          } else if (/error/i.test(String(responseMixin || ""))) throw Error("err")
+            this.cupomValidate.status = true
+            this.cupomValidate.color = "success--text"
+            this.cupomValidate.message = "Cupom aplicado com sucesso."
+            this.applyingCouponDiscount(this.cupom)
+
+            setTimeout(() => {
+              this.$refs.dialogDiscount.save()
+              this.cupomValidate.status = false
+              this.loading = false
+            }, 4000)
+        }).catch(err => {
+          window.log("error validateCoupom", err)
+          this.loading = false
+          this.setDialogTryAgain(!this.getDialogTryAgain())
+        })
     }
   }
 </script>
