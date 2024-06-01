@@ -313,13 +313,14 @@
                   class="mt-3"
                 >
                   <strong
-                    class="font-weight-bold"
+                    v-font-size="13"
+                    class="font-weight-medium text-uppercase"
                   >
                     Atenção:
                   </strong>
                   <span
                     v-font-size="13"
-                    class="font-weight-regular pt-1"
+                    class="font-weight-regular pt-1 text-uppercase"
                   >
                     O valor do frete já está incluso na soma total dos produtos.
                   </span>

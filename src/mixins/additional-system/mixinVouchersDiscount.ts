@@ -45,6 +45,30 @@ export default class MixinVouchersDiscount extends Vue {
     })
   }
 
+  getVoucherActived (cupom: string): Promise<IVouchers[]|string|boolean> {
+    this.cacheLoading.status = true
+    this.cacheLoading.msg = "Verificando se o cupom é valido..."
+
+    async function productApi () {
+      return await MiddlewareConnectAPI.get(`voucher/${String(cupom).toUpperCase()}`)
+    }
+
+    return new Promise((resolve, reject) => {
+      productApi()
+        .then(responseMiddleware => {
+          if (!responseMiddleware.data) reject(Error("error"))
+          resolve(true)
+        }).catch(err => {
+          window.log("ERROR getAllVouchers", err)
+          this.cacheLoading.status = false
+          if (err.response.data.message === "Voucher não encontrado") resolve("not-found")
+          else resolve("error")
+        }).finally(() => {
+          this.cacheLoading.status = false
+        })
+    })
+  }
+
   createVoucher (voucher: IVouchers): Promise<string> {
     this.cacheLoading.status = true
     this.cacheLoading.msg = "Criando cupom..."
