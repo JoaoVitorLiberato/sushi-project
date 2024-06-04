@@ -15,6 +15,7 @@
     >
       <v-img
         src="/img/project/rede-sociais/whatsapp.png"
+        alt="Entre em contato através do WhatsApp com o Bangalô Sushi Lounge"
         title="Entre em contato através do WhatsApp com o Bangalô Sushi Lounge"
         contain
         height="60"

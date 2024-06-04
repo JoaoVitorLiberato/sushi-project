@@ -43,6 +43,7 @@
             dark
             depressed
             dense
+            title="Menu - Escolha a opção que você deseja"
             style="min-width: 60px;"
             @click="overdrawerMenu = !overdrawerMenu"
           >
