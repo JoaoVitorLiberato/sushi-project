@@ -76,8 +76,9 @@
                 >
                   (98) 9 9226-9238
                 </span>
-                <img 
+                <img
                   src="/img/project/rede-sociais/whatsapp.png"
+                  alt="Entre em contato através do WhatsApp com o Bangalô Sushi Lounge"
                   width="20"
                   height="20"
                 />
@@ -90,13 +91,15 @@
           cols="12"
           class="py-4 hidden-md-and-up"
         />
-    
+
         <v-col
           cols="12"
           :md="$vuetify.breakpoint.width >= 965 && $vuetify.breakpoint.width < 1200 ? 6 : 4"
         >
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d996.4751330118537!2d-45.77555705037617!3d-2.5393180317341195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x92b39143caf0e4d9%3A0xd8b49800859c1382!2zQ09OVkVOScOKTkNJQSDDgUdVSUE!5e0!3m2!1spt-BR!2sbr!4v1714877796021!5m2!1spt-BR!2sbr"
+            alt="Saiba mais sobre nossa localização clicando no mapa"
+            title="Saiba mais sobre nossa localização clicando no mapa"
             :width="$vuetify.breakpoint.smAndDown ? '100%' : 500"
             :height="$vuetify.breakpoint.smAndDown ? 300 : 350"
             style="border:0;border-radius:15px"
