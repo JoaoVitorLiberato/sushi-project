@@ -5,7 +5,15 @@ export interface IOrderData {
   pedido: string,
   segmento: string,
   produtos: IproductData[],
+  pagamento: {
+    formaPagamento: string,
+    statusPagamento: string,
+    valorFrete: number,
+    valorProdutos: number,
+    valorTotal: number,
+  },
   status: string,
+  vip: boolean,
   telefone: string
   updated_at: string|Date
 }

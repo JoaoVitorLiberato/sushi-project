@@ -502,6 +502,78 @@
           </v-row>
         </v-card>
       </v-dialog>
+
+    <v-overlay
+      :value="dialogFinishOrderFoodpark"
+      opacity="1"
+    >
+      <v-dialog
+        v-model="dialogFinishOrderFoodpark"
+        width="400"
+      >
+        <v-card
+          color="primary"
+          dark
+        >
+          <v-row
+            no-gutters
+            style="border: 1px solid var(--v-secondary-base);"
+            class="pa-5"
+          >
+            <v-col
+              cols="12"
+              style="line-height: 1;"
+            >
+              <h2
+                v-font-size="$vuetify.breakpoint.xsOnly ? 16 : 22"
+                class="font-weight-medium"
+              >
+                Opaahh, Estamos quase lá...
+              </h2>
+            </v-col>
+
+            <v-col
+              cols="12"
+              class="py-3"
+            />
+
+            <v-col
+              cols="12"
+            >
+              <span
+                v-font-size="$vuetify.breakpoint.xsOnly ? 14 : 17"
+                class="font-weight-regalar"
+              >
+                Prezado cliente, Para dá andamento ao seu pedido será necessário pagar diretamente no caixa.
+              </span>
+            </v-col>
+
+            <v-col
+              cols="12"
+              class="py-4"
+            />
+
+            <v-col
+              cols="12"
+            >
+              <v-btn
+                block
+                large
+                depressed
+                color="secondary"
+                @click.stop="returnProductRoute()"
+              >
+                <span
+                  class="font-weight-bold primary--text"
+                >
+                  Finalizar
+                </span>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-dialog>
+    </v-overlay>
     </v-col>
   </v-row>
 </template>
@@ -571,6 +643,7 @@
     numeroPedido = ""
     popupNumberOrder  = false
     formDadosCadastrais = false
+    dialogFinishOrderFoodpark = false
     copyInput = false
     cupom = ""
     cupomValidate = {
@@ -893,7 +966,11 @@
           localStorage.removeItem("id-commented")
 
           this.loading = false
-          this.popupNumberOrder = true
+          if (/^foodpark$/i.test(String(this.$route.params.type || ""))) {
+            this.dialogFinishOrderFoodpark = true
+          } else {
+            this.popupNumberOrder = true
+          }
         })
     }
 

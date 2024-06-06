@@ -52,13 +52,13 @@
             >
               <v-list-item-icon>
                 <v-icon
-                  :color="/orders/i.test(service) ? 'error' : 'primary'"
+                  :color="/orders/i.test(service) ? 'secondary' : 'primary'"
                 >
                   list
                 </v-icon>
               </v-list-item-icon>
               <v-list-item-title
-                :class="/orders/i.test(service) ? 'error--text' : 'primary--text'"
+                :class="/orders/i.test(service) ? 'secondary--text' : 'primary--text'"
               >
                 Pedidos
               </v-list-item-title>
@@ -71,13 +71,13 @@
             >
               <v-list-item-icon>
                 <v-icon
-                  :color="/products/i.test(service) ? 'error' : 'primary'"
+                  :color="/products/i.test(service) ? 'secondary' : 'primary'"
                 >
                   list_alt
                 </v-icon>
               </v-list-item-icon>
               <v-list-item-title
-                :class="/products/i.test(service) ? 'error--text' : 'primary--text'"
+                :class="/products/i.test(service) ? 'secondary--text' : 'primary--text'"
               >
                 Produtos
               </v-list-item-title>
@@ -90,13 +90,13 @@
             >
               <v-list-item-icon>
                 <v-icon
-                  :color="/discount/i.test(service) ? 'error' : 'primary'"
+                  :color="/discount/i.test(service) ? 'secondary' : 'primary'"
                 >
                   confirmation_number
                 </v-icon>
               </v-list-item-icon>
               <v-list-item-title
-                :class="/discount/i.test(service) ? 'error--text' : 'primary--text'"
+                :class="/discount/i.test(service) ? 'secondary--text' : 'primary--text'"
               >
                 Descontos
               </v-list-item-title>
@@ -109,13 +109,13 @@
             >
               <v-list-item-icon>
                 <v-icon
-                  :color="/employee/i.test(service) ? 'error' : 'primary'"
+                  :color="/employee/i.test(service) ? 'secondary' : 'primary'"
                 >
                   how_to_reg
                 </v-icon>
               </v-list-item-icon>
               <v-list-item-title
-                :class="/employee/i.test(service) ? 'error--text' : 'primary--text'"
+                :class="/employee/i.test(service) ? 'secondary--text' : 'primary--text'"
               >
                 Funcionários
               </v-list-item-title>
@@ -127,13 +127,13 @@
             >
               <v-list-item-icon>
                 <v-icon
-                  :color="/reset-password/i.test(service) ? 'error' : 'primary'"
+                  :color="/reset-password/i.test(service) ? 'secondary' : 'primary'"
                 >
                   lock_reset
                 </v-icon>
               </v-list-item-icon>
               <v-list-item-title
-                :class="/reset-password/i.test(service) ? 'error--text' : 'primary--text'"
+                :class="/reset-password/i.test(service) ? 'secondary--text' : 'primary--text'"
               >
                 Alterar senha
               </v-list-item-title>
@@ -154,6 +154,34 @@
                 Sair
               </v-list-item-title>
             </v-list-item>
+
+            <v-list-item
+              link
+              style="position:fixed;bottom:10px;width:93%;"
+              @click="dialogOpenStore = !dialogOpenStore"
+            >
+              <v-list-item-icon>
+                <v-progress-circular
+                  v-if="loading"
+                  width="2"
+                  size="23"
+                  indeterminate
+                  color="secondary"
+                />
+
+                <v-icon
+                  v-else
+                  :color="colorButtonOpenStore"
+                >
+                  power_settings_new
+                </v-icon>
+              </v-list-item-icon>
+              <v-list-item-title
+                :class="`${colorButtonOpenStore}--text`"
+              >
+                {{ /success/i.test(String(colorButtonOpenStore || "")) ? "Sistema ligado" : "Sistema desligado" }}
+              </v-list-item-title>
+            </v-list-item>
           </v-list>
         </v-navigation-drawer>
       </v-col>
@@ -166,33 +194,6 @@
           no-gutters
           class="pa-4"
         >
-          <v-col
-            cols="12"
-            class="text-end"
-          >
-            <v-btn
-              icon
-              @click="dialogOpenStore = !dialogOpenStore"
-            >
-              <v-progress-circular
-                v-if="loading"
-                indeterminate
-                color="secondary"
-              />
-              <v-icon
-                v-else
-                :color="colorButtonOpenStore"
-              >
-                power_settings_new
-              </v-icon>
-            </v-btn>
-          </v-col>
-
-          <v-col
-            cols="12"
-            class="py-3"
-          />
-
           <v-col
             cols="12"
           >
@@ -286,7 +287,7 @@
     @dialogStore.Action("ActionDialogTryAgain") setDialogTryAgain
 
     service = "products"
-    colorButtonOpenStore = "grey darken-2"
+    colorButtonOpenStore = "primary"
     permission = ""
     loading = false
 
@@ -322,7 +323,7 @@
         .then(responseMixin => {
           if (/error/i.test(String(responseMixin))) throw Error("err")
           if (responseMixin)  this.colorButtonOpenStore = "success"
-          else this.colorButtonOpenStore = "grey darken-2"
+          else this.colorButtonOpenStore = "primary"
         }).catch(err => {
           window.log("ERROR mounted-view-admin", err)
           this.loading = false
