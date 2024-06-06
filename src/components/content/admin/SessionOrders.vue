@@ -80,35 +80,17 @@
               order="1"
               order-md="2"
             >
-              <v-menu
-                bottom
-                :offset-y="true"
+              <v-btn
+                outlined
+                large
+                @click="redirectOrder('foodpark')"
               >
-                <template v-slot:activator="{ on }">
-                  <v-btn
-                    icon
-                    x-large
-                    color="primary"
-                    dark
-                    v-on="on"
-                  >
-                    <v-icon>
-                      menu
-                    </v-icon>
-                  </v-btn>
-                </template>
-
-                <v-list>
-                  <v-list-item
-                    v-for="(item, index) in [{ title: 'Pedido foodpark', id: 'foodpark' }]"
-                    :key="index"
-                    link
-                    @click="redirectOrder(item.id)"
-                  >
-                    <v-list-item-title>{{ item.title }}</v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
+                <span
+                  class="font-weight-medium"
+                >
+                  Pedidos Foodpark
+                </span>
+              </v-btn>
             </v-col>
           </v-row>
         </v-col>

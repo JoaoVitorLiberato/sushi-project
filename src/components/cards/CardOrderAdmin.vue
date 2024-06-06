@@ -180,15 +180,43 @@
 
             <v-spacer></v-spacer>
 
-            <v-btn
-              icon
-              color="secondary"
-              @click="$emit('dialogProductEmit')"
+            <v-menu
+              right
+              :offset-x="true"
             >
-              <v-icon>
-                add
-              </v-icon>
-            </v-btn>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  icon
+                  color="secondary"
+                  v-on="on"
+                >
+                  <v-icon>
+                    add
+                  </v-icon>
+                </v-btn>
+              </template>
+
+              <v-list
+                class="pa-2"
+              >
+                <v-list-item
+                  link
+                  @click="$emit('dialogProductEmit')"
+                >
+                  <v-list-item-title>
+                    Ver Productos
+                  </v-list-item-title>
+                </v-list-item>
+
+                <v-list-item
+                  link
+                >
+                  <v-list-item-title>
+                    Ativar VIP
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
           </v-col>
 
           <v-col
