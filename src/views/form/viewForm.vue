@@ -255,89 +255,6 @@
           </v-form>
         </v-col>
       </v-row>
-      <v-overlay
-        :value="popupNumberOrder"
-        opacity="1"
-      >
-        <v-dialog
-          v-model="popupNumberOrder"
-          hide-overlay
-          persistent
-          max-width="400"
-          height="200"
-        >
-          <v-card
-            color="primary"
-            elevation="0"
-          >
-            <v-row
-              no-gutters
-              style="border: 1px solid var(--v-secondary-base)"
-              class="pa-4"
-            >
-              <v-col
-                cols="12"
-                style="line-height:1;"
-              >
-                <span
-                  v-font-size="14"
-                  class="font-weight-regular"
-                  style="color:var(--v-primary-text)"
-                >
-                  Copie o número do seu pedido para você o andamento do seu pedido.
-                </span>
-              </v-col>
-
-              <v-col
-                cols="12"
-                class="py-2"
-              />
-
-              <v-col
-                cols="12"
-              >
-                <v-text-field
-                  id="numberOrderInput"
-                  v-height="68"
-                  :value="numeroPedido"
-                  label="Número do pedido"
-                  readonly
-                  dark
-                  color="grey lighten-4"
-                  append-icon="content_copy"
-                  :success-messages="copyInput ? 'Copiado com sucesso!' : ''"
-                  @click:append="copy('numberOrderInput')"
-                  @click="copy('numberOrderInput')"
-                  outlined
-                />
-              </v-col>
-
-              <v-col
-                cols="12"
-                class="py-3"
-              />
-
-              <v-col
-                cols="12"
-              >
-                <v-btn
-                  color="secondary"
-                  large
-                  block
-                  depressed
-                  @click.stop="redirectDetailOrder()"
-                >
-                  <span
-                    class="font-weight-bold primary--text"
-                  >
-                    Detalhes do pedido
-                  </span>
-                </v-btn>
-              </v-col>
-            </v-row>
-          </v-card>
-        </v-dialog>
-      </v-overlay>
 
       <v-dialog
         ref="dialogDiscount"
@@ -640,7 +557,6 @@
     formatedPrice = formatedPrice
 
     loading = false
-    numeroPedido = ""
     popupNumberOrder  = false
     formDadosCadastrais = false
     dialogFinishOrderFoodpark = false
@@ -753,11 +669,12 @@
       }
     }
 
-    created (): void {
+    mounted (): void {
       this.setPayloadSegment(String(this.$route.params.type || ""))
       if (/foodpark/i.test(String(this.$route.params.type || ""))) {
         this.setCacheCepValidation("65272000")
         this.APIValidadorCEPMixin()
+
         if (/error_api/i.test(String(viaCepFields("erro") || ""))) {
           Object.keys(this.itemsFirstFields).forEach((input) => {
             this.itemsFirstFields[input].value = ""
@@ -767,7 +684,7 @@
           Object.keys(this.itemsFirstFields).forEach((input) => {
             if (/^(cep|enderecoUf|enderecoLogradouro|enderecoComplemento|enderecoCidade|enderecoReferencia|enderecoBairro|enderecoNumero|frete)$/i.test(String(input))) {
               if (/^(cep)$/.test(String(input))) {
-                this.itemsFirstFields[input].value = String(viaCepFields("cep") || "")
+                this.itemsFirstFields[input].value = "65272-000"
               }
               if (/^(enderecoReferencia)$/.test(String(input))) {
                 this.itemsFirstFields[input].value = "Ao lado do posto Águia"
@@ -779,10 +696,10 @@
                 this.itemsFirstFields[input].value = "S/N"
               }
               if (/^(enderecoCidade)$/.test(String(input))) {
-                this.itemsFirstFields[input].value = String(viaCepFields("localidade") || "")
+                this.itemsFirstFields[input].value = "Santa Luzia do Paruá"
               }
               if (/^(enderecoUf)$/.test(String(input))) {
-                this.itemsFirstFields[input].value = String(viaCepFields("uf") || "")
+                this.itemsFirstFields[input].value = "MA"
               }
               if (/^(enderecoLogradouro)$/.test(String(input))) {
                 this.itemsFirstFields[input].value = "Av. Prof. João Morais de Sousa"
@@ -959,34 +876,18 @@
             return
           }
 
-          this.numeroPedido = responseMixin as string
-
           sessionStorage.clear()
-          sessionStorage.setItem("numero-pedido", this.numeroPedido)
+          sessionStorage.setItem("numero-pedido", this.getPayloadOrder("consumidor").telefone.contato)
           localStorage.removeItem("id-commented")
 
-          this.loading = false
           if (/^foodpark$/i.test(String(this.$route.params.type || ""))) {
             this.dialogFinishOrderFoodpark = true
           } else {
-            this.popupNumberOrder = true
+            location.replace("/detalhes/pedido")
           }
+        }).finally(() => {
+          this.loading = false
         })
-    }
-
-    copy (id:string): void {
-      this.copyInput = true
-      const COPY_NUMBER = document.getElementById(id) as HTMLInputElement
-      COPY_NUMBER.select()
-      document.execCommand("copy")
-
-      setTimeout(() => {
-        this.copyInput = false
-      }, 5000)
-    }
-
-    redirectDetailOrder (): void {
-      location.replace("/detalhes/pedido")
     }
 
     validateCoupom (): void {

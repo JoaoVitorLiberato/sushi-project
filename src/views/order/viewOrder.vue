@@ -1,7 +1,7 @@
 <template>
   <v-row
     no-gutters
-    style="width:100%;max-width:1110px;"
+    style="width: 100%;max-width: 1440px;"
     class="mx-auto"
   >
     <v-col
@@ -12,6 +12,12 @@
 
     <v-col
       cols="12"
+      class="py-5"
+    />
+
+
+    <v-col
+      cols="12"
       style="min-height:600px"
     >
       <v-row
@@ -19,71 +25,13 @@
         class="pa-4"
       >
         <v-col
-          cols="12"
-        >
-          <v-progress-linear
-            :indeterminate="!/concluido|cancelado/i.test(String(detailOrder.status))"
-            color="secondary"
-          />
-        </v-col>
-
-        <v-col
-          cols="12"
-          class="py-2"
-        />
-
-        <v-col
-          cols="12"
-          class="text-center"
-          style="line-height: 1;"
-        >
-          <span
-            v-if="/preparando/i.test(String(detailOrder.status))"
-            v-font-size="14"
-            class="font-weight-meddium"
-          >
-            O seu pedido está sendo preparado...
-          </span>
-
-          <span
-            v-if="/entrega/i.test(String(detailOrder.status))"
-            v-font-size="14"
-            class="font-weight-meddium"
-          >
-            Seu pedido saiu para entrega...
-          </span>
-
-          <span
-            v-if="/concluido/i.test(String(detailOrder.status))"
-            v-font-size="14"
-            class="font-weight-meddium"
-          >
-            Seu pedido está concluído.
-          </span>
-
-          <span
-            v-if="/cancelado/i.test(String(detailOrder.status))"
-            v-font-size="14"
-            class="font-weight-meddium"
-          >
-            Seu pedido foi cancelado, caso houver algum problema,<br> por favor, clique no
-            botão Whatsapp para falar com a loja física.
-          </span>
-        </v-col>
-
-        <v-col
-          cols="12"
-          class="py-5"
-        />
-
-        <v-col
           v-if="!/disable/i.test(String(disableButton))"
           cols="12"
           class="text-center"
           style="line-height:1"
         >
           <span
-            v-font-size="13"
+            v-font-size="$vuetify.breakpoint.smAndDown ? 13 : 16"
             class="font-weight-regular warning--text"
           >
             <strong class="font-weight-bold error--text text-uppercase">
@@ -103,112 +51,186 @@
           cols="12"
           class="text-center"
         >
-          <v-card
-            color="primary"
-            max-width="440"
-            class="text-start mx-auto"
+          <v-row
+            no-gutters
+            align="center"
+            justify="center"
+            class="flex-wrap"
           >
-            <v-row
-              no-gutters
-              style="border:1px solid var(--v-secondary-base)"
-              class=" px-3 py-4"
+            <v-col
+              v-for="{ pedido, nome, telefone, produtos, status } in detailOrder"
+              :key="`card-desktop-order-${pedido}`"
+              class="ma-3"
             >
-              <v-col
-                cols="12"
+              <v-card
+                :loading="!/concluido|cancelado/i.test(String(status))"
+                color="primary"
+                width="300"
+                style="border-radius: 0;"
+                class="text-start mx-auto"
               >
-                <span
-                  class="font-weight-medium text-uppercase mr-2"
-                  style="color:var(--v-primary-text)"
-                >
-                  Nome:
-                </span>
-
-                <span
-                  class="font-weight-regular text-uppercase"
-                  style="color:var(--v-primary-text)"
-                >
-                  {{ detailOrder.nome }}
-                </span>
-              </v-col>
-
-              <v-col
-                cols="12"
-              >
-                <span
-                  class="font-weight-medium text-uppercase mr-2"
-                  style="color:var(--v-primary-text)"
-                >
-                  Telefone:
-                </span>
-
-                <span
-                  class="font-weight-regular text-uppercase"
-                  style="color:var(--v-primary-text)"
-                >
-                  {{ detailOrder.telefone }}
-                </span>
-              </v-col>
-
-              <v-col
-                cols="12"
-              >
-                <span
-                  class="d-block font-weight-medium text-uppercase"
-                  style="color:var(--v-primary-text)"
-                >
-                  meu pedido:
-                </span>
+                <template v-slot:progress>
+                  <v-progress-linear
+                    color="secondary"
+                    height="5"
+                    indeterminate
+                  ></v-progress-linear>
+                </template>
 
                 <v-row
                   no-gutters
+                  style="border:1px solid var(--v-secondary-base)"
+                  class=" px-3 py-4"
                 >
                   <v-col
-                    v-for="item in detailOrder.produtos"
-                    :key="`card-product-order-${item.name}`"
+                    cols="12"
+                    class="text-center"
+                    style="line-height: 1;color:var(--v-primary-text)"
+                  >
+                    <span
+                      v-if="/preparando/i.test(String(status))"
+                      v-font-size="14"
+                      class="font-weight-medium"
+                    >
+                      O seu pedido está sendo preparado...
+                    </span>
+
+                    <span
+                      v-if="/entrega/i.test(String(status))"
+                      v-font-size="14"
+                      class="font-weight-medium"
+                    >
+                      Seu pedido saiu para entrega...
+                    </span>
+
+                    <span
+                      v-if="/concluido/i.test(String(status))"
+                      v-font-size="14"
+                      class="font-weight-medium"
+                    >
+                      Seu pedido está concluído.
+                    </span>
+
+                    <span
+                      v-if="/cancelado/i.test(String(status))"
+                      v-font-size="14"
+                      class="font-weight-medium"
+                    >
+                      Seu pedido foi cancelado, caso houver algum problema,<br> por favor, clique no
+                      botão Whatsapp para falar com a loja física.
+                    </span>
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    class="py-2"
+                  />
+
+                  <v-col
                     cols="12"
                   >
-                    <card-product-cart
-                      :name="item.name"
-                      :qtd_product="item.price.qtd_product"
-                      :price_default="sumPriceDefaultWhiteDiffences(item)"
-                      :price_total="item.price.total"
-                      :complements="item.complements"
-                      :differences="item.differences"
+                    <span
+                      class="font-weight-medium text-uppercase mr-2"
+                      style="color:var(--v-primary-text)"
+                    >
+                      Nome:
+                    </span>
+
+                    <span
+                      class="font-weight-regular text-uppercase"
+                      style="color:var(--v-primary-text)"
+                    >
+                      {{ nome }}
+                    </span>
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                  >
+                    <span
+                      class="font-weight-medium text-uppercase mr-2"
+                      style="color:var(--v-primary-text)"
+                    >
+                      Telefone:
+                    </span>
+
+                    <span
+                      class="font-weight-regular text-uppercase"
+                      style="color:var(--v-primary-text)"
+                    >
+                      {{ telefone }}
+                    </span>
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                  >
+                    <span
+                      class="d-block font-weight-medium text-uppercase"
+                      style="color:var(--v-primary-text)"
+                    >
+                      meu pedido:
+                    </span>
+
+                    <v-row
+                      no-gutters
+                      class="pr-1"
+                      style="max-height: 180px;overflow-y: scroll;"
+                    >
+                      <v-col
+                        v-for="item in produtos"
+                        :key="`card-product-order-${item.name}`"
+                        cols="12"
+                      >
+                        <card-product-cart
+                          :name="item.name"
+                          :qtd_product="item.price.qtd_product"
+                          :price_default="sumPriceDefaultWhiteDiffences(item)"
+                          :price_total="item.price.total"
+                          :complements="item.complements"
+                          :differences="item.differences"
+                        />
+                      </v-col>
+                    </v-row>
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    class="py-2"
+                  />
+
+                  <v-col
+                    cols="12"
+                  >
+                    <v-btn
+                      block
+                      large
+                      :color="/disable/i.test(String(disableButton)) ||!/concluido/i.test(String(status)) ? 'grey lighten-2' : 'secondary'"
+                      @click.stop="/disable/i.test(String(disableButton)) ||!/concluido/i.test(String(status)) ? '' : commentProductsOrders(pedido)"
+                    >
+                      <span
+                        class="font-weight-bold primary--text"
+                      >
+                        Avaliar produtos
+                      </span>
+                    </v-btn>
+
+                    <dialog-comments-clients
+                      :open="dialogCommentsClients"
+                      @closeDialog="() => dialogCommentsClients = !dialogCommentsClients"
+                      @emitDisableButton="v=>disableButton=v"
                     />
                   </v-col>
                 </v-row>
-              </v-col>
-
-              <v-col
-                v-if="!/disable/i.test(String(disableButton))"
-                cols="12"
-                class="py-1"
-              />
-
-              <v-col
-                v-if="/concluido/i.test(String(detailOrder.status))"
-                cols="12"
-              >
-                <v-btn
-                  block
-                  large
-                  :color="/disable/i.test(String(disableButton)) ? 'grey lighten-2' : 'secondary'"
-                  @click="openDialogComments"
-                >
-                  <span
-                    class="font-weight-bold primary--text"
-                  >
-                    Avaliar produtos
-                  </span>
-                </v-btn>
-              </v-col>
-            </v-row>
-          </v-card>
+              </v-card>
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
 
       <v-overlay
         :value="dialogSearchOrderClient"
+        persistent
         opacity="1"
       >
         <v-dialog
@@ -263,10 +285,10 @@
                 >
                   <span
                     v-font-size="14"
-                    class="font-weight-medium"
+                    class="font-weight-regular"
                   >
-                    Infome no campo abaixo o número do seu pedido para ver os detalhes e
-                    o andamento do pedido.
+                    Infome no campo abaixo o número do telefone que foi utilizado para fazer a compra para ver
+                    o andamento e detalhes do seu pedido.
                   </span>
                 </v-col>
 
@@ -290,8 +312,10 @@
                         cols="12"
                       >
                         <v-text-field
-                          label="Nº Pedido"
+                          v-mask="'(##) #####-####'"
+                          label="Nº do telefone"
                           autocomplete="no"
+                          placeholder="(99) 99999-9999"
                           type="text"
                           v-model="numeroPedido.value"
                           outlined
@@ -350,13 +374,6 @@
           </v-card>
         </v-dialog>
       </v-overlay>
-
-      <dialog-comments-clients
-        v-if="/concluido/i.test(String(detailOrder.status))"
-        :open="dialogCommentsClients"
-        @closeDialog="() => dialogCommentsClients = !dialogCommentsClients"
-        @emitDisableButton="v=>disableButton=v"
-      />
     </v-col>
 
     <v-col
@@ -382,6 +399,7 @@
   import MixinServiceOrderCostumer from "@/mixins/order/mixinServiceOrderCostumer"
   import MixinRedirectLinks from "@/mixins/redirectLinks/MxiinRedirectLinks"
   import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
+  import "@/styles/components/caroucels.styl"
 
   const dialogStore = namespace("dialogStoreModule")
   const cacheStore = namespace("cacheStoreModule")
@@ -436,7 +454,7 @@
     loadingService = false
     formInputBuscarPedido = false
     disableButton = ""
-    detailOrder: any = {}
+    detailOrder: any = []
 
 
     get dialogSearchOrderClient (): boolean {
@@ -452,7 +470,7 @@
       return false
     }
 
-    created (): void {
+    mounted (): void {
       sessionStorage.removeItem("order-costumer")
       const CACHE_NUMERO_ORDER = sessionStorage.getItem("numero-pedido")
       if (CACHE_NUMERO_ORDER) this.numeroPedido.value = CACHE_NUMERO_ORDER
@@ -502,7 +520,7 @@
       this.error.status = false
       this.loadingService = true
 
-      this.getOrderCostumer(String(this.numeroPedido.value))
+      this.getOrderCostumer(String(this.numeroPedido.value).replace(/\D/g, ""))
         .then((responseMixin) => {
           if (!responseMixin) throw Error('Error Mixin')
           if (/not-order/i.test(String(responseMixin))) {
@@ -514,17 +532,17 @@
             return
           }
 
-          this.detailOrder = responseMixin || {}
+          this.detailOrder = responseMixin || []
 
-          const IDS_COMMENTED = localStorage.getItem("id-commented")
-          if (IDS_COMMENTED && this.detailOrder.produtos.length > 0) {
-            JSON.parse(IDS_COMMENTED).forEach(id => {
-              this.detailOrder.produtos.filter(item => {
-                if (String(item.id) !== String(id)) this.disableButton = "comment"
-                else this.disableButton = "disable"
-              })
-            })
-          }
+          // const IDS_COMMENTED = localStorage.getItem("id-commented")
+          // if (IDS_COMMENTED && this.detailOrder.produtos.length > 0) {
+          //   JSON.parse(IDS_COMMENTED).forEach(id => {
+          //     this.detailOrder.produtos.filter(item => {
+          //       if (String(item.id) !== String(id)) this.disableButton = "comment"
+          //       else this.disableButton = "disable"
+          //     })
+          //   })
+          // }
 
           this.loadingService = false
           sessionStorage.setItem("order-costumer", JSON.stringify(this.detailOrder))
@@ -537,30 +555,23 @@
             msg: `Houve um erro ao tentar buscar seu pedido, por favor, tente novamente`
           }
         }).finally(() => {
+          if (this.error.status) return
           if (this.detailOrder && /yes/i.test(String(this.initialCountStatus))) return
           this.initialCountStatus = "yes"
         })
     }
 
-    openDialogComments (): void {
-      if (/disable/i.test(String(this.disableButton))) return
-
-      const IDS_COMMENTED = localStorage.getItem("id-commented")
-      const REMOVE_ID_COMMENTED = this.detailOrder.produtos.filter(item => {
-        if (IDS_COMMENTED) {
-          if (!JSON.parse(IDS_COMMENTED).includes(String(item.id))) {
-            return item
-          }
+    commentProductsOrders (pedido:string): void {
+      const PEDIDO_FILTRADO = this.detailOrder.find(item => {
+        if (String(item.pedido || "") === String(pedido || "")) {
+          return item.produtos
         }
       })
 
-      if (REMOVE_ID_COMMENTED.length > 0) {
-        sessionStorage.setItem("cache-coment", JSON.stringify([...REMOVE_ID_COMMENTED]))
-      } else {
-        sessionStorage.setItem("cache-coment", JSON.stringify([...this.detailOrder.produtos]))
+      if (PEDIDO_FILTRADO.produtos.length > 0) {
+        sessionStorage.setItem("cache-coment", JSON.stringify([...PEDIDO_FILTRADO.produtos]))
+        this.dialogCommentsClients = !this.dialogCommentsClients
       }
-
-      this.dialogCommentsClients = true
     }
   }
 </script>

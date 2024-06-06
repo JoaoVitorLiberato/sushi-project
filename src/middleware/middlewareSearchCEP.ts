@@ -11,7 +11,7 @@ export async function middlewareSearchCEP (value: string|number): Promise<Values
       }
     }).catch(err => {
       window.log(`ERRO ON responseMiddleware - viaCep`, err)
-      return { 
+      return {
         erro: "error_api",
         cep: value
       }
