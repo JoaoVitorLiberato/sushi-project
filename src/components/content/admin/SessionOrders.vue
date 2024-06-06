@@ -127,7 +127,6 @@
           >
             <v-col
               cols="12"
-              class="text-center"
             >
               <h2
                 v-font-size="$vuetify.breakpoint.smAndDown ? 16 : 22"
@@ -139,10 +138,15 @@
 
             <v-col
               cols="12"
+              class="py-2"
+            />
+
+            <v-col
+              cols="12"
               class="d-flex align-center flex-wrap"
             >
               <div
-                v-for="{ pedido, segmento, nome, status, telefone, produtos } in orderFiltered"
+                v-for="{ pedido, segmento, nome, status, telefone, produtos, pagamento, vip } in orderFiltered"
                 :key="`order-client-${pedido}`"
               >
                 <card-order-admin-component
@@ -151,6 +155,8 @@
                   :name="nome"
                   :phone="telefone"
                   :statusOrder="status"
+                  :statusPayment="pagamento.statusPagamento"
+                  :statusVip="vip"
                   @dialogProductEmit="openDialogProducts(produtos)"
                   @changeStatusOrderEmit="v=>statusCard=v"
                 />
@@ -173,13 +179,13 @@
               >
                 <v-col
                   cols="12"
-                  class="text-center text-md-start"
+                  class="text-start"
                 >
                   <h2
                     v-font-size="$vuetify.breakpoint.smAndDown ? 16 : 22"
                     class="font-weight-bold text-uppercase"
                   >
-                    Pedidos sendo preparandos
+                    Pedidos sendo preparados
                   </h2>
                 </v-col>
 
@@ -201,7 +207,7 @@
                     mandatory
                   >
                     <v-slide-item
-                      v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredByStatus('preparando')"
+                      v-for="{ pedido, segmento, nome, status, telefone, produtos, pagamento, vip } in CardsFilteredByStatus('preparando')"
                       :key="`caroucel-order-client-${pedido}`"
                       class="mr-5"
                     >
@@ -210,6 +216,7 @@
                       >
                         <div
                           style="width: 300px;"
+                          class="pa-3"
                         >
                           <card-order-admin-component
                             :segment="segmento"
@@ -217,8 +224,11 @@
                             :name="nome"
                             :phone="telefone"
                             :statusOrder="status"
+                            :statusPayment="pagamento.statusPagamento"
+                            :statusVip="vip"
                             @dialogProductEmit="openDialogProducts(produtos)"
                             @changeStatusOrderEmit="v=>statusCard=v"
+                            @changeStatusPaymentEmit="updateStatusPayment(pedido)"
                           />
                         </div>
                       </v-scroll-x-transition>
@@ -231,8 +241,9 @@
                   class="hidden-sm-and-down d-md-flex align-center flex-wrap"
                 >
                   <div
-                    v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredByStatus('preparando')"
+                    v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in CardsFilteredByStatus('preparando')"
                     :key="`order-client-${pedido}`"
+                    class="pa-3"
                   >
 
                   <v-scroll-x-transition
@@ -244,8 +255,11 @@
                       :name="nome"
                       :phone="telefone"
                       :statusOrder="status"
+                      :statusPayment="pagamento.statusPagamento"
+                      :statusVip="vip"
                       @dialogProductEmit="openDialogProducts(produtos)"
                       @changeStatusOrderEmit="v=>statusCard=v"
+                      @changeStatusPaymentEmit="updateStatusPayment(pedido)"
                     />
                   </v-scroll-x-transition>
                   </div>
@@ -269,7 +283,7 @@
               >
                 <v-col
                   cols="12"
-                  class="text-center text-md-start"
+                  class="text-start"
                 >
                   <h2
                     v-font-size="$vuetify.breakpoint.smAndDown ? 16 : 22"
@@ -297,7 +311,7 @@
                     mandatory
                   >
                     <v-slide-item
-                      v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredByStatus('entrega')"
+                      v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in CardsFilteredByStatus('entrega')"
                       :key="`caroucel-order-client-${pedido}`"
                       class="mr-5"
                     >
@@ -306,6 +320,7 @@
                       >
                         <div
                           style="width: 300px;"
+                          class="pa-3"
                         >
                           <card-order-admin-component
                             :segment="segmento"
@@ -313,8 +328,11 @@
                             :name="nome"
                             :phone="telefone"
                             :statusOrder="status"
+                            :statusPayment="pagamento.statusPagamento"
+                            :statusVip="vip"
                             @dialogProductEmit="openDialogProducts(produtos)"
                             @changeStatusOrderEmit="v=>statusCard=v"
+                            @changeStatusPaymentEmit="updateStatusPayment(pedido)"
                           />
                         </div>
                       </v-scroll-x-transition>
@@ -327,8 +345,9 @@
                   class="hidden-sm-and-down d-md-flex align-center flex-wrap"
                 >
                   <div
-                    v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredByStatus('entrega')"
+                    v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in CardsFilteredByStatus('entrega')"
                     :key="`order-client-${pedido}`"
+                    class="pa-3"
                   >
                     <v-scroll-x-transition
                       v-if="/entrega/i.test(String(status))"
@@ -339,8 +358,11 @@
                         :name="nome"
                         :phone="telefone"
                         :statusOrder="status"
+                        :statusPayment="pagamento.statusPagamento"
+                        :statusVip="vip"
                         @dialogProductEmit="openDialogProducts(produtos)"
                         @changeStatusOrderEmit="v=>statusCard=v"
+                        @changeStatusPaymentEmit="updateStatusPayment(pedido)"
                       />
                     </v-scroll-x-transition>
                   </div>
@@ -364,7 +386,7 @@
               >
               <v-col
                   cols="12"
-                  class="text-center text-md-start"
+                  class="text-start"
                 >
                   <h2
                     v-font-size="$vuetify.breakpoint.smAndDown ? 16 : 22"
@@ -392,7 +414,7 @@
                     mandatory
                   >
                     <v-slide-item
-                      v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredByStatus('concluido').reverse()"
+                      v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in CardsFilteredByStatus('concluido').reverse()"
                       :key="`caroucel-order-client-${pedido}`"
                       class="mr-5"
                     >
@@ -401,6 +423,7 @@
                       >
                         <div
                           style="width: 300px;"
+                          class="pa-3"
                         >
                           <card-order-admin-component
                             :segment="segmento"
@@ -408,8 +431,11 @@
                             :name="nome"
                             :phone="telefone"
                             :statusOrder="status"
+                            :statusPayment="pagamento.statusPagamento"
+                            :statusVip="vip"
                             @dialogProductEmit="openDialogProducts(produtos)"
                             @changeStatusOrderEmit="v=>statusCard=v"
+                            @changeStatusPaymentEmit="updateStatusPayment(pedido)"
                           />
                         </div>
                       </v-scroll-x-transition>
@@ -422,8 +448,9 @@
                   class="hidden-sm-and-down d-md-flex align-center flex-wrap"
                 >
                   <div
-                    v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredByStatus('concluido').reverse()"
+                    v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in CardsFilteredByStatus('concluido').reverse()"
                     :key="`order-client-${pedido}`"
+                    class="pa-3"
                   >
                     <v-scroll-x-transition
                       v-if="/concluido/i.test(String(status))"
@@ -434,8 +461,11 @@
                         :name="nome"
                         :phone="telefone"
                         :statusOrder="status"
+                        :statusPayment="pagamento.statusPagamento"
+                        :statusVip="vip"
                         @dialogProductEmit="openDialogProducts(produtos)"
                         @changeStatusOrderEmit="v=>statusCard=v"
+                        @changeStatusPaymentEmit="updateStatusPayment(pedido)"
                       />
                     </v-scroll-x-transition>
                   </div>
@@ -459,7 +489,7 @@
               >
                 <v-col
                   cols="12"
-                  class="text-center text-md-start"
+                  class="text-start"
                 >
                   <h2
                     v-font-size="$vuetify.breakpoint.smAndDown ? 16 : 22"
@@ -487,7 +517,7 @@
                     mandatory
                   >
                     <v-slide-item
-                      v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredByStatus('cancelado')"
+                      v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in CardsFilteredByStatus('cancelado')"
                       :key="`caroucel-order-client-${pedido}`"
                       class="mr-5"
                     >
@@ -496,6 +526,7 @@
                       >
                         <div
                           style="width: 300px;"
+                          class="pa-3"
                         >
                           <card-order-admin-component
                             :segment="segmento"
@@ -503,6 +534,8 @@
                             :name="nome"
                             :phone="telefone"
                             :statusOrder="status"
+                            :statusPayment="pagamento.statusPagamento"
+                            :statusVip="vip"
                             @dialogProductEmit="openDialogProducts(produtos)"
                             @changeStatusOrderEmit="v=>statusCard=v"
                           />
@@ -517,8 +550,9 @@
                   class="hidden-sm-and-down d-md-flex align-center flex-wrap"
                 >
                   <div
-                    v-for="{ pedido, segmento, nome, status, telefone, produtos } in CardsFilteredByStatus('cancelado')"
+                    v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in CardsFilteredByStatus('cancelado')"
                     :key="`order-client-${pedido}`"
+                    class="pa-3"
                   >
                     <v-scroll-x-transition
                         v-if="/cancelado/i.test(String(status))"
@@ -529,6 +563,8 @@
                         :name="nome"
                         :phone="telefone"
                         :statusOrder="status"
+                        :statusPayment="pagamento.statusPagamento"
+                        :statusVip="vip"
                         @dialogProductEmit="openDialogProducts(produtos)"
                         @changeStatusOrderEmit="v=>statusCard=v"
                       />
@@ -720,6 +756,10 @@
       if (!product) return
       this.productsDialog = [ ...product ]
       this.$refs.dialogOrderProduct.isActive = true
+    }
+
+    updateStatusPayment (orderID: string|number): void {
+      console.log("Atualizando pagamento", orderID)
     }
   }
 </script>

@@ -37,7 +37,7 @@
             v-font-size="14"
             class="font-weight-regular"
           >
-            A loja está aberta no momento, caso você queria desativar o sistema para clientes não
+            A loja está aberta no momento, caso você queira desativar o sistema para clientes não
             realizar compras, clique no botão abaixo.
           </span>
 
@@ -46,7 +46,7 @@
             v-font-size="14"
             class="font-weight-regular"
           >
-            A loja está fechada no momento, caso você queria ativar o sistema para clientes poder
+            A loja está fechada no momento, caso você queira ativar o sistema para clientes poder
             fazer compras, clique no botão abaixo.
           </span>
         </v-col>

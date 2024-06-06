@@ -62,6 +62,7 @@
             &#128532;
           </span>
         </v-col>
+        
 
         <v-col
           v-else-if="renderCommentsProduct().length <= 0"
@@ -81,8 +82,8 @@
           class="pa-4"
         >
           <div
-            v-for="comment in renderCommentsProduct()"
-            :key="`card-comment-${String(comment.Id)}`"
+            v-for="{ Id, Name, Rating, CreatedAt, Comment } in renderCommentsProduct()"
+            :key="`card-comment-${String(Id)}`"
             class="my-2"
           >
             <v-row
@@ -96,14 +97,14 @@
                   class="font-weight-medium text-uppercase d-block"
                   style="color: var(--v-primary-text);"
                 >
-                  {{ comment.Name }}
+                  {{ Name }}
                 </span>
 
                 <div
                   class="d-flex align-center"
                 >
                   <v-rating
-                    :value="comment.Rating"
+                    :value="Rating"
                     color="secondary"
                     dense
                     half-increments
@@ -114,7 +115,7 @@
                     v-font-size="11"
                     class="font-weight-thin grey--text font-italic ml-2"
                   >
-                    {{ comment.CreatedAt }}
+                    {{ CreatedAt }}
                   </span>
                 </div>
 
@@ -134,7 +135,7 @@
                   class="font-weight-regular font-italic"
                   style="color: var(--v-primary-text);"
                 >
-                  {{ comment.Comment }}
+                  {{ Comment }}
                 </p>
               </v-col>
             </v-row>
@@ -170,7 +171,7 @@
 
     renderCommentsProduct (): ICommentProduct[]|string {
       if (/error/i.test(this.getCacheCommentsProduct())) return this.getCacheCommentsProduct()
-      else if (this.getCacheCommentsProduct().length <= 0) return "vazio"
+      else if (this.getCacheCommentsProduct().length <= 0) return [] as ICommentProduct[]
 
       return this.getCacheCommentsProduct().filter(comment => {
         if ((comment.ProductID).includes(this.getCacheCommentsIDPorductSelected())) {

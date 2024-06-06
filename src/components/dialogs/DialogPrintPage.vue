@@ -6,9 +6,8 @@
       <v-btn
         :loading="isLoading"
         text
-        block
-        plain
-        color="error"
+        width="110"
+        color="success"
         @click="initPrintPage()"
       >
         Imprimir
@@ -68,7 +67,7 @@
             <div 
               v-for="produto in pedido.produtos" 
               :key="produto.id"
-              style="line-height: 1;margin:5px 0"
+              style="line-height: 1;"
             >
               <p
                 style="padding:0;margin:0;text-transform:uppercase"
@@ -93,19 +92,22 @@
                 style="padding:0;margin:0;text-transform:uppercase"
               >
                 <strong>Complementos: </strong>
-                <span
+                <ul
                   v-if="produto.complements.length <= 0"
-                  style="padding:0;margin:0;text-transform:uppercase"
                 >
-                  Sem complementos
-                </span>
+                  <li
+                    style="margin-left:5px;margin:0;margin-bottom:0;line-height:1;text-transform: uppercase"
+                  >
+                    Sem complementos
+                  </li>
+                </ul>
                 <ul
                   v-else
                 >
                   <li
                     v-for="(complement, key) in produto.complements"
                     :key="key"
-                    style="margin-left:5px;line-height:1;text-transform: uppercase"
+                    style="margin-left:5px;margin:0;margin-bottom:0;line-height:1;text-transform: uppercase"
                   >
                     {{ complement.name }} - {{ formatPrice(complement.priceTotal) }} -  qtd: {{ complement.qtd }}
                   </li>
@@ -114,6 +116,7 @@
             </div>
 
             <div
+              v-if="pedido.consumidor.mensagem"
               style="margin-top:10px;line-height:1"
             >
               <span>

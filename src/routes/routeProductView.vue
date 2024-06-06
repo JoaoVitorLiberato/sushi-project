@@ -195,7 +195,7 @@
     }
 
     created (): void {
-      if (ENV("production") && epochBuyProductStore()) {
+      if (ENV("production") && epochBuyProductStore() && !/antecipado/i.test(String(this.$route.query.acesso || ""))) {
         this.overlayMessageLaunchStore = !this.overlayMessageLaunchStore
       } else {
         if (this.ordersCostumer && JSON.parse(this.ordersCostumer).length > 0) {
