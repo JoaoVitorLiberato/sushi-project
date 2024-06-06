@@ -140,4 +140,67 @@ export default class MixinServiceOrderCostumer extends Vue {
         })
     })
   }
+
+  updateStatusCostumeVip (data: {
+    id: string,
+    status: boolean
+  }): Promise<boolean|string> {
+    this.cacheLoading = {
+      status: true,
+      msg: data.status ? "Ativando vip..." : "Desativando vip..."
+    }
+
+    async function serviceAPI () {
+      return await MiddlewareConnectAPI.patch(`order/vip`, data)
+    }
+
+    return new Promise((resolve, reject) => {
+      serviceAPI()
+        .then((responseApi) => {
+          if (!responseApi.data || responseApi.data.message !== "Status atualizado com sucesso") reject(Error('err'))
+          resolve(true)
+        }).catch(err => {
+          window.log(`Error updateStatusCostumeVip`, err)
+          this.cacheLoading.status = false
+          resolve("error")
+        }).finally(() => {
+          this.cacheLoading.status = false
+        })
+    })
+  }
+
+  updateStatusPaymentOrder (data: {
+    id: string,
+    status: string
+  }): Promise<boolean|string> {
+    this.cacheLoading = {
+      status: true,
+      msg: "Aguarde, Estamos processando o pagamento..."
+    }
+
+    async function serviceAPI () {
+      return await MiddlewareConnectAPI.patch(`order/payment`, data)
+    }
+
+    return new Promise((resolve, reject) => {
+      serviceAPI()
+        .then((responseApi) => {
+          if (!responseApi.data || responseApi.data.message !== "Status atualizado com sucesso") reject(Error('err'))
+          this.cacheLoading.msg = "Pagamento realizado com sucesso!"
+          resolve(true)
+        }).catch(err => {
+          window.log(`Error updateStatusPaymentOrder`, err)
+          this.cacheLoading.msg = "Erro ao processar o pagamento."
+          setTimeout(() => {
+            this.cacheLoading.status = false
+            resolve("error")
+          }, 2000)
+        }).finally(() => {
+          setTimeout(() => {
+            this.cacheLoading.status = false
+          }, 2000)
+        })
+    })
+  }
 }
+

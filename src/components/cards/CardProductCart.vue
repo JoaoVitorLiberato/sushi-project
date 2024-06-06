@@ -1,7 +1,7 @@
 <template>
   <v-card
     elevation="0"
-    :color="routeForm(['admin-view']) ? 'white' : 'primary'"
+    :color="'primary'"
     class="my-2"
   >
     <v-row
@@ -16,7 +16,7 @@
         <span
           v-font-size="$vuetify.breakpoint.smAndDown ? 13 : 16"
           :class="`font-weight-${routeForm(['admin-view']) ? 'bold' : 'medium'} pr-2 text-uppercase`"
-          :style="routeForm(['admin-view']) ? 'color:var(--v-primary-base)' : 'color:var(--v-primary-text)'"
+          :style="'color:var(--v-primary-text)'"
           v-text="name"
         />
         <div
@@ -43,7 +43,7 @@
         <span
           v-font-size="$vuetify.breakpoint.smAndDown ? 16 : 18"
           class="font-weight-medium pr-2 text-uppercase"
-          :style="routeForm(['admin-view']) ? 'color:var(--v-primary-base)' : 'color:var(--v-primary-text)'"
+          :style="'color:var(--v-primary-text)'"
           v-text="formatedPrice(Number(price_total))"
         />
       </v-col>
@@ -80,7 +80,7 @@
             <span
               v-font-size="20"
               class="font-weight-bold mx-3"
-              :style="routeForm(['admin-view']) ? 'color:var(--v-primary-base)' : 'color:var(--v-primary-text)'"
+              :style="'color:var(--v-primary-text)'"
             >
               {{ qtd_product }}
             </span>
@@ -151,7 +151,7 @@
         cols="12"
       >
         <v-expand-transition>
-          <div 
+          <div
             v-show="open"
           >
             <v-row
@@ -166,20 +166,20 @@
                   <span
                     v-font-size="12"
                     class="font-weight-medium mr-1 text-uppercase"
-                    :style="routeForm(['admin-view']) ? 'color:var(--v-primary-base)' : 'color:var(--v-primary-text)'"
+                    :style="'color:var(--v-primary-text)'"
                   >
                     {{ name }}
                   </span>
                   <span
                     v-font-size="12"
                     class="font-weight-regular"
-                    :style="routeForm(['admin-view']) ? 'color:var(--v-primary-base)' : 'color:var(--v-primary-text)'"
+                    :style="'color:var(--v-primary-text)'"
                     v-text="`( x${qtd_product} )`"
                   />
                 </div>
                   <span
                     v-font-size="12"
-                    :style="routeForm(['admin-view']) ? 'color:var(--v-primary-base)' : 'color:var(--v-primary-text)'"
+                    :style=" 'color:var(--v-primary-text)'"
                     v-text="formatedPrice(Number(price_default) * Number(qtd_product))"
                   />
               </v-col>
@@ -188,7 +188,7 @@
                 :key="`complement-card-${i}`"
                 cols="12"
                 class="px-4 py-1 d-flex align-center justify-space-between"
-                :style="routeForm(['admin-view']) ? 'color:var(--v-primary-base)' : 'color:var(--v-primary-text)'"
+                :style="'color:var(--v-primary-text)'"
               >
                 <div>
                   <span
