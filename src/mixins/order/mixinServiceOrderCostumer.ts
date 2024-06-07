@@ -140,4 +140,117 @@ export default class MixinServiceOrderCostumer extends Vue {
         })
     })
   }
+
+  updateStatusCostumeVip (data: {
+    id: string,
+    status: boolean
+  }): Promise<boolean|string> {
+    this.cacheLoading = {
+      status: true,
+      msg: data.status ? "Ativando vip..." : "Desativando vip..."
+    }
+
+    async function serviceAPI () {
+      return await MiddlewareConnectAPI.patch(`order/vip`, data)
+    }
+
+    return new Promise((resolve, reject) => {
+      serviceAPI()
+        .then((responseApi) => {
+          if (!responseApi.data || responseApi.data.message !== "Status atualizado com sucesso") reject(Error('err'))
+          resolve(true)
+        }).catch(err => {
+          window.log(`Error updateStatusCostumeVip`, err)
+          this.cacheLoading.status = false
+          resolve("error")
+        }).finally(() => {
+          this.cacheLoading.status = false
+        })
+    })
+  }
+
+  updateStatusPaymentOrder (data: {
+    id: string,
+    status: string
+  }): Promise<boolean|string> {
+    this.cacheLoading = {
+      status: true,
+      msg: "Aguarde, Estamos processando o pagamento..."
+    }
+
+    async function serviceAPI () {
+      return await MiddlewareConnectAPI.patch(`order/payment`, data)
+    }
+
+    return new Promise((resolve, reject) => {
+      serviceAPI()
+        .then((responseApi) => {
+          if (!responseApi.data || responseApi.data.message !== "Status atualizado com sucesso") reject(Error('err'))
+          this.cacheLoading.msg = "Pagamento realizado com sucesso!"
+          resolve(true)
+        }).catch(err => {
+          window.log(`Error updateStatusPaymentOrder`, err)
+          this.cacheLoading.msg = "Erro ao processar o pagamento."
+          setTimeout(() => {
+            this.cacheLoading.status = false
+            resolve("error")
+          }, 2000)
+        }).finally(() => {
+          setTimeout(() => {
+            this.cacheLoading.status = false
+          }, 2000)
+        })
+    })
+  }
+
+  unificationAllOrders (phone: string) {
+    this.cacheLoading = {
+      status: true,
+      msg: `Unificando todos pedidos com pagamento pendende, Aguarde...`
+    }
+
+    async function serviceAPI () {
+      return await MiddlewareConnectAPI.get(`/order/printer/client/${phone}`)
+    }
+
+    return new Promise((resolve, reject) => {
+      serviceAPI()
+        .then((responseApi) => {
+          if (!responseApi.data) reject(Error("err"))
+          resolve(responseApi.data)
+        }).catch(erro => {
+          window.log(`ERROR MIXIN CunificationAllOrders`, erro)
+          this.cacheLoading.status = false
+          resolve("error")
+        }).finally(() => {
+          this.cacheLoading.status = false
+        })
+    })
+  }
+
+  updateStatusPaymentOrderUnificated (phone: string) {
+    this.cacheLoading = {
+      status: true,
+      msg: `Efetuando pagamento, Aguarde...`
+    }
+
+    async function serviceAPI () {
+      return await MiddlewareConnectAPI.patch(`/payment/confirm/${phone}`)
+    }
+
+    return new Promise((resolve, reject) => {
+      serviceAPI()
+        .then((responseApi) => {
+          if (!responseApi.data || responseApi.data.message !== "Pedidos atualizados") reject(Error("err"))
+          resolve(responseApi.data)
+        }).catch(erro => {
+          window.log(`ERROR MIXIN updateStatusPaymentOrderUnificated`, erro)
+          this.cacheLoading.status = false
+          resolve("error")
+        }).finally(() => {
+          this.cacheLoading.status = false
+        })
+    })
+  }
 }
+

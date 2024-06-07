@@ -80,17 +80,58 @@
               order="1"
               order-md="2"
             >
-              <v-btn
-                outlined
-                large
-                @click="redirectOrder('foodpark')"
+              <v-menu
+                open-on-hover
+                bottom
+                offset-y
               >
-                <span
-                  class="font-weight-medium"
-                >
-                  Pedidos Foodpark
-                </span>
-              </v-btn>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    color="primary"
+                    outlined
+                    large
+                    v-on="on"
+                  >
+                    <div
+                      class="d-flex justify-space-between align-center"
+                    >
+                      <span
+                        class="font-weight-medium"
+                      >
+                        Opções
+                      </span>
+  
+                      <v-icon>
+                        arrow_drop_down
+                      </v-icon>
+                    </div>
+                  </v-btn>
+                </template>
+
+                <v-list>
+                  <v-list-item
+                    link
+                    @click="redirectOrder('foodpark')"
+                  >
+                    <v-list-item-title
+                      class="text-uppercase"
+                    >
+                      Pedidos FoodPark
+                    </v-list-item-title>
+                  </v-list-item>
+
+                  <v-list-item
+                    link
+                    @click="dialogUnificationOrders = !dialogUnificationOrders"
+                  >
+                    <v-list-item-title
+                      class="text-uppercase"
+                    >
+                      Unificar Pedidos
+                    </v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
             </v-col>
           </v-row>
         </v-col>
@@ -130,6 +171,7 @@
               <div
                 v-for="{ pedido, segmento, nome, status, telefone, produtos, pagamento, vip } in orderFiltered"
                 :key="`order-client-${pedido}`"
+                class="ma-2"
               >
                 <card-order-admin-component
                   :segment="segmento"
@@ -198,7 +240,7 @@
                       >
                         <div
                           style="width: 300px;"
-                          class="pa-3"
+                          class="pa-3 ma-2"
                         >
                           <card-order-admin-component
                             :segment="segmento"
@@ -211,6 +253,7 @@
                             @dialogProductEmit="openDialogProducts(produtos)"
                             @changeStatusOrderEmit="v=>statusCard=v"
                             @changeStatusPaymentEmit="updateStatusPayment(pedido)"
+                            @changeStatusVipEmit="updateStatusVipCostumer(pedido, vip)"
                           />
                         </div>
                       </v-scroll-x-transition>
@@ -225,7 +268,7 @@
                   <div
                     v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in CardsFilteredByStatus('preparando')"
                     :key="`order-client-${pedido}`"
-                    class="pa-3"
+                    class="pa-3 ma-2"
                   >
 
                   <v-scroll-x-transition
@@ -242,6 +285,7 @@
                       @dialogProductEmit="openDialogProducts(produtos)"
                       @changeStatusOrderEmit="v=>statusCard=v"
                       @changeStatusPaymentEmit="updateStatusPayment(pedido)"
+                      @changeStatusVipEmit="updateStatusVipCostumer(pedido, vip)"
                     />
                   </v-scroll-x-transition>
                   </div>
@@ -302,7 +346,7 @@
                       >
                         <div
                           style="width: 300px;"
-                          class="pa-3"
+                          class="pa-3 ma-2"
                         >
                           <card-order-admin-component
                             :segment="segmento"
@@ -329,7 +373,7 @@
                   <div
                     v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in CardsFilteredByStatus('entrega')"
                     :key="`order-client-${pedido}`"
-                    class="pa-3"
+                    class="pa-3 ma-2"
                   >
                     <v-scroll-x-transition
                       v-if="/entrega/i.test(String(status))"
@@ -405,7 +449,7 @@
                       >
                         <div
                           style="width: 300px;"
-                          class="pa-3"
+                          class="pa-3 ma-2"
                         >
                           <card-order-admin-component
                             :segment="segmento"
@@ -432,7 +476,7 @@
                   <div
                     v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in CardsFilteredByStatus('concluido').reverse()"
                     :key="`order-client-${pedido}`"
-                    class="pa-3"
+                    class="pa-3 ma-2"
                   >
                     <v-scroll-x-transition
                       v-if="/concluido/i.test(String(status))"
@@ -612,6 +656,11 @@
           </v-row>
         </v-card>
       </v-dialog>
+
+      <dialog-unification-orders 
+        :openDialogUnificationOrder="dialogUnificationOrders"
+        @changeDialogUnificationEmit="dialogUnificationOrders = !dialogUnificationOrders"
+      />
     </v-col>
   </v-row>
 </template>
@@ -640,7 +689,12 @@
         /* webpackChuckName: "card-product-cart-component" */
         /* webpackMode: "eager" */
         "@/components/cards/CardProductCart.vue"
-      )
+      ),
+      DialogUnificationOrders: () => import(
+        /* webpackChuckName: "dialog-unification-order-component" */
+        /* webpackMode: "eager" */
+        "@/components/dialogs/DialogUnificationOrders.vue"
+      ),
     }
   })
 
@@ -653,6 +707,7 @@
 
     $refs
 
+    dialogUnificationOrders = false
     productsDialog: IproductData[]  = []
     showComplements = false
     messageUpdateOrders = ""
@@ -684,7 +739,7 @@
           return
         }
 
-        this.renderCardOrderCostumers() 
+        this.renderCardOrderCostumers()
       }, 45000)
     }
 
@@ -741,7 +796,34 @@
     }
 
     updateStatusPayment (orderID: string|number): void {
-      console.log("Atualizando pagamento", orderID)
+      this.updateStatusPaymentOrder({
+        id: String(orderID || ""),
+        status: "concluido"
+      }).then(responseMixin => {
+        if (/error/i.test(String(responseMixin || ""))) {
+          this.setDialogTryAgain(true)
+          return
+        }
+
+        this.renderCardOrderCostumers()
+      })
+    }
+
+    updateStatusVipCostumer (pedido:string, vip:boolean) {
+      const DATA_VIP = {
+        id: pedido,
+        status: vip ? false : true
+      }
+
+      this.updateStatusCostumeVip(DATA_VIP)
+        .then(responseMixin => {
+          if (/error/i.test(String(responseMixin || ""))) {
+            this.setDialogTryAgain(true)
+            return
+          }
+
+          this.renderCardOrderCostumers()
+        })
     }
   }
 </script>

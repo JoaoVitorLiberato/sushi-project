@@ -65,8 +65,8 @@
 
           <div>
             <div 
-              v-for="produto in pedido.produtos" 
-              :key="produto.id"
+              v-for="(produto, i) in pedido.produtos" 
+              :key="`produto-${produto.id}-${i}`"
               style="line-height: 1;"
             >
               <p
@@ -106,7 +106,7 @@
                 >
                   <li
                     v-for="(complement, key) in produto.complements"
-                    :key="key"
+                    :key="`complemente-${complement.name}-${key}`"
                     style="margin-left:5px;margin:0;margin-bottom:0;line-height:1;text-transform: uppercase"
                   >
                     {{ complement.name }} - {{ formatPrice(complement.priceTotal) }} -  qtd: {{ complement.qtd }}
@@ -161,7 +161,7 @@
 </template>
 
 <script lang="ts">
-  import { Component, Prop } from "vue-property-decorator"
+  import { Component, Prop, Watch } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
   import { IDifferences } from "@/types/types-product"
   import MixinServiceOrderCostumer from "@/mixins/order/mixinServiceOrderCostumer"
@@ -169,21 +169,35 @@
   import { IOrderDataAll } from "@/types/type-order"
   
   @Component({})
+
   export default class DialogPrintPage extends mixins(
     MixinServiceOrderCostumer
   ) implements $refs {
     $refs
     @Prop({ default: "" }) numeroDoPedido!:string
+    @Prop() pedidoUnificado!: IOrderDataAll
+
     pedido: IOrderDataAll = {} as IOrderDataAll
     response = false
     isLoading = false
+    requestWatch = false
+
+    @Watch("pedidoUnificado")
+      changePropPedidoUnificado (): void {
+        this.requestWatch = true
+        this.pedido = this.pedidoUnificado
+        if (this.pedido) this.initPrintPage()
+      }
 
     async initPrintPage () {
       this.isLoading = true
-      const res = await this.getOrderPrinter(this.numeroDoPedido)
-      if (typeof res === 'string') return
+      if (!this.requestWatch) {
+        const res =  await this.getOrderPrinter(this.numeroDoPedido)
+        if (typeof res === 'string') return
+        this.pedido = res
+      }
 
-      this.pedido = res
+
       this.response = true
 
       setTimeout(() => {

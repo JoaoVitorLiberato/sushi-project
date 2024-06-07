@@ -203,16 +203,21 @@
                   link
                   @click="$emit('dialogProductEmit')"
                 >
-                  <v-list-item-title>
-                    Ver Productos
+                  <v-list-item-title
+                    class="text-uppercase"
+                  >
+                    Ver Produtos
                   </v-list-item-title>
                 </v-list-item>
 
                 <v-list-item
                   link
+                  @click="$emit('changeStatusVipEmit')"
                 >
-                  <v-list-item-title>
-                    Ativar VIP
+                  <v-list-item-title
+                    :class="statusVip === true ? 'success--text text-uppercase' : 'text-uppercase'"
+                  >
+                    {{ statusVip === true ? "Desativar Vip" : "Ativar VIP" }}
                   </v-list-item-title>
                 </v-list-item>
               </v-list>
@@ -293,6 +298,8 @@
       setStatusClient?:IStatusOrder
     @ModelSync("statusPayment", "changeStatusPaymentEmit")
       setStatusPayment?:IStatusOrder
+    @ModelSync("statusVip", "changeStatusVipEmit")
+      setStatusVip?:IStatusOrder
 
     itemsPerPage = 4
     status = ""
