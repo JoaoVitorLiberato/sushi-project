@@ -116,7 +116,6 @@
   import { namespace } from "vuex-class"
   import MixinProductAPI from "@/mixins/product/mixinProductAPI"
   import { channelSource } from "@/helpers/analyticsChannel"
-  import { epochBuyProductStore } from "@/helpers/epochs"
 
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   const ENV = (env?: string): string|boolean => window.env(env)
@@ -195,27 +194,23 @@
     }
 
     created (): void {
-      if (ENV("production") && epochBuyProductStore() && !/antecipado/i.test(String(this.$route.query.acesso || ""))) {
-        this.overlayMessageLaunchStore = !this.overlayMessageLaunchStore
-      } else {
-        if (this.ordersCostumer && JSON.parse(this.ordersCostumer).length > 0) {
-          this.setDialogOrdersClient(!this.getDialogOrdersClient())
-        }
-  
-        if (!/^(foodpark|delivery)$/i.test(String(this.$route.params.type || ""))) {
-          location.replace(`/${location.search}`)
-        }
-  
-        this.getProducts()
-          .then(responseMixin => {
-            if (/list-void-product/i.test(String(responseMixin || ""))) this.$router.replace({ name: "home" })
-          })
-  
-        channelSource().then((source: string) => {
-          this.setCacheRastreamentoUsuarioPayloadSource({ source: String(source) })
-          this.setPayloadChannelAnalytics()
-        })
+      if (this.ordersCostumer && JSON.parse(this.ordersCostumer).length > 0) {
+        this.setDialogOrdersClient(!this.getDialogOrdersClient())
       }
+
+      if (!/^(foodpark|delivery)$/i.test(String(this.$route.params.type || ""))) {
+        location.replace(`/${location.search}`)
+      }
+
+      this.getProducts()
+        .then(responseMixin => {
+          if (/list-void-product/i.test(String(responseMixin || ""))) this.$router.replace({ name: "home" })
+        })
+
+      channelSource().then((source: string) => {
+        this.setCacheRastreamentoUsuarioPayloadSource({ source: String(source) })
+        this.setPayloadChannelAnalytics()
+      })
     }
   }
 </script>
