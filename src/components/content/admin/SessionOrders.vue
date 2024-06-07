@@ -657,7 +657,8 @@
         </v-card>
       </v-dialog>
 
-      <dialog-unification-orders 
+      <dialog-unification-orders
+        v-if="dialogUnificationOrders"
         :openDialogUnificationOrder="dialogUnificationOrders"
         @changeDialogUnificationEmit="dialogUnificationOrders = !dialogUnificationOrders"
       />
