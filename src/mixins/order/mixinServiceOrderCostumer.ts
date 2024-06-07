@@ -202,5 +202,55 @@ export default class MixinServiceOrderCostumer extends Vue {
         })
     })
   }
+
+  unificationAllOrders (phone: string) {
+    this.cacheLoading = {
+      status: true,
+      msg: `Unificando todos pedidos com pagamento pendende, Aguarde...`
+    }
+
+    async function serviceAPI () {
+      return await MiddlewareConnectAPI.get(`/order/printer/client/${phone}`)
+    }
+
+    return new Promise((resolve, reject) => {
+      serviceAPI()
+        .then((responseApi) => {
+          if (!responseApi.data) reject(Error("err"))
+          resolve(responseApi.data)
+        }).catch(erro => {
+          window.log(`ERROR MIXIN CunificationAllOrders`, erro)
+          this.cacheLoading.status = false
+          resolve("error")
+        }).finally(() => {
+          this.cacheLoading.status = false
+        })
+    })
+  }
+
+  updateStatusPaymentOrderUnificated (phone: string) {
+    this.cacheLoading = {
+      status: true,
+      msg: `Efetuando pagamento, Aguarde...`
+    }
+
+    async function serviceAPI () {
+      return await MiddlewareConnectAPI.patch(`/payment/confirm/${phone}`)
+    }
+
+    return new Promise((resolve, reject) => {
+      serviceAPI()
+        .then((responseApi) => {
+          if (!responseApi.data || responseApi.data.message !== "Pedidos atualizados") reject(Error("err"))
+          resolve(responseApi.data)
+        }).catch(erro => {
+          window.log(`ERROR MIXIN updateStatusPaymentOrderUnificated`, erro)
+          this.cacheLoading.status = false
+          resolve("error")
+        }).finally(() => {
+          this.cacheLoading.status = false
+        })
+    })
+  }
 }
 

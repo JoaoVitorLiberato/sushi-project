@@ -14,7 +14,7 @@
         <v-col
           v-position.fixed
           cols="12"
-          style="top: 0;left:0;right:0;"
+          style="top: 0;left:0;right:0;z-index:2"
         >
           <v-toolbar
             dark
@@ -94,7 +94,7 @@
                 style="line-height: 1;"
               >
                 <span
-                  class="font-weight-medium text-uppercase d-block"
+                  class="font-weight-medium text-uppercase d-block mb-1"
                   style="color: var(--v-primary-text);"
                 >
                   {{ Name }}

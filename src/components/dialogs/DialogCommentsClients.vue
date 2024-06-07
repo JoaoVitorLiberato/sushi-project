@@ -177,6 +177,8 @@
                         v-else
                         color="secondary"
                         block
+                        class="primary--text font-weight-bold"
+                        large
                         @click="sendRatingAndCommentClient(String(id))"
                       >
                         Enviar
@@ -259,8 +261,6 @@
 
     @ModelSync("open", "closeDialog", { type: Boolean })
       readonly dialogOpen?:boolean
-    @ModelSync("disableButton", "emitDisableButton", { type: String })
-      statusDisable?:string
 
     loading = false
     data = {
@@ -277,9 +277,8 @@
     }
 
     mounted (): void {
-      sessionStorage.removeItem("cache-coment")
       const CACHE_ORDER_DATA = sessionStorage.getItem("order-costumer")
-      if (CACHE_ORDER_DATA) this.data.name = JSON.parse(CACHE_ORDER_DATA).nome
+      if (CACHE_ORDER_DATA) this.data.name = JSON.parse(CACHE_ORDER_DATA)[0].nome
     }
 
     sendRatingAndCommentClient (id:string|number): void {
@@ -287,18 +286,20 @@
       this.data.id = String(id)
 
       const LIST_REMOVED = this.productCacheComment().filter(item => String(item.id) !== String(id))
-      const CACHE_IDS_COMMENTED = localStorage.getItem("id-commented")
+      const CACHE_IDS_COMMENTED = localStorage.getItem("list-id-commented")
+      const CACHE_ID_ORDER = sessionStorage.getItem("id-order")
+
+      if (!CACHE_ID_ORDER) return
 
       this.commentProductCostumer(this.data)
         .then(responseMixin => {
           if (/error-api|product-not-found/i.test(String(responseMixin || ""))) throw Error("Caiu no catch")
 
           if (CACHE_IDS_COMMENTED) {
-            localStorage.setItem("id-commented", JSON.stringify([
-              ...JSON.parse(CACHE_IDS_COMMENTED),
-              String(id)
+            localStorage.setItem("list-id-commented", JSON.stringify([
+              `${JSON.parse(CACHE_IDS_COMMENTED)}` + `&${CACHE_ID_ORDER}&${id}`
             ]))
-          } else  localStorage.setItem("id-commented", JSON.stringify([String(id)]))
+          } else  localStorage.setItem("list-id-commented", JSON.stringify([`${CACHE_ID_ORDER}&${id}`]))
 
           sessionStorage.setItem("cache-coment", JSON.stringify([...LIST_REMOVED]))
           this.data.rating = 1
@@ -308,7 +309,10 @@
           this.loading = false
           this.$refs.dialogErrorComment.isActive = true
         }).finally(() => {
-          if (this.productCacheComment().length === 0) this.statusDisable = "not-product"
+          if (this.productCacheComment().length === 0) {
+            localStorage.setItem(`disable-${CACHE_ID_ORDER}`, "true")
+          }
+
           this.loading = false
         })
     }

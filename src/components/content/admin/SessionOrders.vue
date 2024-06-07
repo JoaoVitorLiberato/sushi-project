@@ -80,17 +80,58 @@
               order="1"
               order-md="2"
             >
-              <v-btn
-                outlined
-                large
-                @click="redirectOrder('foodpark')"
+              <v-menu
+                open-on-hover
+                bottom
+                offset-y
               >
-                <span
-                  class="font-weight-medium"
-                >
-                  Pedidos Foodpark
-                </span>
-              </v-btn>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    color="primary"
+                    outlined
+                    large
+                    v-on="on"
+                  >
+                    <div
+                      class="d-flex justify-space-between align-center"
+                    >
+                      <span
+                        class="font-weight-medium"
+                      >
+                        Opções
+                      </span>
+  
+                      <v-icon>
+                        arrow_drop_down
+                      </v-icon>
+                    </div>
+                  </v-btn>
+                </template>
+
+                <v-list>
+                  <v-list-item
+                    link
+                    @click="redirectOrder('foodpark')"
+                  >
+                    <v-list-item-title
+                      class="text-uppercase"
+                    >
+                      Pedidos FoodPark
+                    </v-list-item-title>
+                  </v-list-item>
+
+                  <v-list-item
+                    link
+                    @click="dialogUnificationOrders = !dialogUnificationOrders"
+                  >
+                    <v-list-item-title
+                      class="text-uppercase"
+                    >
+                      Unificar Pedidos
+                    </v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
             </v-col>
           </v-row>
         </v-col>
@@ -615,6 +656,11 @@
           </v-row>
         </v-card>
       </v-dialog>
+
+      <dialog-unification-orders 
+        :openDialogUnificationOrder="dialogUnificationOrders"
+        @changeDialogUnificationEmit="dialogUnificationOrders = !dialogUnificationOrders"
+      />
     </v-col>
   </v-row>
 </template>
@@ -643,7 +689,12 @@
         /* webpackChuckName: "card-product-cart-component" */
         /* webpackMode: "eager" */
         "@/components/cards/CardProductCart.vue"
-      )
+      ),
+      DialogUnificationOrders: () => import(
+        /* webpackChuckName: "dialog-unification-order-component" */
+        /* webpackMode: "eager" */
+        "@/components/dialogs/DialogUnificationOrders.vue"
+      ),
     }
   })
 
@@ -656,6 +707,7 @@
 
     $refs
 
+    dialogUnificationOrders = false
     productsDialog: IproductData[]  = []
     showComplements = false
     messageUpdateOrders = ""

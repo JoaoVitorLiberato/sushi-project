@@ -878,7 +878,7 @@
 
           sessionStorage.clear()
           sessionStorage.setItem("numero-pedido", this.getPayloadOrder("consumidor").telefone.contato)
-          localStorage.removeItem("id-commented")
+          localStorage.removeItem("list-id-commented")
 
           if (/^foodpark$/i.test(String(this.$route.params.type || ""))) {
             this.dialogFinishOrderFoodpark = true

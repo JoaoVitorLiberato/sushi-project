@@ -25,7 +25,6 @@
         class="pa-4"
       >
         <v-col
-          v-if="!/disable/i.test(String(disableButton))"
           cols="12"
           class="text-center"
           style="line-height:1"
@@ -42,7 +41,6 @@
         </v-col>
 
         <v-col
-          v-if="!/disable/i.test(String(disableButton))"
           cols="12"
           class="py-2"
         />
@@ -205,8 +203,8 @@
                     <v-btn
                       block
                       large
-                      :color="/disable/i.test(String(disableButton)) ||!/concluido/i.test(String(status)) ? 'grey lighten-2' : 'secondary'"
-                      @click.stop="/disable/i.test(String(disableButton)) ||!/concluido/i.test(String(status)) ? '' : commentProductsOrders(pedido)"
+                      :color="disableOrder(String(pedido)) ||!/concluido/i.test(String(status)) ? 'grey lighten-2' : 'secondary'"
+                      @click.stop="disableOrder(String(pedido)) ||!/concluido/i.test(String(status)) ? '' : commentProductsOrders(pedido)"
                     >
                       <span
                         class="font-weight-bold primary--text"
@@ -216,9 +214,10 @@
                     </v-btn>
 
                     <dialog-comments-clients
+                      v-if="dialogCommentsClients"
                       :open="dialogCommentsClients"
-                      @closeDialog="() => dialogCommentsClients = !dialogCommentsClients"
-                      @emitDisableButton="v=>disableButton=v"
+                      :dataName="nome"
+                      @closeDialog="closeDialogCommentProducts()"
                     />
                   </v-col>
                 </v-row>
@@ -453,7 +452,6 @@
     }
     loadingService = false
     formInputBuscarPedido = false
-    disableButton = ""
     detailOrder: any = []
 
 
@@ -482,12 +480,6 @@
         this.error.status = false
         this.error.msg = ""
       }
-
-    @Watch("disableButton")
-      handleDisableButton (): void {
-        if (/not-product/i.test(String(this.disableButton))) this.disableButton = "disable"
-      }
-
 
     intervalOrder = 0
     initialCountStatus = "no"
@@ -534,16 +526,6 @@
 
           this.detailOrder = responseMixin || []
 
-          // const IDS_COMMENTED = localStorage.getItem("id-commented")
-          // if (IDS_COMMENTED && this.detailOrder.produtos.length > 0) {
-          //   JSON.parse(IDS_COMMENTED).forEach(id => {
-          //     this.detailOrder.produtos.filter(item => {
-          //       if (String(item.id) !== String(id)) this.disableButton = "comment"
-          //       else this.disableButton = "disable"
-          //     })
-          //   })
-          // }
-
           this.loadingService = false
           sessionStorage.setItem("order-costumer", JSON.stringify(this.detailOrder))
           this.dialogSearchOrderClient = false
@@ -561,15 +543,51 @@
         })
     }
 
+    disableOrder (pedido: string): boolean {
+      const CACHE_ORDER_DESATIVED = localStorage.getItem(`disable-${pedido}`)
+      if (!CACHE_ORDER_DESATIVED) return false
+
+      return /true/i.test(String(CACHE_ORDER_DESATIVED || ""))
+    }
+
+
+    closeDialogCommentProducts (): void {
+      sessionStorage.removeItem("id-order")
+      sessionStorage.removeItem("cache-coment")
+      this.dialogCommentsClients = !this.dialogCommentsClients
+    }
+
     commentProductsOrders (pedido:string): void {
-      const PEDIDO_FILTRADO = this.detailOrder.find(item => {
+      const CACHE_IDS_COMMENTED = localStorage.getItem("list-id-commented")
+      let PRODUTOS_NAO_COMENTADOS: any = []
+
+      const PRODUTO_FILTRADO_ID_PEDIDO = this.detailOrder.find(item => {
         if (String(item.pedido || "") === String(pedido || "")) {
           return item.produtos
         }
       })
 
-      if (PEDIDO_FILTRADO.produtos.length > 0) {
-        sessionStorage.setItem("cache-coment", JSON.stringify([...PEDIDO_FILTRADO.produtos]))
+      sessionStorage.setItem("id-order", pedido)
+
+      if (!CACHE_IDS_COMMENTED) {
+        sessionStorage.setItem("cache-coment", JSON.stringify([...PRODUTO_FILTRADO_ID_PEDIDO.produtos]))
+        this.dialogCommentsClients = !this.dialogCommentsClients
+        return
+      } else {
+        const SPLIT_ARRAY_COMMENT = JSON.parse(CACHE_IDS_COMMENTED).join("").split("&")
+
+        if (String(SPLIT_ARRAY_COMMENT[0]) === String(pedido)) {
+          PRODUTO_FILTRADO_ID_PEDIDO.produtos.filter(produtoComentado => {
+            if (String(SPLIT_ARRAY_COMMENT[1]) !== String(produtoComentado.id)) {
+              PRODUTOS_NAO_COMENTADOS = [
+                ...PRODUTOS_NAO_COMENTADOS,
+                produtoComentado
+              ]
+              sessionStorage.setItem("cache-coment", JSON.stringify(PRODUTOS_NAO_COMENTADOS))
+            }
+          })
+        } else sessionStorage.setItem("cache-coment", JSON.stringify([...PRODUTO_FILTRADO_ID_PEDIDO.produtos]))
+
         this.dialogCommentsClients = !this.dialogCommentsClients
       }
     }
