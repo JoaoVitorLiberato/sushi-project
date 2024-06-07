@@ -143,6 +143,11 @@
           link: "https://www.instagram.com/rosanaaestetica?igsh=MWc4cW9zZGEwNXR5dg%3D%3D"
         },
         {
+          name: "Cabana - Espaço de eventos ",
+          url: "/img/project/parceiros/cabana-eventos.png",
+          link: "https://www.instagram.com/cabanashowseeventos?igsh=MW91YzJud2E4dGhkZg%3D%3D"
+        },
+        {
           name: "Águia Motos - A casa do motoqueiro",
           url: "/img/project/parceiros/aguia-motos.png",
           link: ""

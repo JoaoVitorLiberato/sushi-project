@@ -109,5 +109,14 @@
       "utm_medium": "online",
       "utm_campaign": "parceiro"
     }
+  },
+  "webparceirocabana": {
+    "path": "?utm_source=cabana&utm_medium=eventos&utm_campaign=parceiro",
+    "canal": "Canal Parceiro SLP Online Ativa",
+    "params": {
+      "utm_source": "cabana",
+      "utm_medium": "eventos",
+      "utm_campaign": "parceiro"
+    }
   }
 }
