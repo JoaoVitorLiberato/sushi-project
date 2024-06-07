@@ -206,7 +206,7 @@ export default class MixinServiceOrderCostumer extends Vue {
   unificationAllOrders (phone: string) {
     this.cacheLoading = {
       status: true,
-      msg: `Unificando todos pedidos com pagamento pendende, Aguarde...`
+      msg: ``
     }
 
     async function serviceAPI () {
@@ -231,7 +231,7 @@ export default class MixinServiceOrderCostumer extends Vue {
   updateStatusPaymentOrderUnificated (phone: string) {
     this.cacheLoading = {
       status: true,
-      msg: `Efetuando pagamento, Aguarde...`
+      msg: ``
     }
 
     async function serviceAPI () {

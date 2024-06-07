@@ -71,11 +71,11 @@
             type="tel"
             label="Telefone"
             outlined
-            :disabled="/pagamento/i.test(sevice || '')"
+            :append-icon="/pagamento/i.test(sevice || '') ? 'close' : ''"
             :rules="[phoneCostumer.valid]"
             hide-details="auto"
             @input="changeDataPhone"
-          ></v-text-field>
+          />
         </v-col>
 
         <v-col
@@ -95,16 +95,16 @@
 
           <v-btn
             v-else-if="/pagamento|concluido/i.test(sevice || '')"
-            :color="/conluido/i.test(sevice || '') ? 'grey lighten-1' : 'success'"
+            :color="/concluido/i.test(sevice || '') ? 'grey lighten-1' : 'success'"
             depressed
             large
             block
-            @click="updatePaymentPedidoUnificado"
+            @click="/concluido/i.test(sevice || '') ? '' : updatePaymentPedidoUnificado()"
           >
             <span
               class="font-weight-bold primary--text"
             >
-              {{ /conluido/i.test(sevice || '') ? "Pago" : "Efetuar pagamento" }} 
+              {{ /concluido/i.test(sevice || '') ? "Pago" : "Efetuar pagamento" }} 
             </span>
           </v-btn>
 
@@ -174,7 +174,16 @@
       valid: ""
     }
 
+    created (): void {
+      this.phoneCostumer.value = ""
+      this.sevice = ""
+    }
+
     changeDataPhone (e): void {
+      if (this.phoneCostumer.value === "") {
+        this.sevice = ""
+      }
+
       this.phoneCostumer.valid = telefone(String(e).replace(/\D/g, ""))
       if (telefone(String(e).replace(/\D/g, ""))) {
         this.phoneCostumer.value = String(e).replace(/\D/g, "")
@@ -182,7 +191,7 @@
     }
 
     hendlePedidoUnificado (): void {
-      if (this.phoneCostumer.value === "") return
+      if (this.phoneCostumer.value.length < 11) return
       this.sevice = "loading"
 
       this.unificationAllOrders(this.phoneCostumer.value)
@@ -201,7 +210,7 @@
     }
 
     updatePaymentPedidoUnificado (): void {
-      if (this.phoneCostumer.value === "") return
+      if (this.phoneCostumer.value.length < 11 ) return
 
       this.sevice = "loading"
 
