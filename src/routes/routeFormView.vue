@@ -19,6 +19,10 @@
     </dialog-slot-funcionalidades-component>
 
     <button-whats-chat />
+
+    <overlay-message-delivery-desatived 
+      v-if="/delivery/i.test(String($route.params.type))"
+    />
   </v-main>
 </template>
 
@@ -48,6 +52,11 @@
         /* webpackMode: "eager" */
         "@/components/buttons/ButtonWhatsChat.vue"
       ),
+      OverlayMessageDeliveryDesatived: () => import(
+        /* webpackChunkName: "overlay-message-launch-system-component" */
+        /* webpackMode: "eager" */
+        "@/components/overlays/MessageDeliveryDesatived.vue"
+      ),
     }
   })
   export default class routeFormView extends Vue {
@@ -62,7 +71,7 @@
       next: (arg0: (vm) => void) => void,
     ) {
       next((vm) => {
-        if (/delivery/i.test(String(to.params.type || ""))) {
+        if (/delivery/i.test(String(to.params.type || "")) && !vm.getCacheOverlayMessageDeliveryDesatived()) {
           vm.setDialogCepDelivery(!vm.getDialogCepDelivery())
         }
       })
@@ -71,6 +80,7 @@
     @dialogStore.Getter("DialogCepDelivery") getDialogCepDelivery
     @dialogStore.Action("ActionDialogCepDelivery") setDialogCepDelivery
     @cacheStore.Action("ActionCacheRastreamentoUsuarioSource") setCacheRastreamentoUsuarioPayloadSource
+    @cacheStore.Getter("CacheOverlayMessageDeliveryDesatived") getCacheOverlayMessageDeliveryDesatived
     @payloadStore.Action("ActionPayloadChannelAnalytics") setPayloadChannelAnalytics
 
     created (): void {

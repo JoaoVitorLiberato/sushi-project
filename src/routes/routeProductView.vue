@@ -107,6 +107,10 @@
     <overlay-loading-service />
     <overlay-message-launch-system />
     <dialog-get-comments-product />
+
+    <overlay-message-delivery-desatived 
+      v-if="/delivery/i.test(String($route.params.type))"
+    />
   </v-main>
 </template>
 
@@ -170,7 +174,12 @@
         /* webpackChunkName: "overlay-message-launch-system-component" */
         /* webpackMode: "eager" */
         "@/components/overlays/MessageLaunchSystem.vue"
-      )
+      ),
+      OverlayMessageDeliveryDesatived: () => import(
+        /* webpackChunkName: "overlay-message-launch-system-component" */
+        /* webpackMode: "eager" */
+        "@/components/overlays/MessageDeliveryDesatived.vue"
+      ),
     }
   })
   export default class RouteProductView extends mixins(
