@@ -16,6 +16,8 @@
     <link rel="canonical" href="<%= htmlWebpackPlugin.options.url %>">
     <link rel="alternate" media="only screen and (max-width: 640px)" href="<%= htmlWebpackPlugin.options.url %>">
 
+    <script type='text/javascript' src="/js/tracking.js"></script>
+
     <script>
       document.onreadystatechange=()=>{
         if(/interactive/.test(document.readyState)){document.getElementById("mask--app").style.display="flex";}
@@ -130,6 +132,10 @@
     </div>
 
     <noscript>
+      <!-- Google Tag Manager (noscript) -->
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K2KQ3DC3"height="0"width="0"style="display:none;visibility:hidden"></iframe>
+      <!-- End Google Tag Manager (noscript) -->
+
       <div id="noscript-content">
         <header style="padding:14px 10px 0 10px;">
           <img src="/img/icons/android-chrome-192x192.png"height="32"width="32"alt="<%= htmlWebpackPlugin.options.title %>"title="<%= htmlWebpackPlugin.options.title %>"></img>
