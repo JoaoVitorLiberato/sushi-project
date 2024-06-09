@@ -46,6 +46,10 @@
               <a
                 :href="link"
                 target="_blank"
+                @click="dataLayer({
+                  'event': 'click_conhecer_parceiro',
+                  'name': `Parceiro ${name}`
+                })"
               >
                 <v-img
                   :src="url"
@@ -83,6 +87,10 @@
           <a
             :href="link"
             target="_blank"
+            @click="dataLayer({
+              'event': 'click_conhecer_parceiro',
+              'name': `Parceiro ${name}`
+            })"
           >
             <v-img
               :src="url"
@@ -102,11 +110,14 @@
 <script lang="ts">
   import { Component, Vue } from "vue-property-decorator"
   import PARTNERS_DATA from "@/data/partners/partners.json"
+  import { dataLayer } from "@/helpers/dataLayer"
   import "@/styles/view/viewPartners.styl"
   import "@/styles/view/viewDishes.styl"
 
   @Component({})
   export default class viewPartners extends Vue {
+    dataLayer = dataLayer
+
     get imagesPartners (): typeof PARTNERS_DATA {
       return PARTNERS_DATA
     }

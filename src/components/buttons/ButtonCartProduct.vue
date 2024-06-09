@@ -8,7 +8,7 @@
       right
       bottom
       title="Botão abrir carrinho"
-      @click="totalPriceOrderClient(), drawerCartProduct = !drawerCartProduct"
+      @click="openButtonCartProducts"
     >
       <v-badge
         color="error"
@@ -31,6 +31,7 @@
   import { mixins } from "vue-class-component"
   import { namespace } from "vuex-class"
   import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
+  import { dataLayer } from "@/helpers/dataLayer"
 
   const cacheStore = namespace("cacheStoreModule")
 
@@ -56,6 +57,16 @@
 
     set drawerCartProduct (value: boolean) {
       this.setDrawerCartProduct(value)
+    }
+
+    openButtonCartProducts (): void {
+      dataLayer({
+        "event": "botao_carrinho_produtos",
+        "carrinho": this.drawerCartProduct ? 'aberto' : 'fechado'
+      })
+
+      this.totalPriceOrderClient()
+      this.drawerCartProduct = !this.drawerCartProduct
     }
   }
 </script>

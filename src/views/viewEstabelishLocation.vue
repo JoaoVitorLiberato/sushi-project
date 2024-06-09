@@ -70,6 +70,9 @@
                 class="d-flex align-center justify-center justify-md-start"
                 title="Clique aqui para entrar em contato com Bangalô Sushi Lounge via WhatsApp"
                 target="_blank"
+                @click.stop="dataLayer({
+                  'event': 'click_botao_estabelecimento'
+                })"
               >
                 <span
                   class="mr-2 font-weigth-regular"
@@ -114,7 +117,10 @@
 
 <script lang="ts">
   import { Component, Vue } from "vue-property-decorator"
+  import { dataLayer } from "@/helpers/dataLayer"
 
   @Component({})
-  export default class viewEstabelishLocation extends Vue {}
+  export default class viewEstabelishLocation extends Vue {
+    dataLayer = dataLayer
+  }
 </script>
