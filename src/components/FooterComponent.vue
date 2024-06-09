@@ -103,7 +103,7 @@
       {
         name: "@bangalosushislp",
         img: "/img/project/rede-sociais/instagram.png",
-        link: "https://www.instagram.com/bangalo_sushi_lounge?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
+        link: "https://www.instagram.com/bangalosushislp?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
         rede: "Instagram"
       },
       // {

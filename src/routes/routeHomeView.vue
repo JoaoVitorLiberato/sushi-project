@@ -52,7 +52,7 @@
 
         <v-col
           cols="12"
-          class="py-5 py-md-7"
+          class="py-1 py-md-7"
         />
 
         <v-col

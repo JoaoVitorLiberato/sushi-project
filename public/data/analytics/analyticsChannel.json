@@ -118,5 +118,14 @@
       "utm_medium": "eventos",
       "utm_campaign": "parceiro"
     }
+  },
+  "webparceirocellshop": {
+    "path": "?utm_source=cell&utm_medium=shop&utm_campaign=parceiro",
+    "canal": "Canal Parceiro Cell Shop",
+    "params": {
+      "utm_source": "cell",
+      "utm_medium": "shop",
+      "utm_campaign": "parceiro"
+    }
   }
 }
