@@ -126,7 +126,7 @@
         large
         depressed
         :width="$vuetify.breakpoint.smAndDown ? '100%': '285px'"
-        @click="dialogServiceClient = !dialogServiceClient"
+        @click="getDialogSegmentProducts"
       >
         <span
           v-text="'Conhecer nossos produtos'"
@@ -140,6 +140,7 @@
   import { Component, Vue } from "vue-property-decorator"
   import { filterDataProduct } from "@/helpers/filterProducts"
   import { namespace } from "vuex-class"
+  import { dataLayer } from "@/helpers/dataLayer"
   import "@/styles/view/viewDishes.styl"
 
   const cacheStore = namespace("cacheStoreModule")
@@ -179,6 +180,14 @@
       return filterDataProduct().filter(productIndividual => {
         return productIndividual.apper_start === true
       })
+    }
+
+    getDialogSegmentProducts (): void {
+      dataLayer({
+        "event": "open_dialog_segment_product"
+      })
+
+      this.dialogServiceClient = !this.dialogServiceClient
     }
   }
 </script>

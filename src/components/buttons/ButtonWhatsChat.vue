@@ -12,6 +12,7 @@
       height="60"
       width="60"
       :style="/product/i.test(String($route.name)) ? 'bottom: 90px !important;' : ''"
+      @click="dataLayer({'event': 'botao_whatsapp_global'})"
     >
       <v-img
         src="/img/project/rede-sociais/whatsapp.png"
@@ -27,7 +28,10 @@
 
 <script lang="ts">
   import { Component, Vue } from "vue-property-decorator"
+  import { dataLayer } from "@/helpers/dataLayer"
 
   @Component({})
-  export default class ButtonCartProduct extends Vue {}
+  export default class ButtonCartProduct extends Vue {
+    dataLayer = dataLayer
+  }
 </script>
