@@ -130,6 +130,17 @@
                       Unificar Pedidos
                     </v-list-item-title>
                   </v-list-item>
+
+                  <v-list-item
+                    link
+                    @click="renderAllOrders(), dialogAllOrdersExting = !dialogAllOrdersExting"
+                  >
+                    <v-list-item-title
+                      class="text-uppercase"
+                    >
+                      Todos Pedidos Existentes
+                    </v-list-item-title>
+                  </v-list-item>
                 </v-list>
               </v-menu>
             </v-col>
@@ -657,6 +668,110 @@
         </v-card>
       </v-dialog>
 
+      <v-dialog
+        v-model="dialogAllOrdersExting"
+        fullscreen
+      >
+        <v-card
+          class="pa-4"
+        >
+          <v-row
+            no-gutters
+            justify="center"
+          >
+            <v-col
+              cols="12"
+              class="text-end pa-2"
+            >
+              <v-btn
+                icon
+                @click="dialogAllOrdersExting = !dialogAllOrdersExting"
+              >
+                <v-icon>
+                  close
+                </v-icon>
+              </v-btn>
+            </v-col>
+
+            <v-col 
+              cols="12"
+              class="py-2"
+            />
+
+            <v-col
+              v-if="allOrdersAncient.length <= 0"
+              cols="12"
+            >
+              <v-row
+                no-gutters
+                class="pa-4"
+              >
+                <v-col
+                  cols="12"
+                >
+                  <v-progress-linear
+                    indeterminate
+                    color="secondary"
+                  />
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  class="py-2"
+                />
+
+                <v-col
+                  cols="12"
+                  class="text-center"
+                >
+                  <span
+                    class="font-weight-regular mt-3"
+                  >
+                    Aguarde, Estamos carregando todos os pedidos...
+                  </span>
+                </v-col>
+              </v-row>
+            </v-col>
+
+            <v-col
+              v-if="allOrdersAncient.length <= 0"
+              cols="12"
+              class="py-2"
+            />
+
+            <v-col 
+              cols="12"
+              class="pa-4"
+            >
+              <v-row
+                no-gutters
+                justify="center"
+                align="center"
+              >
+                <v-col
+                  v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in allOrdersAncient"
+                  :key="`order-client-ancient-${pedido}`"
+                  class="my-3"
+                >
+                  <card-order-admin-component
+                    :segment="segmento"
+                    :order="pedido"
+                    :name="nome"
+                    :phone="telefone"
+                    :statusOrder="status"
+                    :statusPayment="pagamento.statusPagamento"
+                    :statusVip="vip"
+                    @dialogProductEmit="openDialogProducts(produtos)"
+                    @changeStatusOrderEmit="v=>statusCard=v"
+                    @changeStatusPaymentEmit="updateStatusPayment(pedido)"
+                  />
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-dialog>
+
       <dialog-unification-orders
         v-if="dialogUnificationOrders"
         :openDialogUnificationOrder="dialogUnificationOrders"
@@ -709,11 +824,13 @@
     $refs
 
     dialogUnificationOrders = false
+    dialogAllOrdersExting = false
     productsDialog: IproductData[]  = []
     showComplements = false
     messageUpdateOrders = ""
     orderFiltered = [] as IOrderData[]
     allOrders: IOrderData[] = []
+    allOrdersAncient: IOrderData[] = []
 
     statusCard = {} as IStatusOrder
     @Watch("statusCard")
@@ -742,6 +859,21 @@
 
         this.renderCardOrderCostumers()
       }, 45000)
+    }
+
+    renderAllOrders (): void {
+      this.allOrdersAncient = []
+
+      this.getAllOrdersExisting()
+        .then(responseMixin => {
+          if (/error/i.test(String(responseMixin || ""))) throw Error()
+          else if ( responseMixin.length <= 0) return this.allOrdersAncient = []
+          
+          this.allOrdersAncient = [ ...responseMixin as  IOrderData[] ]
+        }).catch(err => {
+          window.log("ERROR renderAllOrders", err)
+          this.setDialogTryAgain(true)
+        })
     }
 
     renderCardOrderCostumers (): void {

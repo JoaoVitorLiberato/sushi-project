@@ -16,6 +16,7 @@ interface cacheStoreInterface {
   priceTotal: number,
   overlayMessageLaunchStore: boolean,
   overlayMessageDeliveryDesatived: boolean,
+  overlayMessageMessageFoodpark: boolean,
   loading: {
     status: boolean,
     msg: string

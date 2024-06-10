@@ -20,7 +20,8 @@ const moduleCache = (): cacheStoreInterface => {
     commentsPorducts: [],
     commentsIDPorductSelected: "",
     overlayMessageLaunchStore: false,
-    overlayMessageDeliveryDesatived: true
+    overlayMessageDeliveryDesatived: true,
+    overlayMessageMessageFoodpark: true,
   }
 }
 
@@ -69,6 +70,9 @@ const getters: GetterTree<cacheStoreInterface, rootStateInterface> = {
   CacheOverlayMessageDeliveryDesatived: ({ overlayMessageDeliveryDesatived }) => () => {
     return overlayMessageDeliveryDesatived
   },
+  CacheOverlayMessageSegmentFoodpark: ({ overlayMessageMessageFoodpark }) => () => {
+    return overlayMessageMessageFoodpark
+  },
 }
 
 const mutations: MutationTree<cacheStoreInterface> = {
@@ -116,6 +120,9 @@ const mutations: MutationTree<cacheStoreInterface> = {
   },
   mutationOverlayMessageDeliveryDesatived (state, data) {
     state.overlayMessageDeliveryDesatived = data
+  },
+  mutationOverlayMessageSegmentFoodpark(state, data) {
+    state.overlayMessageMessageFoodpark = data
   }
 }
 
@@ -162,6 +169,9 @@ const actions: ActionTree<cacheStoreInterface, rootStateInterface> = {
   },
   ActionCacheOverlayMessageDeliveryDesatived ({ commit }, data) {
     commit("mutationOverlayMessageDeliveryDesatived", data)
+  },
+  ActionCacheOverlayMessageSegmentFoodpark ({ commit }, data) {
+    commit("mutationOverlayMessageSegmentFoodpark", data)
   },
 }
 
