@@ -31,8 +31,33 @@
       </template>
 
       <v-btn
+        v-show="/orders/i.test(String(service))"
         :fab="$vuetify.breakpoint.smAndDown"
         color="secondary"
+        large
+        depressed
+        title="Botão para cadastrar pedido da bancada"
+        @click="dialogRegisterOrderSegmentBench = !dialogRegisterOrderSegmentBench"
+      >
+        <v-icon
+          color="primary"
+        >
+          shopping_cart
+        </v-icon>
+
+        <span
+          class="primary--text ml-2 hidden-sm-and-down"
+        >
+          Registrar Pedido
+        </span>
+      </v-btn>
+
+      <v-btn
+        v-show="/employee/i.test(String(service))"
+        :fab="$vuetify.breakpoint.smAndDown"
+        color="secondary"
+        large
+        depressed
         title="Botão para cadastrar funcionário"
         @click="dialogRegisterEmployee = !dialogRegisterEmployee"
       >
@@ -50,8 +75,11 @@
       </v-btn>
 
       <v-btn
+        v-show="/products/i.test(String(service))"
         :fab="$vuetify.breakpoint.smAndDown"
         color="secondary"
+        large
+        depressed
         title="Botão para cadastrar produto"
         @click="dialogRegisterProduct = !dialogRegisterProduct"
       >
@@ -69,8 +97,11 @@
       </v-btn>
 
       <v-btn
+        v-show="/products/i.test(String(service))"
         :fab="$vuetify.breakpoint.smAndDown"
         color="secondary"
+        large
+        depressed
         title="Botão para cadastrar produto"
         @click="dialogRegisterComplement = !dialogRegisterComplement"
       >
@@ -97,11 +128,14 @@
     <dialog-register-complement
       v-if="dialogRegisterComplement"
     />
+    <dialog-register-order-segment-bench
+      v-if="dialogRegisterOrderSegmentBench"
+    />
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from "vue-property-decorator"
+  import { Component, Vue, Prop } from "vue-property-decorator"
   import { namespace } from "vuex-class"
 
   const dialogStore = namespace("dialogStoreModule")
@@ -123,15 +157,32 @@
         /* webpackMode: "eager" */
         "@/components/dialogs/DialogRegisterComplement.vue"
       ),
+      DialogRegisterOrderSegmentBench: () => import(
+        /* webpackChuckName: "dialog-register-order-segment-bench-component" */
+        /* webpackMode: "eager" */
+        "@/components/dialogs/DialogRegisterOrderSegmentBench.vue"
+      ),
     }
   })
   export default class ButtonAddProductsOrEmployee extends Vue {
+    @Prop({ default: "orders" }) service!: string
+
     @dialogStore.Getter("DialogRegisterEmployee") getDialogRegisterEmployee
     @dialogStore.Action("ActionDialogRegisterEmployee") setDialogRegisterEmployee
     @dialogStore.Getter("DialogRegisterProduct") getDialogRegisterProduct
     @dialogStore.Action("ActionDialogRegisterProduct") setDialogRegisterProduct
     @dialogStore.Getter("DialogRegisterComplement") getDialogRegisterComplement
     @dialogStore.Action("ActionDialogRegisterComplement") setDialogRegisterComplement
+    @dialogStore.Action("ActionDialogRegisterOrderSegmentBench") setDialogRegisterOrderSegmentBench
+    @dialogStore.Getter("dialogRegisterOrderSegmentBench") getDialogRegisterOrderSegmentBench
+
+    get dialogRegisterOrderSegmentBench (): boolean {
+      return this.getDialogRegisterOrderSegmentBench()
+    }
+
+    set dialogRegisterOrderSegmentBench (value:boolean) {
+      this.setDialogRegisterOrderSegmentBench(value)
+    }
 
     get dialogRegisterEmployee (): boolean {
       return this.getDialogRegisterEmployee()

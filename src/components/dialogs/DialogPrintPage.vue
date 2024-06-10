@@ -43,13 +43,13 @@
             <p
               style="padding:0;margin:0;text-transform:uppercase"
             >
-              <strong>Telefone:</strong> {{ pedido.consumidor.telefone.contato }}
+              <strong>Telefone:</strong> {{ pedido.consumidor.telefone.contato !== "" ?  pedido.consumidor.telefone.contato : 'S/N' }}
             </p>
 
             <p
               style="padding:0;margin:0;text-transform:uppercase"
             >
-              <strong>Endereço:</strong> {{ formatAddress(pedido.consumidor.endereco) }}
+              <strong>Endereço:</strong> {{ formatAddress(pedido.consumidor) }}
             </p>
           </div>
         </div>
@@ -58,6 +58,7 @@
           style="margin-top: 15px;"
         >
           <h2
+            v-if="pedido.produtos.length > 0"
             style="text-transform:uppercase;font-size:18px;line-height:1;"
           >
             Produtos
@@ -67,6 +68,7 @@
             <div 
               v-for="(produto, i) in pedido.produtos" 
               :key="`produto-${produto.id}-${i}`"
+              v-show="pedido.produtos.length > 0"
               style="line-height: 1;"
             >
               <p
@@ -128,6 +130,7 @@
               style="margin-top: 15px;"
             >
               <p
+                v-if="pedido.pagamento.formaPagamento"
                 style="padding:0;margin:0;text-transform:uppercase"
               >
                 <strong>Forma de Pagamento:</strong> {{ pedido.pagamento.formaPagamento }}
@@ -234,8 +237,15 @@
       }
     }
 
-    formatAddress(address) {
-      return `${address.logradouro}, ${address.numero} - ${address.bairro}, ${address.cidade} - ${address.uf}, ${address.cep} (${address.referencia})`;
+    formatAddress(data): string {
+      let addressFormated = ""
+
+      Object.keys(data.endereco).forEach(item => {
+        if (data.endereco[item] === "") return addressFormated = "s/n"
+        addressFormated = `${data.endereco.logradouro}, ${data.endereco.numero} - ${data.endereco.bairro}, ${data.endereco.cidade} - ${data.endereco.uf}, ${data.endereco.cep} (${data.endereco.referencia})`;
+      })
+    
+      return addressFormated
     }
 
     formatPrice(price) {

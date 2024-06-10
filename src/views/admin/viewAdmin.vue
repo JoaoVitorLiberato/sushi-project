@@ -221,7 +221,8 @@
     </v-row>
 
     <button-add-products-or-employee
-      v-if="/admin/i.test(permission)"
+      v-if="/admin/i.test(permission) && !/discount|reset-password/i.test(String(service))"
+      :service="service"
     />
 
     <dialog-open-store 
@@ -286,7 +287,7 @@
     @dialogStore.Getter("DialogOpenStore") getDialogOpenStore
     @dialogStore.Action("ActionDialogTryAgain") setDialogTryAgain
 
-    service = "products"
+    service = ""
     colorButtonOpenStore = "primary"
     permission = ""
     loading = false
