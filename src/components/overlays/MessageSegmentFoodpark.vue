@@ -1,10 +1,10 @@
 <template>
     <v-overlay
-    :value="overlayMessageDeliveryDesatived"
+    :value="overlayMessageSegmetentFoodpark"
     opacity="1"
   >
     <v-dialog
-      v-model="overlayMessageDeliveryDesatived"
+      v-model="overlayMessageSegmetentFoodpark"
       hide-overlay
       max-width="400"
       persistent
@@ -21,13 +21,12 @@
         >
           <v-col
             cols="12"
-            class="text-center"
           >
             <h2
               v-font-size="18"
               class="font-weight-medium text-uppercase"
             >
-              Aviso importante
+              Prezado cliente,
             </h2>
           </v-col>
 
@@ -44,8 +43,7 @@
               v-font-size="13"
               class="font-weight-regular d-block pb-2"
             >
-              O serviço de delivery está indisponível temporariamente, para não haver possíveis transtornos,
-              recomendamos que você clique no botão abaixo para realizar sua compra e busque seu pedido no estabelecimento.
+              Você está no segmento Foodpark, Onde a retirada do produto está destinada apenas no estabelecimento.
             </span>
 
             <small>
@@ -66,20 +64,12 @@
               color="secondary"
               large
               block
-              @click="handleChangeSegment"
+              @click="overlayMessageSegmetentFoodpark = !overlayMessageSegmetentFoodpark"
             >
               <span
-                v-if="$vuetify.breakpoint.width < 375"
                 class="font-weight-bold primary--text"
               >
-                Estabelecimento
-              </span>
-
-              <span
-                v-else
-                class="font-weight-bold primary--text"
-              >
-                Foodpark (Estabelecimento)
+                Estou ciente
               </span>
             </v-btn>
           </v-col>
@@ -96,9 +86,7 @@
   const cacheStore = namespace("cacheStoreModule")
 
   @Component({})
-  export default class OverlayMessageDeliveryDesatived extends Vue {
-    @cacheStore.Getter("CacheOverlayMessageDeliveryDesatived") getCacheOverlayMessageDeliveryDesatived
-    @cacheStore.Action("ActionCacheOverlayMessageDeliveryDesatived") setCacheOverlayMessageDeliveryDesatived
+  export default class OverlayMessageSegmentFoodpark extends Vue {
     @cacheStore.Getter("CacheOverlayMessageSegmentFoodpark") getCacheOverlayMessageSegmentFoodpark
     @cacheStore.Action("ActionCacheOverlayMessageSegmentFoodpark") setCacheOverlayMessageSegmentFoodpark
 
@@ -108,19 +96,6 @@
 
     set overlayMessageSegmetentFoodpark (value) {
       this.setCacheOverlayMessageSegmentFoodpark(value)
-    }
-
-    get overlayMessageDeliveryDesatived ():boolean {
-      return this.getCacheOverlayMessageDeliveryDesatived()
-    }
-
-    set overlayMessageDeliveryDesatived (value) {
-      this.setCacheOverlayMessageDeliveryDesatived(value)
-    }
-
-    handleChangeSegment (): void {
-      this.overlayMessageSegmetentFoodpark = false
-      this.$router.push({ name: "product", params: { type: "foodpark" } })
     }
   }
 </script>

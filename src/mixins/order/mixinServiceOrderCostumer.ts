@@ -41,6 +41,24 @@ export default class MixinServiceOrderCostumer extends Vue {
     })
   }
 
+  getAllOrdersExisting (): Promise<IOrderData[]|string> {
+    async function serviceAPI () {
+      return await MiddlewareConnectAPI.get(`/orders/all`)
+    }
+
+    return new Promise((resolve, reject) => {
+      serviceAPI()
+        .then((responseApi) => {
+          if (!responseApi.data) reject(Error("err"))
+          resolve(responseApi.data)
+        }).catch((error) => {
+          window.log(`ERROR GETORDERCOSTUMER MIXIN`, error)
+          if (error.response.data.message === "ordem não encontrada") resolve("not-order")
+          else resolve("error")
+        })
+    })
+  }
+
   getOrderPrinter (numeroPedido: string|number): Promise<IOrderDataAll|string> {
     async function serviceAPI () {
       return await MiddlewareConnectAPI.get(`/order/printer/${numeroPedido}`)

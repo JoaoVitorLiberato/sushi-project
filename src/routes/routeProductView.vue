@@ -46,6 +46,10 @@
     <overlay-message-delivery-desatived 
       v-if="/delivery/i.test(String($route.params.type))"
     />
+
+    <OverlayMessageSegmentFoodpark 
+      v-if="/foodpark/i.test(String($route.params.type))"
+    />
   </v-main>
 </template>
 
@@ -114,6 +118,11 @@
         /* webpackChunkName: "overlay-message-launch-system-component" */
         /* webpackMode: "eager" */
         "@/components/overlays/MessageDeliveryDesatived.vue"
+      ),
+      OverlayMessageSegmentFoodpark: () => import(
+        /* webpackChunkName: "overlay-message-launch-system-component" */
+        /* webpackMode: "eager" */
+        "@/components/overlays/MessageSegmentFoodpark.vue"
       ),
     }
   })
