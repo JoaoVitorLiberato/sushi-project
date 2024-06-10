@@ -20,7 +20,7 @@ const moduleCache = (): cacheStoreInterface => {
     commentsPorducts: [],
     commentsIDPorductSelected: "",
     overlayMessageLaunchStore: false,
-    overlayMessageDeliveryDesatived: true,
+    overlayMessageDeliveryDesatived: false,
     overlayMessageMessageFoodpark: true,
   }
 }
