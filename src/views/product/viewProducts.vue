@@ -1,10 +1,12 @@
 <template>
   <v-row
-    v-if="filterDataProduct('pecas').length > 0"
     no-gutters
     class="pa-4"
   >
     <v-col
+      v-for="{ id, name } in categories"
+      :key="`contatiner-${name}-${id}`"
+      v-show="filterDataProduct(id).length > 0"
       cols="12"
     >
       <v-row
@@ -15,31 +17,32 @@
         >
           <h2
             class="font-weight-bold text-uppercase"
-          >
-            Peças
-          </h2>
+            v-text="name"
+          />
         </v-col>
 
         <v-col
           cols="12"
         >
-          <content-section-products-order-component 
-            category="pecas"
+          <content-section-products-order-component
+            :category="id"
           />
         </v-col>
+
+        <v-col
+          v-show="filterDataProduct(id).length > 0"
+          cols="12"
+          class="py-1 py-sm-6"
+        />
       </v-row>
     </v-col>
-
-    <v-col
-      cols="12"
-      class="py-1 py-sm-6"
-    />
   </v-row>
 </template>
 
 <script lang="ts">
-  import { Vue, Component } from "vue-property-decorator"
+  import { Component, Vue } from "vue-property-decorator"
   import { filterDataProduct } from "@/helpers/filterProducts"
+  import DATA_CATEGORIES_DEFAULT from "@/data/products/category.json"
 
   @Component({
     components: {
@@ -51,7 +54,11 @@
     }
   })
 
-  export default class viewProductPecas extends Vue {
+  export default class viewProductCombinados extends Vue {
     filterDataProduct = filterDataProduct
+
+    get categories (): typeof DATA_CATEGORIES_DEFAULT {
+      return DATA_CATEGORIES_DEFAULT
+    }
   }
 </script>

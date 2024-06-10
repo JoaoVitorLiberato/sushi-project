@@ -74,12 +74,12 @@
                       depressed
                       large
                       width="300"
-                      @click.stop="redirectViewProduct()"
+                      @click.stop="returnProductRoute('delivery')"
                     >
                       <span
                         v-font-size="14"
                         class="font-weight-bold text-uppercase"
-                        style="color:var(--v-primary-text)"
+                        style="color:var(--v-primary-base)"
                       >
                         Fazer meu pedido (Delivery)
                       </span>
@@ -98,20 +98,11 @@
 <script lang="ts">
   import { Component } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
-  import { dataLayer } from "@/helpers/dataLayer"
   import MixinRedirectLinks from "@/mixins/redirectLinks/MxiinRedirectLinks"
 
   @Component({})
 
   export default class viewHero extends mixins(
     MixinRedirectLinks,
-  ) {
-    redirectViewProduct (): void {
-      dataLayer({
-        "event": "click_button_hero"
-      })
-
-      this.returnProductRoute('delivery')
-    }
-  }
+  ) {}
 </script>

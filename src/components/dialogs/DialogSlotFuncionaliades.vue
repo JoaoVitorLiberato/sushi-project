@@ -3,102 +3,117 @@
     <slot
       name="serviceClient"
     >
-      <v-dialog
-        ref="componentDialogSlotTableSelected"
-        v-model="dialogServiceClientModel"
-        hide-overlay
-        :max-width="400"
+      <v-overlay
+        :value="dialogServiceClientModel"
+        opacity="1"
       >
-        <v-card
-          color="primary"
-          class="mx-auto"
-          dark
+        <v-dialog
+          ref="componentDialogSlotTableSelected"
+          v-model="dialogServiceClientModel"
+          hide-overlay
+          :max-width="400"
         >
-          <div
-            style="border:1px solid var(--v-secondary-base)"
-            class=" px-3 py-4"
+          <v-card
+            color="primary"
+            class="mx-auto"
+            dark
           >
-            <v-row
-              no-gutters
+            <div
+              style="border:1px solid var(--v-secondary-base)"
+              class=" px-3 py-4"
             >
-              <v-col
-                cols="12"
+              <v-row
+                no-gutters
               >
-                <span
-                  v-font-size="18"
-                  v-text="'Escolha o serviço:'"
-                />
-              </v-col>
-
-              <v-col
-                cols="12"
-              >
-                <v-radio-group
-                  v-model="serviceSelelected"
-                >
-                  <v-row
-                    no-gutters
-                    justify="center"
-                  >
-                    <v-col
-                      v-for="servico in ['foodpark', 'delivery']"
-                      :key="`input-radio-${servico}`"
-                      cols="12"
-                      class="py-2"
-                    >
-                      <v-row
-                        no-gutters
-                        justify="start"
-                        justify-md="start"
-                      >
-                        <v-col
-                          cols="12"
-                        >
-                          <v-radio
-                            :value="servico"
-                          >
-                            <template
-                              #label
-                            >
-                              <span
-                                style="color: var(--v-primary-text);"
-                                v-text="/delivery/i.test(String(servico)) ? 'Delivery (Entrega)' : 'Food Park (Estabelecimento)'"
-                              />
-                            </template>
-                          </v-radio>
-                        </v-col>
-                      </v-row>
-                    </v-col>
-                  </v-row>
-                </v-radio-group>
-              </v-col>
-
-              <v-col
-                cols="12"
-                class="py-2"
-              />
-
-              <v-col
-                cols="12"
-              >
-                <v-btn
-                  block
-                  large
-                  color="secondary"
-                  :disabled="serviceSelelected === ''"
-                  @click.stop="returnProductRoute(serviceSelelected)"
+                <v-col
+                  cols="12"
+                  class="d-flex justify-space-between align-center"
                 >
                   <span
-                    class="font-weight-bold"
+                    v-font-size="18"
+                    v-text="'Escolha o serviço:'"
+                  />
+
+                  <v-btn
+                    icon
+                    @click="dialogServiceClientModel = !dialogServiceClientModel"
                   >
-                    Fazer meu pedido
-                  </span>
-                </v-btn>
-              </v-col>
-            </v-row>
-          </div>
-        </v-card>
-      </v-dialog>
+                    <v-icon>
+                      close
+                    </v-icon>
+                  </v-btn>
+                </v-col>
+
+                <v-col
+                  cols="12"
+                >
+                  <v-radio-group
+                    v-model="serviceSelelected"
+                  >
+                    <v-row
+                      no-gutters
+                      justify="center"
+                    >
+                      <v-col
+                        v-for="servico in ['foodpark', 'delivery']"
+                        :key="`input-radio-${servico}`"
+                        cols="12"
+                        class="py-2"
+                      >
+                        <v-row
+                          no-gutters
+                          justify="start"
+                          justify-md="start"
+                        >
+                          <v-col
+                            cols="12"
+                          >
+                            <v-radio
+                              :value="servico"
+                            >
+                              <template
+                                #label
+                              >
+                                <span
+                                  style="color: var(--v-primary-text);"
+                                  v-text="/delivery/i.test(String(servico)) ? 'Delivery (Entrega)' : 'Foodpark (Estabelecimento)'"
+                                />
+                              </template>
+                            </v-radio>
+                          </v-col>
+                        </v-row>
+                      </v-col>
+                    </v-row>
+                  </v-radio-group>
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  class="py-2"
+                />
+
+                <v-col
+                  cols="12"
+                >
+                  <v-btn
+                    block
+                    large
+                    color="secondary"
+                    :disabled="serviceSelelected === ''"
+                    @click.stop="returnProductRoute(serviceSelelected)"
+                  >
+                    <span
+                      :class="`font-weight-bold ${serviceSelelected === '' ? 'grey' : 'primary'}--text`"
+                    >
+                      Fazer meu pedido
+                    </span>
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </div>
+          </v-card>
+        </v-dialog>
+      </v-overlay>
     </slot>
 
     <slot
@@ -485,7 +500,7 @@
     cep = cep
 
     tableSelected = ""
-    serviceSelelected = ""
+    serviceSelelected = "foodpark"
 
     inputCep = {
       optional: false,
