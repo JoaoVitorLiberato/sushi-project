@@ -85,10 +85,10 @@
                   outlined
                   type="number"
                   label="Peso"
-                  :hint="text"
+                  :hint="textWeight"
                   :rules="[required]"
+                  :persistent-hint="true"
                   hide-details="auto"
-                  @blur="v=>v.target.value&&clear()"
                   @input="changeInputWeight"
                 />
               </v-col>
@@ -105,11 +105,11 @@
                   outlined
                   label="Preço"
                   type="number"
-                  :hint="text"
+                  :hint="textPrice"
                   :rules="[required]"
+                  :persistent-hint="true"
                   hide-details="auto"
                   @input="changeInputPrice"
-                  @blur="v=>v.target.value&&clear()"
                 />
               </v-col>
 
@@ -121,7 +121,14 @@
               <v-col
                 cols="12"
               >
+                <v-progress-linear 
+                  v-if="loading"
+                  color="secondary"
+                  indeterminate
+                />
+
                 <v-btn
+                  v-else
                   color="secondary"
                   large
                   block
@@ -152,11 +159,14 @@
   import { required } from "@/helpers/rules"
   import { $refs } from "@/implements/types"
   import PAYLOAD_DATA_DEFAULT from "@/data/payload/payloadDefault.json"
+  import MixinServiceOrderCostumer from "@/mixins/order/mixinServiceOrderCostumer"
 
   const dialogStore = namespace("dialogStoreModule")
 
   @Component({})
-  export default class DialogRegisterOrderSegmentBench extends mixins() implements $refs {
+  export default class DialogRegisterOrderSegmentBench extends mixins(
+    MixinServiceOrderCostumer,
+  ) implements $refs {
     @dialogStore.Action("ActionDialogRegisterOrderSegmentBench") setDialogRegisterOrderSegmentBench
     @dialogStore.Getter("dialogRegisterOrderSegmentBench") getDialogRegisterOrderSegmentBench
 
@@ -165,7 +175,9 @@
     formatedPrice = formatedPrice
     required = required
 
-    text = ""
+    loading = false
+    textWeight = ""
+    textPrice = ""
     formValidate = false
 
     data = {
@@ -195,27 +207,24 @@
       }
     }
 
-    clear (): void {
-      this.text = ""
-    }
-
     changeInputWeight (e): void {
       this.data.weight = Number(e)
 
       if (e > 999) {
         const PESO_FORMATED = Number(e) > 999 ? Number(e) / 1000 :  Number(e)
         const SPLIT_PESO = String(PESO_FORMATED).split(".")
-        this.text = `${SPLIT_PESO[0]} KG e ${String(SPLIT_PESO[1]).length <= 1 ? `${SPLIT_PESO[1]}00` : SPLIT_PESO[1] === undefined ? 0 : SPLIT_PESO[1]} Gramas`
-      } else this.text = `${e} Gramas`
+        this.textWeight = `${SPLIT_PESO[0]} KG e ${String(SPLIT_PESO[1]).length <= 1 ? `${SPLIT_PESO[1]}00` : SPLIT_PESO[1] === undefined ? 0 : SPLIT_PESO[1]} Gramas`
+      } else this.textWeight = `${e} Gramas`
     }
 
     changeInputPrice (e): void {
       this.data.price = Number(e)
 
-      this.text = `${formatedPrice(e)}`
+      this.textPrice = `${formatedPrice(e)}`
     }
 
     createOrderBench (): void {
+      this.loading = true
       const PAYLOAD_DATA = PAYLOAD_DATA_DEFAULT
 
       if (this.data.segment) {
@@ -232,6 +241,18 @@
       if (this.data.price) {
         Vue.set(PAYLOAD_DATA.pagamento, "valorTotal", Number(this.data.price))
       }
+
+      this.setOrderCostumer()
+        .then(responseMixin => {
+          this.loading = false
+
+          if (/error/i.test(String(responseMixin || ""))) {
+            this.$refs.dialogErrorOrder.isActive = true
+            return
+          }
+
+          this.dialogRegisterOrderSegmentBench = !this.dialogRegisterOrderSegmentBench
+        })
     }
   }
 </script>
