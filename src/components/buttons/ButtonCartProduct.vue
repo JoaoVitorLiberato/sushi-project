@@ -31,7 +31,6 @@
   import { mixins } from "vue-class-component"
   import { namespace } from "vuex-class"
   import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
-  import { dataLayer } from "@/helpers/dataLayer"
 
   const cacheStore = namespace("cacheStoreModule")
 
@@ -60,11 +59,6 @@
     }
 
     openButtonCartProducts (): void {
-      dataLayer({
-        "event": "botao_carrinho_produtos",
-        "carrinho": this.drawerCartProduct ? 'aberto' : 'fechado'
-      })
-
       this.totalPriceOrderClient()
       this.drawerCartProduct = !this.drawerCartProduct
     }

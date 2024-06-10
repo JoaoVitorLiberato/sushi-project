@@ -9,27 +9,27 @@
   },
   {
     "id": "temaki",
-    "name": "Temaki com arroz"
+    "name": "Temaki's com arroz"
   },
   {
     "id": "temakisa",
-    "name": "Temaki sem arroz"
+    "name": "Temaki's sem arroz"
   },
   {
     "id": "supremo",
-    "name": "Temaki supremo"
+    "name": "Temaki's supremo"
   },
   {
     "id": "hot",
     "name": "Hot's"
   },
   {
-    "id": "combinados",
-    "name": "Combinados"
-  },
-  {
     "id": "especiais",
     "name": "Especiais"
+  },
+  {
+    "id": "combinados",
+    "name": "Combinados"
   },
   {
     "id": "doces",

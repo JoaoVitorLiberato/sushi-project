@@ -89,7 +89,7 @@
 
                 <v-col
                   cols="12"
-                  style="line-height:1"
+                  style="line-height:22px"
                 >
                   <p
                     class="font-weight-regular"
@@ -110,7 +110,7 @@
 
                 <v-col
                   cols="12"
-                  style="line-height:1"
+                  style="line-height:22px"
                 >
                   <p
                     class="font-weight-regular"

@@ -15,50 +15,10 @@ export default [
         path: ":type/vamoscomecar",
         name: "product",
         components: {
-          viewProductEntrada: (): Promise<typeof import("*.vue")> => import(
-            /* webpackChunkName: "entrada-product-view" */
+          viewProducts: (): Promise<typeof import("*.vue")> => import(
+            /* webpackChunkName: "products-view" */
             /* webpackPrefetch: 1 */
-            "@/views/product/viewProductEntrada.vue"
-          ),
-          viewProductPecas: (): Promise<typeof import("*.vue")> => import(
-            /* webpackChunkName: "pecas-product-view" */
-            /* webpackPrefetch: 1 */
-            "@/views/product/viewProductPecas.vue"
-          ),
-          viewProductTemaki: (): Promise<typeof import("*.vue")> => import(
-            /* webpackChunkName: "temaki-product-view" */
-            /* webpackPrefetch: 1 */
-            "@/views/product/viewProductTemaki.vue"
-          ),
-          viewProductTemakiSemArroz: (): Promise<typeof import("*.vue")> => import(
-            /* webpackChunkName: "temaki-product-view" */
-            /* webpackPrefetch: 1 */
-            "@/views/product/viewProductTemakiSemArroz.vue"
-          ),
-          viewProductTemakiSupremo: (): Promise<typeof import("*.vue")> => import(
-            /* webpackChunkName: "temaki-product-view" */
-            /* webpackPrefetch: 1 */
-            "@/views/product/viewProductTemakiSupremo.vue"
-          ),
-          viewProductHot: (): Promise<typeof import("*.vue")> => import(
-            /* webpackChunkName: "hot-product-view" */
-            /* webpackPrefetch: 1 */
-            "@/views/product/viewProductHot.vue"
-          ),
-          viewProductEspecial: (): Promise<typeof import("*.vue")> => import(
-            /* webpackChunkName: "especial-product-view" */
-            /* webpackPrefetch: 1 */
-            "@/views/product/viewProductEspecial.vue"
-          ),
-          viewProductCombinados: (): Promise<typeof import("*.vue")> => import(
-            /* webpackChunkName: "combinados-product-view" */
-            /* webpackPrefetch: 1 */
-            "@/views/product/viewProductCombinados.vue"
-          ),
-          viewProductDoces: (): Promise<typeof import("*.vue")> => import(
-            /* webpackChunkName: "doces-product-view" */
-            /* webpackPrefetch: 1 */
-            "@/views/product/viewProductDoces.vue"
+            "@/views/product/viewProducts.vue"
           ),
         },
       },

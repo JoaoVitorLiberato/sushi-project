@@ -14,73 +14,8 @@
         <v-col
           cols="12"
         >
-          <router-view
-            name="viewProductEntrada"
-          />
-        </v-col>
-
-        <v-col
-          cols="12"
-        >
-          <router-view
-            name="viewProductPecas"
-          />
-        </v-col>
-
-        <v-col
-          cols="12"
-        >
-          <router-view
-            name="viewProductTemaki"
-          />
-        </v-col>
-
-        <v-col
-          cols="12"
-        >
-          <router-view
-            name="viewProductTemakiSemArroz"
-          />
-        </v-col>
-
-        <v-col
-          cols="12"
-        >
-          <router-view
-            name="viewProductTemakiSupremo"
-          />
-        </v-col>
-
-
-        <v-col
-          cols="12"
-        >
-          <router-view
-            name="viewProductHot"
-          />
-        </v-col>
-
-        <v-col
-          cols="12"
-        >
-          <router-view
-            name="viewProductEspecial"
-          />
-        </v-col>
-
-        <v-col
-          cols="12"
-        >
-          <router-view
-            name="viewProductCombinados"
-          />
-        </v-col>
-
-        <v-col
-          cols="12"
-        >
-          <router-view
-            name="viewProductDoces"
+          <router-view 
+            name="viewProducts"
           />
         </v-col>
       </v-row>

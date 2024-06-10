@@ -9,7 +9,7 @@
       style="line-height: 1"
     >
       <h2
-        v-font-size="$vuetify.breakpoint.smAndDown ? 23 : 27"
+        v-font-size="$vuetify.breakpoint.smAndDown ? 19 : 27"
         class="font-weight-bold text-uppercase"
         style="color: var(--v-primary-text)"
       >
@@ -123,12 +123,15 @@
     >
       <v-btn
         color="secondary"
-        large
+        x-large
         depressed
-        :width="$vuetify.breakpoint.smAndDown ? '100%': '285px'"
+        class="text-none"
+        :width="$vuetify.breakpoint.smAndDown ? '100%': '385px'"
         @click="getDialogSegmentProducts"
       >
         <span
+          v-font-size="14"
+          class="font-weight-bold primary--text text-uppercase"
           v-text="'Conhecer nossos produtos'"
         />
       </v-btn>
@@ -140,7 +143,6 @@
   import { Component, Vue } from "vue-property-decorator"
   import { filterDataProduct } from "@/helpers/filterProducts"
   import { namespace } from "vuex-class"
-  import { dataLayer } from "@/helpers/dataLayer"
   import "@/styles/view/viewDishes.styl"
 
   const cacheStore = namespace("cacheStoreModule")
@@ -183,10 +185,6 @@
     }
 
     getDialogSegmentProducts (): void {
-      dataLayer({
-        "event": "open_dialog_segment_product"
-      })
-
       this.dialogServiceClient = !this.dialogServiceClient
     }
   }
