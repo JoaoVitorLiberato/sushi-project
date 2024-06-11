@@ -23,6 +23,15 @@ export interface IStatusOrder {
   status: string
 }
 
+export interface dataDatailsOrders {
+  pedidos: {
+    quantidade: number,
+    valorVendas: number,
+    valorPendente: number,
+  },
+  orders: IOrderData[]
+}
+
 export interface IOrderDataAll extends IOrderData {
   consumidor: {
     nome: string,
@@ -41,6 +50,7 @@ export interface IOrderDataAll extends IOrderData {
     },
     mensagem: string
   },
+  peso?: 0
   pagamento: {
     desconto: {
       PrecoTotalComDesconto: number

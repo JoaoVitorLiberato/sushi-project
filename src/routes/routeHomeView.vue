@@ -120,7 +120,7 @@
       DialogGetCommentsProduct: () => import(
         /* webpackChunkName: "dialog-get-comments-product-component" */
         /* webpackMode: "eager" */
-        "@/components/dialogs/dialogGetCommentsProduct.vue"
+        "@/components/dialogs/DialogGetCommentsProduct.vue"
       )
     }
   })

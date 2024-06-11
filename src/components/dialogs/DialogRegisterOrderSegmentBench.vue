@@ -121,7 +121,7 @@
               <v-col
                 cols="12"
               >
-                <v-progress-linear 
+                <v-progress-linear
                   v-if="loading"
                   color="secondary"
                   indeterminate
@@ -235,7 +235,7 @@
       }
 
       if (this.data.weight) {
-        Vue.set(PAYLOAD_DATA.pagamento, "peso", Number(this.data.weight))
+        Vue.set(PAYLOAD_DATA, "peso", Number(this.data.weight))
       }
 
       if (this.data.price) {
