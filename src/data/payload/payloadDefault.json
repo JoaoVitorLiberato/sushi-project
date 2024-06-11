@@ -22,6 +22,7 @@
   "pagamento": {
     "valorFrete": 0,
     "valorProdutos": 0,
+    "statusPagamento": "pendente",
     "valorTotal": 0,
 		"formaPagamento": "",
     "desconto": {

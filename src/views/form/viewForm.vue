@@ -757,6 +757,8 @@
               })
             }
           }
+
+          this.totalPriceOrderClient()
         }
 
     @Watch("itemsFirstFields.nomeCompleto.value")
