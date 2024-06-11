@@ -1,7 +1,7 @@
 import { Component, Vue } from "vue-property-decorator"
 import { MiddlewareConnectAPI } from "@/middleware/middlewareBangaloSupportAPI"
 import { namespace } from "vuex-class"
-import { IOrderData, IStatusOrder, IOrderDataAll } from "@/types/type-order"
+import { IOrderData, IStatusOrder, IOrderDataAll, dataDatailsOrders } from "@/types/type-order"
 
 const payloadStore = namespace("payloadStoreModule")
 const cacheStore = namespace("cacheStoreModule")
@@ -41,7 +41,7 @@ export default class MixinServiceOrderCostumer extends Vue {
     })
   }
 
-  getAllOrdersExisting (): Promise<IOrderData[]|string> {
+  getAllOrdersExisting (): Promise<dataDatailsOrders|string> {
     async function serviceAPI () {
       return await MiddlewareConnectAPI.get(`/orders/all`)
     }
@@ -53,8 +53,7 @@ export default class MixinServiceOrderCostumer extends Vue {
           resolve(responseApi.data)
         }).catch((error) => {
           window.log(`ERROR GETORDERCOSTUMER MIXIN`, error)
-          if (error.response.data.message === "ordem não encontrada") resolve("not-order")
-          else resolve("error")
+          resolve("error")
         })
     })
   }

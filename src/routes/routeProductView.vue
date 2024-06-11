@@ -14,7 +14,7 @@
         <v-col
           cols="12"
         >
-          <router-view 
+          <router-view
             name="viewProducts"
           />
         </v-col>
@@ -43,11 +43,11 @@
     <overlay-message-launch-system />
     <dialog-get-comments-product />
 
-    <overlay-message-delivery-desatived 
+    <overlay-message-delivery-desatived
       v-if="/delivery/i.test(String($route.params.type))"
     />
 
-    <OverlayMessageSegmentFoodpark 
+    <OverlayMessageSegmentFoodpark
       v-if="/foodpark/i.test(String($route.params.type))"
     />
   </v-main>
@@ -107,7 +107,7 @@
       DialogGetCommentsProduct: () => import(
         /* webpackChunkName: "dialog-get-comments-product-component" */
         /* webpackMode: "eager" */
-        "@/components/dialogs/dialogGetCommentsProduct.vue"
+        "@/components/dialogs/DialogGetCommentsProduct.vue"
       ),
       OverlayMessageLaunchSystem: () => import(
         /* webpackChunkName: "overlay-message-launch-system-component" */

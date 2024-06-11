@@ -65,8 +65,8 @@
           </h2>
 
           <div>
-            <div 
-              v-for="(produto, i) in pedido.produtos" 
+            <div
+              v-for="(produto, i) in pedido.produtos"
               :key="`produto-${produto.id}-${i}`"
               v-show="pedido.produtos.length > 0"
               style="line-height: 1;"
@@ -137,6 +137,13 @@
               </p>
 
               <p
+                v-if="pedido.peso"
+                style="padding:0;margin:0;text-transform:uppercase"
+              >
+                <strong>Peso:</strong> {{ formtedWeight(Number(pedido.peso)) }}
+              </p>
+
+              <p
                 style="padding:0;margin:0;text-transform:uppercase"
               >
                 <strong>Valor Total:</strong> {{  formatPrice(pedido.pagamento.valorTotal) }}
@@ -170,7 +177,7 @@
   import MixinServiceOrderCostumer from "@/mixins/order/mixinServiceOrderCostumer"
   import { $refs } from "@/implements/types"
   import { IOrderDataAll } from "@/types/type-order"
-  
+
   @Component({})
 
   export default class DialogPrintPage extends mixins(
@@ -217,7 +224,6 @@
         printWindow!.document.write(`
           <html>
             <head>
-              <title>Imprimir Página</title>
               <style>
                 body { font-family: Arial, sans-serif; }
                 h1, h2, h3, p { margin: 0; padding: 8px 0; }
@@ -237,6 +243,18 @@
       }
     }
 
+    formtedWeight (e:number):string {
+      let textWeight = ""
+
+      if (e > 999) {
+        const PESO_FORMATED = Number(e) > 999 ? Number(e) / 1000 :  Number(e)
+        const SPLIT_PESO = String(PESO_FORMATED).split(".")
+        textWeight = `${SPLIT_PESO[0]} KG e ${String(SPLIT_PESO[1]).length <= 1 ? `${SPLIT_PESO[1]}00` : SPLIT_PESO[1] === undefined ? 0 : SPLIT_PESO[1]} Gramas`
+      } else textWeight = `${e} Gramas`
+
+      return textWeight
+    }
+
     formatAddress(data): string {
       let addressFormated = ""
 
@@ -244,7 +262,7 @@
         if (data.endereco[item] === "") return addressFormated = "s/n"
         addressFormated = `${data.endereco.logradouro}, ${data.endereco.numero} - ${data.endereco.bairro}, ${data.endereco.cidade} - ${data.endereco.uf}, ${data.endereco.cep} (${data.endereco.referencia})`;
       })
-    
+
       return addressFormated
     }
 

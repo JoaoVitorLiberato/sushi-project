@@ -55,6 +55,7 @@
               md="5"
               order="3"
               order-md="1"
+              @click="locationInputSearchPedidos = 'orders'"
             >
               <v-text-field
                 label="Pesquisar pedido"
@@ -100,7 +101,7 @@
                       >
                         Opções
                       </span>
-  
+
                       <v-icon>
                         arrow_drop_down
                       </v-icon>
@@ -683,7 +684,6 @@
         >
           <v-row
             no-gutters
-            justify="center"
           >
             <v-col
               cols="12"
@@ -691,6 +691,7 @@
             >
               <v-btn
                 icon
+                x-large
                 @click="dialogAllOrdersExting = !dialogAllOrdersExting"
               >
                 <v-icon>
@@ -699,79 +700,240 @@
               </v-btn>
             </v-col>
 
-            <v-col 
+            <v-col
               cols="12"
               class="py-2"
             />
 
             <v-col
-              v-if="allOrdersAncient.length <= 0"
               cols="12"
             >
               <v-row
                 no-gutters
-                class="pa-4"
+                justify="center"
+                style="width:100%;max-width:1440px"
+                class="mx-auto"
               >
                 <v-col
+                  v-if="allOrdersAncient.length <= 0"
                   cols="12"
                 >
-                  <v-progress-linear
-                    indeterminate
-                    color="secondary"
-                  />
+                  <v-row
+                    no-gutters
+                    class="pa-4"
+                  >
+                    <v-col
+                      cols="12"
+                    >
+                      <v-progress-linear
+                        indeterminate
+                        color="secondary"
+                      />
+                    </v-col>
+
+                    <v-col
+                      cols="12"
+                      class="py-2"
+                    />
+
+                    <v-col
+                      cols="12"
+                      class="text-center"
+                    >
+                      <span
+                        class="font-weight-regular mt-3"
+                      >
+                        Aguarde, Estamos carregando todos os pedidos...
+                      </span>
+                    </v-col>
+                  </v-row>
                 </v-col>
 
                 <v-col
+                  v-if="allOrdersAncient.length <= 0"
                   cols="12"
                   class="py-2"
                 />
 
                 <v-col
+                  v-if="allOrdersAncient.length > 0"
                   cols="12"
-                  class="text-center"
+                  class="pa-4"
                 >
-                  <span
-                    class="font-weight-regular mt-3"
+                  <v-row
+                    no-gutters
+                    justify="space-between"
                   >
-                    Aguarde, Estamos carregando todos os pedidos...
-                  </span>
+                    <v-col
+                      cols="8"
+                    >
+                      <v-row
+                        no-gutters
+                        align="center"
+                      >
+                        <v-col
+                          cols="3"
+                          style="height:65px;border-bottom:4px solid var(--v-error-darken1)"
+                          class="mx-1 pa-1"
+                        >
+                          <v-row
+                            no-gutters
+                          >
+                            <v-col
+                              cols="12"
+                            >
+                              <span
+                                v-font-size="12"
+                                class="text-uppercase font-weight-bold"
+                              >
+                                Pagamentos pendentes
+                              </span>
+                            </v-col>
+
+                            <v-col
+                              cols="12"
+                            >
+                              <span
+                                v-text="formatedPrice(salesBanlancete.valorPendente)"
+                              />
+                            </v-col>
+                          </v-row>
+                        </v-col>
+
+                        <v-col
+                          cols="3"
+                          style="height:65px;border-bottom:4px solid var(--v-success-darken1)"
+                          class="mx-1 pa-1"
+                        >
+                          <v-row
+                            no-gutters
+                          >
+                            <v-col
+                              cols="12"
+                            >
+                              <span
+                                v-font-size="12"
+                                class="text-uppercase font-weight-bold"
+                              >
+                                Pagamentos concluídos
+                              </span>
+                            </v-col>
+
+                            <v-col
+                              cols="12"
+                            >
+                              <span
+                                v-text="formatedPrice(salesBanlancete.valorVendas)"
+                              />
+                            </v-col>
+                          </v-row>
+                        </v-col>
+
+                        <v-col
+                          cols="3"
+                          style="height:65px;border-bottom:4px solid var(--v-info-darken1)"
+                          class="mx-1 pa-1"
+                        >
+                          <v-row
+                            no-gutters
+                          >
+                            <v-col
+                              cols="12"
+                            >
+                              <span
+                                v-font-size="12"
+                                class="text-uppercase font-weight-bold"
+                              >
+                                Total de vendas
+                              </span>
+                            </v-col>
+
+                            <v-col
+                              cols="12"
+                            >
+                              <span
+                                v-text="salesBanlancete.quantidade"
+                              />
+                            </v-col>
+                          </v-row>
+                        </v-col>
+                      </v-row>
+                    </v-col>
+
+                    <v-col
+                      cols="3"
+                      @click="locationInputSearchPedidos = 'allOrders'"
+                    >
+                      <v-text-field
+                        label="Pesquisar pedido"
+                        outlined
+                        width="300"
+                        hide-details
+                        @input="filterOrderClient"
+                      />
+                    </v-col>
+                  </v-row>
                 </v-col>
-              </v-row>
-            </v-col>
 
-            <v-col
-              v-if="allOrdersAncient.length <= 0"
-              cols="12"
-              class="py-2"
-            />
-
-            <v-col 
-              cols="12"
-              class="pa-4"
-            >
-              <v-row
-                no-gutters
-                justify="center"
-                align="center"
-              >
                 <v-col
-                  v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in allOrdersAncient"
-                  :key="`order-client-ancient-${pedido}`"
-                  class="my-3"
+                  cols="12"
+                  class="pa-4"
                 >
-                  <card-order-admin-component
-                    :segment="segmento"
-                    :order="pedido"
-                    :name="nome"
-                    :phone="telefone"
-                    :statusOrder="status"
-                    :statusPayment="pagamento.statusPagamento"
-                    :statusVip="vip"
-                    @dialogProductEmit="openDialogProducts(produtos)"
-                    @changeStatusOrderEmit="v=>statusCard=v"
-                    @changeStatusPaymentEmit="updateStatusPayment(pedido)"
-                    @changeStatusVipEmit="updateStatusVipCostumer(pedido, vip)"
-                  />
+                  <v-row
+                    v-if="ordersFilteredAncient.length > 0"
+                    no-gutters
+                    align="center"
+                  >
+                    <v-col
+                      v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in ordersFilteredAncient"
+                      :key="`order-client-ancient-${pedido}`"
+                      class="my-3"
+                      cols="12"
+                      md="3"
+                    >
+                      <card-order-admin-component
+                        :segment="segmento"
+                        :order="pedido"
+                        :name="nome"
+                        :phone="telefone"
+                        :statusOrder="status"
+                        :statusPayment="pagamento.statusPagamento"
+                        :statusVip="vip"
+                        @dialogProductEmit="openDialogProducts(produtos)"
+                        @changeStatusOrderEmit="v=>statusCard=v"
+                        @changeStatusPaymentEmit="updateStatusPayment(pedido)"
+                        @changeStatusVipEmit="updateStatusVipCostumer(pedido, vip)"
+                      />
+                    </v-col>
+                  </v-row>
+
+                  <v-row
+                    v-else
+                    no-gutters
+                    align="center"
+                  >
+                    <v-col
+                      v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in allOrdersAncient"
+                      :key="`order-client-ancient-${pedido}`"
+                      class="my-3"
+                      cols="12"
+                      md="3"
+                    >
+                      <card-order-admin-component
+                        :segment="segmento"
+                        :order="pedido"
+                        :name="nome"
+                        :phone="telefone"
+                        :statusOrder="status"
+                        :statusPayment="pagamento.statusPagamento"
+                        :statusVip="vip"
+                        @dialogProductEmit="openDialogProducts(produtos)"
+                        @changeStatusOrderEmit="v=>statusCard=v"
+                        @changeStatusPaymentEmit="updateStatusPayment(pedido)"
+                        @changeStatusVipEmit="updateStatusVipCostumer(pedido, vip)"
+                      />
+                    </v-col>
+                  </v-row>
                 </v-col>
               </v-row>
             </v-col>
@@ -789,11 +951,13 @@
 </template>
 
 <script lang="ts">
+  /* eslint-disable @typescript-eslint/no-explicit-any*/
   import { Component, Watch } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
-  import { IOrderData, IStatusOrder } from "@/types/type-order"
+  import { IOrderData, IStatusOrder, dataDatailsOrders } from "@/types/type-order"
   import { IproductData } from "@/types/types-product"
   import { $refs } from "@/implements/types"
+  import { formatedPrice } from "@/helpers/formatedPrice"
   import { namespace } from "vuex-class"
   import MixinServiceOrderCostumer from "@/mixins/order/mixinServiceOrderCostumer"
   import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
@@ -829,15 +993,22 @@
     @dialogStore.Getter("DialogTryAgain") getDialogTryAgain
 
     $refs
+    formatedPrice = formatedPrice
 
     dialogUnificationOrders = false
     dialogAllOrdersExting = false
     productsDialog: IproductData[]  = []
     showComplements = false
     messageUpdateOrders = ""
+    locationInputSearchPedidos = ""
     orderFiltered = [] as IOrderData[]
     allOrders: IOrderData[] = []
+
     allOrdersAncient: IOrderData[] = []
+    ordersFilteredAncient = [] as IOrderData[]
+    salesBanlancete: any = {}
+
+
 
     statusCard = {} as IStatusOrder
     @Watch("statusCard")
@@ -874,9 +1045,11 @@
       this.getAllOrdersExisting()
         .then(responseMixin => {
           if (/error/i.test(String(responseMixin || ""))) throw Error()
-          else if ( responseMixin.length <= 0) return this.allOrdersAncient = []
-          
-          this.allOrdersAncient = [ ...responseMixin as  IOrderData[] ]
+
+          const { orders, pedidos } = responseMixin as dataDatailsOrders
+
+          this.allOrdersAncient = [ ...orders as  IOrderData[] ]
+          this.salesBanlancete = pedidos
         }).catch(err => {
           window.log("ERROR renderAllOrders", err)
           this.setDialogTryAgain(true)
@@ -913,16 +1086,30 @@
     filterOrderClient (e?:string):void {
       if (String(e).length <= 0 || String(e) === "") {
         this.orderFiltered = []
+        this.ordersFilteredAncient = []
         return
       }
 
-      const PRODUCT_FILTER = this.allOrders.filter(item => {
-        if (String(item.pedido).includes(String(e))) return item
-        else if (String(item.nome).toLowerCase().includes(String(e).toLowerCase())) return item
-        else if (String(item.telefone).includes(String(e))) return item
-      })
+      if (this.locationInputSearchPedidos === "orders") {
+        const PRODUCT_FILTER = this.allOrders.filter(item => {
+          if (String(item.pedido).includes(String(e))) return item
+          else if (String(item.nome).toLowerCase().includes(String(e).toLowerCase())) return item
+          else if (String(item.telefone).includes(String(e))) return item
+          else if (String(item.pagamento.statusPagamento).includes(String(e))) return item
+        })
 
-      this.orderFiltered = [ ...PRODUCT_FILTER ]
+        this.orderFiltered = [ ...PRODUCT_FILTER ]
+      } else {
+        const PRODUCT_FILTER = this.allOrdersAncient.filter(item => {
+          if (String(item.pedido).includes(String(e))) return item
+          else if (String(item.nome).toLowerCase().includes(String(e).toLowerCase())) return item
+          else if (String(item.telefone).includes(String(e))) return item
+          else if (String(item.pagamento.statusPagamento).includes(String(e))) return item
+        })
+
+        this.ordersFilteredAncient = [ ...PRODUCT_FILTER ]
+      }
+
     }
 
     redirectOrder (url: string): void {
