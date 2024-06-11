@@ -194,6 +194,8 @@
                   :statusVip="vip"
                   @dialogProductEmit="openDialogProducts(produtos)"
                   @changeStatusOrderEmit="v=>statusCard=v"
+                  @changeStatusPaymentEmit="updateStatusPayment(pedido)"
+                  @changeStatusVipEmit="updateStatusVipCostumer(pedido, vip)"
                 />
               </div>
             </v-col>
@@ -370,6 +372,7 @@
                             @dialogProductEmit="openDialogProducts(produtos)"
                             @changeStatusOrderEmit="v=>statusCard=v"
                             @changeStatusPaymentEmit="updateStatusPayment(pedido)"
+                            @changeStatusVipEmit="updateStatusVipCostumer(pedido, vip)"
                           />
                         </div>
                       </v-scroll-x-transition>
@@ -400,6 +403,7 @@
                         @dialogProductEmit="openDialogProducts(produtos)"
                         @changeStatusOrderEmit="v=>statusCard=v"
                         @changeStatusPaymentEmit="updateStatusPayment(pedido)"
+                        @changeStatusVipEmit="updateStatusVipCostumer(pedido, vip)"
                       />
                     </v-scroll-x-transition>
                   </div>
@@ -473,6 +477,7 @@
                             @dialogProductEmit="openDialogProducts(produtos)"
                             @changeStatusOrderEmit="v=>statusCard=v"
                             @changeStatusPaymentEmit="updateStatusPayment(pedido)"
+                            @changeStatusVipEmit="updateStatusVipCostumer(pedido, vip)"
                           />
                         </div>
                       </v-scroll-x-transition>
@@ -503,6 +508,7 @@
                         @dialogProductEmit="openDialogProducts(produtos)"
                         @changeStatusOrderEmit="v=>statusCard=v"
                         @changeStatusPaymentEmit="updateStatusPayment(pedido)"
+                        @changeStatusVipEmit="updateStatusVipCostumer(pedido, vip)"
                       />
                     </v-scroll-x-transition>
                   </div>
@@ -764,6 +770,7 @@
                     @dialogProductEmit="openDialogProducts(produtos)"
                     @changeStatusOrderEmit="v=>statusCard=v"
                     @changeStatusPaymentEmit="updateStatusPayment(pedido)"
+                    @changeStatusVipEmit="updateStatusVipCostumer(pedido, vip)"
                   />
                 </v-col>
               </v-row>

@@ -17,6 +17,7 @@ const moduleCache = (): dialogStoreInterface => {
     dialogGetCommentsProduct: false,
     dialogOpenStore: false,
     dialogStoreClosed: false,
+    dialogRegisterOrderSegmentBench: false,
   }
 }
 
@@ -62,6 +63,9 @@ const getters: GetterTree<dialogStoreInterface, rootStateInterface> = {
   DialogStoreClosed: ({ dialogStoreClosed }) => () => {
     return dialogStoreClosed
   },
+  dialogRegisterOrderSegmentBench: ({ dialogRegisterOrderSegmentBench }) => () => {
+    return dialogRegisterOrderSegmentBench
+  },
 }
 
 const mutations: MutationTree<dialogStoreInterface> = {
@@ -103,7 +107,10 @@ const mutations: MutationTree<dialogStoreInterface> = {
   },
   MutationStoreClose (state, data) {
     state.dialogStoreClosed = data
-  }
+  },
+  MutationRegisterOrderSegmentBench (state, data) {
+    state.dialogRegisterOrderSegmentBench = data
+  },
 }
 
 const actions: ActionTree<dialogStoreInterface, rootStateInterface> = {
@@ -145,7 +152,10 @@ const actions: ActionTree<dialogStoreInterface, rootStateInterface> = {
   },
   ActionDialogStoreClosed ({ commit }, data) {
     commit("MutationStoreClose", data)
-  }
+  },
+  ActionDialogRegisterOrderSegmentBench ({ commit }, data) {
+    commit("MutationRegisterOrderSegmentBench", data)
+  },
 }
 
 const dialogStoreModule: Module<dialogStoreInterface, rootStateInterface> = {

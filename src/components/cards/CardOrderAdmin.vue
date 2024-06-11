@@ -200,6 +200,7 @@
                 class="pa-2"
               >
                 <v-list-item
+                  v-if="!/bancada/i.test(String(setSegment))"
                   link
                   @click="$emit('dialogProductEmit')"
                 >

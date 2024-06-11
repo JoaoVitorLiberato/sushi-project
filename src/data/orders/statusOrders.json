@@ -18,7 +18,21 @@
     }
   ],
   "foodpark": [
-  {
+    {
+      "id": "preparando",
+      "name": "Preparando"
+    },
+    {
+      "id": "concluido",
+      "name": "Concluído"
+    },
+    {
+      "id": "cancelado",
+      "name": "Cancelar"
+    }
+  ],
+  "bancada": [
+    {
       "id": "preparando",
       "name": "Preparando"
     },

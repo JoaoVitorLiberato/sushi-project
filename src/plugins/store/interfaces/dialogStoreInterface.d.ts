@@ -12,6 +12,7 @@ interface dialogStoreInterface {
   dialogGetCommentsProduct: boolean,
   dialogOpenStore: boolean,
   dialogStoreClosed: boolean,
+  dialogRegisterOrderSegmentBench: boolean,
 }
 
 export {
