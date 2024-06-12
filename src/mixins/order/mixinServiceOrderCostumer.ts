@@ -59,6 +59,11 @@ export default class MixinServiceOrderCostumer extends Vue {
   }
 
   getOrderPrinter (numeroPedido: string|number): Promise<IOrderDataAll|string> {
+    this.cacheLoading = {
+      status: true,
+      msg: "Buscando dados para impressão..."
+    }
+
     async function serviceAPI () {
       return await MiddlewareConnectAPI.get(`/order/printer/${numeroPedido}`)
     }
@@ -70,8 +75,11 @@ export default class MixinServiceOrderCostumer extends Vue {
           resolve(responseApi.data)
         }).catch((error) => {
           window.log(`ERROR GETORDERCOSTUMER MIXIN`, error)
+          this.cacheLoading.status = false
           if (error.response.data.message === "ordem não encontrada") resolve("not-order")
           else resolve("error")
+        }).finally(() => {
+          this.cacheLoading.status = false
         })
     })
   }

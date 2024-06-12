@@ -56,7 +56,7 @@
           <div
             v-if="statusVip === true"
             v-width.max="120"
-            :class="`secondary text-center px-2 mx-1`"
+            :class="`info text-center px-2 mx-1`"
             style="border-radius: 10px 10px 0px 0px;height: 25px;"
           >
             <span
@@ -64,6 +64,20 @@
               class="primary--text text-uppercase font-weight-bold"
             >
               Vip
+            </span>
+          </div>
+
+          <div
+            v-if="statusPrint"
+            v-width.max="120"
+            :class="`secondary text-center px-2 mx-1`"
+            style="border-radius: 10px 10px 0px 0px;height: 25px;"
+          >
+            <span
+              v-font-size="11"
+              class="primary--text text-uppercase font-weight-bold"
+            >
+              falta imprimir
             </span>
           </div>
         </div>
@@ -176,6 +190,7 @@
           >
             <dialog-print-page
               :numeroDoPedido="order"
+              @statusPrintedEmit="v=>dialogStatusPrinted=v"
             />
 
             <v-spacer></v-spacer>
@@ -269,7 +284,7 @@
 </template>
 
 <script lang="ts">
-  import { Component, PropSync, Prop, ModelSync } from "vue-property-decorator"
+  import { Component, PropSync, Prop, ModelSync, Watch } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
 
   import STATUS_ORDERS_DATA from "@/data/orders/statusOrders.json"
@@ -304,7 +319,7 @@
 
     itemsPerPage = 4
     status = ""
-    isOpenPrint = false
+    statusPrint = false
 
     items = [
       {
@@ -314,11 +329,19 @@
       },
     ]
 
+    dialogStatusPrinted = false
+    @Watch("dialogStatusPrinted")
+      verifyStatusPrint (): void {
+        this.handlePendingPrinting()
+      }
+
     created (): void {
       if (/preparando/i.test(String(this.statusOrder))) this.status = "preparando"
       if (/concluido/i.test(String(this.statusOrder))) this.status = "concluido"
       if (/entrega/i.test(String(this.statusOrder))) this.status = "entrega"
       if (/cancelado/i.test(String(this.statusOrder))) this.status = "cancelado"
+
+      this.handlePendingPrinting()
     }
 
     filterStatusForSegment (): typeof STATUS_ORDERS_DATA {
@@ -340,6 +363,16 @@
       this.setStatusClient = {
         id: this.order,
         status: String(e)
+      }
+    }
+
+    handlePendingPrinting (): void {
+      const ORDER_PRINTED = sessionStorage.getItem("order-printed")
+
+      if (ORDER_PRINTED && JSON.parse(ORDER_PRINTED).includes(String(this.order || ""))) {
+        this.statusPrint = false
+      } else {
+        this.statusPrint = true
       }
     }
   }
