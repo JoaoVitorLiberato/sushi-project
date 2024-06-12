@@ -16,6 +16,9 @@
       <template
         #cepDelivery
       />
+      <template
+        #storeClosed
+      />
     </dialog-slot-funcionalidades-component>
 
     <button-whats-chat />

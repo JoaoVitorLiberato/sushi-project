@@ -80,21 +80,6 @@
 
               <v-col
                 cols="12"
-              >
-                <v-text-field
-                  outlined
-                  type="number"
-                  label="Peso"
-                  :hint="textWeight"
-                  :rules="[required]"
-                  :persistent-hint="true"
-                  hide-details="auto"
-                  @input="changeInputWeight"
-                />
-              </v-col>
-
-              <v-col
-                cols="12"
                 class="py-1"
               />
 
@@ -183,7 +168,6 @@
     data = {
       segment: "bancada",
       name: "",
-      weight: 0,
       price: 0
     }
 
@@ -207,16 +191,6 @@
       }
     }
 
-    changeInputWeight (e): void {
-      this.data.weight = Number(e)
-
-      if (e > 999) {
-        const PESO_FORMATED = Number(e) > 999 ? Number(e) / 1000 :  Number(e)
-        const SPLIT_PESO = String(PESO_FORMATED).split(".")
-        this.textWeight = `${SPLIT_PESO[0]} KG e ${String(SPLIT_PESO[1]).length <= 1 ? `${SPLIT_PESO[1]}00` : SPLIT_PESO[1] === undefined ? 0 : SPLIT_PESO[1]} Gramas`
-      } else this.textWeight = `${e} Gramas`
-    }
-
     changeInputPrice (e): void {
       this.data.price = Number(e)
 
@@ -232,10 +206,6 @@
       }
       if (this.data.name) {
         Vue.set(PAYLOAD_DATA.consumidor, "nome", this.data.name)
-      }
-
-      if (this.data.weight) {
-        Vue.set(PAYLOAD_DATA, "peso", Number(this.data.weight))
       }
 
       if (this.data.price) {
