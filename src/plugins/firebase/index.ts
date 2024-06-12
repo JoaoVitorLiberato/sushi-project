@@ -8,7 +8,6 @@ const FIREBASE_CONFIG:FirebaseOptions = {
   storageBucket: process.env.VUE_APP_FIREBASE_STORAGE,
   messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGING_SENDER,
   appId: process.env.VUE_APP_FIREBASE_APP_ID,
-  measurementId: process.env.VUE_APP_FIREBASE_APP_ID
 }
 
 const FIREBASE_APP = initializeApp(FIREBASE_CONFIG)
