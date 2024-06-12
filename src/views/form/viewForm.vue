@@ -509,6 +509,7 @@
   import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
   import MixinAdditionalSystem from "@/mixins/additional-system/mixinAdditionlSystem"
   import MixinVouchersDiscount from "@/mixins/additional-system/mixinVouchersDiscount"
+  import { event } from "@/plugins/firebase"
   import "@/styles/view/form/viewForm.styl"
 
   const payloadStore = namespace("payloadStoreModule")
@@ -902,14 +903,26 @@
                 sessionStorage.setItem("numero-pedido", this.getPayloadOrder("consumidor").telefone.contato)
                 localStorage.removeItem("list-id-commented")
 
-                if (/^foodpark$/i.test(String(this.$route.params.type || ""))) {
-                  this.dialogFinishOrderFoodpark = true
-                } else {
-                  location.replace("/detalhes/pedido")
-                }
-              }).finally(() => {
-                this.loading = false
-              })
+                event("purchase", {
+                  "event": "click_button_finish_form",
+                  "segment": this.getPayloadOrder("segmento"),
+                  "name_client": this.getPayloadOrder("consumidor").nome,
+                  "tel_client": this.getPayloadOrder("consumidor").telefone.contato,
+                  "products": this.getPayloadOrder("produtos"),
+                  "payment_form": this.getPayloadOrder("pagamento").formaPagamento,
+                  "status_pagamento": this.getPayloadOrder("pagamento").statusPagamento,
+                  "price_total": this.getPayloadOrder("pagamento").valorTotal,
+                  "request": "success"
+                })
+
+                  if (/^foodpark$/i.test(String(this.$route.params.type || ""))) {
+                    this.dialogFinishOrderFoodpark = true
+                  } else {
+                    location.replace("/detalhes/pedido")
+                  }
+                }).finally(() => {
+                  this.loading = false
+                })
           }
         }).catch(err => {
           window.log(err)

@@ -1139,6 +1139,7 @@
   import MixinServiceOrderCostumer from "@/mixins/order/mixinServiceOrderCostumer"
   import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
   import "@/styles/components/caroucels.styl"
+  import { event } from "@/plugins/firebase"
 
   const dialogStore = namespace("dialogStoreModule")
 
@@ -1336,6 +1337,19 @@
           this.setDialogTryAgain(true)
           return
         }
+
+        this.allOrders.filter(item => {
+          if (String(item.pedido) === String(orderID)) {
+            event("conversion", {
+              "event": "click_button_update_payment",
+              "order_id": item.pedido,
+              "payment_form": item.pagamento.formaPagamento,
+              "price_total": item.pagamento.valorTotal,
+              "date_order": String(item.created_at),
+              "request": "success"
+            })
+          }
+        })
 
         if (this.dialogAllOrdersExting) {
           this.renderAllOrders()
