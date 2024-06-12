@@ -1341,7 +1341,7 @@
         this.allOrders.filter(item => {
           if (String(item.pedido) === String(orderID)) {
             event("conversion", {
-              "event": "conversion",
+              "event": "click_button_update_payment",
               "order_id": item.pedido,
               "payment_form": item.pagamento.formaPagamento,
               "price_total": item.pagamento.valorTotal,

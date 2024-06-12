@@ -904,7 +904,7 @@
                 localStorage.removeItem("list-id-commented")
 
                 event("purchase", {
-                  "event": "purchase",
+                  "event": "click_button_finish_form",
                   "segment": this.getPayloadOrder("segmento"),
                   "name_client": this.getPayloadOrder("consumidor").nome,
                   "tel_client": this.getPayloadOrder("consumidor").telefone.contato,
