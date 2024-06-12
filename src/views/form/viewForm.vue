@@ -507,6 +507,7 @@
   import MixinRedirectLinks from "@/mixins/redirectLinks/MxiinRedirectLinks"
   import MixinServiceOrderCostumer from "@/mixins/order/mixinServiceOrderCostumer"
   import MixinHelperServiceProduct from "@/mixins/help-mixin/MixinHelperServiceProduct"
+  import MixinAdditionalSystem from "@/mixins/additional-system/mixinAdditionlSystem"
   import MixinVouchersDiscount from "@/mixins/additional-system/mixinVouchersDiscount"
   import "@/styles/view/form/viewForm.styl"
 
@@ -530,7 +531,10 @@
     MixinServiceOrderCostumer,
     MixinVouchersDiscount,
     MixinHelperServiceProduct,
+    MixinAdditionalSystem
   ) implements $refs {
+    @dialogStore.Getter("DialogStoreClosed") getDialogStoreClosed
+    @dialogStore.Action("ActionDialogStoreClosed") setDialogStoreClosed
     @dialogStore.Getter("DialogOrdersClient") declare getDialogOrdersClient
     @dialogStore.Getter("DialogCepDelivery") getDialogCepDelivery
     @dialogStore.Action("ActionDialogTryAgain") setDialogTryAgain
@@ -657,6 +661,14 @@
       },
     }
 
+    
+    get dialogStoreClosed (): boolean {
+      return this.getDialogStoreClosed()
+    }
+
+    set dialogStoreClosed (value: boolean) {
+      this.setDialogStoreClosed(value)
+    }
     get validateFieldsInput (): boolean {
       return [
         this.formDadosCadastrais
@@ -870,25 +882,39 @@
     finishCostumerCart (): void {
       this.loading = true
 
-      this.setOrderCostumer()
+      this.getOpenStore()
         .then(responseMixin => {
-          if (/error/i.test(String(responseMixin || ""))) {
+          if (/error/i.test(String(responseMixin))) throw Error("err")
+          else if (!responseMixin) {
             this.loading = false
-            this.$refs.dialogErrorOrder.isActive = true
+            this.dialogStoreClosed = true
             return
-          }
-
-          sessionStorage.clear()
-          sessionStorage.setItem("numero-pedido", this.getPayloadOrder("consumidor").telefone.contato)
-          localStorage.removeItem("list-id-commented")
-
-          if (/^foodpark$/i.test(String(this.$route.params.type || ""))) {
-            this.dialogFinishOrderFoodpark = true
           } else {
-            location.replace("/detalhes/pedido")
+            this.setOrderCostumer()
+              .then(responseMixin => {
+                if (/error/i.test(String(responseMixin || ""))) {
+                  this.loading = false
+                  this.$refs.dialogErrorOrder.isActive = true
+                  return
+                }
+
+                sessionStorage.clear()
+                sessionStorage.setItem("numero-pedido", this.getPayloadOrder("consumidor").telefone.contato)
+                localStorage.removeItem("list-id-commented")
+
+                if (/^foodpark$/i.test(String(this.$route.params.type || ""))) {
+                  this.dialogFinishOrderFoodpark = true
+                } else {
+                  location.replace("/detalhes/pedido")
+                }
+              }).finally(() => {
+                this.loading = false
+              })
           }
-        }).finally(() => {
+        }).catch(err => {
+          window.log(err)
           this.loading = false
+          this.setDialogTryAgain(true)
         })
     }
 

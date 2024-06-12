@@ -393,7 +393,7 @@
     </slot>
 
     <slot
-      v-if="/^(product)$/i.test(String($route.name))"
+      v-if="/^(product|form-view)$/i.test(String($route.name))"
       name="storeClosed"
     >
       <v-overlay

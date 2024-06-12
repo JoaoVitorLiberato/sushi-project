@@ -169,7 +169,7 @@
               :items="filterStatusForSegment()"
               :value="status"
               item-text="name"
-              :disabled="/concluido/i.test(String(status))"
+              :disabled="!/bancada/i.test(String(setSegment)) && /concluido/i.test(String(status))"
               item-value="id"
               hide-details
               outlined
@@ -301,6 +301,7 @@
   })
   export default class CardOrderAdmin extends mixins() {
     @PropSync("segment", { type: String }) setSegment!:string
+    @PropSync("ordersAncient", { type: Boolean }) setOrdersAncient?:boolean
     @Prop({ default: "" }) statusOrder!:string
     @Prop({ default: "" }) phone!:string
     @Prop({ default: "" }) name!:string
@@ -368,6 +369,11 @@
 
     handlePendingPrinting (): void {
       const ORDER_PRINTED = sessionStorage.getItem("order-printed")
+
+      if (this.setOrdersAncient === true || /cancelado/i.test(String(this.status))) {
+        this.statusPrint = false
+        return
+      }
 
       if (ORDER_PRINTED && JSON.parse(ORDER_PRINTED).includes(String(this.order || ""))) {
         this.statusPrint = false

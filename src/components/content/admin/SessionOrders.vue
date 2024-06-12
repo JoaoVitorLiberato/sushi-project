@@ -208,7 +208,115 @@
             class="mt-4"
           >
             <v-col
-              v-if="CardsFilteredByStatus('preparando').length > 0"
+              v-if="CardsFilteredByStatusOrSegment('concluido', 'bancada').length > 0"
+              cols="12"
+              :style="$vuetify.breakpoint.mdAndUp ? 'max-height: 700px;overflow-y: scroll;' : ''"
+            >
+              <v-row
+                no-gutters
+              >
+                <v-col
+                  cols="12"
+                  class="text-start"
+                >
+                  <h2
+                    v-font-size="$vuetify.breakpoint.smAndDown ? 16 : 22"
+                    class="font-weight-bold text-uppercase"
+                  >
+                    Somente Pedidos Bancada
+                  </h2>
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  class="py-2"
+                />
+
+                <v-col
+                  cols="12"
+                  class="hidden-md-and-up"
+                >
+                  <v-slide-group
+                    show-arrows
+                    prev-icon="arrow_back"
+                    next-icon="arrow_forward"
+                    :class="`d-flex fix--v-slide-group flex-wrap`"
+                    center-active
+                    mandatory
+                  >
+                    <v-slide-item
+                      v-for="{ pedido, segmento, nome, status, telefone, produtos, pagamento, vip } in CardsFilteredByStatusOrSegment('concluido', 'bancada')"
+                      :key="`caroucel-order-client-${pedido}`"
+                      class="mr-5"
+                    >
+                      <div>
+                        <v-scroll-x-transition
+                          v-if="/concluido/i.test(String(status))"
+                        >
+                          <div
+                            style="width: 300px;"
+                            class="pa-3 ma-2"
+                          >
+                            <card-order-admin-component
+                              :segment="segmento"
+                              :order="pedido"
+                              :name="nome"
+                              :phone="telefone"
+                              :statusOrder="status"
+                              :statusPayment="pagamento.statusPagamento"
+                              :statusVip="vip"
+                              @dialogProductEmit="openDialogProducts(produtos)"
+                              @changeStatusOrderEmit="v=>statusCard=v"
+                              @changeStatusPaymentEmit="updateStatusPayment(pedido)"
+                              @changeStatusVipEmit="updateStatusVipCostumer(pedido, vip)"
+                            />
+                          </div>
+                        </v-scroll-x-transition>
+                      </div>
+                    </v-slide-item>
+                  </v-slide-group>
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  class="hidden-sm-and-down d-md-flex align-center flex-wrap"
+                >
+                  <div
+                    v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in CardsFilteredByStatusOrSegment('concluido', 'bancada')"
+                    :key="`order-client-${pedido}`"
+                    class="pa-3 ma-2"
+                  >
+
+                  <v-scroll-x-transition
+                    v-if="/concluido/i.test(String(status))"
+                  >
+                    <card-order-admin-component
+                      :segment="segmento"
+                      :order="pedido"
+                      :name="nome"
+                      :phone="telefone"
+                      :statusOrder="status"
+                      :statusPayment="pagamento.statusPagamento"
+                      :statusVip="vip"
+                      @dialogProductEmit="openDialogProducts(produtos)"
+                      @changeStatusOrderEmit="v=>statusCard=v"
+                      @changeStatusPaymentEmit="updateStatusPayment(pedido)"
+                      @changeStatusVipEmit="updateStatusVipCostumer(pedido, vip)"
+                    />
+                  </v-scroll-x-transition>
+                  </div>
+                </v-col>
+              </v-row>
+            </v-col>
+
+            <v-col
+              v-if="CardsFilteredByStatusOrSegment('concluido', 'bancada').length > 0"
+              cols="12"
+              class="py-8"
+            />
+
+            <v-col
+              v-if="CardsFilteredByStatusOrSegment('preparando').length > 0"
               cols="12"
               :style="$vuetify.breakpoint.mdAndUp ? 'max-height: 700px;overflow-y: scroll;' : ''"
             >
@@ -245,7 +353,7 @@
                     mandatory
                   >
                     <v-slide-item
-                      v-for="{ pedido, segmento, nome, status, telefone, produtos, pagamento, vip } in CardsFilteredByStatus('preparando')"
+                      v-for="{ pedido, segmento, nome, status, telefone, produtos, pagamento, vip } in CardsFilteredByStatusOrSegment('preparando')"
                       :key="`caroucel-order-client-${pedido}`"
                       class="mr-5"
                     >
@@ -280,7 +388,7 @@
                   class="hidden-sm-and-down d-md-flex align-center flex-wrap"
                 >
                   <div
-                    v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in CardsFilteredByStatus('preparando')"
+                    v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in CardsFilteredByStatusOrSegment('preparando')"
                     :key="`order-client-${pedido}`"
                     class="pa-3 ma-2"
                   >
@@ -308,13 +416,13 @@
             </v-col>
 
             <v-col
-              v-if="CardsFilteredByStatus('preparando').length > 0"
+              v-if="CardsFilteredByStatusOrSegment('preparando').length > 0"
               cols="12"
               class="py-8"
             />
 
             <v-col
-              v-if="CardsFilteredByStatus('entrega').length > 0"
+              v-if="CardsFilteredByStatusOrSegment('entrega').length > 0"
               cols="12"
               :style="$vuetify.breakpoint.mdAndUp ? 'max-height: 700px;overflow-y: scroll;' : ''"
             >
@@ -351,7 +459,7 @@
                     mandatory
                   >
                     <v-slide-item
-                      v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in CardsFilteredByStatus('entrega')"
+                      v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in CardsFilteredByStatusOrSegment('entrega')"
                       :key="`caroucel-order-client-${pedido}`"
                       class="mr-5"
                     >
@@ -386,7 +494,7 @@
                   class="hidden-sm-and-down d-md-flex align-center flex-wrap"
                 >
                   <div
-                    v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in CardsFilteredByStatus('entrega')"
+                    v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in CardsFilteredByStatusOrSegment('entrega')"
                     :key="`order-client-${pedido}`"
                     class="pa-3 ma-2"
                   >
@@ -413,13 +521,13 @@
             </v-col>
 
             <v-col
-              v-if="CardsFilteredByStatus('entrega').length > 0"
+              v-if="CardsFilteredByStatusOrSegment('entrega').length > 0"
               cols="12"
               class="py-8"
             />
 
             <v-col
-              v-if="CardsFilteredByStatus('concluido').length > 0"
+              v-if="CardsFilteredByStatusOrSegment('concluido').length > 0"
               cols="12"
               :style="$vuetify.breakpoint.mdAndUp ? 'max-height: 700px;overflow-y: scroll;' : ''"
             >
@@ -456,7 +564,7 @@
                     mandatory
                   >
                     <v-slide-item
-                      v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in CardsFilteredByStatus('concluido').reverse()"
+                      v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in CardsFilteredByStatusOrSegment('concluido').reverse()"
                       :key="`caroucel-order-client-${pedido}`"
                       class="mr-5"
                     >
@@ -491,7 +599,7 @@
                   class="hidden-sm-and-down d-md-flex align-center flex-wrap"
                 >
                   <div
-                    v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in CardsFilteredByStatus('concluido').reverse()"
+                    v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in CardsFilteredByStatusOrSegment('concluido').reverse()"
                     :key="`order-client-${pedido}`"
                     class="pa-3 ma-2"
                   >
@@ -518,13 +626,13 @@
             </v-col>
 
             <v-col
-              v-if="CardsFilteredByStatus('concluido').length > 0"
+              v-if="CardsFilteredByStatusOrSegment('concluido').length > 0"
               cols="12"
               class="py-8"
             />
 
             <v-col
-              v-if="CardsFilteredByStatus('cancelado').length > 0"
+              v-if="CardsFilteredByStatusOrSegment('cancelado').length > 0"
               cols="12"
               :style="$vuetify.breakpoint.mdAndUp ? 'max-height: 700px;overflow-y: scroll;' : ''"
             >
@@ -561,7 +669,7 @@
                     mandatory
                   >
                     <v-slide-item
-                      v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in CardsFilteredByStatus('cancelado')"
+                      v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in CardsFilteredByStatusOrSegment('cancelado')"
                       :key="`caroucel-order-client-${pedido}`"
                       class="mr-5"
                     >
@@ -594,7 +702,7 @@
                   class="hidden-sm-and-down d-md-flex align-center flex-wrap"
                 >
                   <div
-                    v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in CardsFilteredByStatus('cancelado')"
+                    v-for="{ pedido, segmento, nome, status, telefone, produtos, vip, pagamento } in CardsFilteredByStatusOrSegment('cancelado')"
                     :key="`order-client-${pedido}`"
                     class="pa-3"
                   >
@@ -899,6 +1007,7 @@
                         :statusOrder="status"
                         :statusPayment="pagamento.statusPagamento"
                         :statusVip="vip"
+                        :ordersAncient="true"
                         @dialogProductEmit="openDialogProducts(produtos)"
                         @changeStatusOrderEmit="v=>statusCard=v"
                         @changeStatusPaymentEmit="updateStatusPayment(pedido)"
@@ -927,6 +1036,7 @@
                         :statusOrder="status"
                         :statusPayment="pagamento.statusPagamento"
                         :statusVip="vip"
+                        :ordersAncient="true"
                         @dialogProductEmit="openDialogProducts(produtos)"
                         @changeStatusOrderEmit="v=>statusCard=v"
                         @changeStatusPaymentEmit="updateStatusPayment(pedido)"
@@ -943,6 +1053,7 @@
 
       <v-dialog
         ref="dialogMessagePrintingPending"
+        v-model="dialogAlertPrintingPeding"
         persistent
         width="400"
       >
@@ -994,7 +1105,7 @@
                 block
                 large
                 color="secondary"
-                @click="$refs.dialogMessagePrintingPending.save()"
+                @click="dialogAlertPrintingPeding = !dialogAlertPrintingPeding"
               >
                 <span
                   class="font-weight-bold primary--text"
@@ -1073,6 +1184,7 @@
     allOrdersAncient: IOrderData[] = []
     ordersFilteredAncient = [] as IOrderData[]
     salesBanlancete: any = {}
+    dialogAlertPrintingPeding = false
 
 
 
@@ -1147,6 +1259,8 @@
 
     testPendingPrinting (): void {
       this.allOrders.forEach(item => {
+        if (item.status === "cancelado" || this.dialogAlertPrintingPeding ) return
+
         const ORDER_PRINTED = sessionStorage.getItem("order-printed")
 
         if (!ORDER_PRINTED) {
@@ -1156,19 +1270,20 @@
         }
 
         if (!JSON.parse(ORDER_PRINTED).includes(String(item.pedido || ""))) {
-          this.$refs.dialogMessagePrintingPending.isActive = true
+          this.dialogAlertPrintingPeding = !this.dialogAlertPrintingPeding 
         }
       })
     }
 
-    CardsFilteredByStatus (status?:string): IOrderData[] {
+    CardsFilteredByStatusOrSegment (status?:string, segment?:string|string[]): IOrderData[] {
       if (!status) return this.allOrders
 
-      const ORDERS_STATUS_FILTERED = this.allOrders.filter(item => {
-        if (String(item.status || "") === String(status || "")) return item
+      const ORDERS_STATUS_SEGMENT_FILTERED = this.allOrders.filter(item => {
+        if ((segment && String(item.segmento) === String(segment))) return item
+        else if (!segment && String(item.status || "") === String(status || "")) return item
       })
 
-      return ORDERS_STATUS_FILTERED.sort((prev_order, next_order) => {
+      return ORDERS_STATUS_SEGMENT_FILTERED.sort((prev_order, next_order) => {
         return Number(String(prev_order.updated_at).replace(/\D/g, "")) - Number(String(next_order.updated_at).replace(/\D/g, ""))
       })
     }
@@ -1222,7 +1337,11 @@
           return
         }
 
-        this.renderCardOrderCostumers()
+        if (this.dialogAllOrdersExting) {
+          this.renderAllOrders()
+        } else {
+          this.renderCardOrderCostumers()
+        }
       })
     }
 
