@@ -15,6 +15,7 @@ export interface IOrderData {
   status: string,
   vip: boolean,
   telefone: string
+  created_at:string|Date,
   updated_at: string|Date
 }
 
