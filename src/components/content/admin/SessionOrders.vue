@@ -1053,6 +1053,7 @@
 
       <v-dialog
         ref="dialogMessagePrintingPending"
+        v-model="dialogAlertPrintingPeding"
         persistent
         width="400"
       >
@@ -1104,7 +1105,7 @@
                 block
                 large
                 color="secondary"
-                @click="$refs.dialogMessagePrintingPending.save()"
+                @click="dialogAlertPrintingPeding = !dialogAlertPrintingPeding"
               >
                 <span
                   class="font-weight-bold primary--text"
@@ -1183,6 +1184,7 @@
     allOrdersAncient: IOrderData[] = []
     ordersFilteredAncient = [] as IOrderData[]
     salesBanlancete: any = {}
+    dialogAlertPrintingPeding = false
 
 
 
@@ -1257,7 +1259,7 @@
 
     testPendingPrinting (): void {
       this.allOrders.forEach(item => {
-        if (item.status === "cancelado") return
+        if (item.status === "cancelado" || this.dialogAlertPrintingPeding ) return
 
         const ORDER_PRINTED = sessionStorage.getItem("order-printed")
 
@@ -1268,7 +1270,7 @@
         }
 
         if (!JSON.parse(ORDER_PRINTED).includes(String(item.pedido || ""))) {
-          this.$refs.dialogMessagePrintingPending.isActive = true
+          this.dialogAlertPrintingPeding = !this.dialogAlertPrintingPeding 
         }
       })
     }
