@@ -166,17 +166,123 @@
           </div>
         </div>
       </div>
+
+      <v-dialog
+        ref="dialogAfterPrint"
+        width="500"
+        persistent
+      >
+        <v-card>
+          <v-row
+            no-gutters
+            style="border: 1px solid var(--v-secondary-base);min-height:50px"
+            class="pa-4"
+          >
+            <v-col
+              cols="12"
+              class="text-center"
+            >
+              <h2
+                class="font-weight-bold text-uppercase"
+              >
+                Importante
+              </h2>
+            </v-col>
+
+            <v-col
+              cols="12"
+              class="py-2"
+            />
+
+            <v-col
+              cols="12"
+              style="line-height: 19px"
+            >
+              <span
+                v-font-size="17"
+                class="font-weight-regular"
+              >
+                Houve algum problema com impressão? Caso sim, não tenha imprimido ou dado algum problema com a impressora,
+                clique no botão amarelo "tentar novamente".
+              </span>
+            </v-col>
+
+            <v-col
+              cols="12"
+              class="py-4"
+            />
+
+            <v-col
+              cols="12"
+            >
+              <v-row
+                no-gutters
+                align="center"
+                justify="space-between"
+              >
+                <v-col
+                  cols="12"
+                  md="6"
+                >
+                  <v-btn
+                    color="secondary"
+                    depressed
+                    large
+                    block
+                    @click="handleDialogAfterPrint('tentar')"
+                  >
+                    <span
+                      v-font-size="14"
+                      class="font-weight-bold primary--text"
+                    >
+                      Tentar nomavente
+                    </span>
+                  </v-btn>
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  class="hidden-md-and-up py-2"
+                />
+
+                <v-col
+                  cols="12"
+                  md="5"
+                >
+                  <v-btn
+                    color="success"
+                    depressed
+                    large
+                    block
+                    @click="handleDialogAfterPrint('concluir')"
+                  >
+                    <span
+                      v-font-size="14"
+                      class="font-weight-bold primary--text"
+                    >
+                      Fechar
+                    </span>
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-dialog>
     </div>
   </v-row>
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Watch } from "vue-property-decorator"
+  import { Component, Prop, Watch, ModelSync } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
   import { IDifferences } from "@/types/types-product"
   import MixinServiceOrderCostumer from "@/mixins/order/mixinServiceOrderCostumer"
   import { $refs } from "@/implements/types"
   import { IOrderDataAll } from "@/types/type-order"
+  import { namespace } from "vuex-class"
+
+  const dialogStore = namespace("dialogStoreModule")
 
   @Component({})
 
@@ -186,6 +292,11 @@
     $refs
     @Prop({ default: "" }) numeroDoPedido!:string
     @Prop() pedidoUnificado!: IOrderDataAll
+    @ModelSync("statusPrinted", "statusPrintedEmit")
+      setStatusPrinted!: boolean
+
+    @dialogStore.Action("ActionDialogTryAgain") setDialogTryAgain
+    @dialogStore.Getter("DialogTryAgain") getDialogTryAgain
 
     pedido: IOrderDataAll = {} as IOrderDataAll
     response = false
@@ -206,7 +317,6 @@
         if (typeof res === 'string') return
         this.pedido = res
       }
-
 
       this.response = true
 
@@ -240,6 +350,8 @@
         printWindow!.focus();
         printWindow!.print();
         printWindow!.close();
+
+        this.$refs.dialogAfterPrint.isActive = true
       }
     }
 
@@ -302,6 +414,31 @@
       }
 
       return returnText
+    }
+
+    handleDialogAfterPrint (event:string): void {
+      if (/tentar/i.test(event)) {
+        this.$refs.dialogAfterPrint.save()
+        this.initPrintPage()
+      } else {
+        const ORDER_PRINTED = sessionStorage.getItem("order-printed")
+
+        if (!ORDER_PRINTED) {
+          this.$refs.dialogAfterPrint.save()
+          this.setDialogTryAgain(true)
+          return
+        }
+
+        if (!JSON.parse(ORDER_PRINTED).includes(String(this.numeroDoPedido))) {
+          sessionStorage.setItem("order-printed", JSON.stringify([
+            ...JSON.parse(ORDER_PRINTED),
+            this.numeroDoPedido,
+          ]))
+        }
+        
+        this.setStatusPrinted = !this.setStatusPrinted 
+        this.$refs.dialogAfterPrint.save()
+      }
     }
   }
 </script>

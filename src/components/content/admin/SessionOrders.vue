@@ -941,6 +941,72 @@
         </v-card>
       </v-dialog>
 
+      <v-dialog
+        ref="dialogMessagePrintingPending"
+        persistent
+        width="400"
+      >
+        <v-card>
+          <v-row
+            no-gutters
+            style="min-height:50px;border:2px solid var(--v-secondary-base)"
+            class="pa-4"
+          >
+            <v-col
+              cols="12"
+              class="text-center"
+            >
+              <h2
+                class="font-weight-bold text-uppercase"
+              >
+                Atenção
+              </h2>
+            </v-col>
+
+            <v-col
+              cols="12"
+              class="py-2"
+            />
+
+            <v-col
+              cols="12"
+              class="text-center"
+              style="line-height:18px"
+            >
+              <span
+                v-font-size="18"
+                class="font-weight-regular"
+              >
+                Você tem pedidos que não foram imprimidos até o momento.
+              </span>
+            </v-col>
+
+            <v-col
+              cols="12"
+              class="py-2"
+            />
+
+            <v-col
+              cols="12"
+            >
+              <v-btn
+                depressed
+                block
+                large
+                color="secondary"
+                @click="$refs.dialogMessagePrintingPending.save()"
+              >
+                <span
+                  class="font-weight-bold primary--text"
+                >
+                  Fechar
+                </span>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-dialog>
+
       <dialog-unification-orders
         v-if="dialogUnificationOrders"
         :openDialogUnificationOrder="dialogUnificationOrders"
@@ -1027,7 +1093,14 @@
 
     intervalOrder = 0
     mounted (): void {
+      const ORDER_PRINTED = sessionStorage.getItem("order-printed")
+
+      if (!ORDER_PRINTED) {
+        sessionStorage.setItem("order-printed", JSON.stringify([] as string[]))
+      }
+
       this.renderCardOrderCostumers()
+
       this.intervalOrder = window.setInterval(() => {
         const SESSION_CACHE = sessionStorage.getItem("session")
         if (SESSION_CACHE && !/orders/i.test(String(SESSION_CACHE || ""))) {
@@ -1067,8 +1140,25 @@
           this.messageUpdateOrders = "houve algum erro ao atualizar os pedidos..."
           this.setDialogTryAgain(true)
         }).finally(() => {
+          this.testPendingPrinting()
           this.messageUpdateOrders = ""
         })
+    }
+
+    testPendingPrinting (): void {
+      this.allOrders.forEach(item => {
+        const ORDER_PRINTED = sessionStorage.getItem("order-printed")
+
+        if (!ORDER_PRINTED) {
+          this.messageUpdateOrders = "houve algum erro ao atualizar os pedidos..."
+          this.setDialogTryAgain(true)
+          return
+        }
+
+        if (!JSON.parse(ORDER_PRINTED).includes(String(item.pedido || ""))) {
+          this.$refs.dialogMessagePrintingPending.isActive = true
+        }
+      })
     }
 
     CardsFilteredByStatus (status?:string): IOrderData[] {
