@@ -77,6 +77,7 @@
         const CACHE_CART_PRODUCT = sessionStorage.getItem("order")
         if (!CACHE_CART_PRODUCT || JSON.parse(CACHE_CART_PRODUCT).length <= 0) {
           vm.$router.replace({ name: "product", params: { type: to.params.type } })
+          return
         }
 
         if (/delivery/i.test(String(to.params.type || "")) && !vm.getCacheOverlayMessageDeliveryDesatived()) {
@@ -87,7 +88,6 @@
 
     @dialogStore.Getter("DialogCepDelivery") getDialogCepDelivery
     @dialogStore.Action("ActionDialogCepDelivery") setDialogCepDelivery
-    @cacheStore.Getter("CacheOrderCart") getCacheOrderCart
     @cacheStore.Action("ActionCacheRastreamentoUsuarioSource") setCacheRastreamentoUsuarioPayloadSource
     @cacheStore.Getter("CacheOverlayMessageDeliveryDesatived") getCacheOverlayMessageDeliveryDesatived
     @payloadStore.Action("ActionPayloadChannelAnalytics") setPayloadChannelAnalytics
