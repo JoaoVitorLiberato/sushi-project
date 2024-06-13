@@ -1206,10 +1206,10 @@
 
     intervalOrder = 0
     mounted (): void {
-      const ORDER_PRINTED = sessionStorage.getItem("order-printed")
+      const ORDER_PRINTED = localStorage.getItem("order-printed")
 
       if (!ORDER_PRINTED) {
-        sessionStorage.setItem("order-printed", JSON.stringify([] as string[]))
+        localStorage.setItem("order-printed", JSON.stringify([] as string[]))
       }
 
       this.renderCardOrderCostumers()
@@ -1262,7 +1262,7 @@
       this.allOrders.forEach(item => {
         if (item.status === "cancelado" || this.dialogAlertPrintingPeding ) return
 
-        const ORDER_PRINTED = sessionStorage.getItem("order-printed")
+        const ORDER_PRINTED = localStorage.getItem("order-printed")
 
         if (!ORDER_PRINTED) {
           this.messageUpdateOrders = "houve algum erro ao atualizar os pedidos..."
@@ -1271,7 +1271,7 @@
         }
 
         if (!JSON.parse(ORDER_PRINTED).includes(String(item.pedido || ""))) {
-          this.dialogAlertPrintingPeding = !this.dialogAlertPrintingPeding 
+          this.dialogAlertPrintingPeding = !this.dialogAlertPrintingPeding
         }
       })
     }
