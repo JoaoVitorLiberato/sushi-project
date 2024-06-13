@@ -368,7 +368,7 @@
     }
 
     handlePendingPrinting (): void {
-      const ORDER_PRINTED = sessionStorage.getItem("order-printed")
+      const ORDER_PRINTED = localStorage.getItem("order-printed")
 
       if (this.setOrdersAncient === true || /cancelado/i.test(String(this.status))) {
         this.statusPrint = false

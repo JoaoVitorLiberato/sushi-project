@@ -421,7 +421,7 @@
         this.$refs.dialogAfterPrint.save()
         this.initPrintPage()
       } else {
-        const ORDER_PRINTED = sessionStorage.getItem("order-printed")
+        const ORDER_PRINTED = localStorage.getItem("order-printed")
 
         if (!ORDER_PRINTED) {
           this.$refs.dialogAfterPrint.save()
@@ -430,13 +430,13 @@
         }
 
         if (!JSON.parse(ORDER_PRINTED).includes(String(this.numeroDoPedido))) {
-          sessionStorage.setItem("order-printed", JSON.stringify([
+          localStorage.setItem("order-printed", JSON.stringify([
             ...JSON.parse(ORDER_PRINTED),
             this.numeroDoPedido,
           ]))
         }
-        
-        this.setStatusPrinted = !this.setStatusPrinted 
+
+        this.setStatusPrinted = !this.setStatusPrinted
         this.$refs.dialogAfterPrint.save()
       }
     }
