@@ -22,9 +22,11 @@ module.exports = {
   pages: {
     index: {
       title: "Bangalô Sushi Lounge",
-      description: "O melhor sushi de Santa Luzia de Paruá.",
-      subject: "typescript, vue.js, vuex, vuetify, vue-router",
+      description: "Venha conhecer o melhor sushi de Santa Luzia de Paruá. Onde você vai encontrar uma variedades de pratos da comida japonesa, com um sabor que ultrapassa os limites da barreiras continentais. Bangalô Sushi Lounge.",
+      subject: "Comida Japonesa, Colinária Japonesa, Bangalo Sushi, Bangalô Sushi, O melhor sushi, Restaurante, Restaurante de comida Japonesa, lounge",
       color: "#000",
+      url: "https://bangalosushi.app.br/",
+      image: "/favicon.png",
       entry: "./src/main",
     }
   },
@@ -40,7 +42,7 @@ module.exports = {
     manifestOptions: {
       id: process.env.npm_package_version,
       short_name: "Bangalô Sushi Lounge",
-      description: "O melhor sushi de Santa Luzia de Paruá.",
+      description: "Venha conhecer o melhor sushi de Santa Luzia de Paruá. Onde você vai encontrar uma variedades de pratos da comida japonesa, com um sabor que ultrapassa os limites da barreiras continentais. Bangalô Sushi Lounge.",
       background_color: "#000",
       orientation: "portrait",
       start_url: "/",
