@@ -39,7 +39,6 @@ module.exports = {
     appleMobileWebAppTitle: "app",
     appleMobileWebAppStatusBarStyle: "black",
     assetsVersion: process.env.npm_package_version,
-    workboxPluginMode: 'InjectManifest',
     manifestOptions: {
       id: process.env.npm_package_version,
       short_name: "Bangalô Sushi Lounge",
