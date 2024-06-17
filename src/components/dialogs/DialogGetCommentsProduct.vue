@@ -29,7 +29,7 @@
             <v-spacer></v-spacer>
             <v-toolbar-items>
               <v-btn
-                text
+                icon
                 color="primary"
                 @click="dialogGetCommentsProduct = !dialogGetCommentsProduct"
               >

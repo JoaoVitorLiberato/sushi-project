@@ -76,20 +76,20 @@ export default class MixinHelperServiceProduct extends Vue {
     return value = value + Number(item.price.default)
   }
 
-  removeProductCart (id?: number|string): void {
+  removeProductCart (id: number|string): void {
     const CACHE_PRODUCT_CART = sessionStorage.getItem("order")
     const PRODUCT_CART: IproductData[] = []
 
-    if (CACHE_PRODUCT_CART) {
-      const REMOVE_REDUDANCE = JSON.parse(CACHE_PRODUCT_CART).filter(item => {
-        return String(item.id) !== String(id)
-      })
+    if (!CACHE_PRODUCT_CART) return
 
-      if (REMOVE_REDUDANCE) {
-          PRODUCT_CART.push(
-          ...REMOVE_REDUDANCE
-        )
-      }
+    const REMOVE_REDUDANCE = JSON.parse(CACHE_PRODUCT_CART).filter((product) => {
+      return String(product.item_cart_id) !== String(id)
+    })
+
+    if (REMOVE_REDUDANCE) {
+        PRODUCT_CART.push(
+        ...REMOVE_REDUDANCE
+      )
     }
 
     sessionStorage.setItem("order", JSON.stringify(PRODUCT_CART))

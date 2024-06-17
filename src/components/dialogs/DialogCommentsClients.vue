@@ -81,8 +81,8 @@
                 height="380"
               >
                 <v-carousel-item
-                  v-for="{ id, name } in productCacheComment()"
-                  :key="`card-dialog-comments-client-${id}-${name}`"
+                  v-for="({ id, name }, index) in productCacheComment()"
+                  :key="`card-dialog-comments-client-${id}-${name}-${index}`"
                 >
                   <v-row
                     no-gutters

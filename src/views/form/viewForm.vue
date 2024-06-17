@@ -421,11 +421,125 @@
       </v-dialog>
 
     <v-overlay
-      :value="dialogFinishOrderFoodpark"
+      v-model="dialogRedirectPathOrderFoodpark"
       opacity="1"
     >
       <v-dialog
-        v-model="dialogFinishOrderFoodpark"
+        v-model="dialogRedirectPathOrderFoodpark"
+        max-width="500"
+      >
+        <v-card
+          color="primary"
+        >
+          <v-row
+            no-gutters
+            style="border: 1px solid var(--v-secondary-base);"
+            class="pa-4"
+          >
+            <v-col
+              cols="12"
+              style="line-height:1"
+            >
+              <span
+                v-font-size="$vuetify.breakpoint.smAndDown ? 13 : 16"
+                class="white--text font-weight-medium text-uppercase"
+              >
+                selecione uma das opções abaixos:
+              </span>
+            </v-col>
+
+            <v-col
+              cols="12"
+            >
+              <v-radio-group
+                v-model="device"
+                hide-details
+                dark
+              >
+                <v-row
+                  no-gutters
+                  justify="center"
+                >
+                  <v-col
+                    v-for="typeDevice in [ 'estabelish-device', 'external-device' ]"
+                    :key="`input-radio-${typeDevice}`"
+                    cols="12"
+                    class="py-2"
+                  >
+                    <v-row
+                      no-gutters
+                      justify="start"
+                      justify-md="start"
+                    >
+                      <v-col
+                        cols="12"
+                      >
+                        <v-radio
+                          :value="typeDevice"
+                        >
+                          <template
+                            #label
+                          >
+                            <div
+                              style="line-height:1"
+                            >
+                              <span
+                                v-if="/estabelish-device/i.test(String(typeDevice))"
+                                v-font-size="$vuetify.breakpoint.smAndDown ? 13 : 16"
+                                style="color: var(--v-primary-text);"
+                                v-text="`Estou comprando pelo dispositivo do estabelecimento`"
+                              />
+
+                              <span
+                                v-if="/external-device/i.test(String(typeDevice))"
+                                v-font-size="$vuetify.breakpoint.smAndDown ? 13 : 16"
+                                style="color: var(--v-primary-text);"
+                                v-text="`Estou comprando com meu Celular/PC`"
+                              />
+                            </div>
+                          </template>
+                        </v-radio>
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                </v-row>
+              </v-radio-group>
+            </v-col>
+
+            <v-col
+              cols="12"
+              class="py-3"
+            />
+
+            <v-col
+              cols="12"
+              style="line-height:1"
+            >
+              <v-btn
+                :color="device ? 'secondary' : 'grey lighten-1'"
+                :large="$vuetify.breakpoint.mdAndUp"
+                block
+                @click="device ? verifyTypeDevice() : ''"
+              >
+                <span
+                  v-font-size="$vuetify.breakpoint.smAndDown ? 13 : 15"
+                  class="primary--text font-weight-bold"
+                >
+                  Opção selecionada
+                </span>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-dialog>
+    </v-overlay>
+
+    <v-overlay
+      :value="dialogFinishOrderFoodparkDiviceEstabelish"
+      opacity="1"
+    >
+      <v-dialog
+        v-model="dialogFinishOrderFoodparkDiviceEstabelish"
         width="400"
       >
         <v-card
@@ -564,7 +678,8 @@
     loading = false
     popupNumberOrder  = false
     formDadosCadastrais = false
-    dialogFinishOrderFoodpark = false
+    dialogFinishOrderFoodparkDiviceEstabelish = false
+    dialogRedirectPathOrderFoodpark = false
     copyInput = false
     cupom = ""
     cupomValidate = {
@@ -572,6 +687,8 @@
       color: "",
       message: ""
     }
+
+    device = ""
 
     itemsFirstFields: {
       [key:string]:{
@@ -916,7 +1033,7 @@
                 })
 
                   if (/^foodpark$/i.test(String(this.$route.params.type || ""))) {
-                    this.dialogFinishOrderFoodpark = true
+                    this.dialogRedirectPathOrderFoodpark = !this.dialogRedirectPathOrderFoodpark
                   } else {
                     location.replace("/detalhes/pedido")
                   }
@@ -929,6 +1046,16 @@
           this.loading = false
           this.setDialogTryAgain(true)
         })
+    }
+
+    verifyTypeDevice (): void {
+      this.dialogRedirectPathOrderFoodpark = !this.dialogRedirectPathOrderFoodpark
+
+      if (/estabelish-device/i.test(String(this.device || ""))) {
+        this.dialogFinishOrderFoodparkDiviceEstabelish = !this.dialogFinishOrderFoodparkDiviceEstabelish
+      } else {
+        location.replace("/detalhes/pedido")
+      }
     }
 
     validateCoupom (): void {

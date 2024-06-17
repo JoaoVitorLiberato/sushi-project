@@ -69,8 +69,8 @@
               :style="`max-height: ${$vuetify.breakpoint.width > 980 && $vuetify.breakpoint.width < 1080 ? 444 : 510}px;overflow-y: scroll;`"
             >
               <v-col
-                v-for="item in getCacheOrderCart()"
-                :key="`cart-product-${item.name}`"
+                v-for="(item, index) in getCacheOrderCart()"
+                :key="`cart-product-${item.name}-${index}`"
                 cols="12"
               >
                 <card-product-cart
@@ -213,8 +213,8 @@
                     :style="`max-height:450px;overflow-y: scroll;`"
                   >
                     <v-col
-                      v-for="item in getCacheOrderCart()"
-                      :key="`cart-product-${item.name}`"
+                      v-for="(item, index) in getCacheOrderCart()"
+                      :key="`cart-product-${item.name}-${index}`"
                       cols="12"
                     >
                       <card-product-cart
