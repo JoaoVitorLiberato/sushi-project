@@ -67,8 +67,8 @@
             style="height: 100%;"
           >
             <v-col
-              v-for="item in getCacheOrderCart()"
-              :key="`cart-product-${item.name}`"
+              v-for="(item, index) in getCacheOrderCart()"
+              :key="`cart-product-${item.name}-${index}`"
               cols="12"
             >
               <card-product-cart
@@ -78,7 +78,7 @@
                 :price_default="sumPriceDefaultWhiteDiffences(item)"
                 :complements="item.complements"
                 :differences="item.differences"
-                @deleteProduct="removeProductCart(item.id)"
+                @deleteProduct="removeProductCart(item.item_cart_id)"
               />
             </v-col>
           </v-row>

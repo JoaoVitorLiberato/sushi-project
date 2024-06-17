@@ -8,7 +8,6 @@
         opacity="1"
       >
         <v-dialog
-          ref="componentDialogSlotTableSelected"
           v-model="dialogServiceClientModel"
           hide-overlay
           :max-width="400"
@@ -119,138 +118,138 @@
     <slot
       name="cepDelivery"
     >
-    <v-overlay
-      :value="dialogCepDeliveryModel"
-      opacity="1"
-    >
-      <v-dialog
-        ref="componentDialogSlotTableSelected"
-        v-model="dialogCepDeliveryModel"
-        hide-overlay
-        persistent
-        :max-width="400"
+      <v-overlay
+        :value="dialogCepDeliveryModel"
+        opacity="1"
       >
-        <v-card
-          color="primary"
-          class="mx-auto"
-          dark
+        <v-dialog
+          v-model="dialogCepDeliveryModel"
+          hide-overlay
+          persistent
+          :max-width="400"
         >
-          <div
-            style="border:1px solid var(--v-secondary-base)"
-            class=" px-3 py-4"
+          <v-card
+            color="primary"
+            class="mx-auto"
+            dark
           >
-            <v-row
-              no-gutters
+            <div
+              style="border:1px solid var(--v-secondary-base)"
+              class=" px-3 py-4"
             >
-              <v-col
-                cols="12"
+              <v-row
+                no-gutters
               >
-                <span
-                  class="font-weight-medium"
+                <v-col
+                  cols="12"
                 >
-                  Por favor, Informe seu CEP
-                </span>
-              </v-col>
-
-              <v-col
-                cols="12"
-                class="py-3"
-              />
-
-              <v-col
-                cols="12"
-              >
-                <v-form
-                  ref="forminputValidateCEP"
-                  @submit.prevent="validateDataInput ? validateInput() : itemsInputChangeValidate({ value: inputCep.value })"
-                  @keydown.enter="validateDataInput ? validateInput() : itemsInputChangeValidate({ value: inputCep.value })"
-                >
-                  <v-row
-                    no-gutters
+                  <span
+                    class="font-weight-medium"
                   >
-                    <v-col
-                      cols="12"
-                    >
-                      <v-text-field
-                        v-mask="inputCep.mask"
-                        v-model="inputCep.value"
-                        label="CEP"
-                        autocomplete="no"
-                        outlined
-                        dark
-                        hide-details="auto"
-                        :rules="[required, cep(String(inputCep.value).replace(/\D/g, ''))]"
-                      />
+                    Por favor, Informe seu CEP
+                  </span>
+                </v-col>
 
-                      <div
-                        v-if="statusAPICEP.error"
-                        style="line-height: 1;"
-                        class="mt-2"
+                <v-col
+                  cols="12"
+                  class="py-3"
+                />
+
+                <v-col
+                  cols="12"
+                >
+                  <v-form
+                    ref="forminputValidateCEP"
+                    @submit.prevent="validateDataInput ? validateInput() : itemsInputChangeValidate({ value: inputCep.value })"
+                    @keydown.enter="validateDataInput ? validateInput() : itemsInputChangeValidate({ value: inputCep.value })"
+                  >
+                    <v-row
+                      no-gutters
+                    >
+                      <v-col
+                        cols="12"
                       >
-                        <span
-                          v-font-size="12"
-                          class="font-weight-regular error--text"
-                          v-text="statusAPICEP.msg"
+                        <v-text-field
+                          v-mask="inputCep.mask"
+                          v-model="inputCep.value"
+                          label="CEP"
+                          autocomplete="no"
+                          outlined
+                          dark
+                          hide-details="auto"
+                          :rules="[required, cep(String(inputCep.value).replace(/\D/g, ''))]"
                         />
-                      </div>
-                    </v-col>
 
-                    <v-col
-                      cols="12"
-                      class="py-3"
-                    />
+                        <div
+                          v-if="statusAPICEP.error"
+                          style="line-height: 1;"
+                          class="mt-2"
+                        >
+                          <span
+                            v-font-size="12"
+                            class="font-weight-regular error--text"
+                            v-text="statusAPICEP.msg"
+                          />
+                        </div>
+                      </v-col>
 
-                    <v-col
-                      cols="12"
-                    >
-
-                      <v-progress-linear
-                        v-if="statusAPICEP.status"
-                        indeterminate
-                        color="yellow darken-2"
+                      <v-col
+                        cols="12"
+                        class="py-3"
                       />
 
-                      <div
-                        v-else
+                      <v-col
+                        cols="12"
                       >
-                        <v-btn
-                          v-if="statusAPICEP.error"
-                          color="secondary"
-                          type="button"
-                          depressed
-                          block
-                          @click.stop="returnProductRoute()"
-                        >
-                          <span
-                            style="color:var(--v-primary-text)"
-                            class="font-weight-bold"
-                            v-text="'Voltar'"
-                          />
-                        </v-btn>
 
-                        <v-btn
+                        <v-progress-linear
+                          v-if="statusAPICEP.status"
+                          indeterminate
+                          color="yellow darken-2"
+                        />
+
+                        <div
                           v-else
-                          color="secondary"
-                          depressed
-                          type="submit"
-                          block
                         >
-                          <span
-                            style="color:var(--v-primary-text)"
-                            class="font-weight-bold"
-                            v-text="'Verificar CEP'"
-                          />
-                        </v-btn>
-                      </div>
-                    </v-col>
-                  </v-row>
-                </v-form>
-              </v-col>
-            </v-row>
-          </div>
-        </v-card>
-      </v-dialog>
-    </v-overlay>
+                          <v-btn
+                            v-if="statusAPICEP.error"
+                            color="secondary"
+                            type="button"
+                            depressed
+                            block
+                            @click.stop="returnProductRoute()"
+                          >
+                            <span
+                              style="color:var(--v-primary-text)"
+                              class="font-weight-bold"
+                              v-text="'Voltar'"
+                            />
+                          </v-btn>
+
+                          <v-btn
+                            v-else
+                            color="secondary"
+                            depressed
+                            type="submit"
+                            block
+                            large
+                          >
+                            <span
+                              style="color:var(--v-primary-base)"
+                              class="font-weight-bold"
+                              v-text="'Verificar CEP'"
+                            />
+                          </v-btn>
+                        </div>
+                      </v-col>
+                    </v-row>
+                  </v-form>
+                </v-col>
+              </v-row>
+            </div>
+          </v-card>
+        </v-dialog>
+      </v-overlay>
     </slot>
 
     <slot
@@ -303,10 +302,13 @@
                   class="my-3"
                   @click="addStoreCacheOrderCart"
                 >
-                  <span>
+                  <span
+                    class="primary--text font-weight-bold"
+                  >
                     Manter
                   </span>
                 </v-btn>
+
                 <v-btn
                   block
                   color="grey lighthen-1"
@@ -499,7 +501,6 @@
     required = required
     cep = cep
 
-    tableSelected = ""
     serviceSelelected = "foodpark"
 
     inputCep = {

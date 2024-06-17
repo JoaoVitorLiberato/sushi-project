@@ -279,6 +279,7 @@
                   <v-btn
                     block
                     depressed
+                    x-large
                     color="secondary"
                     @click="closeCostumerOrder"
                   >
@@ -302,7 +303,7 @@
           <v-btn
             block
             depressed
-            large
+            x-large
             color="secondary"
             @click.stop="closeCostumerOrder(), totalPriceOrderClient()"
           >
@@ -485,53 +486,45 @@
     closeCostumerOrder (): void {
       const CACHE_PRODUCT = sessionStorage.getItem("order")
       const CACHE_PRODUCT_TEMP = sessionStorage.getItem("cacheProductTemp")
-      const CACHE_PRODUCT_ID = sessionStorage.getItem("productId")
       const PRODUCT_FILTER = new Set()
       const PRODUCT_CART: IproductData[] = []
       
-      if (CACHE_PRODUCT_TEMP && CACHE_PRODUCT_ID) {
-        this.handleValuesPrices()
-        PRODUCT_FILTER.add({
-          ...PRODUCT_FILTER,
-          ...JSON.parse(CACHE_PRODUCT_TEMP),
-          price: {
-            ...JSON.parse(CACHE_PRODUCT_TEMP).price,
-            total: Number(JSON.parse(CACHE_PRODUCT_TEMP).price.total) + Number(this.totalComplementsCalculed),
-            total_price_complements: Number(this.totalComplementsCalculed),
-          },
-          complements: [
-            ...this.complements
-          ]
-        })
-  
-        if (CACHE_PRODUCT) {
-          const REMOVE_REDUDANCE = JSON.parse(CACHE_PRODUCT).filter(item => {
-            return String(item.id) !== String(CACHE_PRODUCT_ID)
-          })
-  
-          if (REMOVE_REDUDANCE) {
-            PRODUCT_CART.push(
-              ...REMOVE_REDUDANCE,
-              Object.assign({}, ...PRODUCT_FILTER),
-            )
-          } else {
-            PRODUCT_CART.push(
-              ...JSON.parse(CACHE_PRODUCT_TEMP),
-              Object.assign({}, ...PRODUCT_FILTER),
-            )
-          }
-        } else {
-          PRODUCT_CART.push(
-            Object.assign({}, ...PRODUCT_FILTER),
-          )
-        }
+      if (!CACHE_PRODUCT_TEMP) return
 
-        sessionStorage.removeItem("cacheProductTemp")
-        sessionStorage.removeItem("productId")
-        sessionStorage.setItem("order", JSON.stringify(PRODUCT_CART))
-        this.setCacheOrdersCart(PRODUCT_CART)
-        this.dialogComplements = !this.dialogComplements
+      this.handleValuesPrices()
+
+      PRODUCT_FILTER.add({
+        ...PRODUCT_FILTER,
+        ...JSON.parse(CACHE_PRODUCT_TEMP),
+        price: {
+          ...JSON.parse(CACHE_PRODUCT_TEMP).price,
+          total: Number(JSON.parse(CACHE_PRODUCT_TEMP).price.total) + Number(this.totalComplementsCalculed),
+          total_price_complements: Number(this.totalComplementsCalculed),
+        },
+        complements: [
+          ...this.complements
+        ],
+        item_cart_id: String(JSON.parse(CACHE_PRODUCT_TEMP).id) + String(Math.random())
+      })
+
+      if (CACHE_PRODUCT) {
+        PRODUCT_CART.push(
+          ...JSON.parse(CACHE_PRODUCT),
+          Object.assign({}, ...PRODUCT_FILTER),
+        )
+      } else {
+        PRODUCT_CART.push(
+          Object.assign({}, ...PRODUCT_FILTER),
+        )
       }
+
+      sessionStorage.setItem("order", JSON.stringify(PRODUCT_CART))
+      this.setCacheOrdersCart(PRODUCT_CART)
+
+
+      sessionStorage.removeItem("cacheProductTemp")
+      sessionStorage.removeItem("productId")
+      this.dialogComplements = !this.dialogComplements
     }
   }
 </script>

@@ -261,7 +261,9 @@
         <v-card-actions>
           <v-btn
             block
+            large
             color="secondary"
+            depressed
             :title="`Botão para Adicionar ${String(product?.name)} ao carrinho`"
             @click="openDialogComplement(product, product?.id)"
           >

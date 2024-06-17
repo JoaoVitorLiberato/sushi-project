@@ -24,7 +24,7 @@
               class="text-center text-md-start"
             >
               <span
-                v-font-size="24"
+                v-font-size="$vuetify.breakpoint.smAndDown ? 19 : 24"
                 class="font-weight-medium"
               >
                 Onde você pode nos encontrar?

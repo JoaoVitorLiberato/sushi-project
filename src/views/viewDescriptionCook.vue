@@ -17,6 +17,7 @@
           class="text-center pt-8"
         >
           <h2
+            v-font-size="$vuetify.breakpoint.smAndDown ? 19 : 27"
             class="font-weight-bold text-uppercase"
           >
             Curiosidades sobre o CEO da Bangalô Sushi Lounge

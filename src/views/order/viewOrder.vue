@@ -52,13 +52,14 @@
           <v-row
             no-gutters
             align="center"
-            justify="center"
             class="flex-wrap"
           >
             <v-col
-              v-for="{ pedido, nome, telefone, produtos, status } in detailOrder"
-              :key="`card-desktop-order-${pedido}`"
-              class="ma-3"
+              v-for="({ pedido, nome, telefone, produtos, status }, index) in detailOrder"
+              :key="`card-desktop-order-${pedido}-${index}`"
+              cols="12"
+              md="3"
+              class="pa-2"
             >
               <v-card
                 :loading="!/concluido|cancelado/i.test(String(status))"
@@ -176,8 +177,8 @@
                       style="max-height: 180px;overflow-y: scroll;"
                     >
                       <v-col
-                        v-for="item in produtos"
-                        :key="`card-product-order-${item.name}`"
+                        v-for="(item, index) in produtos"
+                        :key="`card-product-order-${item.name}-${index}`"
                         cols="12"
                       >
                         <card-product-cart

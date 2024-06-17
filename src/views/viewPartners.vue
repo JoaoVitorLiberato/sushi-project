@@ -10,6 +10,7 @@
       class="text-center"
     >
       <h2
+        v-font-size="$vuetify.breakpoint.smAndDown ? 19 : 27"
         class="font-weight-bold text-uppercase"
       >
         Conheça nossos parceiros
