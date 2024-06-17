@@ -52,6 +52,7 @@
           <v-row
             no-gutters
             align="center"
+            justify="center"
             class="flex-wrap"
           >
             <v-col
