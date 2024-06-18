@@ -50,8 +50,8 @@ export default class MixinHelperServiceProduct extends Vue {
     if (productData) {
       let value = 0
 
-      if (productData.price.discount.active) value = productData.price.discount.value
-      else productData.price.default
+      if (productData.price.discount.active === true) value = productData.price.discount.value
+      else value = productData.price.default
 
       Object.keys(productData.differences).forEach(item => {
         if (/actived/i.test(String(productData.differences[item].input || "")) && productData.differences[item].active) {
