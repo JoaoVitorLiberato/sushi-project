@@ -202,6 +202,87 @@
                   no-gutters
                 >
                   <v-col
+                    v-if="/promo/i.test(String(productData.category))"
+                    cols="12"
+                  >
+                    <v-switch
+                      v-model="productData.price.discount.active"
+                      disabled
+                      color="success"
+                      hide-details
+                    >
+                      <template v-slot:label>
+                        <span
+                          class="font-weight-regular grey--text"
+                        >
+                          Promoção ativada
+                        </span>
+                      </template>
+                    </v-switch>
+                    <v-expand-transition>
+                      <div
+                        v-show="true"
+                      >
+                        <v-row
+                          no-gutters
+                          class="pa-4"
+                        >
+                          <v-col
+                            cols="12"
+                          >
+                            <span
+                              class="font-weight-medium d-block"
+                            >
+                              Adicione o valor da promoção
+                            </span>
+
+                            <span
+                              v-font-size="14"
+                              class="error--text font-weight-regular text-uppecase"
+                            >
+                              <strong>Atenção:</strong> Esse valor será exibido como valor da promoção
+                            </span>
+
+                            <v-row
+                              no-gutters
+                              align="center"
+                              class="py-2"
+                            >
+                              <v-col
+                                cols="7"
+                              >
+                                <v-text-field
+                                  v-model.number="productData.price.discount.value"
+                                  label="valor"
+                                  type="number"
+                                  hide-details
+                                  outlined
+                                />
+                              </v-col>
+
+                              <v-col
+                                cols="5"
+                                class="px-2"
+                              >
+                                <span
+                                  v-font-size="20"
+                                  class="font-weight-medium"
+                                  v-text="formatedPrice(Number(productData.price.discount.value))"
+                                />
+                              </v-col>
+                            </v-row>
+                          </v-col>
+                        </v-row>
+                      </div>
+                    </v-expand-transition>
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    class="py-1"
+                  />
+
+                  <v-col
                     cols="12"
                   >
                     <v-switch
@@ -632,7 +713,7 @@
 </template>
 
 <script lang="ts">
-  import { Component } from "vue-property-decorator"
+  import { Component, Watch } from "vue-property-decorator"
   import { mixins } from "vue-class-component"
   import { $refs } from "@/implements/types"
   import { IproductData } from "@/types/types-product"
@@ -717,6 +798,13 @@
     set dialogRegisterProduct (value:boolean) {
       this.setDialogRegisterProduct(value)
     }
+
+    @Watch("productData.category")
+      activePromotion (value: string): void {
+        if (/promo/i.test(String(value))) {
+          this.productData.price.discount.active = true
+        }
+      }
 
     created (): void {
       const UPDATE_CACHE = sessionStorage.getItem("update")
