@@ -1,5 +1,9 @@
 [
   {
+    "id": "promo",
+    "name": "Promoções"
+  },
+  {
     "id": "entrada",
     "name": "Entradas"
   },

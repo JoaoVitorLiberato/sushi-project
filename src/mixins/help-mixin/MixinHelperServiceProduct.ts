@@ -48,7 +48,11 @@ export default class MixinHelperServiceProduct extends Vue {
 
   formatedPriceWithBreadedAndQuantity (productData?: IproductData): string|number|string[] {
     if (productData) {
-      let value = productData.price.default
+      let value = 0
+
+      if (productData.price.discount.active === true) value = productData.price.discount.value
+      else value = productData.price.default
+
       Object.keys(productData.differences).forEach(item => {
         if (/actived/i.test(String(productData.differences[item].input || "")) && productData.differences[item].active) {
           value = value + productData.differences[item].additional

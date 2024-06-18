@@ -7,6 +7,7 @@
       v-for="{ id, name } in categories"
       :key="`contatiner-${name}-${id}`"
       v-show="filterDataProduct(id).length > 0"
+      :id="id"
       cols="12"
     >
       <v-row
