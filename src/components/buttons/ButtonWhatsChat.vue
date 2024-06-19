@@ -6,7 +6,7 @@
       right
       bottom
       fixed
-      href="https://wa.link/lu54ui"
+      href="https://wa.me/98985094324"
       target="_blank"
       title="Entre em contato através do WhatsApp com o Bangalô Sushi Lounge"
       height="60"
