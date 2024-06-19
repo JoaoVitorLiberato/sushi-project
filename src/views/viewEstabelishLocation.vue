@@ -65,7 +65,7 @@
               </p>
 
               <a
-                href="https://wa.link/lu54ui"
+                href="https://wa.me/98985094324"
                 style="color:var(--v-primary-text)"
                 class="d-flex align-center justify-center justify-md-start"
                 title="Clique aqui para entrar em contato com Bangalô Sushi Lounge via WhatsApp"
@@ -74,7 +74,7 @@
                 <span
                   class="mr-2 font-weigth-regular"
                 >
-                  (98) 9 9226-9238
+                  (98) 9 8509-4324
                 </span>
                 <img
                   src="/img/project/rede-sociais/whatsapp.png"
