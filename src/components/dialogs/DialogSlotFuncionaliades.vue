@@ -54,7 +54,7 @@
                       justify="center"
                     >
                       <v-col
-                        v-for="servico in ['foodpark', 'delivery']"
+                        v-for="servico in ['delivery', 'foodpark']"
                         :key="`input-radio-${servico}`"
                         cols="12"
                         class="py-2"
@@ -98,7 +98,7 @@
                     block
                     large
                     color="secondary"
-                    :disabled="serviceSelelected === ''"
+                    :disabled="serviceSelelected === '' || serviceSelelected === 'foodpark'"
                     @click.stop="returnProductRoute(serviceSelelected)"
                   >
                     <span
@@ -501,7 +501,7 @@
     required = required
     cep = cep
 
-    serviceSelelected = "foodpark"
+    serviceSelelected = "delivery"
 
     inputCep = {
       optional: false,
