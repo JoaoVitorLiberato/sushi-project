@@ -132,6 +132,9 @@
     @cacheStore.Action("ActionCacheCepValidation") setCacheCepValidation
 
     created (): void {
+      localStorage.clear()
+      sessionStorage.clear()
+
       this.getProducts()
       this.setCacheCepValidation("65272000")
       this.APIValidadorCEPMixin()
