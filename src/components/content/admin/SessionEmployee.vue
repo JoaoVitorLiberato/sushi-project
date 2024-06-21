@@ -157,7 +157,7 @@
     }
 
     listUsersRegistered (): void {
-      const USER_CONNECTED = sessionStorage.getItem("user-connected")
+      const USER_CONNECTED = localStorage.getItem("user-connected")
       this.getAllUsers()
         .then(responseMixin => {
           if (/error/i.test(String(responseMixin))) throw Error('err')

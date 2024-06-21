@@ -193,6 +193,7 @@
                   :statusOrder="status"
                   :statusPayment="pagamento.statusPagamento"
                   :statusVip="vip"
+                  :loading="cacheLoading.status"
                   @dialogProductEmit="openDialogProducts(produtos)"
                   @changeStatusOrderEmit="v=>statusCard=v"
                   @changeStatusPaymentEmit="updateStatusPayment(pedido)"
@@ -265,6 +266,7 @@
                               :statusOrder="status"
                               :statusPayment="pagamento.statusPagamento"
                               :statusVip="vip"
+                              :loading="cacheLoading.status"
                               @dialogProductEmit="openDialogProducts(produtos)"
                               @changeStatusOrderEmit="v=>statusCard=v"
                               @changeStatusPaymentEmit="updateStatusPayment(pedido)"
@@ -298,6 +300,7 @@
                       :statusOrder="status"
                       :statusPayment="pagamento.statusPagamento"
                       :statusVip="vip"
+                      :loading="cacheLoading.status"
                       @dialogProductEmit="openDialogProducts(produtos)"
                       @changeStatusOrderEmit="v=>statusCard=v"
                       @changeStatusPaymentEmit="updateStatusPayment(pedido)"
@@ -372,6 +375,7 @@
                             :statusOrder="status"
                             :statusPayment="pagamento.statusPagamento"
                             :statusVip="vip"
+                            :loading="cacheLoading.status"
                             @dialogProductEmit="openDialogProducts(produtos)"
                             @changeStatusOrderEmit="v=>statusCard=v"
                             @changeStatusPaymentEmit="updateStatusPayment(pedido)"
@@ -404,6 +408,7 @@
                       :statusOrder="status"
                       :statusPayment="pagamento.statusPagamento"
                       :statusVip="vip"
+                      :loading="cacheLoading.status"
                       @dialogProductEmit="openDialogProducts(produtos)"
                       @changeStatusOrderEmit="v=>statusCard=v"
                       @changeStatusPaymentEmit="updateStatusPayment(pedido)"
@@ -478,6 +483,7 @@
                             :statusOrder="status"
                             :statusPayment="pagamento.statusPagamento"
                             :statusVip="vip"
+                            :loading="cacheLoading.status"
                             @dialogProductEmit="openDialogProducts(produtos)"
                             @changeStatusOrderEmit="v=>statusCard=v"
                             @changeStatusPaymentEmit="updateStatusPayment(pedido)"
@@ -509,6 +515,7 @@
                         :statusOrder="status"
                         :statusPayment="pagamento.statusPagamento"
                         :statusVip="vip"
+                        :loading="cacheLoading.status"
                         @dialogProductEmit="openDialogProducts(produtos)"
                         @changeStatusOrderEmit="v=>statusCard=v"
                         @changeStatusPaymentEmit="updateStatusPayment(pedido)"
@@ -583,6 +590,7 @@
                             :statusOrder="status"
                             :statusPayment="pagamento.statusPagamento"
                             :statusVip="vip"
+                            :loading="cacheLoading.status"
                             @dialogProductEmit="openDialogProducts(produtos)"
                             @changeStatusOrderEmit="v=>statusCard=v"
                             @changeStatusPaymentEmit="updateStatusPayment(pedido)"
@@ -614,6 +622,7 @@
                         :statusOrder="status"
                         :statusPayment="pagamento.statusPagamento"
                         :statusVip="vip"
+                        :loading="cacheLoading.status"
                         @dialogProductEmit="openDialogProducts(produtos)"
                         @changeStatusOrderEmit="v=>statusCard=v"
                         @changeStatusPaymentEmit="updateStatusPayment(pedido)"
@@ -688,6 +697,7 @@
                             :statusOrder="status"
                             :statusPayment="pagamento.statusPagamento"
                             :statusVip="vip"
+                            :loading="cacheLoading.status"
                             @dialogProductEmit="openDialogProducts(produtos)"
                             @changeStatusOrderEmit="v=>statusCard=v"
                           />
@@ -717,6 +727,7 @@
                         :statusOrder="status"
                         :statusPayment="pagamento.statusPagamento"
                         :statusVip="vip"
+                        :loading="cacheLoading.status"
                         @dialogProductEmit="openDialogProducts(produtos)"
                         @changeStatusOrderEmit="v=>statusCard=v"
                       />
@@ -866,7 +877,7 @@
                 <v-col
                   v-if="allOrdersAncient.length > 0"
                   cols="12"
-                  class="pa-4"
+                  class="hidden-sm-and-down pa-4"
                 >
                   <v-row
                     no-gutters
@@ -988,7 +999,7 @@
                   class="pa-4"
                 >
                   <v-row
-                    v-if="ordersFilteredAncient.length > 0"
+                    v-if="allOrdersAncient.length > 0 && ordersFilteredAncient.length > 0"
                     no-gutters
                     align="center"
                   >
@@ -1008,6 +1019,7 @@
                         :statusPayment="pagamento.statusPagamento"
                         :statusVip="vip"
                         :ordersAncient="true"
+                        :loading="cacheLoading.status"
                         @dialogProductEmit="openDialogProducts(produtos)"
                         @changeStatusOrderEmit="v=>statusCard=v"
                         @changeStatusPaymentEmit="updateStatusPayment(pedido)"
@@ -1037,6 +1049,7 @@
                         :statusPayment="pagamento.statusPagamento"
                         :statusVip="vip"
                         :ordersAncient="true"
+                        :loading="cacheLoading.status"
                         @dialogProductEmit="openDialogProducts(produtos)"
                         @changeStatusOrderEmit="v=>statusCard=v"
                         @changeStatusPaymentEmit="updateStatusPayment(pedido)"
@@ -1201,6 +1214,7 @@
           }).finally(() => {
             if (this.getDialogTryAgain()) return
             this.renderCardOrderCostumers()
+            this.renderAllOrders()
           })
       }
 
@@ -1227,6 +1241,7 @@
 
     renderAllOrders (): void {
       this.allOrdersAncient = []
+      this.ordersFilteredAncient = []
 
       this.getAllOrdersExisting()
         .then(responseMixin => {
@@ -1290,7 +1305,7 @@
     }
 
     filterOrderClient (e?:string):void {
-      if (String(e).length <= 0 || String(e) === "") {
+      if (!e) {
         this.orderFiltered = []
         this.ordersFilteredAncient = []
         return
@@ -1351,11 +1366,8 @@
           }
         })
 
-        if (this.dialogAllOrdersExting) {
-          this.renderAllOrders()
-        } else {
-          this.renderCardOrderCostumers()
-        }
+        this.renderAllOrders()
+        this.renderCardOrderCostumers()
       })
     }
 

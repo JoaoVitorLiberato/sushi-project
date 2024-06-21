@@ -221,8 +221,8 @@
           } else if (/error-api/i.test(String(responseMixin || ""))) {
             return
           } else {
-            sessionStorage.setItem("token-user", responseMixin.token)
-            sessionStorage.setItem("user-connected", this.itemsInput.email.value)
+            localStorage.setItem("token-user", responseMixin.token)
+            localStorage.setItem("user-connected", this.itemsInput.email.value)
             sessionStorage.setItem("permission", responseMixin.role)
             this.$router.replace("/admin/conectado")
           }

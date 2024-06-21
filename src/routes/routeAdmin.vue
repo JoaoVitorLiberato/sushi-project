@@ -45,10 +45,5 @@
     }
   })
 
-  export default class routeOrderView extends Vue {
-    created (): void {
-      const TOKEN_CACHE = sessionStorage.getItem("token-user")
-      if (!TOKEN_CACHE && /^(admin-view)$/i.test(String(this.$route.name ||""))) this.$router.replace("/admin/login")
-    }
-  }
+  export default class routeOrderView extends Vue {}
 </script>

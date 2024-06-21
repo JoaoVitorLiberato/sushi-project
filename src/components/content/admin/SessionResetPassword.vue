@@ -212,7 +212,7 @@
     }
 
     mounted (): void {
-      const USER_CONNECTED = sessionStorage.getItem("user-connected")
+      const USER_CONNECTED = localStorage.getItem("user-connected")
       if (USER_CONNECTED) this.itemsInput.email.value = String(USER_CONNECTED)
     }
 

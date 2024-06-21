@@ -24,6 +24,26 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  const CACHE_TOKEN = localStorage.getItem("token-user")
+  const CACHE_USER = localStorage.getItem("user-connected")
+
+  if (
+    [
+      /home/i.test(String(to.name || "")),
+      !CACHE_TOKEN,
+      !CACHE_USER
+    ].every(o => !!o)
+  ) {
+    localStorage.clear()
+    sessionStorage.clear()
+  }
+
+  localStorage.setItem("disable-segment", "foodpark")
+
+  if (!CACHE_TOKEN && /^(admin-view)$/i.test(String(to.name ||""))) {
+    router.replace("/admin/login")
+  }
+
   try {
     titleUpdate(to)
   } catch {/* EMPTY */}

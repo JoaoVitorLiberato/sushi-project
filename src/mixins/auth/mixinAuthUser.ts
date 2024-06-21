@@ -142,7 +142,9 @@ export default class MixinAuthUser extends Vue {
   }
 
   logoutUser (): void {
-    sessionStorage.clear()
+    localStorage.removeItem("token-user")
+    localStorage.removeItem("user-connected")
+    sessionStorage.removeItem("permission")
     this.$router.replace({ name: "login-admin-view" })
   }
 }

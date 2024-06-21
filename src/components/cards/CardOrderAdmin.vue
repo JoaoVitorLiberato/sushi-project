@@ -169,7 +169,7 @@
               :items="filterStatusForSegment()"
               :value="status"
               item-text="name"
-              :disabled="!/bancada/i.test(String(setSegment)) && /concluido/i.test(String(status))"
+              :disabled="(!/bancada/i.test(String(setSegment)) && /concluido/i.test(String(status))) || loading"
               item-value="id"
               hide-details
               outlined
@@ -248,12 +248,19 @@
           <v-col
             cols="12"
           >
+            <v-progress-linear
+              v-if="loading"
+              color="secondary"
+              indeterminate
+            />
+
             <v-btn
+              v-else
               :color="/pendente/i.test(String(statusPayment)) && !/cancelado/i.test(String(status)) ? 'secondary' : 'grey lighten-1'"
               depressed
               block
               large
-              @click="/pendente/i.test(String(statusPayment)) && !/cancelado/i.test(String(status)) ? $emit('changeStatusPaymentEmit') : ''"
+              @click="/pendente/i.test(String(statusPayment)) && !/cancelado/i.test(String(status)) && !loading ? $emit('changeStatusPaymentEmit') : ''"
             >
               <span
                 v-if="/pendente/i.test(String(statusPayment)) && !/cancelado/i.test(String(status))"
@@ -308,6 +315,7 @@
     @Prop({ default: "" }) order!:string
     @Prop({ default: "" }) statusPayment!:string
     @Prop({ default: false }) statusVip!:boolean
+    @Prop({ default: false }) loading!:boolean
 
     @ModelSync("dialogProduct", "dialogProductEmit")
       setDialogProduct?: boolean

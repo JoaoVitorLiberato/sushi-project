@@ -170,7 +170,7 @@
 
     intervalOrder = 0
     created (): void {
-      const TOKEN = sessionStorage.getItem("token-user")
+      const TOKEN = localStorage.getItem("token-user")
       if (!TOKEN) this.$router.replace(`/${location.search}`)
 
       this.renderCardOrderCostumers()
