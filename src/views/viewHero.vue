@@ -8,6 +8,7 @@
       <v-img
         src="/img/project/sushi-bank.jpg"
         :height="$vuetify.breakpoint.smAndDown ? 320 : 400"
+        alt="O melhor sushi de Santa Luzia de Paruá"
       >
         <v-row
           no-gutters
@@ -74,6 +75,7 @@
                       depressed
                       large
                       width="300"
+                      title="Click aqui pra e peça seu pedido via delivery"
                       @click.stop="returnProductRoute('delivery')"
                     >
                       <span

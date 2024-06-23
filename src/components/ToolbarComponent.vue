@@ -17,7 +17,7 @@
         >
           <v-img
             src="/img/project/logo.png"
-            alt="Logo do Bangalô Sushi Lounge"
+            alt="Logo do Bangalô Sushi Lounge - O melhor sushi de Santa Luzia de Paruá"
             width="40"
             height="40"
             @click="redirectHome"
@@ -43,7 +43,7 @@
             dark
             depressed
             dense
-            title="Menu - Escolha a opção que você deseja"
+            title="Menu - Escolha a opção que você deseja navegar"
             style="min-width: 60px;"
             @click="overdrawerMenu = !overdrawerMenu"
           >

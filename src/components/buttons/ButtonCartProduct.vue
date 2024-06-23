@@ -7,7 +7,7 @@
       fixed
       right
       bottom
-      title="Botão abrir carrinho"
+      title="Botão Cart - Abrir o carrinho"
       @click="openButtonCartProducts"
     >
       <v-badge

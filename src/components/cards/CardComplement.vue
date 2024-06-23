@@ -100,6 +100,7 @@
               depressed
               color="secondary primary--text"
               :disabled="count === 0"
+              title="Botão adicione seu produto ao carrinho"
               @click="AddToResumeComplements(objComplement)"
             >
               <span

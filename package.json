@@ -4,10 +4,12 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "npm run partytown && vue-cli-service build",
+    "partytown": "partytown copylib public/~partytown",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@builder.io/partytown": "^0.10.2",
     "axios": "^1.6.8",
     "crypto-js": "^3.3.0",
     "firebase": "^10.12.2",

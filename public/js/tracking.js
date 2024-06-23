@@ -6,6 +6,7 @@ function createElementScriptTagManager(id) {
     if (!element || document.getElementById(element)) return
     const script = document.createElement("script")
     script.setAttribute("id", element)
+    script.setAttribute("type", "text/partytown")
     script.innerHTML = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
       new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
       j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -22,6 +23,7 @@ function createElementScriptFacebookPixel(id) {
     if (!element || document.getElementById(element)) return
     const script = document.createElement("script")
     script.setAttribute("id", element)
+    script.setAttribute("type", "text/partytown")
     script.innerHTML = ``
     document.head.insertAdjacentElement("afterbegin", script)
   })
@@ -33,6 +35,7 @@ function createElementScriptHojar(id) {
     if (!element || document.getElementById(element)) return
     const script = document.createElement("script")
     script.setAttribute("id", element)
+    script.setAttribute("type", "text/partytown")
     script.innerHTML = ``
     document.head.insertAdjacentElement("afterbegin", script)
   })
@@ -44,6 +47,7 @@ function createElementScriptTiktokPush(id) {
     if (!element || document.getElementById(element)) return
     const script = document.createElement("script")
     script.setAttribute("id", element)
+    script.setAttribute("type", "text/partytown")
     script.innerHTML = ``
     document.head.insertAdjacentElement("afterbegin", script)
   })
@@ -55,6 +59,7 @@ function createElementScriptMicrosoftAdsPush(id) {
     if (!element || document.getElementById(element)) return
     const script = document.createElement("script")
     script.setAttribute("id", element)
+    script.setAttribute("type", "text/partytown")
     script.innerHTML = ``
     document.head.insertAdjacentElement("afterbegin", script)
   })
