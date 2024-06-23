@@ -4,6 +4,7 @@ const CANONICAL_AUTO_LINK = document.querySelector('link[rel="canonical"]')
   ? document.querySelector('link[rel="canonical"]')
   : document.createElement("link")
 CANONICAL_AUTO_LINK.setAttribute("rel", "canonical")
+CANONICAL_AUTO_LINK.setAttribute("type", "text/partytown")
 CANONICAL_AUTO_LINK.setAttribute("href", location.origin)
 BASE_TAG.after(CANONICAL_AUTO_LINK);
 

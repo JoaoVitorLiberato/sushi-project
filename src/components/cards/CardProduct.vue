@@ -6,6 +6,8 @@
     <v-img
       height="200"
       :src="image"
+      type="text/partytown"
+      :alt="`Imagem de(o) ${title} - ${description}`"
     ></v-img>
 
     <v-row
