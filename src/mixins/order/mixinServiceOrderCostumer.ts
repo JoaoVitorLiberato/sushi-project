@@ -31,12 +31,12 @@ export default class MixinServiceOrderCostumer extends Vue {
     return new Promise((resolve, reject) => {
       serviceAPI()
         .then((responseApi) => {
-          if (!responseApi.data) reject(Error("err"))
+          if (!("data" in responseApi)) reject(Error("err"))
+          else if (responseApi.data === null) resolve("not-order")
           resolve(responseApi.data)
         }).catch((error) => {
           window.log(`ERROR GETORDERCOSTUMER MIXIN`, error)
-          if (error.response.data.message === "ordem não encontrada") resolve("not-order")
-          else resolve("error")
+          resolve("error")
         })
     })
   }
