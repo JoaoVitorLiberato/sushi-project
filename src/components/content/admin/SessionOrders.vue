@@ -881,122 +881,121 @@
                 >
                   <v-row
                     no-gutters
-                    justify="space-between"
+                    align="center"
+                    justify="space-around"
                   >
                     <v-col
-                      cols="8"
+                      cols="3"
+                      style="height:65px;border-bottom:4px solid var(--v-error-darken1)"
+                      class="mx-1 pa-1"
                     >
                       <v-row
                         no-gutters
-                        align="center"
                       >
                         <v-col
-                          cols="3"
-                          style="height:65px;border-bottom:4px solid var(--v-error-darken1)"
-                          class="mx-1 pa-1"
+                          cols="12"
                         >
-                          <v-row
-                            no-gutters
+                          <span
+                            v-font-size="16"
+                            class="text-uppercase font-weight-bold"
                           >
-                            <v-col
-                              cols="12"
-                            >
-                              <span
-                                v-font-size="12"
-                                class="text-uppercase font-weight-bold"
-                              >
-                                Pagamentos pendentes
-                              </span>
-                            </v-col>
-
-                            <v-col
-                              cols="12"
-                            >
-                              <span
-                                v-text="formatedPrice(salesBanlancete.valorPendente)"
-                              />
-                            </v-col>
-                          </v-row>
+                            Pagamentos pendentes
+                          </span>
                         </v-col>
 
                         <v-col
-                          cols="3"
-                          style="height:65px;border-bottom:4px solid var(--v-success-darken1)"
-                          class="mx-1 pa-1"
+                          cols="12"
                         >
-                          <v-row
-                            no-gutters
-                          >
-                            <v-col
-                              cols="12"
-                            >
-                              <span
-                                v-font-size="12"
-                                class="text-uppercase font-weight-bold"
-                              >
-                                Pagamentos concluídos
-                              </span>
-                            </v-col>
-
-                            <v-col
-                              cols="12"
-                            >
-                              <span
-                                v-text="formatedPrice(salesBanlancete.valorVendas)"
-                              />
-                            </v-col>
-                          </v-row>
-                        </v-col>
-
-                        <v-col
-                          cols="3"
-                          style="height:65px;border-bottom:4px solid var(--v-info-darken1)"
-                          class="mx-1 pa-1"
-                        >
-                          <v-row
-                            no-gutters
-                          >
-                            <v-col
-                              cols="12"
-                            >
-                              <span
-                                v-font-size="12"
-                                class="text-uppercase font-weight-bold"
-                              >
-                                Total de vendas
-                              </span>
-                            </v-col>
-
-                            <v-col
-                              cols="12"
-                            >
-                              <span
-                                v-text="salesBanlancete.quantidade"
-                              />
-                            </v-col>
-                          </v-row>
+                          <span
+                            v-text="formatedPrice(salesBanlancete.valorPendente)"
+                          />
                         </v-col>
                       </v-row>
                     </v-col>
 
                     <v-col
                       cols="3"
-                      @click="locationInputSearchPedidos = 'allOrders'"
+                      style="height:65px;border-bottom:4px solid var(--v-success-darken1)"
+                      class="mx-1 pa-1"
                     >
-                      <v-text-field
-                        label="Pesquisar pedido"
-                        outlined
-                        width="300"
-                        hide-details
-                        @input="filterOrderClient"
-                      />
+                      <v-row
+                        no-gutters
+                      >
+                        <v-col
+                          cols="12"
+                        >
+                          <span
+                            v-font-size="16"
+                            class="text-uppercase font-weight-bold"
+                          >
+                            Pagamentos concluídos
+                          </span>
+                        </v-col>
+
+                        <v-col
+                          cols="12"
+                        >
+                          <span
+                            v-text="formatedPrice(salesBanlancete.valorVendas)"
+                          />
+                        </v-col>
+                      </v-row>
+                    </v-col>
+
+                    <v-col
+                      cols="3"
+                      style="height:65px;border-bottom:4px solid var(--v-info-darken1)"
+                      class="mx-1 pa-1"
+                    >
+                      <v-row
+                        no-gutters
+                      >
+                        <v-col
+                          cols="12"
+                        >
+                          <span
+                            v-font-size="16"
+                            class="text-uppercase font-weight-bold"
+                          >
+                            Total de vendas
+                          </span>
+                        </v-col>
+
+                        <v-col
+                          cols="12"
+                        >
+                          <span
+                            v-text="salesBanlancete.quantidade"
+                          />
+                        </v-col>
+                      </v-row>
                     </v-col>
                   </v-row>
                 </v-col>
 
                 <v-col
                   cols="12"
+                  class="py-2"
+                />
+
+                <v-col
+                  cols="12"
                   class="pa-4"
+                  @click="locationInputSearchPedidos = 'allOrders'"
+                >
+                  <v-text-field
+                    label="Pesquisar pedido"
+                    outlined
+                    width="300"
+                    hide-details
+                    @input="filterOrderClient"
+                  />
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  class="pa-4"
+                  :style="`width:100%;max-width:${$vuetify.breakpoint.smAndDown ? '300px' : '1440px'};margin:0 auto`"
                 >
                   <v-row
                     v-if="allOrdersAncient.length > 0 && ordersFilteredAncient.length > 0"
